@@ -1,0 +1,9 @@
+[submodule "vendor/WordPress-GitHub-Plugin-Updater"]
+	path = vendor/WordPress-GitHub-Plugin-Updater
+	url = https://github.com/radishconcepts/WordPress-GitHub-Plugin-Updater.git
+[submodule "vendor/mkdo-dependencies"]
+	path = vendor/mkdo-dependencies
+	url = https://github.com/mkdo/mkdo-dependencies.git
+[submodule "vendor/mkdo-admin"]
+	path = vendor/mkdo-admin
+	url = https://github.com/mkdo/mkdo-admin.git
