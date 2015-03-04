@@ -31,7 +31,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Auto Update From GitHub
-include_once plugin_dir_path( __FILE__ ) . 'vendor/WordPress-GitHub-Plugin-Updater/updater.php';
+if( !class_exists( 'WP_GitHub_Updater' ) ) {
+	include_once plugin_dir_path( __FILE__ ) . 'vendor/WordPress-GitHub-Plugin-Updater/updater.php';
+}
 if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
 	$config = array(
 		'slug' 					=> plugin_basename(__FILE__), // this is the slug of your plugin
@@ -128,7 +130,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 	private function load_dependencies() {
 
 		// Vendor
-		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/mkdo-admin.php';
+		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/index.php';
 
 		// Register Scripts
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-register-scripts-admin.php';
