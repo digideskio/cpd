@@ -10,7 +10,7 @@
  *
  * @link              http://makedo.in
  * @since             1.0.0
- * @package           Continuous_Professional_Development
+ * @package           CPD
  *
  * @wordpress-plugin
  * Plugin Name:       Continuous Professional Development
@@ -55,13 +55,13 @@ if ( is_admin() ) { // note the use of is_admin() to double check that this is h
 require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-dependencies/mkdo-dependencies.php';
 
 /**
- * Continuous_Professional_Development
+ * CPD
  *
  * This is the class that orchestrates the entire plugin
  *
  * @since             	1.0.0
  */
-class Continuous_Professional_Development extends MKDO_Class {
+class CPD extends MKDO_Class {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -69,7 +69,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Continuous_Professional_Development_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      CPD_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -116,10 +116,10 @@ class Continuous_Professional_Development extends MKDO_Class {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Continuous_Professional_Development_Loader. Orchestrates the hooks of the plugin.
-	 * - Continuous_Professional_Development_i18n. Defines internationalization functionality.
-	 * - Continuous_Professional_Development_Admin. Defines all hooks for the dashboard.
-	 * - Continuous_Professional_Development_Public. Defines all hooks for the public side of the site.
+	 * - CPD_Loader. Orchestrates the hooks of the plugin.
+	 * - CPD_i18n. Defines internationalization functionality.
+	 * - CPD_Admin. Defines all hooks for the dashboard.
+	 * - CPD_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -133,8 +133,8 @@ class Continuous_Professional_Development extends MKDO_Class {
 		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/index.php';
 
 		// Register Scripts
-		require_once plugin_dir_path( __FILE__ ) . 'admin/class-register-scripts-admin.php';
-		require_once plugin_dir_path( __FILE__ ) . 'public/class-register-scripts-public.php';
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-register-scripts.php';
+		require_once plugin_dir_path( __FILE__ ) . 'public/class-cpd-register-scripts-public.php';
 
 		// Dashboard		
 
@@ -158,7 +158,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Continuous_Professional_Development_i18n class in order to set the domain and to register the hook
+	 * Uses the CPD_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -188,7 +188,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 		 * Load the admin classes used in this Plugin
 		 */
 		
-		$admin_scripts 			= new MKDO_Register_Scripts_Admin			( $this->get_instance(), $this->get_version() );
+		$admin_scripts 			= new CPD_Register_Scripts				( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
@@ -214,7 +214,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 	 */
 	private function define_public_hooks() {
 
-		$public_scripts = new MKDO_Register_Scripts_Public( $this->get_instance(), $this->get_version() );
+		$public_scripts = new CPD_Register_Scripts_Public				( $this->get_instance(), $this->get_version() );
 
 		// Enqueue the styles
 		if( get_option( 'continuous_professional_development_enqueue_styles_public', FALSE ) ) { 
@@ -252,7 +252,7 @@ class Continuous_Professional_Development extends MKDO_Class {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Continuous_Professional_Development_Loader    Orchestrates the hooks of the plugin.
+	 * @return    CPD_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -306,7 +306,7 @@ class Continuous_Professional_Development extends MKDO_Class {
  */
 register_activation_hook( __FILE__, 'activate_continuous_professional_development' );
 function activate_continuous_professional_development() {
-	Continuous_Professional_Development::activate();
+	CPD::activate();
 }
 
 /**
@@ -315,7 +315,7 @@ function activate_continuous_professional_development() {
  */
 register_deactivation_hook( __FILE__, 'deactivate_continuous_professional_development' );
 function deactivate_continuous_professional_development() {
-	Continuous_Professional_Development::deactivate();
+	CPD::deactivate();
 }
 
 /**
@@ -329,7 +329,7 @@ function deactivate_continuous_professional_development() {
  */
 function run_continuous_professional_development() {
 
-	$plugin = new Continuous_Professional_Development( 'continuous-professional-development', '1.0.0' );
+	$plugin = new CPD( 'continuous-professional-development', '1.0.0' );
 	$plugin->run();
 
 }

@@ -5,8 +5,8 @@
  * @link       http://makedo.in
  * @since      1.0.0
  *
- * @package    Continuous_Professional_Development
- * @subpackage Continuous_Professional_Development/admin
+ * @package    CPD
+ * @subpackage CPD/admin
  */
 
 /**
@@ -14,11 +14,11 @@
  *
  * Defines the plugin name, version, and enqueue the dashboard-specific stylesheet and JavaScript.
  *
- * @package    Continuous_Professional_Development
- * @subpackage Continuous_Professional_Development/admin
+ * @package    CPD
+ * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class MKDO_Register_Scripts_Admin extends MKDO_Class {
+class CPD_Register_Scripts extends MKDO_Class {
 
 	/**
 	 * Initialize the class and set its properties.

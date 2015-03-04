@@ -6,8 +6,8 @@
  * @link       http://makedo.in
  * @since      1.0.0
  *
- * @package    Continuous_Professional_Development
- * @subpackage Continuous_Professional_Development/public
+ * @package    CPD
+ * @subpackage CPD/public
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the dashboard-specific stylesheet and JavaScript.
  *
- * @package    Continuous_Professional_Development
- * @subpackage Continuous_Professional_Development/public
+ * @package    CPD
+ * @subpackage CPD/public
  * @author     MKDO Limited <hello@makedo.in>
  */
-class MKDO_Register_Scripts_Public {
+class CPD_Register_Scripts_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -65,10 +65,10 @@ class MKDO_Register_Scripts_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Continuous_Professional_Development_Public_Loader as all of the hooks are defined
+		 * defined in CPD_Public_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Continuous_Professional_Development_Public_Loader will then create the relationship
+		 * The CPD_Public_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
@@ -88,10 +88,10 @@ class MKDO_Register_Scripts_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Continuous_Professional_Development_Public_Loader as all of the hooks are defined
+		 * defined in CPD_Public_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Continuous_Professional_Development_Public_Loader will then create the relationship
+		 * The CPD_Public_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
