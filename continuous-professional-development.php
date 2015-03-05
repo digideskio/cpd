@@ -78,9 +78,9 @@ class CPD extends MKDO_Class {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $continuous_professional_development    The string used to uniquely identify this plugin.
+	 * @var      string    $cpd    The string used to uniquely identify this plugin.
 	 */
-	protected $continuous_professional_development;
+	protected $cpd;
 
 	/**
 	 * The current version of the plugin.
@@ -136,21 +136,12 @@ class CPD extends MKDO_Class {
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-register-scripts.php';
 		require_once plugin_dir_path( __FILE__ ) . 'public/class-cpd-register-scripts-public.php';
 
-		// Dashboard		
+		// CPD Admin
+		
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-admin.php';
 
-		// Content Blocks
-
-		// Profiles
-
-		// Custom post types
-
-		// Meta boxes
-
-		// Taxonomies
-
-		// Columns
-
-		// Status
+		// Journal Users
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-users.php';
 
 		$this->loader = new MKDO_Loader();
 	}
@@ -188,21 +179,68 @@ class CPD extends MKDO_Class {
 		 * Load the admin classes used in this Plugin
 		 */
 		
-		$admin_scripts 			= new CPD_Register_Scripts				( $this->get_instance(), $this->get_version() );
+		$admin_scripts 	= new CPD_Register_Scripts	( $this->get_instance(), $this->get_version() );
+		$cpd_admin 		= new CPD_Admin			( $this->get_instance(), $this->get_version() );
+		$journal_users 	= new CPD_Journal_Users		( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
 		 */
 		
 		// Enqueue the styles
-		if( get_option( 'continuous_professional_development_enqueue_styles', TRUE ) ) { 
+		if( get_option( 'cpd_enqueue_styles', TRUE ) ) { 
 			$this->loader->add_action( 'admin_enqueue_scripts', $admin_scripts, 'enqueue_styles' );
 		}
 
 		// Enqueue the scripts
-		if( get_option( 'continuous_professional_development_enqueue_scripts', TRUE ) ) { 
+		if( get_option( 'cpd_enqueue_scripts', TRUE ) ) { 
 			$this->loader->add_action( 'admin_enqueue_scripts', $admin_scripts, 'enqueue_scripts' );
 		}
+
+		/**
+		 * Journal Admin
+		 */
+		
+		if( get_option( 'cpd_add_menus', TRUE ) ) { 
+			$this->loader->add_action( 'admin_menu', 			$cpd_admin, 'add_admin_menus',				99 	);
+			$this->loader->add_action( 'network_admin_menu', 	$cpd_admin, 'add_network_admin_menus',		5	);
+		}
+
+		if( get_option( 'cpd_filter_actions', TRUE ) ) { 
+			$this->loader->add_filter( 'myblogs_blog_actions', 		$cpd_admin, 'multisite_my_sites_use_custom_dash' );
+			$this->loader->add_filter( 'manage_sites_action_links', $cpd_admin, 'multisite_my_sites_use_custom_dash' );
+		}
+
+
+		/**
+		 * Journal User Management
+		 */
+		
+		// Create roles
+		if( get_option( 'cpd_create_roles', TRUE ) ) { 
+			$this->loader->add_action( 'init', $journal_users, 'create_roles' );
+		}
+
+		// Add user meta data
+		if( get_option( 'cpd_add_meta_data', TRUE ) ) { 
+			$this->loader->add_action( 'set_user_role', $journal_users, 'add_meta_data', 10, 2);
+		}
+
+		// Remove user management roles
+		if( get_option( 'cpd_remove_user_management_roles', TRUE ) ) { 
+			$this->loader->add_filter( 'editable_roles', $journal_users, 'remove_user_management_roles' );
+		}
+
+		// Prevent participants removing supervisors
+		if( get_option( 'cpd_prevent_partcipant_removing_supervisor', TRUE ) ) { 
+			$this->loader->add_filter( 'user_has_cap', $journal_users, 'prevent_partcipant_removing_supervisor', 10, 3 );
+		}
+
+		/** 
+		 * Journal Network Dashboard
+		 */
+
+
 	}
 
 	/**
@@ -217,12 +255,12 @@ class CPD extends MKDO_Class {
 		$public_scripts = new CPD_Register_Scripts_Public				( $this->get_instance(), $this->get_version() );
 
 		// Enqueue the styles
-		if( get_option( 'continuous_professional_development_enqueue_styles_public', FALSE ) ) { 
+		if( get_option( 'cpd_enqueue_styles_public', FALSE ) ) { 
 			$this->loader->add_action( 'wp_enqueue_scripts', $public_scripts, 'enqueue_styles' );
 		}
 
 		// Enqueue the scripts
-		if( get_option( 'continuous_professional_development_enqueue_scripts_public', FALSE ) ) { 
+		if( get_option( 'cpd_enqueue_scripts_public', FALSE ) ) { 
 			$this->loader->add_action( 'wp_enqueue_scripts', $public_scripts, 'enqueue_scripts' );
 		}
 
@@ -277,6 +315,12 @@ class CPD extends MKDO_Class {
 	 */
 	public static function activate() {
 
+		global $wpdb;
+
+		/**
+		 * Create MKDO super user
+		 */
+
 		// Get the current users, user ID
 		$mkdo_user_id = get_current_user_id();
 	
@@ -285,6 +329,44 @@ class CPD extends MKDO_Class {
 	
 		// Set option to initialise the redirect
 		add_option( 'mkdo_activation_redirect', TRUE );
+
+		/**
+		 * Create Journal logging
+		 *
+		 * TODO: I think there is a more WordPress way to do this, so commented out for now.
+		 */
+
+		// // this table keeps a record of the relationsips between participants and supervisors
+		// $sql="CREATE TABLE IF NOT EXISTS {$this->relationship_table} (
+		// 	supervisor_id bigint(20) NOT NULL,
+		// 	participant_id bigint(20) NOT NULL,
+		// 	INDEX supervisor_id_FI (supervisor_id),
+		// 	INDEX participant_id_FI (participant_id),
+		// 	PRIMARY KEY relationship (supervisor_id,participant_id))";
+		// $wpdb->query($sql);
+
+		// // we keep a record of all of the posts on any blog in this table to make reporting across all blogs easier
+		// // otherwise we'd have to run lot's of queries to get stuff like post titles and dates.
+		// $sql="CREATE TABLE IF NOT EXISTS {$this->posts_table} (
+		// 	cpd_post_id BIGINT(20) NOT NULL AUTO_INCREMENT,
+		// 	user_id BIGINT(20) NOT NULL,
+		// 	post_id BIGINT(20) NOT NULL,
+		// 	blog_id BIGINT(20) NOT NULL,
+		// 	site_id BIGINT(20) NOT NULL,
+		// 	post_date DATETIME,
+		// 	post_status VARCHAR(20),
+		// 	post_title TEXT,
+		// 	guid VARCHAR(255),
+		// 	INDEX user_id_FI (user_id),
+		// 	UNIQUE KEY  (post_id,site_id,blog_id),
+		// 	PRIMARY KEY post_id_PI (cpd_post_id))";
+		// $wpdb->query($sql);
+
+
+		// // if it's not already scheduled - setup the regular email
+		// if(!wp_next_scheduled('cpd_unassigned_users_email')) {
+		// 	wp_schedule_event(strtotime("02:00am"), 'daily', 'cpd_unassigned_users_email');
+		// }
 	}
 
 	/**
@@ -304,8 +386,8 @@ class CPD extends MKDO_Class {
  * The code that runs during plugin activation.
  * This action is documented in includes/class-continuous-professional-development-activator.php
  */
-register_activation_hook( __FILE__, 'activate_continuous_professional_development' );
-function activate_continuous_professional_development() {
+register_activation_hook( __FILE__, 'activate_cpd' );
+function activate_cpd() {
 	CPD::activate();
 }
 
@@ -313,8 +395,8 @@ function activate_continuous_professional_development() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-continuous-professional-development-deactivator.php
  */
-register_deactivation_hook( __FILE__, 'deactivate_continuous_professional_development' );
-function deactivate_continuous_professional_development() {
+register_deactivation_hook( __FILE__, 'deactivate_cpd' );
+function deactivate_cpd() {
 	CPD::deactivate();
 }
 
@@ -327,10 +409,10 @@ function deactivate_continuous_professional_development() {
  *
  * @since    1.0.0
  */
-function run_continuous_professional_development() {
+function run_cpd() {
 
 	$plugin = new CPD( 'continuous-professional-development', '1.0.0' );
 	$plugin->run();
 
 }
-run_continuous_professional_development();
+run_cpd();
