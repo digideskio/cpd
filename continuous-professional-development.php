@@ -16,7 +16,7 @@
  * Plugin Name:       Continuous Professional Development
  * Plugin URI:        https://github.com/mkdo/continuous-professional-development
  * Description:       A plugin to clean up the WordPress dashboard
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
