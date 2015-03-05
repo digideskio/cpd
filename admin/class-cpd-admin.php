@@ -42,16 +42,16 @@ class CPD_Admin extends MKDO_Class {
 				'network/index.php',
 				'',
 				'dashicons-admin-site',
-				2
+				0
 			);
 
 			add_menu_page( 
-				'Sites', 
-				'Sites', 
+				'All Journals', 
+				'All Journals', 
 				'manage_network', 
 				'network/sites.php',
 				'',
-				'dashicons-admin-network',
+				'dashicons-welcome-write-blog',
 				3
 			);
 
@@ -59,12 +59,12 @@ class CPD_Admin extends MKDO_Class {
 		}
 		else {
 			add_menu_page( 
-				'My Sites', 
-				'My Sites', 
+				'My Journals', 
+				'My Journals', 
 				'edit_pages', 
 				'my-sites.php',
 				'',
-				'dashicons-admin-network',
+				'dashicons-welcome-write-blog',
 				2
 			);
 		}
@@ -83,6 +83,8 @@ class CPD_Admin extends MKDO_Class {
 				}
 
 				if( $menu_item[0] == 'Sites' ) {
+					$menu_item[0] = 'My Journals';
+					$menu_item[6] = 'dashicons-welcome-write-blog';
 					$tmp = $menu[4];
 					$menu[4] = $menu[$key];
 					$menu[5] = $tmp;
@@ -96,7 +98,7 @@ class CPD_Admin extends MKDO_Class {
 				'../admin.php?page=mkdo_dashboard',
 				'',
 				'dashicons-dashboard',
-				0
+				3
 			);
 			
 		}
