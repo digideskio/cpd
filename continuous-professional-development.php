@@ -37,7 +37,7 @@ if( !class_exists( 'WP_GitHub_Updater' ) ) {
 if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
 	$config = array(
 		'slug' 					=> plugin_basename(__FILE__), // this is the slug of your plugin
-		'proper_folder_name' 	=> 'plugin-name', // this is the name of the folder your plugin lives in
+		'proper_folder_name' 	=> 'continuous-professional-development', // this is the name of the folder your plugin lives in
 		'api_url' 				=> 'https://api.github.com/repos/mkdo/continuous-professional-development', // the GitHub API url of your GitHub repo
 		'raw_url' 				=> 'https://raw.github.com/mkdo/continuous-professional-development/master', // the GitHub raw url of your GitHub repo
 		'github_url' 			=> 'https://github.com/mkdo/continuous-professional-development', // the GitHub url of your GitHub repo
@@ -130,7 +130,7 @@ class CPD extends MKDO_Class {
 	private function load_dependencies() {
 
 		// Vendor
-		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/index.php';
+		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/mkdo-admin.php';
 
 		// Register Scripts
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-register-scripts.php';
