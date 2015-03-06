@@ -136,12 +136,17 @@ class CPD extends MKDO_Class {
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-register-scripts.php';
 		require_once plugin_dir_path( __FILE__ ) . 'public/class-cpd-register-scripts-public.php';
 
-		// CPD Admin
-		
-		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-admin.php';
-
 		// Journal Users
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-users.php';
+
+		// Journal Profiles
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-profiles.php';
+
+		// Journal Menus
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-menus.php';
+
+		// Journal Dashboards
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-dashboards.php';
 
 		$this->loader = new MKDO_Loader();
 	}
@@ -179,9 +184,11 @@ class CPD extends MKDO_Class {
 		 * Load the admin classes used in this Plugin
 		 */
 		
-		$admin_scripts 	= new CPD_Register_Scripts	( $this->get_instance(), $this->get_version() );
-		$cpd_admin 		= new CPD_Admin			( $this->get_instance(), $this->get_version() );
-		$journal_users 	= new CPD_Journal_Users		( $this->get_instance(), $this->get_version() );
+		$admin_scripts 			= new CPD_Register_Scripts		( $this->get_instance(), $this->get_version() );
+		$journal_menus 			= new CPD_Journal_Menus			( $this->get_instance(), $this->get_version() );
+		$journal_dashboards 	= new CPD_Journal_Dashboards	( $this->get_instance(), $this->get_version() );
+		$journal_users 			= new CPD_Journal_Users			( $this->get_instance(), $this->get_version() );
+		$journal_profiles		= new CPD_Journal_Profiles		( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
@@ -195,20 +202,6 @@ class CPD extends MKDO_Class {
 		// Enqueue the scripts
 		if( get_option( 'cpd_enqueue_scripts', TRUE ) ) { 
 			$this->loader->add_action( 'admin_enqueue_scripts', $admin_scripts, 'enqueue_scripts' );
-		}
-
-		/**
-		 * Journal Admin
-		 */
-		
-		if( get_option( 'cpd_add_menus', TRUE ) ) { 
-			$this->loader->add_action( 'admin_menu', 			$cpd_admin, 'add_admin_menus',				99 	);
-			$this->loader->add_action( 'network_admin_menu', 	$cpd_admin, 'add_network_admin_menus',		5	);
-		}
-
-		if( get_option( 'cpd_filter_actions', TRUE ) ) { 
-			$this->loader->add_filter( 'myblogs_blog_actions', 		$cpd_admin, 'multisite_my_sites_use_custom_dash' );
-			$this->loader->add_filter( 'manage_sites_action_links', $cpd_admin, 'multisite_my_sites_use_custom_dash' );
 		}
 
 
@@ -236,9 +229,64 @@ class CPD extends MKDO_Class {
 			$this->loader->add_filter( 'user_has_cap', $journal_users, 'prevent_partcipant_removing_supervisor', 10, 3 );
 		}
 
-		/** 
-		 * Journal Network Dashboard
+		// On creation of new MS user, redirect to custom area
+		if( get_option( 'cpd_redirect_on_create_user', TRUE ) ) { 
+			$this->loader->add_action( 'wpmu_new_user', $journal_users, 'redirect_on_create_user' );
+		}
+
+		/**
+		 * Profiles
 		 */
+		$this->loader->add_action( 'edit_user_profile', 		$journal_profiles, 'add_cpd_relationship_management' 	);
+		$this->loader->add_action( 'show_user_profile', 		$journal_profiles, 'add_cpd_relationship_management' 	);
+		$this->loader->add_action( 'edit_user_profile_update', 	$journal_profiles, 'save_cpd_relationship_management' 	);
+		$this->loader->add_action( 'personal_options_update', 	$journal_profiles, 'save_cpd_relationship_management' 	);
+
+		/** 
+		 * Journal Menus
+		 */
+		
+		// Add Admin menus
+		if( get_option( 'cpd_add_admin_menus', TRUE ) ) { 
+			$this->loader->add_action( 'admin_menu', $journal_menus, 'add_admin_menus', 99 );
+		}
+		
+		// Add Network menus
+		// 
+		// The order of this has to be after the renames, otherwise this itself gets renamed
+		if( get_option( 'cpd_add_network_admin_menus', TRUE ) ) { 
+			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_menus', 100 );
+		}
+		
+		// Rename Network menus
+		if( get_option( 'cpd_rename_network_admin_menus', TRUE ) ) { 
+			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'rename_network_admin_menus', 99 );
+		}
+
+		// Rename Network sub menus
+		if( get_option( 'cpd_rename_network_admin_sub_menus', TRUE ) ) { 
+			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'rename_network_admin_sub_menus', 99 );
+		}
+
+		// Remove sub menus
+		if( get_option( 'cpd_remove_admin_sub_menus', TRUE ) ) { 
+			$this->loader->add_action( 'admin_menu', $journal_menus, 'remove_admin_sub_menus', 99 );
+		}
+
+		/** 
+		 * Journal Dashboards
+		 */
+		
+		// Filter the MU dashboard actions
+		if( get_option( 'cpd_filter_dashbaord_actions', TRUE ) ) { 
+			$this->loader->add_filter( 'myblogs_blog_actions', 		$journal_dashboards, 'filter_dashboard_actions' );
+			$this->loader->add_filter( 'manage_sites_action_links', $journal_dashboards, 'filter_dashboard_actions' );
+		}
+
+		// Rename page titles
+		if( get_option( 'cpd_rename_page_titles', TRUE ) ) { 
+			$this->loader->add_filter( 'gettext', $journal_dashboards, 'rename_page_titles', 10, 3 );
+		}
 
 
 	}

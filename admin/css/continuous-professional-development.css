@@ -1,0 +1,61 @@
+.cpd_supervisors td {
+	column-count: 3;
+	-moz-column-count: 3;
+	-webkit-column-count: 3;
+}
+.cpd_supervisors td span {
+	display: block;
+}
+.cpd_supervisors input[type=checkbox] {
+	margin-right: 5px;
+}
+.cpd_participants td {
+	column-count: 3;
+	-moz-column-count: 3;
+	-webkit-column-count: 3;
+}
+.cpd_participants td span {
+	display: block;
+}
+.cpd_participants input[type=checkbox] {
+	margin-right: 5px;
+}
+
+:target {
+	background-color: #F4F5D5;
+}
+
+.latest_posts_histogram {
+	width: 100%;
+}
+.latest_posts_histogram table {
+	width: 100%;
+}
+
+.latest_posts_histogram td {
+	vertical-align: top;
+	margin: 1px;
+}
+.latest_posts_histogram_bar {
+	background-color: lightblue;
+	cursor: pointer;
+	text-align: right;
+	padding: 2px;
+}
+.user_posts_barchart {
+	width: 100%;
+}
+.user_posts_barchart table {
+	width: 100%;
+}
+.user_posts_barchart table td {
+	vertical-align: top;
+	margin: 1px;
+}
+.user_posts_barchart_bar {
+	background-color: lightblue;
+	cursor: pointer;
+	text-align: right;
+	padding: 2px;
+}
+

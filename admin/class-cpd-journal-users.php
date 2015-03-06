@@ -130,4 +130,34 @@ class CPD_Journal_Users extends MKDO_Class {
 
 		return $allcaps;
 	}
+
+	/**
+	 * Redirect user on creation
+	 * @param  int 		$user_id 	The user ID
+	 */
+	function redirect_on_create_user( $user_id ){
+
+			// We need to stop the redirect to the user-new.php page happening.
+			// the only way is to recreate the password and send the user notification ourselves.
+			// then we can forward to the user profile where the admin can set their supervisors
+			// (if they are a participant) or participants (if they are a supervisor)
+			if ( $user_id ) {
+
+				// all new users get access (as a subscriber) to the default blog
+				add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'subscriber' );
+
+				// create a new password, because we need to send it and we don't have access to the one already generated 
+				$password 	= wp_generate_password( 12, false);
+				
+				wp_set_password($password, $user_id);
+
+				wp_new_user_notification( $user_id, $password );
+
+				wp_redirect( add_query_arg( array( 'user_id' => $user_id ), network_admin_url( 'user-edit.php#cpd_profile' ) ) );
+				
+				exit;
+			}
+
+
+		}
 }
