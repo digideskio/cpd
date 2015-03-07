@@ -31,9 +31,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Auto Update From GitHub
-if( !class_exists( 'WP_GitHub_Updater' ) ) {
-	include_once plugin_dir_path( __FILE__ ) . 'vendor/WordPress-GitHub-Plugin-Updater/updater.php';
-}
 if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
 	$config = array(
 		'slug' 					=> plugin_basename(__FILE__), // this is the slug of your plugin
