@@ -343,7 +343,7 @@ class CPD_Journal_Menus extends MKDO_Class {
 	/** 
 	 * Fix the menu hierarchy
 	 */
-	public function fix_menu_hierarchy() {
+	public function correct_sub_menu_hierarchy() {
 
 		global $submenu;
 		$screen = get_current_screen();
@@ -365,15 +365,15 @@ class CPD_Journal_Menus extends MKDO_Class {
 				}
 			}
 		}
-		else {
-			foreach( $submenu as $path=>&$submenu_item ) {
-				foreach( $submenu_item as $key=>&$smenu ) {
-					if( $submenu_item[$key][0] == 'Journal Entries' ) {
-						//$submenu_item[$key][2] = 'mkdo_content_menu';
-					}
-				}
-			}
-		}
+		// else {
+		// 	foreach( $submenu as $path=>&$submenu_item ) {
+		// 		foreach( $submenu_item as $key=>&$smenu ) {
+		// 			if( $submenu_item[$key][0] == 'Journal Entries' ) {
+		// 				$submenu_item[$key][2] = 'mkdo_content_menu';
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 }

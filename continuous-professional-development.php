@@ -261,7 +261,6 @@ class CPD extends MKDO_Class {
 		// Add Network sub menus
 		if( get_option( 'cpd_add_network_admin_sub_menus', TRUE ) ) { 
 			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_sub_menus', 100 );
-			$this->loader->add_action( 'parent_file', $journal_menus, 'fix_menu_hierarchy' );
 		}
 		
 		// Rename Network menus
@@ -282,6 +281,12 @@ class CPD extends MKDO_Class {
 		// Remove network admin menus
 		if( get_option( 'cpd_remove_network_admin_menus', TRUE ) ) { 
 			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'remove_network_admin_menus', 99 );
+		}
+
+		// Correct menu hierarchy
+		if( get_option( 'cpd_correct_menu_hierarchy', TRUE ) ) { 
+			$this->loader->add_action( 'parent_file', 	$journal_menus, 'correct_menu_hierarchy', 	10000 );
+			$this->loader->add_action( 'admin_head', 	$journal_menus, 'correct_sub_menu_hierarchy' 	  );
 		}
 
 		/** 
