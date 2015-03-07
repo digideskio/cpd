@@ -70,12 +70,12 @@ class CPD_Journal_Menus extends MKDO_Class {
 			$user_id 	= get_current_user_id();
 			$user_blogs = get_blogs_of_user( $user_id );
 
-			if ( count( $user_blogs ) > 1 ) {
+			if ( count( $user_blogs ) > 1 || ( !user_can( $user_id, 'edit_posts' ) && count( $user_blogs ) > 0 ) ) {
 
 				add_menu_page( 
 					'My Journals', 
 					'My Journals', 
-					'edit_pages', 
+					'read', 
 					'my-sites.php',
 					'',
 					'dashicons-book-alt',
@@ -112,16 +112,71 @@ class CPD_Journal_Menus extends MKDO_Class {
 
 		if( is_super_admin() ) {
 			
+			$user_id 		= get_current_user_id();
+			$user_role 		= get_user_meta( $user_id , 'cpd_role', TRUE );
+			$menu_slug 		= 'dashboard';
+
+			if( !user_can( $user_id, 'edit_posts' ) ) {
+				$menu_slug 		= 'subscriber_dashboard';
+			}
+			else if( $user_role == 'participant' ) {
+				$menu_slug 		= 'participant_dashboard';
+			}
+			else if( $user_role == 'supervisor' ) {
+				$menu_slug 		= 'supervisor_dashboard';
+			}
+
 			add_menu_page( 
 				'Dashboard', 
 				'Dashboard', 
 				'manage_network',
-				'../admin.php?page=mkdo_dashboard',
+				'../admin.php?page=' . $menu_slug,
 				'',
 				'dashicons-dashboard',
 				1
 			);
 		}
+	}
+
+	/**
+	 * Render dashboard
+	 */
+	public function mkdo_dashboard() {
+		
+		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/dashboard.php';
+		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/dashboard.php';
+		$partials_path					= 	get_stylesheet_directory() . '/partials/dashboard.php';
+
+		if( file_exists( $theme_path ) ) {
+			$mkdo_dashboard_path 		= 	$theme_path;
+		}
+		else if( file_exists( $partials_path ) ) { 
+			$mkdo_dashboard_path 		=  	$partials_path;
+		}
+
+		include $mkdo_dashboard_path;
+			
+	}
+
+	/**
+	 * Redirect users to dashboard
+	 */
+	public function login_redirect( $redirect_to, $request_redirect_to, $user ) {
+	
+		if( $user && is_object( $user ) && !is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
+
+			if( !get_user_meta( $user->ID, 'mkdo_user', TRUE ) ) {
+			
+				$redirect_to = apply_filters( 'mkdo_login_redirect', admin_url( 'admin.php?page=mkdo_dashboard' ) );
+				
+			} else {
+				
+				$redirect_to = apply_filters( 'mkdo_super_user_login_redirect', admin_url() );
+			}
+		}
+
+		return $redirect_to;
+
 	}
 
 	/**

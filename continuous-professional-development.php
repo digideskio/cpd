@@ -293,6 +293,13 @@ class CPD extends MKDO_Class {
 		 * Journal Dashboards
 		 */
 		
+		// Add and redirect to custom dashboard
+		if( get_option( 'cpd_show_custom_dashboard', TRUE ) ) { 
+			$this->loader->add_action( 'admin_menu', 		$journal_dashboards, 	'add_menu', 			99 	);
+			$this->loader->add_action( 'login_redirect', 	$journal_dashboards,	'login_redirect', 		99, 	3 	);
+			$this->loader->add_action( 'admin_menu', 		$journal_dashboards, 	'remove_admin_menus', 	99 	);
+		}
+		
 		// Filter the MU dashboard actions
 		if( get_option( 'cpd_filter_dashbaord_actions', TRUE ) ) { 
 			$this->loader->add_filter( 'myblogs_blog_actions', 		$journal_dashboards, 'filter_dashboard_actions' );
