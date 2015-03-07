@@ -67,6 +67,54 @@ class CPD_Journal_Dashboards extends MKDO_Class {
 			remove_filter( 'gettext', 'rename_sites_page' );
 			return 'Primary Journal';
 		}
+
+		if ( $domain == 'default' && $text == 'Posts' )
+		{
+			remove_filter( 'gettext', 'rename_sites_page' );
+			return 'Journal Journal Entries';
+		}
+
 		return $translation;
+	}
+
+	function rename_post_object() {
+		global $wp_post_types;
+		$labels = &$wp_post_types['post']->labels;
+		$labels->name = 'Journal Entries';
+		$labels->singular_name = 'Journal Entries';
+		$labels->add_new = 'Add Journal Entry';
+		$labels->add_new_item = 'Add Journal Entries';
+		$labels->edit_item = 'Edit Journal Entries';
+		$labels->new_item = 'Journal Entries';
+		$labels->view_item = 'View Journal Entries';
+		$labels->search_items = 'Search Journal Entries';
+		$labels->not_found = 'No Journal Entries found';
+		$labels->not_found_in_trash = 'No Journal Entries found in Trash';
+		$labels->all_items = 'All Journal Entries';
+		$labels->menu_name = 'Journal Entries';
+		$labels->name_admin_bar = 'Journal Entries';
+	}
+
+	public function force_network_color_scheme( $color_scheme ) {
+		
+		$screen = get_current_screen();
+
+		$current_user 	= wp_get_current_user();
+		$roles 			= $current_user->roles;
+
+		$color_scheme 	= 'midnight';
+
+		if( in_array( 'supervisor', 		$roles) ) {
+			$color_scheme 	= 'ectoplasm';
+		}
+		if( in_array( 'participant', 		$roles) ) {
+			$color_scheme 	= 'ocean';
+		}
+
+		if( strpos( $screen->base, '-network') ) {
+			$color_scheme 	= 'sunrise';
+		}
+
+		return $color_scheme;
 	}
 }

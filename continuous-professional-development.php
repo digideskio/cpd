@@ -30,6 +30,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Load MKDO Dependancies
+require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-dependencies/mkdo-dependencies.php';
+
 // Auto Update From GitHub
 if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
 	$config = array(
@@ -47,9 +50,6 @@ if ( is_admin() ) { // note the use of is_admin() to double check that this is h
     );
     new WP_GitHub_Updater( $config );
 }
-
-// Load MKDO Dependancies
-require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-dependencies/mkdo-dependencies.php';
 
 /**
  * CPD
@@ -247,12 +247,21 @@ class CPD extends MKDO_Class {
 		if( get_option( 'cpd_add_admin_menus', TRUE ) ) { 
 			$this->loader->add_action( 'admin_menu', $journal_menus, 'add_admin_menus', 99 );
 		}
+
+		// Add Admin sub menus
+		if( get_option( 'cpd_add_admin_sub_menus', TRUE ) ) { 
+			$this->loader->add_action( 'admin_menu', $journal_menus, 'add_admin_sub_menus', 99 );
+		}
 		
 		// Add Network menus
-		// 
-		// The order of this has to be after the renames, otherwise this itself gets renamed
 		if( get_option( 'cpd_add_network_admin_menus', TRUE ) ) { 
 			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_menus', 100 );
+		}
+
+		// Add Network sub menus
+		if( get_option( 'cpd_add_network_admin_sub_menus', TRUE ) ) { 
+			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_sub_menus', 100 );
+			$this->loader->add_action( 'parent_file', $journal_menus, 'fix_menu_hierarchy' );
 		}
 		
 		// Rename Network menus
@@ -270,6 +279,11 @@ class CPD extends MKDO_Class {
 			$this->loader->add_action( 'admin_menu', $journal_menus, 'remove_admin_sub_menus', 99 );
 		}
 
+		// Remove network admin menus
+		if( get_option( 'cpd_remove_network_admin_menus', TRUE ) ) { 
+			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'remove_network_admin_menus', 99 );
+		}
+
 		/** 
 		 * Journal Dashboards
 		 */
@@ -283,8 +297,27 @@ class CPD extends MKDO_Class {
 		// Rename page titles
 		if( get_option( 'cpd_rename_page_titles', TRUE ) ) { 
 			$this->loader->add_filter( 'gettext', $journal_dashboards, 'rename_page_titles', 10, 3 );
+			$this->loader->add_filter( 'init', $journal_dashboards, 'rename_post_object' );
+		}
+		
+		// Force colour scheme based on network and / or user type
+		if( get_option( 'cpd_force_network_color_scheme', TRUE ) ) { 
+			$this->loader->add_action( 'get_user_option_admin_color', 	$journal_dashboards, 	'force_network_color_scheme' 		);
 		}
 
+		add_filter('mkdo_content_menu_add_menu_items', function( $menu_items ){
+
+			foreach( $menu_items as &$menu_item ) {
+
+				if( $menu_item['post_type'] == 'post' ) {
+
+					$menu_item['post_name'] 		= 'Journal Entries';
+					$menu_item['menu_name'] 		= 'Journal Entries';
+				}
+			}
+
+			return $menu_items;
+		});
 
 	}
 
@@ -374,44 +407,6 @@ class CPD extends MKDO_Class {
 	
 		// Set option to initialise the redirect
 		add_option( 'mkdo_activation_redirect', TRUE );
-
-		/**
-		 * Create Journal logging
-		 *
-		 * TODO: I think there is a more WordPress way to do this, so commented out for now.
-		 */
-
-		// // this table keeps a record of the relationsips between participants and supervisors
-		// $sql="CREATE TABLE IF NOT EXISTS {$this->relationship_table} (
-		// 	supervisor_id bigint(20) NOT NULL,
-		// 	participant_id bigint(20) NOT NULL,
-		// 	INDEX supervisor_id_FI (supervisor_id),
-		// 	INDEX participant_id_FI (participant_id),
-		// 	PRIMARY KEY relationship (supervisor_id,participant_id))";
-		// $wpdb->query($sql);
-
-		// // we keep a record of all of the posts on any blog in this table to make reporting across all blogs easier
-		// // otherwise we'd have to run lot's of queries to get stuff like post titles and dates.
-		// $sql="CREATE TABLE IF NOT EXISTS {$this->posts_table} (
-		// 	cpd_post_id BIGINT(20) NOT NULL AUTO_INCREMENT,
-		// 	user_id BIGINT(20) NOT NULL,
-		// 	post_id BIGINT(20) NOT NULL,
-		// 	blog_id BIGINT(20) NOT NULL,
-		// 	site_id BIGINT(20) NOT NULL,
-		// 	post_date DATETIME,
-		// 	post_status VARCHAR(20),
-		// 	post_title TEXT,
-		// 	guid VARCHAR(255),
-		// 	INDEX user_id_FI (user_id),
-		// 	UNIQUE KEY  (post_id,site_id,blog_id),
-		// 	PRIMARY KEY post_id_PI (cpd_post_id))";
-		// $wpdb->query($sql);
-
-
-		// // if it's not already scheduled - setup the regular email
-		// if(!wp_next_scheduled('cpd_unassigned_users_email')) {
-		// 	wp_schedule_event(strtotime("02:00am"), 'daily', 'cpd_unassigned_users_email');
-		// }
 	}
 
 	/**

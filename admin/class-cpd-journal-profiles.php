@@ -44,8 +44,11 @@ class CPD_Journal_Profiles extends MKDO_Class {
 		$user_participants 	=	array();
 		$all_participants 	=	array();
 		$cpd_journal 		= 	get_active_blog_for_user( $user->ID );
-		$cpd_journal 		=   get_object_vars( $cpd_journal );
 		$all_cpd_journals 	= 	wp_get_sites();
+
+		if( is_object( $cpd_journal ) ) {
+			$cpd_journal 		=   get_object_vars( $cpd_journal );
+		}
 
 		foreach( $mu_users as $mu_user ) {
 
@@ -69,7 +72,7 @@ class CPD_Journal_Profiles extends MKDO_Class {
 
 				// Check if the user is a supervisor for the current user
 				if( in_array( $user->ID, $mu_user_related_participants ) ) {
-					$user_supervisors[] = $mu_user;
+					$user_supervisors[] = $mu_user->ID;
 				}
 			}
 
@@ -79,8 +82,8 @@ class CPD_Journal_Profiles extends MKDO_Class {
 			if( is_array( $mu_user_related_supervisors ) && count( $mu_user_related_supervisors ) > 0 ) {
 
 				// Check if the user is a participant for the current user
-				if( in_array( $user, $mu_user_related_supervisors ) ) {
-					$user_participants[] = $mu_user;
+				if( in_array( $user->ID, $mu_user_related_supervisors ) ) {
+					$user_participants[] = $mu_user->ID;
 				}
 			}
 
@@ -137,7 +140,7 @@ class CPD_Journal_Profiles extends MKDO_Class {
 										foreach( $all_supervisors as $supervisor ) { 
 											?>
 											<span>
-												<input type="checkbox" name="cpd_supervisors[]" value="<?php echo $supervisor->ID;?>" id="cpd_supervisor_<?php echo $supervisor->ID;?>" <?php echo in_array( $supervisor, $user_supervisors, TRUE ) ? 'checked' : '';?>/>
+												<input type="checkbox" name="cpd_supervisors[]" value="<?php echo $supervisor->ID;?>" id="cpd_supervisor_<?php echo $supervisor->ID;?>" <?php echo in_array( $supervisor->ID, $user_supervisors, TRUE ) ? 'checked' : '';?>/>
 												<label for="cpd_supervisor_<?php echo $supervisor->ID;?>"><?php echo htmlentities( $supervisor->user_nicename );?></label>
 											</span>
 											<?php
@@ -159,7 +162,7 @@ class CPD_Journal_Profiles extends MKDO_Class {
 										foreach( $all_participants as $participant ) { 
 											?>
 											<span>
-												<input type="checkbox" name="cpd_participants[]" value="<?php echo $participant->ID;?>" id="cpd_participant_<?php echo $participant->ID;?>" <?php echo in_array( $participant, $user_participants ) ? 'checked' : '';?>/>
+												<input type="checkbox" name="cpd_participants[]" value="<?php echo $participant->ID;?>" id="cpd_participant_<?php echo $participant->ID;?>" <?php echo in_array( $participant->ID, $user_participants ) ? 'checked' : '';?>/>
 												<label for="cpd_participant_<?php echo $participant->ID;?>"><?php echo htmlentities( $participant->user_nicename );?></label>
 											</span>
 											<?php
@@ -199,7 +202,14 @@ class CPD_Journal_Profiles extends MKDO_Class {
 		$mu_users 			= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
 		$user_supervisors	=	array();
 		$all_supervisors 	=	array();
+		$user_participants 	=	array();
 		$all_participants 	=	array();
+		$cpd_journal 		= 	get_active_blog_for_user( $user->ID );
+		$all_cpd_journals 	= 	wp_get_sites();
+
+		if( is_object( $cpd_journal ) ) {
+			$cpd_journal 		=   get_object_vars( $cpd_journal );
+		}
 		
 		foreach( $mu_users as $mu_user ) {
 
@@ -220,7 +230,18 @@ class CPD_Journal_Profiles extends MKDO_Class {
 
 				// Check if the user is a supervisor for the current user
 				if( in_array( $user_id, $mu_user_related_participants ) ) {
-					$user_supervisors[] = $mu_user;
+					$user_supervisors[] = $mu_user->ID;
+				}
+			}
+
+			// Get list of participants that this user supervisors
+			$mu_user_related_supervisors = get_user_meta( $mu_user->ID, 'cpd_related_supervisors', TRUE );
+
+			if( is_array( $mu_user_related_supervisors ) && count( $mu_user_related_supervisors ) > 0 ) {
+
+				// Check if the user is a participant for the current user
+				if( in_array( $user_id, $mu_user_related_supervisors ) ) {
+					$user_participants[] = $mu_user->ID;
 				}
 			}
 		}
@@ -231,14 +252,28 @@ class CPD_Journal_Profiles extends MKDO_Class {
 
 			if( $current_cpd_role == 'supervisor' ) {
 
-				$current_journals 	= 	get_blogs_of_user( $user_id );
+				$current_journals = get_blogs_of_user( $user_id );
 				
 				if( count( $current_journals ) > 0 ) {
-					foreach( $current_jounrals as $journal ) {
-						remove_user_from_blog( $user_id, $journal['blog_id'] );
+					
+					foreach( $current_journals as $journal ) {
+						remove_user_from_blog( $user_id, $journal->userblog_id );
 					}
 				}
+
+				// Remove related supervisors
 				delete_user_meta( $user_id, 'cpd_related_participants' );
+
+				// Remove as a participant from all supervisors
+				foreach( $all_participants as $participant ) {
+					$participant 						= 	$participant->ID;
+					$participant_supervisors 			= 	get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+					$position 							= 	array_search( $user_id, (array)$participant_supervisors );
+					if( $position !== FALSE ) {
+						unset( $participant_supervisors[$position] );
+						update_user_meta( $participant, 'cpd_related_supervisors', $participant_supervisors );
+					}
+				}
 			}
 
 			if( $cpd_journal == 'new' ) {
@@ -272,6 +307,7 @@ class CPD_Journal_Profiles extends MKDO_Class {
 				}
 				update_user_meta( $user_id, 'primary_blog', $cpd_journal );
 			}
+
 			$post_supervisors 		= $_POST['cpd_supervisors'];
 			$post_supervisors 		= is_array( $post_supervisors ) ? $post_supervisors : array();
 			$current_supervisors	= $user_supervisors;
@@ -295,71 +331,159 @@ class CPD_Journal_Profiles extends MKDO_Class {
 					else if( !in_array( $supervisor, $post_supervisors ) && in_array( $supervisor, $current_supervisors ) ) {
 						
 						// Remove supervisor from list of participants supervisors
-						$participant_supervisor 			= 	$supervisor;
-						$position 							= 	array_search( $participant_supervisor, $user_supervisors );
+						$position 							= 	array_search( $supervisor, $user_supervisors );
 						if( $position !== FALSE ) {
 							unset( $user_supervisors[$position] );
 						}
 
 						// Remove participant from supervisors participants
-						$supervisor_participant 			= 	$user_id;
 						$supervisor_participants 			= 	get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
-						$position 							= 	array_search( $supervisor_participant, $supervisor_participants );
+						$position 							= 	array_search( $$user_id, $supervisor_participants );
 						if( $position !== FALSE ) {
 							unset( $supervisor_participants[$position] );
+							update_user_meta( $supervisor, 'cpd_related_participants', $supervisor_participants );
 						}
-						update_user_meta( $supervisor, 'cpd_related_participants', $supervisor_participants );
+						
 					}
 				}
 
 				// Update supervisors
 				update_user_meta( $user_id, 'cpd_related_supervisors', $user_supervisors );
+
+				// Associate supervisors with the correct journals
+				$current_journals = get_blogs_of_user( $user_id );
+				if( is_array( $current_journals  ) && count( $current_journals  ) ) {
+					foreach( $current_journals as $journal ) {
+						foreach( $post_supervisors as $supervisor ) {
+							add_user_to_blog( $journal->userblog_id, $supervisor, 'supervisor' );
+						}
+					}
+				}
+
 			}
 
 		} else if( $_POST['cpd_role'] == 'supervisor' ) {
 
-		// 	// iterate the participants adding and removing the participants
-		// 	$all_participants=extract_array_key($this->get_all_participants(),'ID');
-		// 	$post_participants=$_POST['cpd_participants'];
-		// 	$post_participants= is_array($post_participants) ? $post_participants : array();
-		// 	$current_participants=extract_array_key($this->get_participants($user_id), 'ID');
-		// 	if(count($all_participants)>0) {
-		// 		foreach($all_participants as $p) {
-		// 			if(in_array($p, $post_participants) && !in_array($p, $current_participants)){
-		// 				// add a new participant relationship
-		// 				$this->add_supervisor_participant($user_id, $p);
-		// 			} else if(!in_array($p, $post_participants) && in_array($p, $current_participants)) {
-		// 				$this->remove_supervisor_participant($user_id, $p);
-		// 			}
-		// 		}
-		// 	}
-		// 	// make sure the supervisor is on each of the pariticpants' primary blog
-		// 	$all_cpd_journals=extract_array_key($this->get_all_cpd_journals(), 'blog_id');
-		// 	$should_have_journals=extract_array_key($this->get_participant_journals($user_id), 'blog_id');
-		// 	if(count($all_cpd_journals)>0){
-		// 		foreach($all_cpd_journals as $j){
-		// 			if(in_array($j, $should_have_journals)) {
-		// 				add_user_to_blog($j, $user_id, 'supervisor');
-		// 			} else {
-		// 				remove_user_from_blog($user_id, $j);
-		// 			}
-		// 		}
-		// 	}
+			// Iterate the participants adding and removing the participants
+			$post_participants 						=	$_POST['cpd_participants'];
+			$post_participants 						= 	is_array($post_participants) ? $post_participants : array();
+			$current_participants 					=	$user_participants;
+			
+			if( count( $all_participants ) > 0 ) {
+				
+				foreach( $all_participants as $participant ) {
+
+					$participant = $participant->ID;
+
+					if( in_array($participant, $post_participants) && !in_array($participant, $current_participants ) ) {
+						
+						// Add participant to list of supervisor participants
+						$user_participants[] 				= 	$participant;
+						
+						// Add supervisor to participants supervisors
+						$participant_supervisors 			= 	get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+						(array)$participant_supervisors[] 	= 	$user_id;
+						update_user_meta( $participant, 'cpd_related_supervisors', $participant_supervisors );
+					} 
+					else if( !in_array($participant, $post_participants ) && in_array( $participant, $current_participants ) ) {
+						
+						// Remove participant from list of supervisors participants
+						$position 							= 	array_search( $participant, (array)$user_participants );
+						if( $position !== FALSE ) {
+							unset( $user_participants[$position] );
+						}
+
+						// Remove participant from supervisors participants
+						$participant_supervisors 			= 	get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+						$position 							= 	array_search( $user_id, (array)$participant_supervisors );
+						if( $position !== FALSE ) {
+							unset( $participant_supervisors[$position] );
+							update_user_meta( $participant, 'cpd_related_supervisors', $participant_supervisors );
+						}
+					}
+				}
+
+				update_user_meta( $user_id, 'cpd_related_participants', $user_participants );
+
+			}
+			// Make sure the supervisor is on each of the pariticpants' primary blog
+			$should_have_journals = array();
+			$participants = get_user_meta( $user_id, 'cpd_related_participants', TRUE );
+
+			foreach( $participants as $participant ) {
+				$blogs = get_blogs_of_user( $partipant );
+				if( is_array( $blogs ) && count( $blogs ) > 0 ) {
+					foreach ( $blogs as $blog ) {
+						$should_have_journals[] = $blog->userblog_id;
+					}
+				}
+			}
+
+			if( count( $all_cpd_journals ) > 0 ) {
+
+				foreach( $all_cpd_journals as $journal ) {
+
+					$journal = $journal['blog_id'];
+
+					if( in_array( $journal, $should_have_journals ) ) {
+						
+						add_user_to_blog( $journal, $user_id, 'supervisor' );
+					} 
+					else {
+						
+						remove_user_from_blog( $user_id, $journal );
+					}
+				}
+			}
+
 		} else {
-		// 	$_POST['cpd_role']="none";
-		// 	if('supervisor'==$current_cpd_role) {
-		// 		$current_journals=$this->get_supervisor_journals($user_id);
-		// 		if(count($current_journals)>0){
-		// 			foreach($current_journals as $j) {
-		// 				remove_user_from_blog($user_id, $j['blog_id']);
-		// 			}
-		// 		}
-		// 		$this->remove_all_supervisor_participants($user_id);
-		// 	}
-		// 	if('participant'==$current_cpd_role) {
-		// 		$this->remove_all_participants_supervisors($user_id);
-		// 	}
+			$_POST['cpd_role'] = 'none';
+			
+			if( $current_cpd_role == 'supervisor' ) {
+				
+				$current_journals = get_blogs_of_user( $user_id );
+				
+				if( count( $current_journals ) > 0 ) {
+					
+					foreach( $current_journals as $journal ) {
+						remove_user_from_blog( $user_id, $journal->userblog_id );
+					}
+				}
+				
+				// Remove related supervisors
+				delete_user_meta( $user_id, 'cpd_related_participants' );
+
+				// Remove as a participant from all supervisors
+				foreach( $all_participants as $participant ) {
+					$participant 						= 	$participant->ID;
+					$participant_supervisors 			= 	get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+					$position 							= 	array_search( $user_id, (array)$participant_supervisors );
+					if( $position !== FALSE ) {
+						unset( $participant_supervisors[$position] );
+						update_user_meta( $participant, 'cpd_related_supervisors', $participant_supervisors );
+					}
+				}
+			}
+			else if( $current_cpd_role == 'participant' ) {
+
+				// Remove related supervisors
+				delete_user_meta( $user_id, 'cpd_related_supervisors' );
+
+				// Remove as a participant from all supervisors
+				foreach( $all_supervisors as $supervisor ) {
+					$supervisor 						= 	$supervisor->ID;
+					$supervisor_participants 			= 	get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
+					$position 							= 	array_search( $user_id, (array)$supervisor_participants );
+					if( $position !== FALSE ) {
+						unset( $supervisor_participants[$position] );
+						update_user_meta( $supervisor, 'cpd_related_participants', $supervisor_participants );
+					}
+					
+				}
+			}
 		}
-		// update_user_meta($user_id,'cpd_role', $_POST['cpd_role']);
+
+		update_user_meta( $user_id,'cpd_role', $_POST['cpd_role'] );
+		add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'subscriber' );
 	}
 }
