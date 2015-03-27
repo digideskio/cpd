@@ -32,273 +32,18 @@ class CPD_Journal_Menus extends MKDO_Class {
 	}
 
 	/**
-	 * Add admin menus
-	 */
-	public function add_admin_menus() {
-
-		// If the user is a super admin (network manager)
-		if( is_super_admin() ) {
-
-			if( !MKDO_Helper_User::is_mkdo_user() ) 
-			{
-				add_menu_page( 
-					'Global Settings', 
-					'Global Settings', 
-					'manage_network',
-					'network/index.php',
-					'',
-					'dashicons-admin-site',
-					9999
-				);
-			}
-
-			add_menu_page( 
-				'Journals', 
-				'Journals', 
-				'manage_network', 
-				'network/sites.php',
-				'',
-				'dashicons-book-alt',
-				3
-			);
-
-		}
-		// If the user is not a super admin (network manager)
-		else {
-
-			// If the user belogs to more than one blog (journal)
-			$user_id 	= get_current_user_id();
-			$user_blogs = get_blogs_of_user( $user_id );
-
-			if ( count( $user_blogs ) > 1 || ( !user_can( $user_id, 'edit_posts' ) && count( $user_blogs ) > 0 ) ) {
-
-				add_menu_page( 
-					'My Journals', 
-					'My Journals', 
-					'read', 
-					'my-sites.php',
-					'',
-					'dashicons-book-alt',
-					2
-				);
-
-			}
-		}
-	}
-
-	/**
-	 * Add admin sub menus
-	 */
-	public function add_admin_sub_menus() {
-
-		if( is_super_admin() ) {
-
-			add_submenu_page(
-				'options-general.php',
-				'Global Settings',
-				'Global Settings',
-				'manage_network',
-				'network/index.php',
-				''
-			);
-
-		}
-	}
-
-	/**
-	 * Add network menus
-	 */
-	public function add_network_admin_menus() {
-
-		if( is_super_admin() ) {
-			
-			$user_id 		= get_current_user_id();
-			$user_role 		= get_user_meta( $user_id , 'cpd_role', TRUE );
-			$menu_slug 		= 'dashboard';
-
-			if( !user_can( $user_id, 'edit_posts' ) ) {
-				$menu_slug 		= 'subscriber_dashboard';
-			}
-			else if( $user_role == 'participant' ) {
-				$menu_slug 		= 'participant_dashboard';
-			}
-			else if( $user_role == 'supervisor' ) {
-				$menu_slug 		= 'supervisor_dashboard';
-			}
-
-			add_menu_page( 
-				'Dashboard', 
-				'Dashboard', 
-				'manage_network',
-				'../admin.php?page=' . $menu_slug,
-				'',
-				'dashicons-dashboard',
-				1
-			);
-		}
-	}
-
-	/**
-	 * Render dashboard
-	 */
-	public function mkdo_dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;
-			
-	}
-
-	/**
-	 * Redirect users to dashboard
-	 */
-	public function login_redirect( $redirect_to, $request_redirect_to, $user ) {
-	
-		if( $user && is_object( $user ) && !is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
-
-			if( !get_user_meta( $user->ID, 'mkdo_user', TRUE ) ) {
-			
-				$redirect_to = apply_filters( 'mkdo_login_redirect', admin_url( 'admin.php?page=mkdo_dashboard' ) );
-				
-			} else {
-				
-				$redirect_to = apply_filters( 'mkdo_super_user_login_redirect', admin_url() );
-			}
-		}
-
-		return $redirect_to;
-
-	}
-
-	/**
-	 * Add network sub menus
-	 */
-	public function add_network_admin_sub_menus() {
-
-		if( is_super_admin() ) {
-			
-			add_submenu_page(
-				'index.php',
-				'Journals',
-				'Journals',
-				'manage_network',
-				'sites.php',
-				''
-			);
-
-			add_submenu_page(
-				'index.php',
-				'Users',
-				'Users',
-				'manage_network',
-				'users.php',
-				''
-			);
-
-			add_submenu_page(
-				'index.php',
-				'Themes',
-				'Themes',
-				'manage_network',
-				'themes.php',
-				''
-			);
-
-			add_submenu_page(
-				'index.php',
-				'Plugins',
-				'Plugins',
-				'manage_network',
-				'plugins.php',
-				''
-			);
-
-			add_submenu_page(
-				'index.php',
-				'Settings',
-				'Settings',
-				'manage_network',
-				'settings.php',
-				''
-			);
-
-			add_submenu_page(
-				'index.php',
-				'Updates',
-				'Updates',
-				'manage_network',
-				'update-core.php',
-				''
-			);
-		}
-	}
-
-	/**
-	 * Rename / reorder network menus
-	 */
-	public function rename_network_admin_menus() {
-
-		if( is_super_admin() ) {
-
-			global $menu;
-
-			// Rename menu items
-			foreach( $menu as $key=>&$menu_item ) {
-				if( $menu_item[0] == 'Dashboard' || $menu_item[0] == 'Global Settings' ) {
-
-					$menu_item[0] 	= 'Global Settings';
-					$menu_item[6] 	= 'dashicons-admin-site';
-					$network		= $menu[$key];
-					unset( $menu[$key] );
-					$menu[6] 	= $network; 
-				}
-				// It may have already been renamed
-				// else if( $menu_item[0] == 'Sites' || $menu_item[0] == 'Journals' ) {
-
-				// 	$menu_item[0] 	= 'Journals';
-				// 	$menu_item[6] 	= 'dashicons-book-alt';
-
-				// 	// Swap it with position 4 (separator)
-				// 	$separator		= $menu[4];
-				// 	$menu[4] 		= $menu[$key];
-				// 	$menu[$key] 	= $separator;
-				// }
-			}
-		}
-	}
-
-	/**
 	 * Rename network sub menus
 	 */
-	public function rename_network_admin_sub_menus() {
-
-		if( is_super_admin() ) {
-
-			global $submenu;
-
-			// Rename submenu items
-			foreach( $submenu as $key=>&$menu_item ) {
-				if( $key == 'sites.php') {
-
-					foreach( $menu_item as &$submenu_item ) {
-						if( $submenu_item[0] == 'All Sites' ) {
-							$submenu_item[0] = 'All Journals';
-							break;
-						}
-					}
-					break;
-				}
+	public function filter_network_admin_sub_menus( $menus ) {
+		
+		foreach( $menus as &$menu ) {
+			if( $menu['page_title'] == 'Sites' ) {
+				$menu['page_title'] = 'Journals';
+				$menu['menu_title'] = 'Journals';
 			}
 		}
+
+		return $menus;
 	}
 
 	/**
@@ -315,21 +60,6 @@ class CPD_Journal_Menus extends MKDO_Class {
 			remove_submenu_page( 'users.php', 'user-new.php' );
 			remove_submenu_page( 'tools.php', 'ms-delete-site.php' );
 			remove_submenu_page( 'options-general.php', 'options-discussion.php' );
-		}
-	}
-
-	/**
-	 * Remove network menus menus
-	 */
-	public function remove_network_admin_menus() {
-		
-		if( is_super_admin() ) {
-			remove_menu_page( 'sites.php' );
-			remove_menu_page( 'users.php' );
-			remove_menu_page( 'themes.php' );
-			remove_menu_page( 'plugins.php' );
-			remove_menu_page( 'settings.php' );
-			remove_menu_page( 'update-core.php' );
 		}
 	}
 
@@ -383,52 +113,30 @@ class CPD_Journal_Menus extends MKDO_Class {
 
 			/* set the parent file slug to the custom content page */
 			$parent_file = $this->slug;
-
 			
 		}
 
 		if( defined('CMS_TPV_URL') && $screenbase == 'pages_page_cms-tpv-page-page' && in_array( $post_type, $pages ) ) {
 			$parent_file = $this->slug;
 		}
+
+		global $submenu;
+		$screen = get_current_screen();
+
+		if( strpos( $screen->base, '-network' ) ) {
+			if ( 
+					$parent_file == 'sites.php' 		||
+					$parent_file == 'users.php' 		|| 
+					$parent_file == 'themes.php' 		|| 
+					$parent_file == 'plugins.php' 		|| 
+					$parent_file == 'settings.php' 		|| 
+					$parent_file == 'update-core.php'
+				) {
+				$parent_file = 'index.php';
+			}
+		}
 		
 		/* return the new parent file */	
 		return $parent_file;
 	}
-
-	/** 
-	 * Fix the menu hierarchy
-	 */
-	public function correct_sub_menu_hierarchy() {
-
-		global $submenu;
-		$screen = get_current_screen();
-		//print_r($submenu);
-		if( strpos( $screen->base, '-network' ) ) {
-	
-			foreach( $submenu as $path=>&$submenu_item ) {
-				if ( 
-						$path == 'sites.php' 		||
-						$path == 'users.php' 		|| 
-						$path == 'themes.php' 		|| 
-						$path == 'plugins.php' 		|| 
-						$path == 'settings.php' 	|| 
-						$path == 'update-core.php'
-					) {
-					foreach( $submenu_item as $key=>&$smenu ) {
-						$submenu_item[$key][2] = 'index.php';
-					}
-				}
-			}
-		}
-		// else {
-		// 	foreach( $submenu as $path=>&$submenu_item ) {
-		// 		foreach( $submenu_item as $key=>&$smenu ) {
-		// 			if( $submenu_item[$key][0] == 'Journal Entries' ) {
-		// 				$submenu_item[$key][2] = 'mkdo_content_menu';
-		// 			}
-		// 		}
-		// 	}
-		// }
-	}
-
 }

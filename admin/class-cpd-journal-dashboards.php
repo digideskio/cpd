@@ -16,7 +16,7 @@
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Dashboards extends MKDO_Menu {
+class CPD_Journal_Dashboards extends MKDO_Class {
 
 	/**
 	 * Initialize the class and set its properties.
@@ -27,212 +27,9 @@ class CPD_Journal_Dashboards extends MKDO_Menu {
 	 */
 	public function __construct( $instance, $version ) {
 		
-
-		add_option( 'mkdo_admin_show_mkdo_dashboard', FALSE );
-		add_option( 'mkdo_admin_show_mkdo_dashboard_all', FALSE );
-
-		$args 								= 	array(
-														'page_title' 			=> 	'Dashboard',
-														'menu_title' 			=> 	'Dashboard',
-														'capibility' 			=> 	'read',
-														'slug' 					=> 	'mkdo_dashboard',
-														'function'				=> 	array( $this, 'mkdo_dashboard'),
-														'icon' 					=> 	'dashicons-admin-page',
-														'position' 				=> 	'1',
-														'remove_menus'			=> 	array(
-																						array( 
-																							'menu' 			=> 		'index.php',
-																							'admin_remove'	=>		TRUE,
-																							'mkdo_remove'	=> 		TRUE,
-																						)
-																					)
-													);
-
-		parent::__construct( $instance, $version, $args );
+		parent::__construct( $instance, $version );
 	}
 
-	/**
-	 * Add dashboard to menu
-	 */
-	public function add_menu() {
-
-		$user_id 		= get_current_user_id();
-		$user_role 		= get_user_meta( $user_id , 'cpd_role', TRUE );
-		$menu_slug 		= 'dashboard';
-		//$this->slug 	= 'dashboard';
-
-		if( !user_can( $user_id, 'edit_posts' ) ) {
-			$menu_slug 		= 'subscriber_dashboard';
-			//$this->slug 	= 'subscriber_dashboard';
-		}
-		else if( $user_role == 'participant' ) {
-			$menu_slug 		= 'participant_dashboard';
-			//$this->slug 	= 'participant_dashboard';
-		}
-		else if( $user_role == 'supervisor' ) {
-			$menu_slug 		= 'supervisor_dashboard';
-			//$this->slug 	= 'supervisor_dashboard';
-		}
-
-		add_menu_page(
-			'Dashboard',
-			'Dashboard',
-			'read',
-			$menu_slug,
-			array( $this, $menu_slug ),
-			'dashicons-dashboard',
-			1
-		);
-	}
-
-	/**
-	 * Render dashboard
-	 */
-	public function dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;	
-	}
-
-	public function subscriber_dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/subscriber_dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/subscriber_dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/subscriber_dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;
-			
-	}
-
-	public function participant_dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/participant_dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/participant_dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/participant_dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;
-			
-	}
-
-	public function supervisor_dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/supervisor_dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/supervisor_dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/supervisor_dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;
-			
-	}
-
-	public function network_dashboard() {
-		
-		$mkdo_dashboard_path 			= 	dirname(__FILE__) . '/partials/network_dashboard.php';
-		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/network_dashboard.php';
-		$partials_path					= 	get_stylesheet_directory() . '/partials/network_dashboard.php';
-
-		if( file_exists( $theme_path ) ) {
-			$mkdo_dashboard_path 		= 	$theme_path;
-		}
-		else if( file_exists( $partials_path ) ) { 
-			$mkdo_dashboard_path 		=  	$partials_path;
-		}
-
-		include $mkdo_dashboard_path;
-			
-	}
-
-	/**
-	 * Filter the MU dashboad actions
-	 * 
-	 * @param  string 	$actions 	The actions to be filtered
-	 * @return string 	$actions 	The actions to be filtered
-	 */
-	public function filter_dashboard_actions( $actions ) {
-
-		$user_id 		= get_current_user_id();
-		$user_role 		= get_user_meta( $user_id , 'cpd_role', TRUE );
-		$menu_slug 		= 'dashboard';
-
-		if( !user_can( $user_id, 'edit_posts' ) ) {
-			$menu_slug 		= 'subscriber_dashboard';
-		}
-		else if( $user_role == 'participant' ) {
-			$menu_slug 		= 'participant_dashboard';
-		}
-		else if( $user_role == 'supervisor' ) {
-			$menu_slug 		= 'supervisor_dashboard';
-		}
-
-		$actions = str_replace( 'wp-admin/', 'wp-admin/admin.php?page=' . $menu_slug, $actions );
-		return $actions;
-	}
-
-	/**
-	 * Redirect users to dashboard
-	 */
-	public function login_redirect( $redirect_to, $request_redirect_to, $user ) {
-	
-		$user_role 		= get_user_meta( $user , 'cpd_role', TRUE );
-		$menu_slug 		= 'dashboard';
-
-		if( !user_can( 'edit_posts', $user ) ) {
-			$menu_slug 		= 'subscriber_dashboard';
-		}
-		else if( $user_role == 'participant' ) {
-			$menu_slug 		= 'participant_dashboard';
-		}
-		else if( $user_role == 'supervisor' ) {
-			$menu_slug 		= 'supervisor_dashboard';
-		}
-
-		if( $user && is_object( $user ) && !is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
-
-			$redirect_to = apply_filters( 'mkdo_login_redirect', admin_url( 'admin.php?page=' . $menu_slug ) );
-
-			// if( !get_user_meta( $user->ID, 'mkdo_user', TRUE ) ) {
-			
-			// 	$redirect_to = apply_filters( 'mkdo_login_redirect', admin_url( 'admin.php?page=mkdo_dashboard' ) );
-				
-			// } else {
-				
-			// 	$redirect_to = apply_filters( 'mkdo_super_user_login_redirect', admin_url() );
-			// }
-		}
-
-		return $redirect_to;
-
-	}
 
 	/**
 	 * Rename page titles
@@ -265,7 +62,7 @@ class CPD_Journal_Dashboards extends MKDO_Menu {
 		if ( $domain == 'default' && $text == 'Posts' )
 		{
 			remove_filter( 'gettext', 'rename_sites_page' );
-			return 'Journal Journal Entries';
+			return 'Journal Entries';
 		}
 
 		return $translation;

@@ -331,14 +331,14 @@ class CPD_Journal_Profiles extends MKDO_Class {
 					else if( !in_array( $supervisor, $post_supervisors ) && in_array( $supervisor, $current_supervisors ) ) {
 						
 						// Remove supervisor from list of participants supervisors
-						$position 							= 	array_search( $supervisor, $user_supervisors );
+						$position 							= 	array_search( $supervisor, (array)$user_supervisors );
 						if( $position !== FALSE ) {
 							unset( $user_supervisors[$position] );
 						}
 
 						// Remove participant from supervisors participants
 						$supervisor_participants 			= 	get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
-						$position 							= 	array_search( $$user_id, $supervisor_participants );
+						$position 							= 	array_search( $user_id, (array)$supervisor_participants );
 						if( $position !== FALSE ) {
 							unset( $supervisor_participants[$position] );
 							update_user_meta( $supervisor, 'cpd_related_participants', $supervisor_participants );

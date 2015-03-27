@@ -224,35 +224,10 @@ class CPD extends MKDO_Class {
 		/** 
 		 * Journal Menus
 		 */
-		
-		// Add Admin menus
-		if( get_option( 'cpd_add_admin_menus', TRUE ) ) { 
-			$this->loader->add_action( 'admin_menu', $journal_menus, 'add_admin_menus', 99 );
-		}
-
-		// Add Admin sub menus
-		if( get_option( 'cpd_add_admin_sub_menus', TRUE ) ) { 
-			$this->loader->add_action( 'admin_menu', $journal_menus, 'add_admin_sub_menus', 99 );
-		}
-		
-		// Add Network menus
-		if( get_option( 'cpd_add_network_admin_menus', TRUE ) ) { 
-			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_menus', 100 );
-		}
-
-		// Add Network sub menus
-		if( get_option( 'cpd_add_network_admin_sub_menus', TRUE ) ) { 
-			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'add_network_admin_sub_menus', 100 );
-		}
-		
-		// Rename Network menus
-		if( get_option( 'cpd_rename_network_admin_menus', TRUE ) ) { 
-			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'rename_network_admin_menus', 99 );
-		}
 
 		// Rename Network sub menus
-		if( get_option( 'cpd_rename_network_admin_sub_menus', TRUE ) ) { 
-			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'rename_network_admin_sub_menus', 99 );
+		if( get_option( 'cpd_filter_network_admin_sub_menus', TRUE ) ) { 
+			$this->loader->add_filter( 'mkdo_admin_add_network_admin_sub_menus_filter', $journal_menus, 'filter_network_admin_sub_menus', 99 );
 		}
 
 		// Remove sub menus
@@ -260,33 +235,9 @@ class CPD extends MKDO_Class {
 			$this->loader->add_action( 'admin_menu', $journal_menus, 'remove_admin_sub_menus', 99 );
 		}
 
-		// Remove network admin menus
-		if( get_option( 'cpd_remove_network_admin_menus', TRUE ) ) { 
-			$this->loader->add_action( 'network_admin_menu', $journal_menus, 'remove_network_admin_menus', 99 );
-		}
-
-		// Correct menu hierarchy
-		if( get_option( 'cpd_correct_menu_hierarchy', TRUE ) ) { 
-			$this->loader->add_action( 'parent_file', 	$journal_menus, 'correct_menu_hierarchy', 	10000 );
-			$this->loader->add_action( 'admin_head', 	$journal_menus, 'correct_sub_menu_hierarchy' 	  );
-		}
-
 		/** 
 		 * Journal Dashboards
 		 */
-		
-		// Add and redirect to custom dashboard
-		if( get_option( 'cpd_show_custom_dashboard', TRUE ) ) { 
-			$this->loader->add_action( 'admin_menu', 		$journal_dashboards, 	'add_menu', 			99 	);
-			$this->loader->add_action( 'login_redirect', 	$journal_dashboards,	'login_redirect', 		99, 	3 	);
-			$this->loader->add_action( 'admin_menu', 		$journal_dashboards, 	'remove_admin_menus', 	99 	);
-		}
-		
-		// Filter the MU dashboard actions
-		if( get_option( 'cpd_filter_dashbaord_actions', TRUE ) ) { 
-			$this->loader->add_filter( 'myblogs_blog_actions', 		$journal_dashboards, 'filter_dashboard_actions' );
-			$this->loader->add_filter( 'manage_sites_action_links', $journal_dashboards, 'filter_dashboard_actions' );
-		}
 
 		// Rename page titles
 		if( get_option( 'cpd_rename_page_titles', TRUE ) ) { 
@@ -397,10 +348,49 @@ class CPD extends MKDO_Class {
 		$mkdo_user_id = get_current_user_id();
 	
 		// Make the user a mkdo super user
-		update_usermeta( $mkdo_user_id, 'mkdo_user', 1 );
+		update_user_meta( $mkdo_user_id, 'mkdo_user', 1 );
 	
 		// Set option to initialise the redirect
 		add_option( 'mkdo_activation_redirect', TRUE );
+
+		/**
+		 * Do upgrade from old CPD system
+		 */
+		
+		$table_name = $wpdb->base_prefix . 'cpd_relationships';
+		
+		// If table exists (old system has been installed)
+		if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name && get_site_option( 'cpd_upgraded_from_cpd_journals', FALSE ) === FALSE ) {
+			$results 	= 	$wpdb->get_results( 
+									"SELECT * FROM {$table_name}"
+							);
+			if( is_array( $results ) && !empty( $results ) ) {
+				foreach( $results as $row ) {
+					
+					// Add participant to supervisor
+					$participants 			= 	get_user_meta( $row->supervisor_id, 'cpd_related_participants', TRUE );
+					if( !is_array( $participants ) ) {
+						$participants = array();
+					}
+					if( !in_array( $row->participant_id, $participants ) ) {
+						$participants[] = $row->participant_id;
+					}
+					update_user_meta( $row->supervisor_id, 'cpd_related_participants', $participants );
+
+					// Add supervisor to participant
+					$supervisors 			= 	get_user_meta( $row->participant_id, 'cpd_related_supervisors', TRUE );
+					if( !is_array( $supervisors ) ) {
+						$supervisors = array();
+					}
+					if( !in_array( $row->supervisor_id, $supervisors ) ) {
+						$supervisors[] = $row->supervisor_id;
+					}
+					update_user_meta( $row->participant_id, 'cpd_related_participants', $supervisors );
+				}
+			}
+
+			add_site_option( 'cpd_upgraded_from_cpd_journals', TRUE );
+		}
 	}
 
 	/**
