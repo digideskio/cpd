@@ -273,6 +273,23 @@ class CPD extends MKDO_Class {
 		if( get_option( 'cpd_show_welcome_content_block', TRUE ) ) { 
 			$this->loader->add_action( 'wp_dashboard_setup', $content_blocks, 'add_welcome_content_block' );
 		}
+
+		// TODO: Wire this up fully
+		// TODO: Do not show 'My Journals' if supervisor or participant if you are only a subscriber
+		// add_action( 'admin_init', 'dashboard_redirect' );
+		// function dashboard_redirect() {
+			
+		// 	global $current_user;
+			
+		// 	get_currentuserinfo();
+			
+		// 	if ( user_can( $current_user, 'subscriber' ) ) {
+				
+		// 		$primary_blog = get_active_blog_for_user( $current_user->ID );
+		// 		wp_redirect( $primary_blog->siteurl . '/wp-admin/' );
+		// 		exit;
+		// 	}
+		// }
 	}
 
 	/**
