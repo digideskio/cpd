@@ -32,6 +32,26 @@ class CPD_Journal_Menus extends MKDO_Class {
 	}
 
 	/**
+	 * Filter menus
+	 */
+	public function filter_menu_items( $menus ) {
+
+		foreach( $menus as &$menu ) {
+
+			if( $menu['post_type'] == 'post' ) {
+
+				$menu['post_name'] 					= 	'Journal Entries';
+				$menu['menu_name'] 					= 	'Journal Entries';
+				$menu['add_to_dashboard_block'] 	= 	array(
+															'dashicon' 		=> 'dashicons-book'
+														);
+			}
+		}
+
+		return $menus;
+	}
+
+	/**
 	 * Rename network sub menus
 	 */
 	public function filter_network_admin_sub_menus( $menus ) {

@@ -108,6 +108,11 @@ class CPD extends MKDO_Class {
 	 */
 	private function load_dependencies() {
 
+
+		add_option( 'mkdo_admin_show_content_on_dashboard', FALSE );
+		add_option( 'mkdo_admin_show_profile_on_dashboard', FALSE ) ;
+		add_option( 'mkdo_admin_show_comments_on_dashboard', FALSE );
+
 		// Vendor
 		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/mkdo-admin.php';
 
@@ -126,6 +131,9 @@ class CPD extends MKDO_Class {
 
 		// Journal Dashboards
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-dashboards.php';
+
+		// Content Blocks
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-content-blocks.php'; 
 
 		$this->loader = new MKDO_Loader();
 	}
@@ -163,11 +171,12 @@ class CPD extends MKDO_Class {
 		 * Load the admin classes used in this Plugin
 		 */
 		
-		$admin_scripts 			= new CPD_Register_Scripts		( $this->get_instance(), $this->get_version() );
-		$journal_menus 			= new CPD_Journal_Menus			( $this->get_instance(), $this->get_version() );
-		$journal_dashboards 	= new CPD_Journal_Dashboards	( $this->get_instance(), $this->get_version() );
-		$journal_users 			= new CPD_Journal_Users			( $this->get_instance(), $this->get_version() );
-		$journal_profiles		= new CPD_Journal_Profiles		( $this->get_instance(), $this->get_version() );
+		$admin_scripts 			= new CPD_Register_Scripts			( $this->get_instance(), $this->get_version() );
+		$journal_menus 			= new CPD_Journal_Menus				( $this->get_instance(), $this->get_version() );
+		$journal_dashboards 	= new CPD_Journal_Dashboards		( $this->get_instance(), $this->get_version() );
+		$journal_users 			= new CPD_Journal_Users				( $this->get_instance(), $this->get_version() );
+		$journal_profiles		= new CPD_Journal_Profiles			( $this->get_instance(), $this->get_version() );
+		$content_blocks			= new CPD_Journal_Content_Blocks	( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
@@ -224,6 +233,11 @@ class CPD extends MKDO_Class {
 		/** 
 		 * Journal Menus
 		 */
+		
+		// Rename Menu Items
+		if( get_option( 'cpd_filter_menu_items', TRUE ) ) { 
+			$this->loader->add_filter( 'mkdo_content_menu_add_menu_items', $journal_menus, 'filter_menu_items' );
+		}
 
 		// Rename Network sub menus
 		if( get_option( 'cpd_filter_network_admin_sub_menus', TRUE ) ) { 
@@ -250,20 +264,15 @@ class CPD extends MKDO_Class {
 			$this->loader->add_action( 'get_user_option_admin_color', 	$journal_dashboards, 	'force_network_color_scheme' 		);
 		}
 
-		add_filter('mkdo_content_menu_add_menu_items', function( $menu_items ){
 
-			foreach( $menu_items as &$menu_item ) {
-
-				if( $menu_item['post_type'] == 'post' ) {
-
-					$menu_item['post_name'] 		= 'Journal Entries';
-					$menu_item['menu_name'] 		= 'Journal Entries';
-				}
-			}
-
-			return $menu_items;
-		});
-
+		/**
+		 * Content Blocks
+		 */
+		
+		// Show content on dashboard
+		if( get_option( 'cpd_show_welcome_content_block', TRUE ) ) { 
+			$this->loader->add_action( 'wp_dashboard_setup', $content_blocks, 'add_welcome_content_block' );
+		}
 	}
 
 	/**

@@ -39,7 +39,6 @@ class CPD_Register_Scripts extends MKDO_Class {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/continuous-professional-development.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
