@@ -58,3 +58,25 @@
 	text-align: right;
 	padding: 2px;
 }
+
+#latest_posts_histogram_widget table,
+#cpd_admin_dashboard_widget table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#cpd_admin_dashboard_widget table th,
+#cpd_admin_dashboard_widget table td {
+	border: 1px solid #ccc;
+	padding: 5px;
+	text-align: left;
+}
+
+#latest_posts_histogram_widget table th,
+#latest_posts_histogram_widget table td {
+	text-align: left;
+}
+
+#latest_posts_histogram_widget table td {
+	width: 75%;
+}
