@@ -406,12 +406,13 @@ class CPD_Journal_Profiles extends MKDO_Class {
 				update_user_meta( $user_id, 'cpd_related_participants', $user_participants );
 
 			}
+
 			// Make sure the supervisor is on each of the pariticpants' primary blog
 			$should_have_journals = array();
 			$participants = get_user_meta( $user_id, 'cpd_related_participants', TRUE );
 
 			foreach( $participants as $participant ) {
-				$blogs = get_blogs_of_user( $partipant );
+				$blogs = get_blogs_of_user( $participant );
 				if( is_array( $blogs ) && count( $blogs ) > 0 ) {
 					foreach ( $blogs as $blog ) {
 						$should_have_journals[] = $blog->userblog_id;
@@ -430,7 +431,6 @@ class CPD_Journal_Profiles extends MKDO_Class {
 						add_user_to_blog( $journal, $user_id, 'supervisor' );
 					} 
 					else {
-						
 						remove_user_from_blog( $user_id, $journal );
 					}
 				}

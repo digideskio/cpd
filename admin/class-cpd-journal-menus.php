@@ -81,6 +81,10 @@ class CPD_Journal_Menus extends MKDO_Class {
 			remove_submenu_page( 'tools.php', 'ms-delete-site.php' );
 			remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		}
+
+		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
+			remove_submenu_page( 'index.php', 'my-sites.php' );
+		}
 	}
 
 	/**
