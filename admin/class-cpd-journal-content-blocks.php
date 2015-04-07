@@ -336,7 +336,7 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 			}
 
 			if( $cpd_role == 'supervisor' ) {
-				$related_participants 		= 	get_user_meta( $mu_user->ID, 'cpd_related_participants', TRUE );
+				$related_participants 		= 	get_user_meta( $user->ID, 'cpd_related_participants', TRUE );
 				$post_args['author__in'] 	= 	$related_participants;
 			}
 
