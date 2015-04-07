@@ -167,20 +167,25 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 		global $wp_meta_boxes;
 
 		$latest_posts_title  			= 'All Posts by week';
+		$posts_by_participant_title  	= 'All user posts';
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
 			$latest_posts_title  			= 'Your participants posts by week';
+			$posts_by_participant_title  	= 'All participants posts';
 		}
 		else if( in_array( 'participant', $roles ) ) {
 			$latest_posts_title  			= 'Your posts by week';
 		}
 
-		add_meta_box('cpd_admin_dashboard_widget', '<span class="mkdo-block-title dashicons-before dashicons-groups"></span> CPD Relationships', array( $this, 'unassigned_users_widget' ), 'dashboard-network', 'side' );
+		add_meta_box( 'cpd_admin_dashboard_widget', '<span class="mkdo-block-title dashicons-before dashicons-groups"></span> CPD Relationships', array( $this, 'unassigned_users_widget' ), 'dashboard-network', 'side' );
 		wp_add_dashboard_widget( 'latest_posts_histogram_widget', '<span class="mkdo-block-title dashicons-before dashicons-chart-bar"></span> ' . $latest_posts_title, array($this,'latest_posts_histogram_widget'), array($this,'latest_posts_histogram_widget_config') );
-		// wp_add_dashboard_widget('posts_by_participants_barchart_widget', 'Posts by user', array($this,'posts_by_participants_barchart_widget'), array($this,'posts_by_participants_barchart_widget_config'));
+		
+		if( in_array( 'supervisor', $roles ) || is_super_admin( $current_user->ID ) ) {
+			wp_add_dashboard_widget( 'posts_by_participants_barchart_widget', '<span class="mkdo-block-title dashicons-before dashicons-chart-bar"></span> ' . $posts_by_participant_title, array($this,'posts_by_participants_barchart_widget'), array($this,'posts_by_participants_barchart_widget_config'));
+		}
 	}
 
 	public function unassigned_users_widget(){
