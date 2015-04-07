@@ -163,11 +163,23 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 		include $mkdo_content_block_path;
 	}
 
-	public function add_network_dashboard_widgets() {
+	public function add_cpd_dashboard_widgets() {
 		global $wp_meta_boxes;
 
+		$latest_posts_title  			= 'All Posts by week';
+
+		$current_user 					= wp_get_current_user();
+		$roles 							= $current_user->roles;
+
+		if( in_array( 'supervisor', $roles ) ) {
+			$latest_posts_title  			= 'Your participants posts by week';
+		}
+		else if( in_array( 'participant', $roles ) ) {
+			$latest_posts_title  			= 'Your posts by week';
+		}
+
 		add_meta_box('cpd_admin_dashboard_widget', '<span class="mkdo-block-title dashicons-before dashicons-groups"></span> CPD Relationships', array( $this, 'unassigned_users_widget' ), 'dashboard-network', 'side' );
-		wp_add_dashboard_widget( 'latest_posts_histogram_widget', '<span class="mkdo-block-title dashicons-before dashicons-chart-bar"></span> Posts by week', array($this,'latest_posts_histogram_widget'), array($this,'latest_posts_histogram_widget_config') );
+		wp_add_dashboard_widget( 'latest_posts_histogram_widget', '<span class="mkdo-block-title dashicons-before dashicons-chart-bar"></span> ' . $latest_posts_title, array($this,'latest_posts_histogram_widget'), array($this,'latest_posts_histogram_widget_config') );
 		// wp_add_dashboard_widget('posts_by_participants_barchart_widget', 'Posts by user', array($this,'posts_by_participants_barchart_widget'), array($this,'posts_by_participants_barchart_widget_config'));
 	}
 
@@ -296,15 +308,17 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 
 	function latest_posts_histogram_widget() {
 		
-		$weeks 			= 	intval( get_option( 'latest_posts_histogram_widget_weeks' ) );
-		$posts 			= 	array();
-		$post_group 	= 	array();
-		$blogs 			= 	wp_get_sites();
-		$start_date 	= 	new DateTime();
-		$end_date 		= 	new DateTime();
-		$day_of_week  	=  	$start_date->format("w");
-		$biggest 		=   0;
-		$biggest_count 	=   0;
+		$user 				= 	wp_get_current_user();
+		$cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
+		$weeks 				= 	intval( get_option( 'latest_posts_histogram_widget_weeks' ) );
+		$posts 				= 	array();
+		$post_group 		= 	array();
+		$blogs 				= 	wp_get_sites();
+		$start_date 		= 	new DateTime();
+		$end_date 			= 	new DateTime();
+		$day_of_week  		=  	$start_date->format("w");
+		$biggest 			=   0;
+		$biggest_count 		=   0;
 		
 		$start_date->modify( "-$day_of_week day" );
 		$end_date->modify( "-$day_of_week day" );
@@ -312,12 +326,22 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 
 		foreach ( $blogs as $blog ){
 		    switch_to_blog( $blog['blog_id'] );
-		    $post_args 		=  	array(
-									'post_type' 		=> 'post',
-									'posts_per_page' 	=>  -1
-	    						);
-		    $blog_posts	 	= 	get_posts( $post_args );
-		    $posts 			= 	array_merge( $posts, $blog_posts );
+		    $post_args 						=  	array(
+													'post_type' 		=> 'post',
+													'posts_per_page' 	=>  -1
+					    						);
+
+		    if( $cpd_role == 'participant' ) {
+				$post_args['author__in'] 	= 	array( $user->ID );
+			}
+
+			if( $cpd_role == 'supervisor' ) {
+				$related_participants 		= 	get_user_meta( $mu_user->ID, 'cpd_related_participants', TRUE );
+				$post_args['author__in'] 	= 	$related_participants;
+			}
+
+		    $blog_posts	 					= 	get_posts( $post_args );
+		    $posts 							= 	array_merge( $posts, $blog_posts );
 		    restore_current_blog();
 		}
 

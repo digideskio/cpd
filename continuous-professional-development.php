@@ -275,7 +275,8 @@ class CPD extends MKDO_Class {
 			$this->loader->add_action( 'wp_network_dashboard_setup', $content_blocks, 'add_welcome_content_block' );
 		}
 
-		add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_network_dashboard_widgets' ) );
+		add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
+		add_action( 'wp_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
 	}
 
 	/**
