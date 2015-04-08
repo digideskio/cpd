@@ -166,15 +166,15 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 	public function add_cpd_dashboard_widgets() {
 		global $wp_meta_boxes;
 
-		$latest_posts_title  			= 'All Posts by week';
-		$posts_by_participant_title  	= 'All user posts';
+		$latest_posts_title  			= 'All posts by week';
+		$posts_by_participant_title  	= 'All posts by user';
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
 			$latest_posts_title  			= 'Your participants posts by week';
-			$posts_by_participant_title  	= 'All participants posts';
+			$posts_by_participant_title  	= 'All your participants posts';
 		}
 		else if( in_array( 'participant', $roles ) ) {
 			$latest_posts_title  			= 'Your posts by week';
@@ -409,6 +409,22 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 					<th><?php echo $title;?></th>
 					<td>
 						<div id='weeks_ago_<?php echo $i ?>' class='latest_posts_histogram_bar' style='width:<?php echo $percent; ?>%'><?php echo $count;?></div>
+						<ul>
+							<?php
+							foreach( $post_group[ $i ] as $post ) {
+								$user 		= 	get_user_by( 'id', $post->post_author );
+								$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+								if( empty( trim( $name ) ) ) {
+									$name = $user->display_name;
+								}
+								$edit_url	= 	add_query_arg( array( 'user_id' => $user->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
+
+								?>
+									<li><a href="<?php echo $edit_url;?>"><?php echo $name;?></a> posted <a href="<?php echo get_permalink( $post->ID );?>"><?php echo $post->post_title;?></a> on <?php echo get_the_time( 'jS, F Y', $post );?></li>
+								<?php
+							}
+							?>
+						</ul>
 					</td>
 				</tr>
 				<?php
@@ -424,20 +440,167 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 
 		$weeks 	= 	intval( get_option( 'latest_posts_histogram_widget_weeks' ) );
 		
+		if( empty( $weeks ) ) {
+			$weeks = 4;
+		}
+
 		if( !isset( $_POST['latest_posts_histogram_widget_config'] ) ) {
 			?>
 			<input type="hidden" name="latest_posts_histogram_widget_config" value="1">
 			<label for="weeks">Ammount of weeks shown</label>
 			<select name="weeks" id="weeks">
-				<option <?php echo $weeks == 4 	? 'selected' : '';?>>4</option>
-				<option <?php echo $weeks == 8 	? 'selected' : '';?>>8</option>
-				<option <?php echo $weeks == 12 ? 'selected' : '';?>>12</option>
-				<option <?php echo $weeks == 24 ? 'selected' : '';?>>24</option>
+				<option <?php echo $weeks == 4 	? 'selected' : '';?> value="4">4</option>
+				<option <?php echo $weeks == 8 	? 'selected' : '';?> value="8">8</option>
+				<option <?php echo $weeks == 12 ? 'selected' : '';?> value="12">12</option>
+				<option <?php echo $weeks == 24 ? 'selected' : '';?> value="24">24</option>
 			</select>
 			<?php
 		} 
 		else {
 			update_option( 'latest_posts_histogram_widget_weeks', $_POST['weeks'] );
+		}
+	}
+
+	function posts_by_participants_barchart_widget() {
+		
+		$user 				= 	wp_get_current_user();
+		$cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
+		$break 				= 	intval( get_option( 'posts_by_participants_barchart_widget_count' ) );
+		$order 				= 	get_option( 'posts_by_participants_barchart_widget_order' ) == 'asc' ? 'asc' : 'desc';
+		$posts 				= 	array();
+		$post_group 		= 	array();
+		$blogs 				= 	wp_get_sites();
+		$biggest 			=   0;
+		$biggest_count 		=   0;
+		
+		foreach ( $blogs as $blog ){
+		    switch_to_blog( $blog['blog_id'] );
+		    $post_args 						=  	array(
+													'post_type' 		=> 'post',
+													'posts_per_page' 	=>  -1
+					    						);
+
+		    if( $cpd_role == 'participant' ) {
+				$post_args['author__in'] 	= 	array( $user->ID );
+			}
+
+			if( $cpd_role == 'supervisor' ) {
+				$related_participants 		= 	get_user_meta( $user->ID, 'cpd_related_participants', TRUE );
+				$post_args['author__in'] 	= 	$related_participants;
+			}
+
+		    $blog_posts	 					= 	get_posts( $post_args );
+		    $posts 							= 	array_merge( $posts, $blog_posts );
+		    restore_current_blog();
+		}
+
+		if( empty( $count ) ) {
+			$count = 0;
+		}
+
+		if( $break != 0 ) {
+			?>
+			<p>Showing <?php echo $order == 'asc' ? 'bottom' : 'top';?> <?php echo $break;?> users</p>
+			<?php
+		}
+		?>
+		<table>
+			<?php
+
+			foreach( $posts as $post ) {
+				$post_group[ $post->post_author ][] = $post;
+			}
+
+			foreach( $post_group as $key=>$arr ) {
+				if( count( $post_group[ $key ] ) > $biggest ) {
+					$biggest 		= 	$key;
+					$biggest_count 	= 	count( $post_group[ $key ] );
+				}
+			}
+
+			uasort( $post_group, function( $a, $b ) { 
+				return count( $b ) - count( $a );
+			});
+
+			if( $order == 'asc' ) {
+				$post_group = array_reverse( $post_group, TRUE );
+			}
+
+			$i = 0;
+			foreach( $post_group as $key=>$arr ) {
+
+				$percent 	= 	0;
+				$count 		= 	count( $post_group[ $key ] );
+				$user 		= 	get_user_by( 'id', $key );
+				$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+
+				if( $count > 0 ) {
+					$percent = ( $count / $biggest_count ) * 100 ;
+				}
+
+				if( empty( trim( $name ) ) ) {
+					$name = $user->display_name;
+				}
+				?>
+				<tr>
+				<th><?php echo $name;?></th>
+					<td>
+						<div id='posts_by_<?php echo $user->user_nicename ?>' class='user_posts_barchart_bar' style='width:<?php echo $percent; ?>%'><?php echo $count;?></div>
+						<ul>
+							<?php
+							foreach( $arr as $post ) {
+								?>
+									<li><a href="<?php echo get_permalink( $post->ID );?>"><?php echo $post->post_title;?></a> on <?php echo get_the_time( 'jS, F Y', $post );?></li>
+								<?php
+							}
+							?>
+						</ul>
+					</td>
+				</tr>
+				<?php
+
+				$i++;
+				if( $break != 0 && $i >= $break - 1 ) {
+					break;
+				}
+			}
+
+			?>
+		</table>
+		<?php
+
+	}
+
+	function posts_by_participants_barchart_widget_config() {
+
+		$count 	= 	intval( get_option( 'posts_by_participants_barchart_widget_count' ) );
+		$order 	= 	get_option( 'posts_by_participants_barchart_widget_order' ) == 'asc' ? 'asc' : 'desc';
+		
+		if( empty( $count ) ) {
+			$count = 0;
+		}
+
+		if( !isset( $_POST['posts_by_participants_barchart_widget_count'] ) ) {
+			?>
+			<input type="hidden" name="posts_by_participants_barchart_widget_count" value="1">
+			<label for="count">Ammount of participants to show</label>
+			<select name="count" id="count">
+				<option <?php echo $count == 0 		? 'selected' : '';?> value="0">All</option>
+				<option <?php echo $count == 10 	? 'selected' : '';?> value="10">10</option>
+				<option <?php echo $count == 20 	? 'selected' : '';?> value="20">20</option>
+				<option <?php echo $count == 30 	? 'selected' : '';?> value="30">30</option>
+			</select>
+
+			<label for="order">Order by</label>
+			<select name="order" id="order">
+				<option <?php echo $order == 'desc' 	? 'selected' : '';?> value="desc">Most posts</option>
+				<option <?php echo $order == 'asc' 		? 'selected' : '';?> value="asc">Least posts</option>
+			</select>
+			<?php
+		} 
+		else {
+			update_option( 'posts_by_participants_barchart_widget_count', $_POST['count'] );
+			update_option( 'posts_by_participants_barchart_widget_order', $_POST['order'] == 'desc' ? 'desc' : 'asc' );
 		}
 	}
 }

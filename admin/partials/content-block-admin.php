@@ -7,6 +7,16 @@
 </p>
 <ul class="tax-list">
 	<?php
+		if( is_super_admin() ) {
+			?>
+				<li>
+					<span class="dashicons-before dashicons-groups"></span> 
+					<a href="<?php echo network_admin_url();?>">
+						Manage Supervisors and Participants
+					</a>
+				</li>
+			<?php
+		}
 		if( $mkdo_user ) {
 			?>	
 				<li>

@@ -133,7 +133,10 @@ class CPD extends MKDO_Class {
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-dashboards.php';
 
 		// Content Blocks
-		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-content-blocks.php'; 
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-content-blocks.php';
+
+		// Options Page
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-options.php';
 
 		$this->loader = new MKDO_Loader();
 	}
@@ -177,6 +180,7 @@ class CPD extends MKDO_Class {
 		$journal_users 			= new CPD_Journal_Users				( $this->get_instance(), $this->get_version() );
 		$journal_profiles		= new CPD_Journal_Profiles			( $this->get_instance(), $this->get_version() );
 		$content_blocks			= new CPD_Journal_Content_Blocks	( $this->get_instance(), $this->get_version() );
+		$options				= new CPD_Journal_Options			( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
@@ -277,6 +281,9 @@ class CPD extends MKDO_Class {
 
 		add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
 		add_action( 'wp_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
+
+		add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
+		add_action( 'network_admin_edit_update_cpd_settings', array( $options, 'update_options_page' ) );
 	}
 
 	/**

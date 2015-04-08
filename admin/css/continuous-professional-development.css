@@ -59,6 +59,7 @@
 	padding: 2px;
 }
 
+#posts_by_participants_barchart_widget table,
 #latest_posts_histogram_widget table,
 #cpd_admin_dashboard_widget table {
 	width: 100%;
@@ -72,11 +73,19 @@
 	text-align: left;
 }
 
+#posts_by_participants_barchart_widget table th,
+#posts_by_participants_barchart_widget table td,
 #latest_posts_histogram_widget table th,
 #latest_posts_histogram_widget table td {
 	text-align: left;
 }
 
+#posts_by_participants_barchart_widget table td,
 #latest_posts_histogram_widget table td {
 	width: 75%;
+}
+
+#posts_by_participants_barchart_widget table td ul,
+#latest_posts_histogram_widget table td ul {
+	display: none;
 }
