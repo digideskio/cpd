@@ -115,6 +115,9 @@ class CPD extends MKDO_Class {
 
 		// Vendor
 		require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-admin/mkdo-admin.php';
+		require_once plugin_dir_path( __FILE__ ) . 'vendor/cpd-comment-scores/index.php';
+		require_once plugin_dir_path( __FILE__ ) . 'vendor/cpd-copy-assignments/index.php';
+		require_once plugin_dir_path( __FILE__ ) . 'vendor/cpd-new-journal/index.php';
 
 		// Register Scripts
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-register-scripts.php';
@@ -137,6 +140,12 @@ class CPD extends MKDO_Class {
 
 		// Options Page
 		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-options.php';
+
+		// Email
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-email.php';
+
+		// Columns
+		require_once plugin_dir_path( __FILE__ ) . 'admin/class-cpd-journal-columns.php';
 
 		$this->loader = new MKDO_Loader();
 	}
@@ -181,6 +190,8 @@ class CPD extends MKDO_Class {
 		$journal_profiles		= new CPD_Journal_Profiles			( $this->get_instance(), $this->get_version() );
 		$content_blocks			= new CPD_Journal_Content_Blocks	( $this->get_instance(), $this->get_version() );
 		$options				= new CPD_Journal_Options			( $this->get_instance(), $this->get_version() );
+		$email 					= new CPD_Journal_Email				( $this->get_instance(), $this->get_version() );
+		$columns 				= new CPD_Journal_Columns			( $this->get_instance(), $this->get_version() );
 
 		/** 
 		 * Scripts
@@ -284,6 +295,15 @@ class CPD extends MKDO_Class {
 
 		add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
 		add_action( 'network_admin_edit_update_cpd_settings', array( $options, 'update_options_page' ) );
+
+		add_action( 'save_post', array( $email, 'send_mail_on_update' ) );
+		add_action( 'cpd_unassigned_users_email', array( $email, 'unassigned_users_email' ) );
+
+		add_action( 'manage_users_custom_column', array( $columns, 'cpd_role_column' ), 15, 3 );
+		add_filter( 'manage_users-network_sortable_columns', array( $columns,'add_cpd_role_column_sort' ) );
+		add_filter( 'views_users-network', array( $columns,'add_cpd_role_views' ) );
+		add_filter( 'wpmu_users_columns', array( $columns,'add_cpd_role_column' ), 15, 1 ); 
+		add_action( 'pre_user_query', array( $columns,'filter_and_order_by_cpd_column' ) );
 	}
 
 	/**
@@ -410,6 +430,11 @@ class CPD extends MKDO_Class {
 			}
 
 			add_site_option( 'cpd_upgraded_from_cpd_journals', TRUE );
+		}
+
+		// if it's not already scheduled - setup the regular email
+		if( !wp_next_scheduled( 'cpd_unassigned_users_email' ) ) {
+			wp_schedule_event( strtotime( "02:00am" ), 'daily', 'cpd_unassigned_users_email' );
 		}
 	}
 

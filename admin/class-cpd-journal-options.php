@@ -49,7 +49,7 @@ class CPD_Journal_Options extends MKDO_Class {
 						<textarea name="cpd_new_blog_options" id="cpd_new_blog_options" cols="40" rows="8"><?php echo get_option('cpd_new_blog_options'); ?></textarea>
 						<br />
 						<br />
-						These options are used to set up a new blog for a CPD participant.
+						These options are used to set up a new blog for a CPD participant. For example, they can be used to set a default theme.
 						<ul>
 							<li>Enter any valid blog meta name/value pairs.</li>
 							<li>Enter one pair per line separated by any whitespace characters.</li>
