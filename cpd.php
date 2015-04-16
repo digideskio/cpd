@@ -1,22 +1,19 @@
 <?php
 
 /**
- * The plugin bootstrap file
+ * CPD
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * Dashboard. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * Turns WordPress into a CPD Journal management system.
  *
  * @link              http://makedo.in
  * @since             2.0.0
  * @package           CPD
  *
  * @wordpress-plugin
- * Plugin Name:       Continuous Professional Development
- * Plugin URI:        https://github.com/mkdo/continuous-professional-development
+ * Plugin Name:       CPD
+ * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       A plugin to clean up the WordPress dashboard
- * Version:           2.0.1
+ * Version:           2.0.0
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -42,15 +39,15 @@ if( !class_exists( 'CPD' ) ) {
 		private static $instance = null;
 		private $plugin_path;
 		private $plugin_url;
-	    private $text_domain;
+		private $text_domain;
 
 	    /**
 		 * Creates or returns an instance of this class.
 		 */
 		public static function get_instance() {
 			/**
-			 * If an instance hasn't been created and set to $instance create an instance and 
-			 * set it to $instance.
+			 * If an instance hasn't been created and set to $instance create an instance 
+			 * and set it to $instance.
 			 */
 			if ( null == self::$instance ) {
 				self::$instance = new self;
@@ -97,7 +94,8 @@ if( !class_exists( 'CPD' ) ) {
 				'vendor', 						// Any third party plugins or libraries
 				'includes',						// Functions common to admin and public
 				'admin', 						// Admin functions
-				'public'						// Public functions
+				'public',						// Public functions
+				'upgrade'						// Upgrade functions
 			);
 
 			// Prepare vendor dependancies
@@ -142,6 +140,11 @@ if( !class_exists( 'CPD' ) ) {
 				'cpd-register-scripts-public' 	// Register public scripts
 			);
 
+			// Prepare public dependancies
+			$dependencies['upgrade'] 	= 	array(
+				'cpd-upgrade-legacy' 			// Upgrade the legacy CPD database 
+			);
+
 			// Load dependancies
 			foreach( $dependencies as $order => $dependancy ) {
 				if( is_array( $dependancy ) ) {
@@ -159,65 +162,20 @@ if( !class_exists( 'CPD' ) ) {
 		 *
 		 * @since      2.0.0
 		 */
-		public static function activate() {
+		public static function activation() {
 
-			global $wpdb;
+			$user_id 				= 	get_current_user_id();
+			$cpd_upgrade_legacy		= 	CPD_Upgrade_Legacy::get_instance();
 
-			/**
-			 * Create MKDO super user
-			 */
+			// Make current user an elivated user
+			update_user_meta( $user_id, 'elevated_user', 1 );
 
-			// Get the current users, user ID
-			$mkdo_user_id = get_current_user_id();
-		
-			// Make the user a mkdo super user
-			update_user_meta( $mkdo_user_id, 'mkdo_user', 1 );
-		
-			// Set option to initialise the redirect
-			add_option( 'mkdo_activation_redirect', TRUE );
+			// Upgrade the legacy CPD plugin
+			$cpd_upgrade_legacy->upgrade_relationships();
 
-			/**
-			 * Do upgrade from old CPD system
-			 */
-			
-			$table_name = $wpdb->base_prefix . 'cpd_relationships';
-			
-			// If table exists (old system has been installed)
-			if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name && get_site_option( 'cpd_upgraded_from_cpd_journals', FALSE ) === FALSE ) {
-				$results 	= 	$wpdb->get_results( 
-										"SELECT * FROM {$table_name}"
-								);
-				if( is_array( $results ) && !empty( $results ) ) {
-					foreach( $results as $row ) {
-						
-						// Add participant to supervisor
-						$participants 			= 	get_user_meta( $row->supervisor_id, 'cpd_related_participants', TRUE );
-						if( !is_array( $participants ) ) {
-							$participants = array();
-						}
-						if( !in_array( $row->participant_id, $participants ) ) {
-							$participants[] = $row->participant_id;
-						}
-						update_user_meta( $row->supervisor_id, 'cpd_related_participants', $participants );
-
-						// Add supervisor to participant
-						$supervisors 			= 	get_user_meta( $row->participant_id, 'cpd_related_supervisors', TRUE );
-						if( !is_array( $supervisors ) ) {
-							$supervisors = array();
-						}
-						if( !in_array( $row->supervisor_id, $supervisors ) ) {
-							$supervisors[] = $row->supervisor_id;
-						}
-						update_user_meta( $row->participant_id, 'cpd_related_participants', $supervisors );
-					}
-				}
-
-				add_site_option( 'cpd_upgraded_from_cpd_journals', TRUE );
-			}
-
-			// if it's not already scheduled - setup the regular email
+			// Setup the regular email
 			if( !wp_next_scheduled( 'cpd_unassigned_users_email' ) ) {
-				wp_schedule_event( strtotime( "02:00am" ), 'daily', 'cpd_unassigned_users_email' );
+				wp_schedule_event( strtotime( '02:00am' ), 'daily', 'cpd_unassigned_users_email' );
 			}
 		}
 
@@ -228,7 +186,7 @@ if( !class_exists( 'CPD' ) ) {
 		 *
 		 * @since      2.0.0
 		 */
-		public static function deactivate() {
+		public static function deactivation() {
 
 		}
 
@@ -571,10 +529,10 @@ if( !class_exists( 'CPD' ) ) {
 			 */
 			
 			// Add MKDO user checkbox
-			if( get_option( 'mkdo_admin_add_mkdo_user_profile_field', TRUE ) ) { 
-				add_action( 'personal_options', 			array( $admin_profile, 'add_mkdo_user_profile_field' 		) );
-				add_action( 'personal_options_update', array( 	$admin_profile, 'save_mkdo_user_profile_field_data' ) );
-				add_action( 'edit_user_profile_update', 	array( $admin_profile, 'save_mkdo_user_profile_field_data' ) );
+			if( get_option( 'mkdo_admin_add_elevated_user_profile_field', TRUE ) ) { 
+				add_action( 'personal_options', 			array( $admin_profile, 'add_elevated_user_profile_field' 		) );
+				add_action( 'personal_options_update', array( 	$admin_profile, 'save_elevated_user_profile_field_data' ) );
+				add_action( 'edit_user_profile_update', 	array( $admin_profile, 'save_elevated_user_profile_field_data' ) );
 			}
 
 			// Force colour scheme

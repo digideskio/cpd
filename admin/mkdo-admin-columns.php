@@ -36,7 +36,7 @@ class MKDO_Admin_Columns{
 	 */
 	public function remove_columns( $columns ) {
 
-		if( ! MKDO_Helper_User::is_mkdo_user() ) {
+		if( ! MKDO_Helper_User::is_elevated_user() ) {
 			
 			$mkdo_columns = apply_filters(
 				'mkdo_remove_columns',

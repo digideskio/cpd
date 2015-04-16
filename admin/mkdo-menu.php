@@ -93,7 +93,7 @@ class MKDO_Menu{
 	public function remove_admin_menus() {
 
 		$admin_menu 	= 	$this->args['remove_menus'];
-		$is_mkdo_user 	=	MKDO_Helper_User::is_mkdo_user();
+		$is_elevated_user 	=	MKDO_Helper_User::is_elevated_user();
 		$is_admin 		=	current_user_can('manage_options');
 
 		$remove_menu_items = apply_filters(
@@ -103,13 +103,13 @@ class MKDO_Menu{
 
 		foreach( $remove_menu_items as $remove_menu_item ) {
 
-			if( $is_mkdo_user && $remove_menu_item['mkdo_remove'] ) {
+			if( $is_elevated_user && $remove_menu_item['mkdo_remove'] ) {
 				remove_menu_page( $remove_menu_item['menu'] );
 			}
-			else if( !$is_mkdo_user && $is_admin && $remove_menu_item['admin_remove'] ) {
+			else if( !$is_elevated_user && $is_admin && $remove_menu_item['admin_remove'] ) {
 				remove_menu_page( $remove_menu_item['menu'] );
 			}
-			else if( !$is_mkdo_user && !$is_admin ) {
+			else if( !$is_elevated_user && !$is_admin ) {
 				remove_menu_page( $remove_menu_item['menu'] );
 			}
 		}
@@ -121,7 +121,7 @@ class MKDO_Menu{
 	public function remove_admin_sub_menus() {
 
 		$admin_sub_menu 	= 	$this->args['remove_sub_menus'];
-		$is_mkdo_user 		=	MKDO_Helper_User::is_mkdo_user();
+		$is_elevated_user 		=	MKDO_Helper_User::is_elevated_user();
 		$is_admin 			=	current_user_can('manage_options');
 
 		$remove_menu_items 	= 	apply_filters(
@@ -131,13 +131,13 @@ class MKDO_Menu{
 
 		foreach( $remove_menu_items as $remove_menu_item ) {
 
-			if( $is_mkdo_user && $remove_menu_item['mkdo_remove'] ) {
+			if( $is_elevated_user && $remove_menu_item['mkdo_remove'] ) {
 				remove_submenu_page( $remove_menu_item[ 'parent' ], $remove_menu_item[ 'child' ] );
 			}
-			else if( !$is_mkdo_user && $is_admin && $remove_menu_item['admin_remove'] ) {
+			else if( !$is_elevated_user && $is_admin && $remove_menu_item['admin_remove'] ) {
 				remove_submenu_page( $remove_menu_item[ 'parent' ], $remove_menu_item[ 'child' ] );
 			}
-			else if( !$is_mkdo_user && !$is_admin ) {
+			else if( !$is_elevated_user && !$is_admin ) {
 				remove_submenu_page( $remove_menu_item[ 'parent' ], $remove_menu_item[ 'child' ] );
 			}
 			
@@ -151,7 +151,7 @@ class MKDO_Menu{
 	public function add_menu_items() {
 
 		$mkdo_content_menus 	= 	$this->args['add_menus'];
-		$is_mkdo_user 			=	MKDO_Helper_User::is_mkdo_user();
+		$is_elevated_user 			=	MKDO_Helper_User::is_elevated_user();
 		$is_admin 				=	current_user_can('manage_options');
 		
 		$add_mkdo_content_menu_items = apply_filters(
@@ -281,7 +281,7 @@ class MKDO_Menu{
 				});
 			}
 			
-			if( $is_mkdo_user && $add_menu_item['mkdo_add'] ) {
+			if( $is_elevated_user && $add_menu_item['mkdo_add'] ) {
 				add_submenu_page(
 					$this->slug,
 					$add_menu_item['post_name'],
@@ -290,7 +290,7 @@ class MKDO_Menu{
 					$add_menu_item['function']
 				);
 			}
-			else if( !$is_mkdo_user && $is_admin && $add_menu_item['admin_add'] ) {
+			else if( !$is_elevated_user && $is_admin && $add_menu_item['admin_add'] ) {
 				add_submenu_page(
 					$this->slug,
 					$add_menu_item['post_name'],

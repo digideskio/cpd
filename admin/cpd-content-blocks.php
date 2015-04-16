@@ -49,7 +49,7 @@ class CPD_Journal_Content_Blocks{
 			$welcome_widget_function 	= 'render_welcome_network';
 			$welcome_title 				= 'Welcome to the CPD Network Settings ';
 		}
-		else if( is_super_admin() || MKDO_Helper_User::is_mkdo_user() ) {
+		else if( is_super_admin() || MKDO_Helper_User::is_elevated_user() ) {
 			$welcome_widget_function 	= 'render_welcome_admin';
 		}
 		else if ( user_can( $current_user, 'subscriber' ) ) {

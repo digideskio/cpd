@@ -1,5 +1,5 @@
 <?php
-	$mkdo_user = MKDO_Helper_User::is_mkdo_user();
+	$elevated_user = MKDO_Helper_User::is_elevated_user();
 ?>
 
 <p>
@@ -17,7 +17,7 @@
 				</li>
 			<?php
 		}
-		if( $mkdo_user ) {
+		if( $elevated_user ) {
 			?>	
 				<li>
 					<span class="dashicons-before dashicons-admin-appearance"></span> 
@@ -50,7 +50,7 @@
 			<?php
 		}
 
-		if( $mkdo_user || is_super_admin() ) {
+		if( $elevated_user || is_super_admin() ) {
 			?>
 				<li>
 					<span class="dashicons-before dashicons-admin-users"></span> 

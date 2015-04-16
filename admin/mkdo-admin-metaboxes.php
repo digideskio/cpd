@@ -37,7 +37,7 @@ class MKDO_Admin_Metaboxes{
 	public function remove_metaboxes() {
 	
 		/* if the current user is not a mkdo super user */
-		if( ! MKDO_Helper_User::is_mkdo_user() ) {
+		if( ! MKDO_Helper_User::is_elevated_user() ) {
 			
 			$metaboxes = apply_filters(
 				'mkdo_remove_metaboxes',

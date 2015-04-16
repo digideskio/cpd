@@ -34,10 +34,10 @@ class MKDO_Admin_Profile{
 	/**
 	 * Add field to profile
 	 */
-	public function add_mkdo_user_profile_field( $user ) {
+	public function add_elevated_user_profile_field( $user ) {
 	
 		// Bail out early if user is not a super user
-		if ( ! MKDO_Helper_User::is_mkdo_user() )
+		if ( ! MKDO_Helper_User::is_elevated_user() )
 			return false;
 			
 		?>
@@ -56,7 +56,7 @@ class MKDO_Admin_Profile{
 						</legend>
 						
 						<label>
-							<input name="mkdo_user" type="checkbox" id="mkdo_user" value="1"<?php checked( get_user_meta( $user->ID, 'mkdo_user', true ) ) ?> />
+							<input name="elevated_user" type="checkbox" id="elevated_user" value="1"<?php checked( get_user_meta( $user->ID, 'elevated_user', true ) ) ?> />
 							Grant this user elevated admin privileges.
 						</label>
 					
@@ -74,21 +74,21 @@ class MKDO_Admin_Profile{
 	/**
 	 * Save field data
 	 */
-	public function save_mkdo_user_profile_field_data( $user_id ) {
+	public function save_elevated_user_profile_field_data( $user_id ) {
 		
 		/* check the current user is a super admin */
 		if ( ! current_user_can( 'manage_options', $user_id ) )
 			return false;
 
 		/* If the field has not been sent, exit */
-		if ( ! isset( $_POST[ 'mkdo_user' ] ) )
+		if ( ! isset( $_POST[ 'elevated_user' ] ) )
 			return false;
 			
 		/* get the current user information */
 		$mkdo_current_user = wp_get_current_user();
 		
 		/* update the user meta with the additional fields on the profile page */
-		update_usermeta( $user_id, 'mkdo_user', $_POST[ 'mkdo_user' ] );	
+		update_usermeta( $user_id, 'elevated_user', $_POST[ 'elevated_user' ] );	
 	}
 
 	/**
@@ -109,7 +109,7 @@ class MKDO_Admin_Profile{
 
 		$color_scheme 	= 'midnight';
 
-		if ( MKDO_Helper_User::is_mkdo_user() ) {
+		if ( MKDO_Helper_User::is_elevated_user() ) {
 			$color_scheme 	= 'sunrise';
 		} 
 		else if( in_array( 'administrator', $roles) ) {
@@ -143,23 +143,23 @@ class MKDO_Admin_Profile{
 		
 		/* setup an array of capabilities to change - filterable */
 		$mkdo_capabilities = apply_filters(
-			'mkdo_user_capabilities',
+			'elevated_user_capabilities',
 			array(
 				array(
 					'capability_name' => 'update_core',
-					'capability_action' => MKDO_Helper_User::is_mkdo_user(),
+					'capability_action' => MKDO_Helper_User::is_elevated_user(),
 				),
 				array(
 					'capability_name' => 'update_plugins',
-					'capability_action' => MKDO_Helper_User::is_mkdo_user(),
+					'capability_action' => MKDO_Helper_User::is_elevated_user(),
 				),
 				array(
 					'capability_name' => 'activate_plugins',
-					'capability_action' => MKDO_Helper_User::is_mkdo_user(),
+					'capability_action' => MKDO_Helper_User::is_elevated_user(),
 				),
 				array(
 					'capability_name' => 'install_plugins',
-					'capability_action' => MKDO_Helper_User::is_mkdo_user(),
+					'capability_action' => MKDO_Helper_User::is_elevated_user(),
 				),
 			)
 		);

@@ -136,7 +136,7 @@ class MKDO_Admin_Bar{
 	public function remove_updates() {
 		global $wp_admin_bar;
 		
-		if( ! MKDO_Helper_User::is_mkdo_user() ) {
+		if( ! MKDO_Helper_User::is_elevated_user() ) {
 			$wp_admin_bar->remove_menu('updates');
 		}
 	}
