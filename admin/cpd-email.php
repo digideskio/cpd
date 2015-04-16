@@ -18,7 +18,7 @@
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Email extends MKDO_Class {
+class CPD_Journal_Email{
 
 	/**
 	 * Initialize the class and set its properties.
@@ -27,8 +27,8 @@ class CPD_Journal_Email extends MKDO_Class {
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $instance, $version ) {
-		parent::__construct( $instance, $version );
+	public function __construct() {
+		
 	}
 
 	public function set_html_content_type() {

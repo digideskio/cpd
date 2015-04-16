@@ -18,7 +18,7 @@
  * @subpackage MKDO_Admin/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Content_Blocks extends MKDO_Class {
+class CPD_Journal_Content_Blocks{
 
 	/**
 	 * Initialize the class and set its properties.
@@ -27,9 +27,9 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 	 * @var      string    $instance       	The name of this plugin.
 	 * @var      string    $version    		The version of this plugin.
 	 */
-	public function __construct( $instance, $version ) {
+	public function __construct() {
 
-		parent::__construct( $instance, $version );
+		
 	}
 
 	/**

@@ -22,23 +22,6 @@
  */
 class CPD_Register_Scripts_Public {
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $mkdo_admin    The ID of this plugin.
-	 */
-	private $mkdo_admin;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -47,10 +30,7 @@ class CPD_Register_Scripts_Public {
 	 * @var      string    $mkdo_admin       The name of the plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $instance, $version ) {
-
-		$this->instance = $instance;
-		$this->version 	= $version;
+	public function __construct() {
 
 	}
 

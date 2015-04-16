@@ -1,3 +1,43 @@
+/* Use FontAwesome */
+.dashicons-before.fa:before {
+	font-family: FontAwesome !important;
+}
+
+#dashboard-widgets-wrap #dashboard-widgets .postbox-container .postbox .tax-list .dashicons-before:before,
+#dashboard-widgets-wrap #dashboard-widgets .postbox-container .postbox .tax-list .dashicons-before:before {
+	color: #aaa;
+}
+
+div.updated.taxonomies-notice,
+div.updated.view-notice {
+	border-left: 4px solid #aaa !important;
+	overflow: hidden;
+	padding-bottom: 11px;
+	background-color: #f9f9f9;
+}
+
+div.updated.taxonomies-notice .tax-title,
+div.updated.view-notice .view-title  {
+	float:left;
+	margin:0px;
+	padding: 0px;
+	padding-right: 11px;
+	padding-top: 15px;
+	color: #666;
+	font-size: 14px;
+}
+
+div.updated.taxonomies-notice li,
+div.updated.view-notice li {
+	float: left;
+	padding-right: 11px;
+}
+
+div.updated.taxonomies-notice .dashicons-before:before,
+div.updated.view-notice .dashicons-before:before {
+	color: #aaa;
+}
+
 .cpd_supervisors td {
 	column-count: 3;
 	-moz-column-count: 3;

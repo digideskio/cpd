@@ -18,7 +18,7 @@
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Register_Scripts extends MKDO_Class {
+class CPD_Register_Scripts_Admin {
 
 	/**
 	 * Initialize the class and set its properties.
@@ -27,8 +27,8 @@ class CPD_Register_Scripts extends MKDO_Class {
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $instance, $version ) {
-		parent::__construct( $instance, $version );
+	public function __construct() {
+		
 	}
 
 	/**
@@ -38,7 +38,7 @@ class CPD_Register_Scripts extends MKDO_Class {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/continuous-professional-development.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'cpd', plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), '1.0', 'all' );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class CPD_Register_Scripts extends MKDO_Class {
 		}
 
 		// Scripts unique to the plugin
-		wp_enqueue_script( $this->instance, plugin_dir_url( __FILE__ ) . 'js/continuous-professional-development.js', array( 'jquery' ), $this->version, TRUE );
+		wp_enqueue_script( 'cpd', plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), '1.0', TRUE );
 
 	}
 }
