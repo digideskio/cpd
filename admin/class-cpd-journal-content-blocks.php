@@ -238,7 +238,8 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 						$site_admin_url 	= 	$site_url . 'wp-admin';
 						$user 				= 	get_user_by( 'id', $participant->ID );
 						$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$empty_name 		=	trim( $name );
+						if( empty( $empty_name ) ) {
 							$name = $user->display_name;
 						}
 						?>
@@ -287,7 +288,8 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 						$edit_url			= 	add_query_arg( array( 'user_id' => $supervisor->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
 						$user 				= 	get_user_by( 'id', $supervisor->ID );
 						$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$empty_name 		=	trim( $name );
+						if( empty( $empty_name ) ) {
 							$name = $user->display_name;
 						}
 						?>
@@ -414,7 +416,8 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 							foreach( $post_group[ $i ] as $post ) {
 								$user 		= 	get_user_by( 'id', $post->post_author );
 								$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
-								if( empty( trim( $name ) ) ) {
+								$empty_name =	trim( $name );
+								if( empty( $empty_name ) ) {
 									$name = $user->display_name;
 								}
 								$edit_url	= 	add_query_arg( array( 'user_id' => $user->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
@@ -533,14 +536,15 @@ class CPD_Journal_Content_Blocks extends MKDO_Class {
 				$count 		= 	count( $post_group[ $key ] );
 				$user 		= 	get_user_by( 'id', $key );
 				$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+				$empty_name =	trim( $name );
+				if( empty( $empty_name ) ) {
+					$name = $user->display_name;
+				}
 
 				if( $count > 0 ) {
 					$percent = ( $count / $biggest_count ) * 100 ;
 				}
 
-				if( empty( trim( $name ) ) ) {
-					$name = $user->display_name;
-				}
 				?>
 				<tr>
 				<th><?php echo $name;?></th>

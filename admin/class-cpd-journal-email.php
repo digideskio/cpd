@@ -129,7 +129,8 @@ class CPD_Journal_Email extends MKDO_Class {
 						$site_admin_url 	= 	$site_url . 'wp-admin';
 						$user 				= 	get_user_by( 'id', $participant->ID );
 						$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$empty_name 		=	trim( $name );
+						if( empty( $empty_name ) ) {
 							$name = $user->display_name;
 						}
 						?>
@@ -178,7 +179,8 @@ class CPD_Journal_Email extends MKDO_Class {
 						$edit_url			= 	add_query_arg( array( 'user_id' => $supervisor->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
 						$user 				= 	get_user_by( 'id', $supervisor->ID );
 						$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$empty_name 		=	trim( $name );
+						if( empty( $empty_name ) ) {
 							$name = $user->display_name;
 						}
 						?>
