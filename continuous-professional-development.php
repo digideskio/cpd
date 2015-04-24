@@ -29,7 +29,6 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-
 // Load MKDO Dependancies
 require_once plugin_dir_path( __FILE__ ) . 'vendor/mkdo-dependencies/mkdo-dependencies.php';
 

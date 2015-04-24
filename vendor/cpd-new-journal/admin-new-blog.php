@@ -54,7 +54,7 @@ function cpdnj_new_blog( $blog_id /*, $user_id, $domain, $path, $site_id, $meta*
 		// Get the id of the participant that owns the journal (we have to do this with the title because the user hasnt been assigned to the journal at this point)
 		$participant_id 	= 0;
 		$user_name 			= str_replace( 'CPD Journal for ', '', wp_title( '', false ) );
-		$user 				= get_userdatabylogin( $user_name );
+		$user 				= get_user_by( 'login', $user_name );
 
 		$participant_id 	= $user->ID;
 

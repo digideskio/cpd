@@ -62,12 +62,16 @@ class CPD_Journal_Email extends MKDO_Class {
 			$message		.= '</ul>';
 
 			// Get the supervisors of the author
-			$supervisors = $this->get_supervisors( $post_author_id );
+			$supervisors = get_user_meta( $post_author_id, 'cpd_related_supervisors', TRUE );
+
+			if( !is_array( $supervisors ) ) {
+				$supervisors = array();
+			}
 
 			// Email each supervisor
 			foreach ( $supervisors as $supervisor )
 			{
-				$supervisor = get_userdata( $supervisor['ID'] );
+				$supervisor = get_userdata( $supervisor );
 
 				$message = '<p>Dear <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
 				add_filter( 'wp_mail_content_type',array($this,'set_html_content_type') );
