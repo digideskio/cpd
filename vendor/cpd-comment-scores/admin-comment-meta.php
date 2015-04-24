@@ -12,7 +12,7 @@
  */
 function cpdcs_meta_row_action( $actions ) 
 {
-	global $comment, $cpd;
+	global $comment;
 
 	// Output the score if it has been set
 	$score = get_comment_meta( $comment->comment_ID, 'score', true );
@@ -24,12 +24,10 @@ function cpdcs_meta_row_action( $actions )
 		echo '</strong></div>';
 	}
 
-	// Disable edit options if submitted by a supervisor
-	$comment_author = get_userdatabylogin( get_comment_author( $comment_id ) );
+	$comment_id = $comment->comment_ID;
 
-	// If the CPD Journal plugin isnt running, return
-	if( !is_object( $cpd ) )
-		return $actions;
+	// Disable edit options if submitted by a supervisor
+	$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
 
 	// If they are not a user, return
 	if ( !( $comment_author instanceof WP_User ) )
@@ -42,12 +40,12 @@ function cpdcs_meta_row_action( $actions )
 	// Check to make sure they are a supervisor
 	if( in_array( 'supervisor', $comment_author->roles ) )
 	{
-		$supervisors = $cpd->get_supervisors( wp_get_current_user()->ID );
+		$supervisors = get_user_meta( wp_get_current_user()->ID, 'cpd_related_participants', TRUE );
 
 		// If the author of the comment is a supervisor, and they are associated with the participant, prevent edit of the content
 		foreach ( $supervisors as $supervisor )
 		{
-			if( $supervisor['ID'] == $comment_author->id )
+			if( $supervisor == $comment_author->id )
 			{
 				unset( $actions['quickedit'], $actions['edit'], $actions['spam'], $actions['unapprove'], $actions['trash'] );
 			}
@@ -170,14 +168,12 @@ add_filter( 'comment_save_pre', 'cpdcs_meta_box_handle_data' );
  */
 function cpdcs_prevent_supervisor_edits()
 {
-	global $cpd;
-
 	$screen = get_current_screen();
 
 	if( $screen->id == 'comment' )
 	{
 		$comment_id = $_GET['c'];
-		$comment_author = get_userdatabylogin( get_comment_author( $comment_id ) );
+		$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
 
 		// If the CPD Journal plugin isnt running, return
 		if( !is_object( $cpd ) )
@@ -194,12 +190,12 @@ function cpdcs_prevent_supervisor_edits()
 		// Check to make sure they are a supervisor
 		if( in_array( 'supervisor', $comment_author->roles ) )
 		{
-			$supervisors = $cpd->get_supervisors( wp_get_current_user()->ID );
+			$supervisors = get_user_meta( wp_get_current_user()->ID, 'cpd_related_participants', TRUE );
 
 			// If the author of the comment is a supervisor, and they are associated with the participant, prevent edit of the content
 			foreach ( $supervisors as $supervisor )
 			{
-				if( $supervisor['ID'] == $comment_author->id )
+				if( $supervisor == $comment_author->ID )
 				{
 					wp_die( 'You do not have permission to edit this post. To make changes please contact your supervisor.', 'Insufficient permissions' );
 				}
