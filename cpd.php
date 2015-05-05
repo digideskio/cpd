@@ -116,8 +116,6 @@ class CPD {
 		$dependencies['admin'] 		= 	array(
 			'cpd-admin', 					// WordPress Admin Overrides
 			'cpd-register-scripts-admin',	// Register Admin Scripts
-			'mkdo-menu',					// Menu base class
-			'mkdo-admin-menus',				// Menu modifications
 			'mkdo-admin-mu-menus',			// Multisite menu modifications
 			'mkdo-admin-dashboard',			// Dashboad modifications
 			'mkdo-admin-notices',			// Admin notices modifications
@@ -125,6 +123,7 @@ class CPD {
 			'mkdo-admin-profile',			// Profile screen ammendments
 			'mkdo-admin-metaboxes',			// Deregister metaboxes
 			'mkdo-admin-columns',			// Column modifications
+			
 			'cpd-users',					// User functions
 			'cpd-profiles',					// Profile ammendments
 			'cpd-menus',					// Menu ammendments
@@ -215,7 +214,6 @@ class CPD {
 		$admin->set_text_domain( $this->text_domain );
 		$menus->set_text_domain( $this->text_domain );
 		
-		// $admin_menus			= new MKDO_Admin_Menus						();
 		$mu_menus 				= new MKDO_Admin_MU_Menus					();
 		$content_blocks			= new MKDO_Admin_Content_Blocks				();
 		$dashboard				= new MKDO_Admin_Dashboard					();

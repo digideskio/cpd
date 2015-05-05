@@ -62,7 +62,7 @@ class CPD_Admin {
 	/**
 	 * Remove menu items from the admin bar
 	 *
-	 * @hook 	filter_cpd_admin_bar_menu_removal		filter the menu items to remove from the admin bar
+	 * @hook 	filter_cpd_remove_admin_bar_menus		filter the menu items to remove from the admin bar
 	 * 
 	 * @since 	2.0.0
 	 */
@@ -81,7 +81,7 @@ class CPD_Admin {
 								);
 
     	$menus 				=	apply_filters(
-		    						'filter_cpd_admin_bar_menu_removal',
+		    						'filter_cpd_remove_admin_bar_menus',
 		    						$admin_bar_menus
 		    					);
 

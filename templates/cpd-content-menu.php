@@ -1,7 +1,7 @@
 <?php
 
-$menu_title 			= __( 'Site Content', $this->text_domain );
-$menu_description 		= __( 'Below are your sites content types. They are grouped here for ease of access to allow you to quickly add new content or edit existing content.', $this->text_domain );
+$menu_title 			= __( 'Journal Content', $this->text_domain );
+$menu_description 		= __( 'Below are your journals content types. They are grouped here for ease of access to allow you to quickly add or edit content.', $this->text_domain );
 
 // Load WordPress dashboard API
 require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
@@ -37,7 +37,7 @@ $screen_base 	= $screen->base;
 <div class="wrap">
 	
 	<h2><?php echo $menu_title;?></h2>
-	<p><?php echo $mneu_description;?></p>
+	<p><?php echo $menu_description;?></p>
 	
 	<?php
 		
