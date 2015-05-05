@@ -33,8 +33,8 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 														'page_title' 			=> 	'Content',
 														'menu_title' 			=> 	'Content',
 														'capibility' 			=> 	'edit_posts',
-														'slug' 					=> 	'mkdo_content_menu',
-														'function'				=> 	array( $this, 'mkdo_content_menu'),
+														'slug' 					=> 	'cpd_content_menu',
+														'function'				=> 	array( $this, 'cpd_content_menu'),
 														'icon' 					=> 	'dashicons-admin-page',
 														'position' 				=> 	'26',
 														'add_menus'				=> 	array(),
@@ -56,7 +56,7 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 														'admin_remove'						=>		TRUE,
 														'mkdo_remove'						=> 		TRUE,
 														'add_to_dashboard'					=> 		TRUE,
-														'add_to_dashboard_slug'				=> 		'mkdo_content_menu',
+														'add_to_dashboard_slug'				=> 		'cpd_content_menu',
 													);
 
 		$args['add_menus'][] 				= 	array( 
@@ -73,7 +73,7 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 														'admin_remove'						=>		TRUE,
 														'mkdo_remove'						=> 		TRUE,
 														'add_to_dashboard'					=> 		TRUE,
-														'add_to_dashboard_slug'				=> 		'mkdo_content_menu',
+														'add_to_dashboard_slug'				=> 		'cpd_content_menu',
 													);
 
 		$args['remove_menus'][] 			= 	array( 
@@ -194,26 +194,26 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 	/**
 	 * Render menu dashboard 
 	 */
-	public function mkdo_content_menu() {
+	public function cpd_content_menu() {
 
-		$mkdo_content_menu_path 		= 	dirname(__FILE__) . '/partials/mkdo-content-menu.php';
+		$cpd_content_menu_path 		= 	dirname(__FILE__) . '/partials/mkdo-content-menu.php';
 		$theme_path 					= 	get_stylesheet_directory() . '/mkdo-admin/mkdo-content-menu.php';
 		$partials_path					= 	get_stylesheet_directory() . '/partials/mkdo-content-menu.php';
 
 		if( file_exists( $theme_path ) ) {
-			$mkdo_content_menu_path = 	$theme_path;
+			$cpd_content_menu_path = 	$theme_path;
 		}
 		else if( file_exists( $partials_path ) ) { 
-			$mkdo_content_menu_path =  	$partials_path;
+			$cpd_content_menu_path =  	$partials_path;
 		}
 
-		include $mkdo_content_menu_path;
+		include $cpd_content_menu_path;
 	}
 
 	/**
 	 * Render menu dashboard blocks
 	 */
-	public function mkdo_content_menu_render_blocks() {
+	public function cpd_content_menu_render_blocks() {
 
 		$mkdo_content_blocks = apply_filters(
 			$this->slug . '_blocks',
@@ -226,7 +226,7 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 	
 			foreach( $mkdo_content_blocks as $block ) {
 
-				$function_name = 'mkdo_content_menu_widget_' . $counter;
+				$function_name = 'cpd_content_menu_widget_' . $counter;
 				$$function_name = function() use ( $block ){
 
 					$post_listing 	= $block[ 'link' ];
@@ -313,7 +313,7 @@ class MKDO_Admin_Menus extends MKDO_Menu {
 				}
 				$screen = get_current_screen();
 
-				add_meta_box('mkdo_content_menu_widget_' . $counter, '<span class="mkdo-block-title dashicons-before ' . esc_attr( $block[ 'dashicon' ] ) . '"></span> ' . esc_html( $block[ 'title' ] ), $$function_name, $screen, $position );
+				add_meta_box('cpd_content_menu_widget_' . $counter, '<span class="mkdo-block-title dashicons-before ' . esc_attr( $block[ 'dashicon' ] ) . '"></span> ' . esc_html( $block[ 'title' ] ), $$function_name, $screen, $position );
 
 				$counter++;
 			}

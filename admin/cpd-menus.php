@@ -9,6 +9,8 @@
  * @subpackage CPD/admin
  */
 
+if( !class_exists( 'CPD_Menus' ) ) {
+
 /**
  * The menu-specific functionality of the plugin.
  *
@@ -16,7 +18,25 @@
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Menus{
+class CPD_Menus {
+
+	private static $instance = null;
+	private $text_domain;
+
+	/**
+	 * Creates or returns an instance of this class.
+	 */
+	public static function get_instance() {
+		/**
+		 * If an instance hasn't been created and set to $instance create an instance 
+		 * and set it to $instance.
+		 */
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+
 
 	/**
 	 * Initialize the class and set its properties.
@@ -32,6 +52,144 @@ class CPD_Journal_Menus{
 	}
 
 	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @var      string    $text_domain       The text domain of the plugin.
+	 *
+	 * @since    2.0.0
+	 **/
+	public function set_text_domain( $text_domain ) { 
+		$this->text_domain = $text_domain;
+	}
+
+	public function add_content_menu() {
+	
+		add_object_page(
+			'Content',
+			'Content',
+			'edit_posts',
+			'cpd_content_menu',
+			array( $this, 'cpd_content_menu'),
+			'dashicons-admin-page'
+		);
+	}
+
+	public function cpd_content_menu() {
+
+		$template_name 						= 	'cpd-content-menu';
+		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+
+		if( $template_path !== FALSE ) {
+			include $template_path;
+		}
+	}
+
+	public function add_content_menu_items() {
+
+		$cpd_content_menu_items 	= 	array();
+
+		// Posts
+		$cpd_content_menu_items[] 	= 	array(
+			'post_name'		=>	'post',
+			'menu_name'		=>	'Journal Entry',
+			'capability'	=>	'edit_posts',
+			'function'		=>	'edit.php'
+		);
+
+		// Pages
+		$cpd_content_menu_items[] 	= 	array(
+			'post_name'		=>	'page',
+			'menu_name'		=>	'Pages',
+			'capability'	=>	'edit_posts',
+			'function'		=>	defined('CMS_TPV_URL') ? 'edit.php?post_type=page&page=cms-tpv-page-page' : 'edit.php?post_type=page'
+		);
+
+
+		$menus 						=	apply_filters(
+											'filter_cpd_content_menu_add_items',
+											$cpd_content_menu_items
+										);
+
+		foreach( $menus as $menu ) {
+			add_submenu_page(
+				'cpd_content_menu',
+				$menu['post_name'],
+				$menu['menu_name'],
+				$menu['capability'],
+				$menu['function']
+			);
+		}
+	}
+
+	public function add_content_menu_dashboard_widgets() {
+
+		$content_menu_dashboard_widgets 	= 	array();
+		$counter 							=	1;
+		$template_name 						= 	'cpd-content-menu-dashboard-widget';
+		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+
+		// Posts
+		$content_menu_dashboard_widgets[] 	= 	array(
+			'title' 				=> __( 'Journal Entries', $this->text_domain ),
+			'dashicon' 				=> 'dashicons-admin-post',
+			'desc' 					=> '<p>' . __( 'This content type is for managing Journal Entries.</p>', $this->text_domain),
+			'post_type' 			=> 'post',
+			'button_label' 			=> __( 'Edit / Manage Journal Entries', $this->text_domain),
+			'css_class' 			=> 'post',
+			'show_tax' 				=> TRUE,
+			'link' 					=> admin_url( 'edit.php' ),
+			'call_to_action_text'	=> __( 'Add New', $this->text_domain ),
+			'call_to_action_link' 	=> admin_url( 'post-new.php' )
+		);
+
+		// Pages
+		$content_menu_dashboard_widgets[] 	= 	array(
+			'title' 				=> __( 'Pages', $this->text_domain ),
+			'dashicon' 				=> 'dashicons-admin-page',
+			'desc' 					=> '<p>' . __( 'This content type is for managing Pages.</p>', $this->text_domain),
+			'post_type' 			=> 'page',
+			'button_label' 			=> __( 'Edit / Manage Pages', $this->text_domain),
+			'css_class' 			=> 'page',
+			'show_tax' 				=> TRUE,
+			'link' 					=> admin_url( 'edit.php?post_type=page' ),
+			'call_to_action_text'	=> 'Add New',
+			'call_to_action_link' 	=> admin_url( 'post-new.php?post_type=page' )
+		);
+
+
+		$widgets 							= 	apply_filters(
+													'filter_cpd_content_menu_dashboard_widgets',
+													$content_menu_dashboard_widgets
+												);
+
+		foreach( $widgets as $widget ) {
+			
+			$function_name = 'cpd_content_menu_dashboard_widget_' . $counter;
+			$$function_name = function() use ( $widget, $template_path ){
+				if( $template_path !== FALSE ) {
+					include $template_path;
+				}
+			};
+			
+			$position = 'side';
+			$is_even = ( $counter % 2 == 0 );
+
+			if( $is_even ) {
+				$position = 'normal';
+			}
+			$screen = get_current_screen();
+
+			add_meta_box('cpd_content_menu_dashboard_widget_' . $counter, '<span class="mkdo-block-title dashicons-before ' . esc_attr( $widget[ 'dashicon' ] ) . '"></span> ' . esc_html( $widget[ 'title' ] ), $$function_name, $screen, $position );
+
+			$counter++;
+		}
+
+	}
+
+	/** TODO: OLD NEEDS REFACTOR */
+
+
+	/**
 	 * Filter menus
 	 */
 	public function filter_menu_items( $menus ) {
@@ -40,8 +198,8 @@ class CPD_Journal_Menus{
 
 			if( $menu['post_type'] == 'post' ) {
 
-				$menu['post_name'] 					= 	'Journal Entries';
-				$menu['menu_name'] 					= 	'Journal Entries';
+				$menu['post_name'] 					= 	'Journal Entry';
+				$menu['menu_name'] 					= 	'Journal Entry';
 				$menu['add_to_dashboard_block'] 	= 	array(
 															'dashicon' 		=> 'dashicons-book'
 														);
@@ -96,7 +254,7 @@ class CPD_Journal_Menus{
 		global $submenu;
 
 		$pages 		= array();
-		$this->slug = 'mkdo_content_menu';
+		$this->slug = 'cpd_content_menu';
 		$parent 	= $this->slug;
 		
 		if ( is_array( $submenu ) && isset( $submenu[$parent] ) ) {
@@ -110,7 +268,7 @@ class CPD_Journal_Menus{
 					}
 	
 					if( $item[2] == 'edit.php' ) {
-						$pages[] = 'Journal Entries';
+						$pages[] = 'Journal Entry';
 					}
 					else if( $item[2] == 'edit.php?post_type=page' || $item[2] == 'edit.php?post_type=page&page=cms-tpv-page-page' ){
 						$pages[] = 'Pages';
@@ -163,4 +321,5 @@ class CPD_Journal_Menus{
 		/* return the new parent file */	
 		return $parent_file;
 	}
+}
 }

@@ -12,7 +12,7 @@
  */
 function cpdnj_add_options_page() {
 
-	add_submenu_page( 'settings.php', 'CPD journal defaults', 'CPD journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
+	add_submenu_page( 'index.php', 'CPD journal defaults', 'CPD journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
 
 	add_action( 'admin_init', 'cpdnj_register_settings' );
 }
@@ -124,7 +124,7 @@ function cpdnj_render_options_page()
 					switch_to_blog( $site['blog_id'] );
 
 					$assignment = get_page_by_path( 'assignments' );
-					$assignment_id = $assignment->ID;
+					$assignment_id = is_object( $assignment ) ? $assignment->ID : NULL;
 
 					// If there is a page titled 'Assignments' in this blog
 					if( $assignment_id != null )
@@ -237,7 +237,7 @@ function cpdnj_render_options_page()
 					switch_to_blog( $site['blog_id'] );
 
 					$template = get_page_by_path( 'page-templates' );
-					$template_id = $template->ID;
+					$template_id = is_object( $template ) ? $template->ID : NULL;
 
 					// If there is a page titled 'Assignments' in this blog
 					if( $template_id != null )
@@ -350,7 +350,7 @@ function cpdnj_render_options_page()
 					switch_to_blog( $site['blog_id'] );
 
 					$template = get_page_by_path( 'post-templates' );
-					$template_id = $template->ID;
+					$template_id = is_object( $template ) ? $template->ID : NULL;
 
 					// If there is a page titled 'Post Templates' in this blog
 					if( $template_id != null )

@@ -265,7 +265,7 @@ function cpdca_render_menu_page()
 					switch_to_blog( $site['blog_id'] );
 
 					$assignment = get_page_by_path( 'assignments' );
-					$assignment_id = $assignment->ID;
+					$assignment_id = is_object( $assignment ) ? $assignment->ID : NULL;
 
 					// If there is a page titled 'Assignments' in this blog
 					if( $assignment_id != null )

@@ -150,16 +150,16 @@ class MKDO_Menu{
 	 */
 	public function add_menu_items() {
 
-		$mkdo_content_menus 	= 	$this->args['add_menus'];
+		$cpd_content_menus 	= 	$this->args['add_menus'];
 		$is_elevated_user 			=	MKDO_Helper_User::is_elevated_user();
 		$is_admin 				=	current_user_can('manage_options');
 		
-		$add_mkdo_content_menu_items = apply_filters(
+		$add_cpd_content_menu_items = apply_filters(
 			$this->slug . '_add_menu_items',
-			$mkdo_content_menus
+			$cpd_content_menus
 		);
 
-		foreach( $add_mkdo_content_menu_items as $add_menu_item ) {
+		foreach( $add_cpd_content_menu_items as $add_menu_item ) {
 
 			if( $add_menu_item['remove_original_menu'] ) {
 

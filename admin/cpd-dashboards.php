@@ -71,19 +71,19 @@ class CPD_Journal_Dashboards{
 	function rename_post_object() {
 		global $wp_post_types;
 		$labels = &$wp_post_types['post']->labels;
-		$labels->name = 'Journal Entries';
-		$labels->singular_name = 'Journal Entries';
+		$labels->name = 'Journal Entry';
+		$labels->singular_name = 'Journal Entry';
 		$labels->add_new = 'Add Journal Entry';
-		$labels->add_new_item = 'Add Journal Entries';
-		$labels->edit_item = 'Edit Journal Entries';
-		$labels->new_item = 'Journal Entries';
+		$labels->add_new_item = 'Add Journal Entry';
+		$labels->edit_item = 'Edit Journal Entry';
+		$labels->new_item = 'Journal Entry';
 		$labels->view_item = 'View Journal Entries';
 		$labels->search_items = 'Search Journal Entries';
 		$labels->not_found = 'No Journal Entries found';
 		$labels->not_found_in_trash = 'No Journal Entries found in Trash';
 		$labels->all_items = 'All Journal Entries';
-		$labels->menu_name = 'Journal Entries';
-		$labels->name_admin_bar = 'Journal Entries';
+		$labels->menu_name = 'Journal Entry';
+		$labels->name_admin_bar = 'Journal Entry';
 	}
 
 	public function force_network_color_scheme( $color_scheme ) {

@@ -2,7 +2,8 @@
 	$current_user 	= 	wp_get_current_user();
 	$supervisors 	=	get_user_meta( $current_user->ID, 'cpd_related_supervisors', TRUE );
 	$name 			= 	$current_user->user_firstname . ' ' . $current_user->user_lastname;
-	if( empty( trim( $name ) ) ) {
+	$name 			= 	trim( $name );
+	if( empty( $name ) ) {
 		$name = $current_user->display_name;
 	}
 ?>
