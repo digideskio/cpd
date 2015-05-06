@@ -29,12 +29,6 @@
  * 2.0.0		Complete Refactor
  */
 
-/**
- * WIP - Add to GitHub Wiki
- *
- * @hook 	filter_cpd_set_admin_capabilities 	Filter the admin capabilities
- */
-
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
@@ -228,6 +222,7 @@ class CPD {
 		$dashboard_widget_comments 			= CPD_Dashboard_Widget_Comments::get_instance();
 		$notices							= CPD_Notices::get_instance();
 		$profile							= CPD_Profile::get_instance();
+		$metaboxes							= CPD_Profile::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -240,8 +235,8 @@ class CPD {
 		$dashboard_widget_comments->set_text_domain( $this->text_domain );
 		$notices->set_text_domain( $this->text_domain );
 		$profile->set_text_domain( $this->text_domain );
+		$metaboxes->set_text_domain( $this->text_domain );
 		
-		$metaboxes				= new MKDO_Admin_Metaboxes					();
 		$columns				= new MKDO_Admin_Columns					();
 
 		/** 
@@ -338,9 +333,7 @@ class CPD {
 		 * [3] Save elevated user field on edit user
 		 * [4] Prevent changes to colour scheme
 		 * [5] Set colour scheme based on user type
-		 * [6]
 		 */
-		
 	
 		/*1*/ add_action( 'personal_options', array( $profile, 'add_field_elevated_user' ) );
 		/*2*/ add_action( 'personal_options_update', array( $profile, 'save_field_elevated_user' ) );
@@ -348,54 +341,13 @@ class CPD {
 		/*4*/ add_action( 'admin_init',	array( $profile, 'remove_admin_color_schemes' ) );
 		/*5*/ add_action( 'get_user_option_admin_color', array( $profile, 'set_color_scheme' ) ); 
 
-		// Prevent admins from making system and plugin updates
-		if( get_option( 'mkdo_admin_edit_admin_capabilities', TRUE ) ) { 
-			add_action( 'user_has_cap',  array( $admin_profile, 'edit_admin_capabilities' ) );
-		}
-
 		/** 
 		 * Metaboxes
+		 *
+		 * [1] Hide metaboxes
 		 */
 		
-		// Remove the metaboxes (for all but mkdo users )
-		// 
-		// To remove metaboxes you can edit the filter 'mkdo_remove_metaboxes'. Here you can 
-		// add arrays of the slugs you wish to hide in the following format:
-		// 
-		// 		$hidden_metabox[] = array(
-		// 								'id' 		=> 'postcustom',
-		// 								'page' 		=> array('post','page'),
-		// 								'context' 	=> 'normal'
-		// 							);
-		// 
-		// 'id' is the slug of the metabox you want to remove
-		// 'page' is an array of the post_types it should be removed from
-		// 'context' is the position the metabox should be removed from
-		if( get_option( 'mkdo_admin_remove_metaboxes', FALSE ) ) { 
-			add_action( 'do_meta_boxes', array( $metaboxes ), 'remove_metaboxes'  );
-		}
-		
-		// Hide the metaboxes
-		// 
-		// To hide metaboxes you can edit the filter 'mkdo_hide_metaboxes'. Here you can just 
-		// list the metabox slugs you wish to hide. Eg, the default hidden metaboxes are:
-		// 
-		// - 'postcustom',
-		// - 'commentsdiv',
-		// - 'commentstatusdiv',
-		// - 'slugdiv',
-		// - 'trackbacksdiv',
-		// - 'revisionsdiv',
-		// - 'tagsdiv-post_tag',
-		// - 'authordiv',
-		// - 'wpseo_meta',
-		// - 'relevanssi_hidebox'
-		// 
-		// By default it will remove the metaboxes from all posts. If you want to do a custom hide
-		// Then you will need to write a new method hooking into the 'default_hidden_meta_boxes' action
-		if( get_option( 'mkdo_admin_hide_metaboxes', TRUE ) ) { 
-			add_action( 'default_hidden_meta_boxes', array( $metaboxes, 'hide_metaboxes'), 10, 2  );
-		}
+		/*1*/ add_action( 'default_hidden_meta_boxes', array( $metaboxes, 'hide_metaboxes'), 10, 2 );
 
 		/** 
 		 * Columns
@@ -466,7 +418,11 @@ class CPD {
 
 		/**
 		 * Journal User Management
+		 * 
+		 * [6] Set capabilities so high end updates can only be done by elivated users
 		 */
+		
+		/*6*/ add_action( 'user_has_cap', array( $journal_users, 'set_admin_capabilities' ) ); 
 		
 		// Create roles
 		if( get_option( 'cpd_create_roles', TRUE ) ) { 

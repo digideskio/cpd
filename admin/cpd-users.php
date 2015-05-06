@@ -30,6 +30,68 @@ class CPD_Journal_Users{
 	}
 
 	/**
+	 * Set Admin Capabilities
+	 *
+	 * @hook 	filter_cpd_set_admin_capabilities 	Filter the admin capabilities
+	 * 
+	 * @param array 	$capabilities 	Array of Capabilities
+	 * 
+	 * @since    2.0.0
+	 */
+	public function set_admin_capabilities( $capabilities ) {
+	
+		$user_id 			= get_current_user_id();
+		$is_elevated_user 	= get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
+		
+		// Setup an array of capabilities to change - filterable
+		$set_capabilities = apply_filters(
+			'filter_cpd_set_admin_capabilities',
+			array(
+
+				// Update WordPress
+				array(
+					'name' 		=> 'update_core',
+					'action' 	=> $is_elevated_user,
+				),
+
+				// Update Plugins
+				array(
+					'name' 		=> 'update_plugins',
+					'action' 	=> $is_elevated_user
+				),
+
+				// Activate Plugins
+				array(
+					'name' 		=> 'activate_plugins',
+					'action' 	=> $is_elevated_user,
+				),
+
+				// Install Plugins
+				array(
+					'name' 		=> 'install_plugins',
+					'action' 	=> $is_elevated_user,
+				),
+			)
+		);
+		
+		// Loop through each capability
+		foreach( $set_capabilities as $capability ) {
+			
+			// Check if the user has the capability
+			if( ! empty( $capabilities[ $capability[ 'name' ] ] ) ) {
+			
+				// Action the capability - adding or remove accordingly
+				$capabilities[ $capability[ 'name' ] ] = $capability[ 'action' ];
+			}
+			
+		}
+										
+		/* return the modified capabilities */
+		return $capabilities;
+		
+	}
+
+	/**
 	 * Create new roles
 	 */
 	public function create_roles() {
