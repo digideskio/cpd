@@ -129,16 +129,12 @@ class CPD {
 			'cpd-dashboard-widget-comments',	// Dashboard widget (comments)
 			'cpd-notices',						// Admin notices modifications
 			'cpd-profile',						// Profile ammendments
-
-			'mkdo-admin-metaboxes',				// Deregister metaboxes
-			'mkdo-admin-columns',				// Column modifications
+			'cpd-columns',						// Column modifications
 
 			'cpd-users',						// User functions
-			
 			'cpd-content-blocks', 				// Register content blocks
 			'cpd-options', 						// Create options page
 			'cpd-email', 						// Send emails
-			'cpd-columns'						// Column modifications
 		);
 		
 		// Prepare public dependancies
@@ -223,6 +219,7 @@ class CPD {
 		$notices							= CPD_Notices::get_instance();
 		$profile							= CPD_Profile::get_instance();
 		$metaboxes							= CPD_Profile::get_instance();
+		$columns 							= CPD_Columns::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -236,8 +233,7 @@ class CPD {
 		$notices->set_text_domain( $this->text_domain );
 		$profile->set_text_domain( $this->text_domain );
 		$metaboxes->set_text_domain( $this->text_domain );
-		
-		$columns				= new MKDO_Admin_Columns					();
+		$columns->set_text_domain( $this->text_domain );
 
 		/** 
 		 * Scripts
@@ -333,13 +329,21 @@ class CPD {
 		 * [3] Save elevated user field on edit user
 		 * [4] Prevent changes to colour scheme
 		 * [5] Set colour scheme based on user type
+		 * [6] 
+		 * [7] 
+		 * [8] 
+		 * [9] 
 		 */
 	
 		/*1*/ add_action( 'personal_options', array( $profile, 'add_field_elevated_user' ) );
 		/*2*/ add_action( 'personal_options_update', array( $profile, 'save_field_elevated_user' ) );
 		/*3*/ add_action( 'edit_user_profile_update', array( $profile, 'save_field_elevated_user' ) );
 		/*4*/ add_action( 'admin_init',	array( $profile, 'remove_admin_color_schemes' ) );
-		/*5*/ add_action( 'get_user_option_admin_color', array( $profile, 'set_color_scheme' ) ); 
+		/*5*/ add_action( 'get_user_option_admin_color', array( $profile, 'set_color_scheme' ) );
+		/*6*/ add_action( 'edit_user_profile', array( $profile, 'add_field_cpd_relationship_management' ) );
+		/*7*/ add_action( 'show_user_profile', array( $profile, 'add_cpd_relationship_management' ) );
+		/*8*/ add_action( 'edit_user_profile_update', array( $profile, 'save_cpd_relationship_management' ) );
+		/*9*/ add_action( 'personal_options_update', array( $profile, 'save_cpd_relationship_management' ) );
 
 		/** 
 		 * Metaboxes
@@ -351,67 +355,20 @@ class CPD {
 
 		/** 
 		 * Columns
-		 */
-		
-		// Remove columns
-		// 
-		// You can add columns to be removed by using the filter 'mkdo_edit_columns', you will need to use the
-		// ID of the column you want deleting eg. 'comments'.
-		// 
-		// By default the column is removed from all posts. If you want to do a custom remove you will need to 
-		// create a custom function by hooking into the 'init' action.
-		if( get_option( 'mkdo_admin_remove_columns', FALSE ) ) { 
-			add_filter( 'init', array( $columns, 'remove_custom_post_columns'), 98, 1  );
-		}
-		
-		// Hide columns
-		// 
-		// Columns will be hidden everytime a user logs in (cannot be set perminantly hidden like metaboxes).
-		// You can edit whats hidden with the filter 'mkdo_hide_columns'. The default hidden columns are:
-		// 
-		// - 'comments',
-		// - 'tags',
-		// - 'wpseo-score',
-		// - 'wpseo-title',
-		// - 'wpseo-metadesc',
-		// - 'wpseo-focuskw',
-		// - 'google_last30',
-		// - 'twitter_shares',
-		// - 'linkedin_shares',
-		// - 'facebook_likes',
-		// - 'facebook_shares',
-		// - 'total_shares',
-		// - 'decay_views',
-		// - 'decay_shares',
-		// 
-		// By default it will remove the columns from all posts. If you want to do a custom hide you will need
-		// to write a new method hooking into the 'wp_login' action.
-		if( get_option( 'mkdo_admin_hide_columns', TRUE ) ) { 
-			add_action( 'wp_login', array( $columns, 'hide_columns') , 10, 2 );
-		}
-
-		// Remove column filters
-		// 
-		// At the moment this filter is hardwired to remove the Yoast posts_filter_dropdown, however it may get
-		// expanded in the future.
-		if( get_option( 'mkdo_admin_remove_column_filters', TRUE ) ) { 
-			add_filter( 'admin_init', array( $columns, 'remove_column_filters'), 99  );
-		}
-
-		/** 
-		 * Classes
 		 *
-		 * Load the admin classes used in this Plugin
+		 * [1] Hide columns
+		 * [2] Remove column filters
 		 */
 		
+		/*1*/ add_action( 'wp_login', array( $columns, 'hide_columns') , 10, 2 );
+		/*2*/ add_filter( 'admin_init', array( $columns, 'remove_column_filters'), 99 );
 		
-		
-		$journal_users 			= new CPD_Journal_Users				();
 
+		
+		$journal_users 			= new CPD_Users				();
 		$content_blocks			= new CPD_Journal_Content_Blocks	();
 		$options				= CPD_Options::get_instance();
 		$email 					= new CPD_Journal_Email				();
-		$columns 				= new CPD_Journal_Columns			();
 
 
 
@@ -449,13 +406,6 @@ class CPD {
 			add_action( 'wpmu_new_user', array( $journal_users, 'redirect_on_create_user' ) );
 		}
 
-		/**
-		 * Profiles
-		 */
-		add_action( 'edit_user_profile', 		array( $profile, 'add_cpd_relationship_management' 	) );
-		add_action( 'show_user_profile', 		array( $profile, 'add_cpd_relationship_management' 	) );
-		add_action( 'edit_user_profile_update', 	array( $profile, 'save_cpd_relationship_management' 	) );
-		add_action( 'personal_options_update', 	array( $profile, 'save_cpd_relationship_management' 	) );
 
 		/** 
 		 * Journal Menus

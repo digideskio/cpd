@@ -16,7 +16,7 @@
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Users{
+class CPD_Users{
 
 	/**
 	 * Initialize the class and set its properties.
@@ -199,27 +199,48 @@ class CPD_Journal_Users{
 	 */
 	function redirect_on_create_user( $user_id ){
 
-			// We need to stop the redirect to the user-new.php page happening.
-			// the only way is to recreate the password and send the user notification ourselves.
-			// then we can forward to the user profile where the admin can set their supervisors
-			// (if they are a participant) or participants (if they are a supervisor)
-			if ( $user_id ) {
+		// We need to stop the redirect to the user-new.php page happening.
+		// the only way is to recreate the password and send the user notification ourselves.
+		// then we can forward to the user profile where the admin can set their supervisors
+		// (if they are a participant) or participants (if they are a supervisor)
+		if ( $user_id ) {
 
-				// all new users get access (as a subscriber) to the default blog
-				add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'subscriber' );
+			// all new users get access (as a subscriber) to the default blog
+			add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'subscriber' );
 
-				// create a new password, because we need to send it and we don't have access to the one already generated 
-				$password 	= wp_generate_password( 12, false);
-				
-				wp_set_password($password, $user_id);
+			// create a new password, because we need to send it and we don't have access to the one already generated 
+			$password 	= wp_generate_password( 12, false);
+			
+			wp_set_password($password, $user_id);
 
-				wp_new_user_notification( $user_id, $password );
+			wp_new_user_notification( $user_id, $password );
 
-				wp_redirect( add_query_arg( array( 'user_id' => $user_id ), network_admin_url( 'user-edit.php#cpd_profile' ) ) );
-				
-				exit;
-			}
-
-
+			wp_redirect( add_query_arg( array( 'user_id' => $user_id ), network_admin_url( 'user-edit.php#cpd_profile' ) ) );
+			
+			exit;
 		}
+
+	}
+
+	public static function get_multisite_users() {
+
+		$users 				= 	array();
+		$blogs 				= 	wp_get_sites();
+
+		foreach ( $blogs as $blog ){
+
+			$blog_users = get_users( array( 'blog_id' => $blog['blog_id'] ) );
+
+			if( is_array( $blog_users ) ) {
+				foreach( $blog_users as $user ) {
+					if( !in_array( $user, $users ) ) {
+						$users[] = $user;
+					}
+				}
+			}
+		}
+		
+		return $users;
+
+	}
 }

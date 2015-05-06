@@ -178,18 +178,24 @@ class CPD_Profile {
 		return $color_scheme;
 	}
 
-	/** TODO: OLD CODE NEEDS REFACTORING */
 
-	public function add_cpd_relationship_management( $user ) {
-
-		if(!is_super_admin()) {
-			return;
-		}
+	/**
+	 * Add relationship management field to the profile page
+	 * 
+	 * @param object 	$user 	Current user object
+	 *
+	 * @since    2.0.0
+	 */
+	public function add_field_cpd_relationship_management( $user ) {
 
 		global $wpdb;
 
+		if( !is_super_admin() ) {
+			return;
+		}
+
 		$cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
-		$mu_users 			= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
+		$mu_users 			= 	CPD_Users::get_multisite_users();
 		$user_supervisors	=	array();
 		$all_supervisors 	=	array();
 		$user_participants 	=	array();
@@ -330,6 +336,7 @@ class CPD_Profile {
 		<?php
 	}
 
+	/** TODO: OLD CODE NEEDS REFACTORING */
 
 	public function save_cpd_relationship_management( $user_id ) {
 			
@@ -350,7 +357,7 @@ class CPD_Profile {
 		$user 				= 	get_userdata( $user_id );
 		$user_data 			= 	$user->data;
 		$current_cpd_role 	= 	get_user_meta( $user_id, 'cpd_role' , TRUE );
-		$mu_users 			= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
+		$mu_users 			= 	CPD_Users::get_multisite_users();
 		$user_supervisors	=	array();
 		$all_supervisors 	=	array();
 		$user_participants 	=	array();
