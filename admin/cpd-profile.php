@@ -253,12 +253,14 @@ class CPD_Profile {
 									
 									if( count( $all_supervisors ) ) {
 										foreach( $all_supervisors as $supervisor ) { 
+											if( $user->ID != $supervisor->ID ) {
 											?>
 											<span>
-												<input type="checkbox" name="cpd_supervisors[]" value="<?php echo $supervisor->ID;?>" id="cpd_supervisor_<?php echo $supervisor->ID;?>" <?php echo in_array( $supervisor->ID, $user_supervisors, TRUE ) ? 'checked' : '';?>/>
+												<input type="checkbox" name="cpd_supervisors[]" value="<?php echo $supervisor->ID;?>" id="cpd_supervisor_<?php echo $supervisor->ID;?>" <?php echo is_array( $user_supervisors ) && in_array( $supervisor->ID, $user_supervisors, TRUE ) ? 'checked' : '';?>/>
 												<label for="cpd_supervisor_<?php echo $supervisor->ID;?>"><?php echo htmlentities( $supervisor->user_nicename );?></label>
 											</span>
 											<?php
+											}
 										}
 									} ?>
 								</td>
@@ -275,12 +277,14 @@ class CPD_Profile {
 									<?php
 									if( count( $all_participants ) ) {
 										foreach( $all_participants as $participant ) { 
+											if( $user->ID != $participant->ID ) {
 											?>
 											<span>
-												<input type="checkbox" name="cpd_participants[]" value="<?php echo $participant->ID;?>" id="cpd_participant_<?php echo $participant->ID;?>" <?php echo in_array( $participant->ID, $user_participants ) ? 'checked' : '';?>/>
+												<input type="checkbox" name="cpd_participants[]" value="<?php echo $participant->ID;?>" id="cpd_participant_<?php echo $participant->ID;?>" <?php echo is_array( $user_participants ) && in_array( $participant->ID, $user_participants ) ? 'checked' : '';?>/>
 												<label for="cpd_participant_<?php echo $participant->ID;?>"><?php echo htmlentities( $participant->user_nicename );?></label>
 											</span>
 											<?php
+											}
 										}
 									} ?>
 								</td>
@@ -294,8 +298,14 @@ class CPD_Profile {
 		<?php
 	}
 
-
-	public function save_cpd_relationship_management( $user_id ) {
+	/**
+	 * Save relationship management field
+	 * 
+	 * @param int 	$user_id 	Current user ID
+	 *
+	 * @since    2.0.0
+	 */
+	public function save_field_cpd_relationship_management( $user_id ) {
 			
 		if(!is_super_admin()) {
 			return;
@@ -381,10 +391,39 @@ class CPD_Profile {
 				}
 
 				// Associate supervisors with the correct journals
-				CPD_Users::add_participant_to_supervisor_journals( $user_id );
+				$current_journals = get_blogs_of_user( $user_id );
+				if( is_array( $current_journals ) && count( $current_journals  ) ) {
+					foreach( $current_journals as $journal ) {
+						foreach( $all_supervisors as $supervisor ) {
+							$supervisor = $supervisor->ID;
+							if( in_array( $supervisor, $post_supervisors ) ) {
+								add_user_to_blog( $journal->userblog_id, $supervisor, 'supervisor' );
+							} else if( BLOG_ID_CURRENT_SITE != $journal->userblog_id ) {
+								remove_user_from_blog( $supervisor, $journal->userblog_id );
+							}
+						}
+					}
+				}
 			}
 
 		} else if( $_POST['cpd_role'] == 'supervisor' ) {
+
+			// If they are currently a participant
+			if( $current_cpd_role == 'participant' ) {
+				
+				// Remove them from all journals
+				if( count( $current_journals ) > 0 ) {
+					foreach( $current_journals as $journal ) {
+						remove_user_from_blog( $user_id, $journal->userblog_id );
+					}
+				}
+
+				// Remove related supervisors
+				delete_user_meta( $user_id, 'cpd_related_supervisors' );
+
+				// Remove as a participant from all supervisors
+				CPD_Users::remove_user_from_related_participants( $user_id, $all_supervisors );
+			}
 
 			// Iterate the participants adding and removing the participants
 			$post_participants 						=	$_POST['cpd_participants'];
@@ -416,16 +455,16 @@ class CPD_Profile {
 			$_POST['cpd_role'] = 'none';
 				
 			// Remove the user from all blogs
-			CPD_Users::remove_user_from_blogs();
+			CPD_Users::remove_user_from_blogs( $user_id );
 			
 			// Remove related participants
 			delete_user_meta( $user_id, 'cpd_related_participants' );
 
-			// Remove from all participants
-			CPD_Users::remove_user_from_related_supervisors( $user_id, $all_participants );
-
 			// Remove related supervisors
 			delete_user_meta( $user_id, 'cpd_related_supervisors' );
+
+			// Remove from all participants
+			CPD_Users::remove_user_from_related_supervisors( $user_id, $all_participants );
 
 			// Remove from all supervisors
 			CPD_Users::remove_user_from_related_participants( $user_id, $all_supervisors );

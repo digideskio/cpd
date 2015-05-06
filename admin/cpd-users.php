@@ -252,8 +252,10 @@ class CPD_Users{
 
 			$blog_users 	= 	get_users(
 									array( 
-										'blog_id' 	=> 	$blog['blog_id'],
-										'role' 		=> 	'participant',
+										'blog_id' 		=> 	$blog['blog_id'],
+										'meta_key' 		=>	'cpd_role',
+										'meta_value'	=>	'participant',
+										'meta_compare' 	=>	'='
 									) 
 								);
 
@@ -278,8 +280,10 @@ class CPD_Users{
 
 			$blog_users 	= 	get_users(
 									array( 
-										'blog_id' 	=> 	$blog['blog_id'],
-										'role' 		=> 	'supervisor',
+										'blog_id' 		=> 	$blog['blog_id'],
+										'meta_key' 		=>	'cpd_role',
+										'meta_value'	=>	'supervisor',
+										'meta_compare' 	=>	'='
 									) 
 								);
 
@@ -313,9 +317,9 @@ class CPD_Users{
 
 	public static function remove_user_from_related_participants( $user_id, $supervisors ) {
 
-		foreach( $participants as $participant ) {
+		foreach( $supervisors as $supervisor ) {
 
-			if( is_object( $participant ) ) {
+			if( is_object( $supervisor ) ) {
 				$supervisor 					= 	$supervisor->ID;
 			}
 			$supervisor_participants 			= 	get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
@@ -363,21 +367,11 @@ class CPD_Users{
 		update_user_meta( $supervisor, 'cpd_related_participants', $participants );
 	}
 
-	public static function add_participant_to_supervisor_journals( $user_id ) {
-		$current_journals = get_blogs_of_user( $user_id );
-		if( is_array( $current_journals ) && count( $current_journals  ) ) {
-			foreach( $current_journals as $journal ) {
-				foreach( $post_supervisors as $supervisor ) {
-					add_user_to_blog( $journal->userblog_id, $supervisor, 'supervisor' );
-				}
-			}
-		}
-	}
-
 	public static function add_supervisor_to_participant_journals( $user_id ) {
 
-		$should_have_journals = array();
-		$participants = get_user_meta( $user_id, 'cpd_related_participants', TRUE );
+		$all_cpd_journals 		= 	wp_get_sites();
+		$should_have_journals 	= 	array();
+		$participants 			= 	get_user_meta( $user_id, 'cpd_related_participants', TRUE );
 
 		foreach( $participants as $participant ) {
 			$blogs = get_blogs_of_user( $participant );
@@ -400,7 +394,7 @@ class CPD_Users{
 		}
 	}
 
-	public static function remove_user_from_blogs() {
+	public static function remove_user_from_blogs( $user_id ) {
 		$current_journals = get_blogs_of_user( $user_id );
 		if( count( $current_journals ) > 0 ) {
 			

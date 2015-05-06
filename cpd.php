@@ -329,10 +329,10 @@ class CPD {
 		 * [3] Save elevated user field on edit user
 		 * [4] Prevent changes to colour scheme
 		 * [5] Set colour scheme based on user type
-		 * [6] 
-		 * [7] 
-		 * [8] 
-		 * [9] 
+		 * [6] Add relationshp fields on user edit
+		 * [7] Add relationshp fields on user screen
+		 * [8] Save relationshp fields on update
+		 * [9] Save relationshp fields on edit user
 		 */
 	
 		/*1*/ add_action( 'personal_options', array( $profile, 'add_field_elevated_user' ) );
@@ -341,8 +341,8 @@ class CPD {
 		/*4*/ add_action( 'admin_init',	array( $profile, 'remove_admin_color_schemes' ) );
 		/*5*/ add_action( 'get_user_option_admin_color', array( $profile, 'set_color_scheme' ) );
 		/*6*/ add_action( 'edit_user_profile', array( $profile, 'add_field_cpd_relationship_management' ) );
-		/*7*/ add_action( 'show_user_profile', array( $profile, 'add_cpd_relationship_management' ) );
-		/*8*/ add_action( 'edit_user_profile_update', array( $profile, 'save_cpd_relationship_management' ) );
+		/*7*/ add_action( 'show_user_profile', array( $profile, 'add_field_cpd_relationship_management' ) );
+		/*8*/ add_action( 'edit_user_profile_update', array( $profile, 'save_field_cpd_relationship_management' ) );
 		/*9*/ add_action( 'personal_options_update', array( $profile, 'save_cpd_relationship_management' ) );
 
 		/** 
