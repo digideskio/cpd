@@ -27,7 +27,7 @@ add_action( 'admin_init', 'cpdca_add_capabilities' );
  */
 function cpdca_add_menu_page() {
 
-	add_submenu_page( 'index.php', 'Copy Assignments', 'Copy Assignments', 'copy_assignments', 'cpdca-menu', 'cpdca_render_menu_page' );
+	add_submenu_page( 'settings.php', 'Copy Assignments', 'Copy Assignments', 'copy_assignments', 'cpdca-menu', 'cpdca_render_menu_page' );
 
 	add_action( 'admin_init', 'cpdca_register_menu' );
 }

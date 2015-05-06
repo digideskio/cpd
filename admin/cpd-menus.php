@@ -9,6 +9,10 @@
  * @subpackage CPD/admin
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
+
 if( !class_exists( 'CPD_Menus' ) ) {
 
 /**
@@ -47,8 +51,6 @@ class CPD_Menus {
 	 */
 	public function __construct() {
 		
-
-		add_action( 'parent_file', 	array( $this, 'correct_menu_hierarchy'), 9999 );
 	}
 
 	/**
@@ -358,7 +360,7 @@ class CPD_Menus {
 		if( !$is_elevated_user && !$is_admin ) {
 
 		}
-		
+
 
 		$menus 			=	apply_filters(
 								'filter_cpd_remove_sub_admin_menus',
@@ -370,8 +372,213 @@ class CPD_Menus {
 		}
 	}
 
-	/** TODO: OLD NEEDS REFACTOR */
+	/**
+	 * Correct the content menu hierarchy
+	 *
+	 * @since    2.0.0
+	 **/
+	public function correct_content_menu_hierarchy( $parent_file ) {
+	
+		global $current_screen;
+		global $submenu;
 
+		$pages 		= array();
+		$parent 	= 'cpd_content_menu';
+		
+		if ( is_array( $submenu ) && isset( $submenu[ $parent ] ) ) {
+
+			foreach ( (array) $submenu[ $parent ] as $item) {
+
+				if ( current_user_can( $item[1] ) ) {
+					$menu_file = $item[2];
+					if ( false !== ( $pos = strpos( $menu_file, '?' ) ) ) {
+						$menu_file = substr( $menu_file, 0, $pos );
+					}
+	
+					if( $item[2] == 'edit.php' ) {
+						$pages[] = 'Journal Entry';
+					}
+					else if( $item[2] == 'edit.php?post_type=page' || $item[2] == 'edit.php?post_type=page&page=cms-tpv-page-page' ) {
+						$pages[] = 'Pages';
+					}
+					else {
+						$pages[] = $item[0];
+					}
+						
+				}
+			}
+		}
+
+		$post_type = get_post_type_object( $current_screen->post_type );
+		
+		if( isset( $post_type->labels ) && isset( $post_type->labels->name ) ) {
+			$post_type = $post_type->labels->name;
+		}
+		
+		/* get the base of the current screen */
+		$screenbase = $current_screen->base;
+
+		/* if this is the edit.php base */
+		if( ( $screenbase == 'edit' && in_array( $post_type, $pages ) )|| ( $screenbase == 'post' && in_array( $post_type, $pages ) ) ) {
+
+			/* set the parent file slug to the custom content page */
+			$parent_file = $parent;
+			
+		}
+
+		if( defined('CMS_TPV_URL') && $screenbase == 'pages_page_cms-tpv-page-page' && in_array( $post_type, $pages ) ) {
+			$parent_file = $parent;
+		}
+
+		if( strpos( $screenbase, '-network' ) ) {
+			if ( 
+					$parent_file == 'sites.php' 		||
+					$parent_file == 'users.php' 		|| 
+					$parent_file == 'themes.php' 		|| 
+					$parent_file == 'plugins.php' 		|| 
+					$parent_file == 'settings.php' 		|| 
+					$parent_file == 'update-core.php'
+				) {
+				$parent_file = 'index.php';
+			}
+		}
+		
+		/* return the new parent file */	
+		return $parent_file;
+	}
+
+	/**
+	 * Correct the content sub menu hierarchy
+	 *
+	 * @since    2.0.0
+	 **/
+	public function correct_content_menu_sub_hierarchy() {
+		global $submenu;
+		
+		if( array_key_exists( 'edit.php?post_type=page', $submenu ) ) {
+
+			foreach( $submenu['edit.php?post_type=page'] as $key=>$smenu ) {
+				$submenu['edit.php?post_type=page'][$key][2] = $smenu[2] . '&post_type=page';
+			}
+		}
+	}
+
+	/**
+	 * Add sub menus to admin menu
+	 *
+	 * @hook 	filter_cpd_add_admin_sub_menus 	Filter to add sub menus to admin menus
+	 * 
+	 * @since    2.0.0
+	 **/
+	public function add_admin_sub_menus() {
+
+		$sub_menus 			=	array();
+
+		// Add for all users
+		
+		// Add for network admins
+		if( is_super_admin() ) {
+
+			// Network Admin Menus
+			$sub_menus[] 	=	array(
+									'parent'		=>	'index.php',
+									'page_title'	=>	'Network Settings',
+									'menu_title'	=>	'Network Settings',
+									'capability'	=>	'manage_network',
+									'menu_slug'		=>	'network/index.php',
+									'function'		=>	''
+								);
+		}
+
+		$menus 				= 	apply_filters(
+									'filter_cpd_add_admin_sub_menus',
+									$sub_menus
+								);
+
+		foreach( $menus as $menu ) {
+			add_submenu_page(
+				$menu['parent'],
+				$menu['page_title'],
+				$menu['menu_title'],
+				$menu['capability'],
+				$menu['menu_slug'],
+				$menu['function']
+			);
+		}
+	}
+
+	/**
+	 * Add menus to network admin menu
+	 *
+	 * @hook 	filter_cpd_add_network_admin_menus 	Filter to add menus to network admin menus
+	 * 
+	 * @since    2.0.0
+	 **/
+	public function add_network_admin_menus() {
+
+
+		$sub_menus 			=	array();
+
+		// Add for all users
+		
+		// Add for network admins
+		if( is_super_admin() ) {
+
+			$network_menus[] 	=	array(
+									'page_title'	=>	'Dashboard',
+									'menu_title'	=>	'Dashboard',
+									'capability'	=>	'manage_network',
+									'menu_slug'		=>	'../',
+									'function'		=>	'',
+									'dashicon'		=>	'dashicons-dashboard',
+									'position'		=>	1
+								);
+		}
+
+		$menus 				= 	apply_filters(
+									'filter_cpd_add_network_admin_menus',
+									$network_menus
+								);
+
+		foreach( $menus as $menu ) {
+			add_menu_page(
+				$menu['page_title'],
+				$menu['menu_title'],
+				$menu['capability'],
+				$menu['menu_slug'],
+				$menu['function'],
+				$menu['dashicon'],
+				$menu['position']
+			);
+		}
+	}
+
+	/**
+	 * Rename network admin menus
+	 * 
+	 * @since    2.0.0
+	 **/
+	public function rename_network_admin_menus() {
+
+		if( is_super_admin() ) {
+
+			global $menu;
+
+			// Rename menu items
+			foreach( $menu as $key=>&$menu_item ) {
+				if( $menu_item[0] == 'Dashboard' || $menu_item[0] == 'Network Settings' ) {
+
+					$menu_item[0] 	= 'Network Settings';
+					$menu_item[6] 	= 'dashicons-admin-site';
+					$network		= $menu[$key];
+					unset( $menu[$key] );
+					$menu[2] 		= $network; 
+				}
+			}
+		}
+	}
+
+	/** TODO: BELOW IS OLD CODE - NEEDS REFACTOR */
 
 	/**
 	 * Filter menus
@@ -408,81 +615,6 @@ class CPD_Menus {
 		return $menus;
 	}
 
-	/**
-	 * Correct the heirachy
-	 */
-	public function correct_menu_hierarchy( $parent_file ) {
-	
-		global $current_screen;
-		global $submenu;
 
-		$pages 		= array();
-		$this->slug = 'cpd_content_menu';
-		$parent 	= $this->slug;
-		
-		if ( is_array( $submenu ) && isset( $submenu[$parent] ) ) {
-
-			foreach ( (array) $submenu[$parent] as $item) {
-
-				if ( current_user_can($item[1]) ) {
-					$menu_file = $item[2];
-					if ( false !== ( $pos = strpos( $menu_file, '?' ) ) ) {
-						$menu_file = substr( $menu_file, 0, $pos );
-					}
-	
-					if( $item[2] == 'edit.php' ) {
-						$pages[] = 'Journal Entry';
-					}
-					else if( $item[2] == 'edit.php?post_type=page' || $item[2] == 'edit.php?post_type=page&page=cms-tpv-page-page' ){
-						$pages[] = 'Pages';
-					}
-					else {
-						$pages[] = $item[0];
-					}
-						
-				}
-			}
-		}
-
-		$post_type = get_post_type_object( $current_screen->post_type );
-		
-		if( isset( $post_type->labels ) && isset( $post_type->labels->name ) ) {
-			$post_type = $post_type->labels->name;
-		}
-		
-		/* get the base of the current screen */
-		$screenbase = $current_screen->base;
-
-		/* if this is the edit.php base */
-		if( ( $screenbase == 'edit' && in_array( $post_type, $pages ) )|| ( $screenbase == 'post' && in_array( $post_type, $pages ) ) ) {
-
-			/* set the parent file slug to the custom content page */
-			$parent_file = $this->slug;
-			
-		}
-
-		if( defined('CMS_TPV_URL') && $screenbase == 'pages_page_cms-tpv-page-page' && in_array( $post_type, $pages ) ) {
-			$parent_file = $this->slug;
-		}
-
-		global $submenu;
-		$screen = get_current_screen();
-
-		if( strpos( $screen->base, '-network' ) ) {
-			if ( 
-					$parent_file == 'sites.php' 		||
-					$parent_file == 'users.php' 		|| 
-					$parent_file == 'themes.php' 		|| 
-					$parent_file == 'plugins.php' 		|| 
-					$parent_file == 'settings.php' 		|| 
-					$parent_file == 'update-core.php'
-				) {
-				$parent_file = 'index.php';
-			}
-		}
-		
-		/* return the new parent file */	
-		return $parent_file;
-	}
 }
 }

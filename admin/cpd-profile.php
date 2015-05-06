@@ -9,25 +9,238 @@
  * @subpackage CPD/admin
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
+if( !class_exists( 'CPD_Profile' ) ) {
+
 /**
- * The dashboard-specific functionality of the plugin.
+ * The admin-specific functionality of the plugin.
+ *
+ * Defines the admin settings
  *
  * @package    CPD
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Profiles{
+class CPD_Profile {
+
+	private static $instance = null;
+	private $text_domain;
+
+	/**
+	 * Creates or returns an instance of this class.
+	 */
+	public static function get_instance() {
+		/**
+		 * If an instance hasn't been created and set to $instance create an instance 
+		 * and set it to $instance.
+		 */
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+	 * @since    2.0.0
 	 */
 	public function __construct() {
 		
 	}
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @var      string    $text_domain       The text domain of the plugin.
+	 *
+	 * @since    2.0.0
+	 **/
+	public function set_text_domain( $text_domain ) { 
+		$this->text_domain = $text_domain;
+	}
+
+	/**
+	 * Add elevated user field to the profile page
+	 * 
+	 * @param object 	$user 	Current user object
+	 *
+	 * @since    2.0.0
+	 */
+	public function add_field_elevated_user( $user ) {
+
+		// If user is not an elevated user exit
+		if( get_user_meta( $user->ID, 'elevated_user', TRUE ) != '1' ) {
+			return false;
+		}
+
+		?>
+
+			<table class="form-table">
+				<tr>
+					<th scope="row">Elevated Admin Privileges</th>
+
+					<td>
+						
+						<fieldset>
+						
+							<legend class="screen-reader-text">
+								<span>Elevated Admin Privileges</span>
+							</legend>
+							
+							<label>
+								<input name="elevated_user" type="checkbox" id="elevated_user" value="1"<?php checked( get_user_meta( $user->ID, 'elevated_user', true ) ) ?> />
+								Grant this user elevated admin privileges.
+							</label>
+						
+						</fieldset>
+						
+					</td>
+				</tr>
+			
+			</table>
+		
+		<?php	
+	}
+
+	/**
+	 * Save elevated user field data
+	 * 
+	 * @param int 	$user_id 	Current user ID
+	 *
+	 * @since    2.0.0
+	 */
+	public function save_field_elevated_user( $user_id ) {
+		
+		// Check the current user is a super admin
+		if ( ! current_user_can( 'manage_options', $user_id ) ) {
+			return false;
+		}
+
+		// If the field has not been set
+		if ( ! isset( $_POST[ 'elevated_user' ] ) ) {
+			return false;
+		}
+		
+		// Update the user meta with the additional fields on the profile page
+		update_usermeta( $user_id, 'elevated_user', $_POST[ 'elevated_user' ] );	
+	}
+
+	/**
+	 * Remove admin colour scheme
+	 *
+	 * @since    2.0.0
+	 */
+	public function remove_admin_color_schemes() {
+		remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+	}
+
+	/**
+	 * Set Colour Schemes
+	 *
+	 * @param string 	$color_scheme 	Current Colour Scheme
+	 * 
+	 * @since    2.0.0
+	 */
+	public function set_color_scheme( $color_scheme ) {
+		
+		$screen 		= get_current_screen();
+		$user 			= wp_get_current_user();
+		$roles 			= $user->roles;
+
+		$color_scheme 	= 'light';
+
+		if ( get_user_meta( $user->ID, 'elevated_user', TRUE ) == '1' ) {
+			$color_scheme 	= 'midnight';
+		} 
+		else if( in_array( 'administrator', $roles) ) {
+			$color_scheme 	= 'ectoplasm';
+		}
+		else if( in_array( 'editor', 		$roles) ) {
+			$color_scheme 	= 'ocean';
+		}
+		else if( in_array( 'author', 		$roles) ) {
+			$color_scheme 	= 'blue';
+		}
+		else if( in_array( 'contributor', 	$roles) ) {
+			$color_scheme 	= 'coffee';
+		}
+		else if( in_array( 'subscriber', 	$roles) ) {
+			$color_scheme 	= 'light';
+		}
+
+		if( is_multisite() && strpos( $screen->base, '-network') ) {
+			$color_scheme 	= 'sunrise';
+		}
+
+		return $color_scheme;
+	}
+
+	/**
+	 * Set Admin Capabilities
+	 *
+	 * @hook 	filter_cpd_set_admin_capabilities 	Filter the admin capabilities
+	 * 
+	 * @param array 	$capabilities 	Array of Capabilities
+	 * 
+	 * @since    2.0.0
+	 */
+	public function set_admin_capabilities( $capabilities ) {
+	
+		$user_id 			= get_current_user_id();
+		$is_elevated_user 	= get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
+		
+		// Setup an array of capabilities to change - filterable
+		$set_capabilities = apply_filters(
+			'filter_cpd_set_admin_capabilities',
+			array(
+
+				// Update WordPress
+				array(
+					'name' 		=> 'update_core',
+					'action' 	=> $is_elevated_user,
+				),
+
+				// Update Plugins
+				array(
+					'name' 		=> 'update_plugins',
+					'action' 	=> $is_elevated_user
+				),
+
+				// Activate Plugins
+				array(
+					'name' 		=> 'activate_plugins',
+					'action' 	=> $is_elevated_user,
+				),
+
+				// Install Plugins
+				array(
+					'name' 		=> 'install_plugins',
+					'action' 	=> $is_elevated_user,
+				),
+			)
+		);
+		
+		// Loop through each capability
+		foreach( $set_capabilities as $capability ) {
+			
+			// Check if the user has the capability
+			if( ! empty( $capabilities[ $capability[ 'name' ] ] ) ) {
+			
+				// Action the capability - adding or remove accordingly
+				$capabilities[ $capability[ 'name' ] ] = $capability[ 'action' ];
+			}
+			
+		}
+										
+		/* return the modified capabilities */
+		return $capabilities;
+		
+	}
+
+	/** TODO: OLD CODE NEEDS REFACTORING */
 
 	public function add_cpd_relationship_management( $user ) {
 
@@ -486,4 +699,5 @@ class CPD_Journal_Profiles{
 		update_user_meta( $user_id,'cpd_role', $_POST['cpd_role'] );
 		add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'subscriber' );
 	}
+}
 }

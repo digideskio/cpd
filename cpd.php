@@ -22,6 +22,19 @@
  * Domain Path:       /languages
  */
 
+/** 
+ * Change Log
+ * 
+ * 1.0.0		Initial Prototype
+ * 2.0.0		Complete Refactor
+ */
+
+/**
+ * WIP - Add to GitHub Wiki
+ *
+ * @hook 	filter_cpd_set_admin_capabilities 	Filter the admin capabilities
+ */
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
@@ -91,57 +104,57 @@ class CPD {
 
 		// Order of dependancy load
 		$dependencies 				= 	array( 
-			'vendor', 						// Any third party plugins or libraries
-			'includes',						// Functions common to admin and public
-			'admin', 						// Admin functions
-			'public',						// Public functions
-			'upgrade'						// Upgrade functions
+			'vendor', 							// Any third party plugins or libraries
+			'includes',							// Functions common to admin and public
+			'admin', 							// Admin functions
+			'public',							// Public functions
+			'upgrade'							// Upgrade functions
 		);
 
 		// Prepare vendor dependancies
 		$dependencies['vendor'] 	= 	array(
-			'cpd-comment-scores/index', 	// CPD comment scores
-			'cpd-copy-assignments/index', 	// CPD copy assignments
-			'cpd-new-journal/index' 		// CPD new journals
+			'cpd-comment-scores/index', 		// CPD comment scores
+			'cpd-copy-assignments/index', 		// CPD copy assignments
+			'cpd-new-journal/index' 			// CPD new journals
 		);
 		
 		// Prepare common dependancies
 		$dependencies['includes'] 	= 	array(
-			'cpd-templates',				// Templating Engine
-			'mkdo-helper-screen',			// Screen helpers
-			'mkdo-helper-user'				// User Helpers
+			'cpd-templates',					// Templating Engine
+			'mkdo-helper-screen',				// Screen helpers
+			'mkdo-helper-user'					// User Helpers
 		);
 		
 		// Prepare admin dependancies
 		$dependencies['admin'] 		= 	array(
-			'cpd-admin', 					// WordPress Admin Overrides
-			'cpd-register-scripts-admin',	// Register Admin Scripts
-			'mkdo-admin-mu-menus',			// Multisite menu modifications
-			'mkdo-admin-dashboard',			// Dashboad modifications
-			'mkdo-admin-notices',			// Admin notices modifications
-			'mkdo-admin-content-blocks',	// Register content blocks
-			'mkdo-admin-profile',			// Profile screen ammendments
-			'mkdo-admin-metaboxes',			// Deregister metaboxes
-			'mkdo-admin-columns',			// Column modifications
+			
+			'cpd-admin-scripts',				// Register Admin Scripts
+			'cpd-admin', 						// WordPress Admin Overrides
+			'cpd-menus',						// Menu ammendments
+			'cpd-dashboards',					// Dashboard ammendments
+			'cpd-dashboard-widget-comments',	// Dashboard widget (comments)
+			'cpd-notices',						// Admin notices modifications
+			'cpd-profile',						// Profile ammendments
 
-			'cpd-users',					// User functions
-			'cpd-profiles',					// Profile ammendments
-			'cpd-menus',					// Menu ammendments
-			'cpd-dashboards',				// Dashboard ammendments
-			'cpd-content-blocks', 			// Register content blocks
-			'cpd-options', 					// Create options page
-			'cpd-email', 					// Send emails
-			'cpd-columns'					// Column modifications
+			'mkdo-admin-metaboxes',				// Deregister metaboxes
+			'mkdo-admin-columns',				// Column modifications
+
+			'cpd-users',						// User functions
+			
+			'cpd-content-blocks', 				// Register content blocks
+			'cpd-options', 						// Create options page
+			'cpd-email', 						// Send emails
+			'cpd-columns'						// Column modifications
 		);
 		
 		// Prepare public dependancies
 		$dependencies['public'] 	= 	array(
-			'cpd-register-scripts-public' 	// Register public scripts
+			'cpd-register-scripts-public' 		// Register public scripts
 		);
 
 		// Prepare public dependancies
 		$dependencies['upgrade'] 	= 	array(
-			'cpd-upgrade-legacy' 			// Upgrade the legacy CPD database 
+			'cpd-upgrade-legacy' 				// Upgrade the legacy CPD database 
 		);
 
 		// Load dependancies
@@ -208,19 +221,38 @@ class CPD {
 	 */
 	private function admin_hooks() {
 
-		$admin 					= CPD_Admin::get_instance();
-		$menus 					= CPD_Menus::get_instance();
+		$scripts 							= CPD_Admin_Scripts::get_instance();
+		$admin 								= CPD_Admin::get_instance();
+		$menus 								= CPD_Menus::get_instance();
+		$dashboards 						= CPD_Dashboards::get_instance();
+		$dashboard_widget_comments 			= CPD_Dashboard_Widget_Comments::get_instance();
+		$notices							= CPD_Notices::get_instance();
+		$profile							= CPD_Profile::get_instance();
 
+		/** 
+		 * Set Text Domain
+		 */
+		
+		$scripts->set_text_domain( $this->text_domain );
 		$admin->set_text_domain( $this->text_domain );
 		$menus->set_text_domain( $this->text_domain );
+		$dashboards->set_text_domain( $this->text_domain );
+		$dashboard_widget_comments->set_text_domain( $this->text_domain );
+		$notices->set_text_domain( $this->text_domain );
+		$profile->set_text_domain( $this->text_domain );
 		
-		$mu_menus 				= new MKDO_Admin_MU_Menus					();
-		$content_blocks			= new MKDO_Admin_Content_Blocks				();
-		$dashboard				= new MKDO_Admin_Dashboard					();
-		$notices				= new MKDO_Admin_Notices					();
-		$admin_profile			= new MKDO_Admin_Profile					();
 		$metaboxes				= new MKDO_Admin_Metaboxes					();
 		$columns				= new MKDO_Admin_Columns					();
+
+		/** 
+		 * Scripts
+		 *
+		 * [1] Register styles
+		 * [2] Register scripts
+		 */
+		
+		/*1*/ add_action( 'admin_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
+		/*2*/ add_action( 'admin_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
 		
 		/** 
 		 * Admin Bar
@@ -250,105 +282,71 @@ class CPD {
 		 * [3] Add dashboard widgets to the cpd_content_menu 
 		 * [4] Remove admin menu items
 		 * [5] Remove admin sub menu items
+		 * [6] Correct cpd_content_menu menu hierarchy
+		 * [7] Correct cpd_content_menu sub menu hierarchy
+		 * [8] Add admin sub menus
+		 * [9] Add network admin mneus
+		 * [10] Rename network admin menus
 		 */
 
 		/*1*/ add_action( 'admin_menu', array( $menus, 'add_content_menu'), 5 );
 		/*2*/ add_action( 'admin_menu', array( $menus, 'add_content_menu_items'), 99 );
 		/*3*/ add_action( 'cpd_content_menu_render_widgets', array( $menus, 'add_content_menu_dashboard_widgets'), 99 );
-		/*4*/ add_action( 'admin_menu', array( $menus, 'remove_admin_menus'), 99  );
+		/*4*/ add_action( 'admin_menu', array( $menus, 'remove_admin_menus'), 99 );
 		/*5*/ add_action( 'admin_menu', array( $menus, 'remove_admin_sub_menus'), 99 );
+		/*6*/ add_filter( 'parent_file', array( $menus, 'correct_content_menu_hierarchy'), 10000 );
+		/*7*/ add_filter( 'admin_head', array( $menus, 'correct_content_menu_sub_hierarchy') );
+		/*8*/ add_action( 'admin_menu', array( $menus, 'add_admin_sub_menus'), 99 );
+		/*9*/ add_action( 'network_admin_menu', array( $menus, 'add_network_admin_menus'), 100 );
+		/*10*/ add_action( 'network_admin_menu', array( $menus, 'rename_network_admin_menus'), 99 );
 
-		// Correct menu hierarchy
-		if( get_option( 'mkdo_admin_correct_menu_hierarchy', TRUE ) ) { 
-			add_filter( 'parent_file', 	array( $admin_menus, 'correct_menu_hierarchy'), 10000  );
-			add_action( 'admin_head', 	array( $admin_menus, 'correct_sub_menu_hierarchy' 	) );
-		}	
-
-		/** 
-		 * MU Menus
+		/**
+		 * Content Menu Dashboard Widgets
+		 *
+		 * [1] Add comments dashboard widget
 		 */
-		if( is_multisite() ) {
-
-			// Add Admin sub menus
-			if( get_option( 'mkdo_admin_add_mu_admin_sub_menus', TRUE ) ) { 
-				add_action( 'admin_menu', array( $mu_menus, 'add_admin_sub_menus'), 99  );
-			}
-			
-			// Add Network menus
-			if( get_option( 'mkdo_admin_add_mu_network_admin_menus', TRUE ) ) { 
-				add_action( 'network_admin_menu', array( $mu_menus, 'add_network_admin_menus'), 100  );
-			}
-
-			// Add Network sub menus
-			if( get_option( 'mkdo_admin_add_mu_network_admin_sub_menus', TRUE ) ) { 
-				add_action( 'network_admin_menu', array( $mu_menus, 'add_network_admin_sub_menus'), 100  );
-			}
-			
-			// Rename Network menus
-			if( get_option( 'mkdo_admin_rename_mu_network_admin_menus', TRUE ) ) { 
-				add_action( 'network_admin_menu', array( $mu_menus, 'rename_network_admin_menus'), 99  );
-			}
-
-			// Remove network admin menus
-			if( get_option( 'mkdo_admin_remove_mu_network_admin_menus', TRUE ) ) { 
-				add_action( 'network_admin_menu', array( $mu_menus, 'remove_network_admin_menus'), 99  );
-			}
-
-			// Correct menu hierarchy
-			if( get_option( 'mkdo_admin_correct_mu_menu_hierarchy', TRUE ) ) { 
-				add_action( 'admin_head', 	array( $mu_menus, 'correct_sub_menu_hierarchy' 	  ) );
-			}
-		}
+		
+		/*1*/ add_action( 'cpd_content_menu_render_widgets', array( $dashboard_widget_comments, 'add_dashboard_widget' ) );
 
 		/**
 		 * Dashboard
+		 *
+		 * [1] Remove dashboard widgets
 		 */
 		
-		// Remove dashbaord items
-		if( get_option( 'mkdo_admin_remove_dashboard_meta', TRUE ) ) { 
-			add_action( 'admin_init', 	array( $dashboard, 'remove_dashboard_meta' 	  ) );
-		}
+		/*1*/ add_action( 'admin_init', array( $dashboards, 'remove_dashboard_widgets' ) );
 
 		/**
-		 * Content Blocks
+		 * Dashboard Widgets
 		 */
-
-		// Show comments on cpd_content_menu
-		if( get_option( 'mkdo_admin_show_comments_on_cpd_content_menu', TRUE ) ) { 
-			add_action( 'cpd_content_menu_after_blocks', array( $content_blocks, 'add_comments' ) );
-		}
-
 
 		/**
 		 * Admin notices
+		 *
+		 * [1] Add taxonomy selecter as notice
+		 * [2] Add tree view switcher as notice
 		 */
 		
-		// Show Taxonomies at the top of the post
-		if( get_option( 'mkdo_admin_show_taxonomy_admin_notices', TRUE ) ) { 
-			add_action( 'all_admin_notices', 				array( $notices, 		'show_taxonomy_admin_notices' 						) );
-		}
-
-		// Show Tree Page View switcher as a notice at the top of the post
-		if( get_option( 'mkdo_admin_show_tree_page_view_switcher', TRUE ) ) { 
-			add_action( 'all_admin_notices', 				array( $notices, 		'show_tree_page_view_switcher' 						) );
-		}
+		/*1*/ add_action( 'all_admin_notices', array( $notices, 'add_notice_taxonomy' ) );
+		/*2*/ add_action( 'all_admin_notices', array( $notices, 'add_notice_tree_view' ) );
 
 		/**
 		 * Profile
+		 *
+		 * [1] Add elevated user field to the profile page
+		 * [2] Save elevated user field on update
+		 * [3] Save elevated user field on edit user
+		 * [4] Prevent changes to colour scheme
+		 * [5] Set colour scheme based on user type
+		 * [6]
 		 */
 		
-		// Add MKDO user checkbox
-		if( get_option( 'mkdo_admin_add_elevated_user_profile_field', TRUE ) ) { 
-			add_action( 'personal_options', 			array( $admin_profile, 'add_elevated_user_profile_field' 		) );
-			add_action( 'personal_options_update', array( 	$admin_profile, 'save_elevated_user_profile_field_data' ) );
-			add_action( 'edit_user_profile_update', 	array( $admin_profile, 'save_elevated_user_profile_field_data' ) );
-		}
-
-		// Force colour scheme
-		if( get_option( 'mkdo_admin_force_user_color_scheme', TRUE ) ) { 
-			add_action( 'admin_init',					array( $admin_profile, 	'remove_admin_color_schemes'	) );
-			add_action( 'get_user_option_admin_color', 	array( $admin_profile, 	'force_user_color_scheme' 		) );
-		}
+	
+		/*1*/ add_action( 'personal_options', array( $profile, 'add_field_elevated_user' ) );
+		/*2*/ add_action( 'personal_options_update', array( $profile, 'save_field_elevated_user' ) );
+		/*3*/ add_action( 'edit_user_profile_update', array( $profile, 'save_field_elevated_user' ) );
+		/*4*/ add_action( 'admin_init',	array( $profile, 'remove_admin_color_schemes' ) );
+		/*5*/ add_action( 'get_user_option_admin_color', array( $profile, 'set_color_scheme' ) ); 
 
 		// Prevent admins from making system and plugin updates
 		if( get_option( 'mkdo_admin_edit_admin_capabilities', TRUE ) ) { 
@@ -454,29 +452,16 @@ class CPD {
 		 * Load the admin classes used in this Plugin
 		 */
 		
-		$admin_scripts 			= new CPD_Register_Scripts_Admin	();
 		
-		$journal_dashboards 	= new CPD_Journal_Dashboards		();
+		
 		$journal_users 			= new CPD_Journal_Users				();
-		$journal_profiles		= new CPD_Journal_Profiles			();
+
 		$content_blocks			= new CPD_Journal_Content_Blocks	();
 		$options				= CPD_Options::get_instance();
 		$email 					= new CPD_Journal_Email				();
 		$columns 				= new CPD_Journal_Columns			();
 
-		/** 
-		 * Scripts
-		 */
-		
-		// Enqueue the styles
-		if( get_option( 'cpd_enqueue_styles', TRUE ) ) { 
-			add_action( 'admin_enqueue_scripts', array( $admin_scripts, 'enqueue_styles' ) );
-		}
 
-		// Enqueue the scripts
-		if( get_option( 'cpd_enqueue_scripts', TRUE ) ) { 
-			add_action( 'admin_enqueue_scripts', array( $admin_scripts, 'enqueue_scripts' ) );
-		}
 
 
 		/**
@@ -511,10 +496,10 @@ class CPD {
 		/**
 		 * Profiles
 		 */
-		add_action( 'edit_user_profile', 		array( $journal_profiles, 'add_cpd_relationship_management' 	) );
-		add_action( 'show_user_profile', 		array( $journal_profiles, 'add_cpd_relationship_management' 	) );
-		add_action( 'edit_user_profile_update', 	array( $journal_profiles, 'save_cpd_relationship_management' 	) );
-		add_action( 'personal_options_update', 	array( $journal_profiles, 'save_cpd_relationship_management' 	) );
+		add_action( 'edit_user_profile', 		array( $profile, 'add_cpd_relationship_management' 	) );
+		add_action( 'show_user_profile', 		array( $profile, 'add_cpd_relationship_management' 	) );
+		add_action( 'edit_user_profile_update', 	array( $profile, 'save_cpd_relationship_management' 	) );
+		add_action( 'personal_options_update', 	array( $profile, 'save_cpd_relationship_management' 	) );
 
 		/** 
 		 * Journal Menus
@@ -537,13 +522,13 @@ class CPD {
 
 		// Rename page titles
 		if( get_option( 'cpd_rename_page_titles', TRUE ) ) { 
-			add_filter( 'gettext', array( $journal_dashboards, 'rename_page_titles' ), 10, 3  );
-			add_filter( 'init', array( $journal_dashboards, 'rename_post_object' ) );
+			add_filter( 'gettext', array( $dashboards, 'rename_page_titles' ), 10, 3  );
+			add_filter( 'init', array( $dashboards, 'rename_post_object' ) );
 		}
 		
 		// Force colour scheme based on network and / or user type
 		if( get_option( 'cpd_force_network_color_scheme', TRUE ) ) { 
-			add_action( 'get_user_option_admin_color', 	array( $journal_dashboards, 	'force_network_color_scheme' 		) );
+			add_action( 'get_user_option_admin_color', 	array( $dashboards, 	'force_network_color_scheme' 		) );
 		}
 
 
@@ -583,17 +568,11 @@ class CPD {
 	 */
 	private function public_hooks() {
 
-		$public_scripts = new CPD_Register_Scripts_Public				();
+		// $public_scripts = new CPD_Register_Scripts_Public();
 
-		// Enqueue the styles
-		if( get_option( 'cpd_enqueue_styles_public', FALSE ) ) { 
-			add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_styles' ) );
-		}
+		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_styles' ) );
+		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_scripts' ) );
 
-		// Enqueue the scripts
-		if( get_option( 'cpd_enqueue_scripts_public', FALSE ) ) { 
-			add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_scripts' ) );
-		}
 
 	}
 

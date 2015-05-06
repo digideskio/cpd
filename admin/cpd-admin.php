@@ -9,6 +9,9 @@
  * @subpackage CPD/admin
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
 if( !class_exists( 'CPD_Admin' ) ) {
 
 /**

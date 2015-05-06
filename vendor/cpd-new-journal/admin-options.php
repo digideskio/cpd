@@ -12,7 +12,7 @@
  */
 function cpdnj_add_options_page() {
 
-	add_submenu_page( 'index.php', 'CPD journal defaults', 'CPD journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
+	add_submenu_page( 'settings.php', 'CPD journal defaults', 'CPD journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
 
 	add_action( 'admin_init', 'cpdnj_register_settings' );
 }
