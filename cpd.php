@@ -265,6 +265,16 @@ class CPD {
 
 		/*1*/ add_action( 'admin_footer_text', array( $admin, 'remove_admin_footer_text'), 99 );
 		/*2*/ add_action( 'update_footer', array( $admin, 'remove_admin_version'), 99 );
+
+		/**
+		 * Admin Globals
+		 *
+		 * [1] Rename page titles
+		 * [2] Rename the post object
+		 */
+		
+		/*1*/ add_filter( 'gettext', array( $admin, 'rename_page_titles' ), 10, 3 );
+		/*2*/ add_filter( 'init', array( $admin, 'rename_post_object' ) );
 		
 		/**
 		 * Menus
@@ -359,19 +369,26 @@ class CPD {
 		 *
 		 * [1] Hide columns
 		 * [2] Remove column filters
+		 * [3] Add a column for users to sort CPD roles 
+		 * [4] Manage column for users to sort CPD roles 
+		 * [5] Sort column for users to sort CPD roles 
+		 * [6] View count of users in CPD roles
+		 * [7] Filter the CPD role column
 		 */
 		
 		/*1*/ add_action( 'wp_login', array( $columns, 'hide_columns') , 10, 2 );
 		/*2*/ add_filter( 'admin_init', array( $columns, 'remove_column_filters'), 99 );
+		/*3*/ add_filter( 'wpmu_users_columns', array( $columns,'add_column_cpd_role' ), 15, 1 ); 
+		/*4*/ add_action( 'manage_users_custom_column', array( $columns, 'manage_column_cpd_role' ), 15, 3 );
+		/*5*/ add_filter( 'manage_users-network_sortable_columns', array( $columns,'sort_column_cpd_role' ) );
+		/*6*/ add_filter( 'views_users-network', array( $columns,'view_count_cpd_role' ) );
+		/*7*/ add_action( 'pre_user_query', array( $columns,'filter_column_cpd_role' ) );
 		
-
 		
 		$journal_users 			= new CPD_Users				();
 		$content_blocks			= new CPD_Journal_Content_Blocks	();
 		$options				= CPD_Options::get_instance();
 		$email 					= new CPD_Journal_Email				();
-
-
 
 
 		/**
@@ -408,20 +425,6 @@ class CPD {
 		}
 
 
-		/** 
-		 * Journal Dashboards
-		 */
-
-		// Rename page titles
-		if( get_option( 'cpd_rename_page_titles', TRUE ) ) { 
-			add_filter( 'gettext', array( $dashboards, 'rename_page_titles' ), 10, 3  );
-			add_filter( 'init', array( $dashboards, 'rename_post_object' ) );
-		}
-		
-		// Force colour scheme based on network and / or user type
-		if( get_option( 'cpd_force_network_color_scheme', TRUE ) ) { 
-			add_action( 'get_user_option_admin_color', 	array( $dashboards, 	'force_network_color_scheme' 		) );
-		}
 
 
 		/**
@@ -444,11 +447,7 @@ class CPD {
 		add_action( 'save_post', array( $email, 'send_mail_on_update' ) );
 		add_action( 'cpd_unassigned_users_email', array( $email, 'unassigned_users_email' ) );
 
-		add_action( 'manage_users_custom_column', array( $columns, 'cpd_role_column' ), 15, 3 );
-		add_filter( 'manage_users-network_sortable_columns', array( $columns,'add_cpd_role_column_sort' ) );
-		add_filter( 'views_users-network', array( $columns,'add_cpd_role_views' ) );
-		add_filter( 'wpmu_users_columns', array( $columns,'add_cpd_role_column' ), 15, 1 ); 
-		add_action( 'pre_user_query', array( $columns,'filter_and_order_by_cpd_column' ) );
+		
 	}
 
 	/**

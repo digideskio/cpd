@@ -52,6 +52,17 @@ class CPD_Columns {
 	}
 
 	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @var      string    $text_domain       The text domain of the plugin.
+	 *
+	 * @since    2.0.0
+	 **/
+	public function set_text_domain( $text_domain ) { 
+		$this->text_domain = $text_domain;
+	}
+
+	/**
 	 * Hide columns
 	 *
 	 * @param  string $user_login User login name
@@ -120,57 +131,85 @@ class CPD_Columns {
 		}
 	}
 
-	/** TODO: OLD CODE NEEDS REFACTORING */
-
 	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * Add the CPD Role Column
+	 * 
+	 * @param  array $columns      	Any array of columns
+	 * @return array $columns      	Any array of columns
 	 *
 	 * @since    2.0.0
-	 **/
-	public function set_text_domain( $text_domain ) { 
-		$this->text_domain = $text_domain;
-	}
-
-	/* user admin table stuff */ 
-	public function add_cpd_role_column($columns) {
+	 */
+	public function add_column_cpd_role( $columns ) {
 		$columns['cpd_role'] = 'CPD Role';
 		return $columns;
 	}
 
-	public function cpd_role_column($value, $column_name, $id) {
-		if($column_name=='cpd_role') {
-			return get_user_meta($id,'cpd_role', true);
+	/**
+	 * Manage the CPD Role Column
+	 * 
+	 * @param  string $value       	The column value
+	 * @param  string $column_name 	The Column Name
+	 * @param  int $id          	User ID
+	 * 
+	 * @return string cpd_role of user
+	 *
+	 * @since    2.0.0
+	 */
+	public function manage_column_cpd_role( $value, $column_name, $id ) {
+		if( 'cpd_role' == $column_name ) {
+			return get_user_meta( $id, 'cpd_role', TRUE );
 		}
 	}
 
-	public function add_cpd_role_column_sort($columns)
+	/**
+	 * Sort the CPD Role Column
+	 * 
+	 * @param  array $columns      	Any array of columns
+	 * @return array $columns      	Any array of columns
+	 *
+	 * @since    2.0.0
+	 */
+	public function sort_column_cpd_role( $columns )
 	{
 		$columns['cpd_role'] = 'cpd_role'; 
 		return $columns; 
 	}
 
-	public function filter_and_order_by_cpd_column($query)
-	{
-		global $wpdb; 
-		$vars = $query->query_vars;
-		if(isset($_GET['cpd_role']) ){
-			$query->query_from .= " LEFT JOIN ".$wpdb->prefix."usermeta n ON (".$wpdb->prefix."users.ID = n.user_id  AND n.meta_key = 'cpd_role')"; 				
-			$query->query_where.=$wpdb->prepare(" AND n.meta_value =%s", $_GET['cpd_role']);
-		} elseif($vars['orderby'] === 'cpd_role') {
-			$query->query_from .= " LEFT JOIN ".$wpdb->prefix."usermeta m ON (".$wpdb->prefix."users.ID = m.user_id  AND m.meta_key = '{$vars['orderby']}')"; 
-			$query->query_orderby = "ORDER BY m.meta_value ".$vars['order'];
-		} 
+	/**
+	 * Sort the CPD Role Column
+	 * 
+	 * @param  array $views      	Any array of views
+	 * @return array $views      	Any array of views
+	 *
+	 * @since    2.0.0
+	 */
+	public function view_count_cpd_role( $views ) {
 
-	}
+		global $wpdb;
+		
 
-	public function add_cpd_role_views($views) {
-		global $wpdb; 
-		$all_supervisors 	=	array();
-		$all_participants 	=	array();
-		$mu_users 			= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
-		$class 				= 	'';
+
+		$class 					=	'';
+		
+		/** 
+		 * HACK ALERT
+		 *
+		 * Because the 'filter_column_cpd_role' method filters the same loop that 
+		 * gets the supervisors and participants, the count is shown wrong.
+		 *
+		 * A way around this is to manually query the database (as implemented below).
+		 * There may be other ways, but this is working.
+		 *
+		 * TODO: Find a better way to resolve this hack!
+		 */
+		
+		// $all_supervisors 		=	CPD_Users::get_supervisors();
+		// $all_participants 		=	CPD_Users::get_participants();
+
+		$all_supervisors 		=	array();
+		$all_participants 		=	array();
+		$mu_users 				= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
+
 		foreach( $mu_users as $mu_user ) {
 
 			$mu_cpd_role 			= 	get_user_meta( $mu_user->ID, 'cpd_role', TRUE );
@@ -183,11 +222,48 @@ class CPD_Columns {
 				$all_supervisors[] = $mu_user;
 			}
 		}
-		$num_supervisors=count($all_supervisors);
-		$num_participants=count($all_participants);
-		$views['supervisors'] = "<a href='" . network_admin_url('users.php?cpd_role=supervisor') . "'$class>" . sprintf( _n( 'Supervisors <span class="count">(%s)</span>', 'Supervisors <span class="count">(%s)</span>', $num_supervisors ), number_format_i18n( $num_supervisors ) ) . '</a>';
-		$views['pariticpants'] = "<a href='" . network_admin_url('users.php?cpd_role=participant') . "'$class>" . sprintf( _n( 'Participants <span class="count">(%s)</span>', 'Participants <span class="count">(%s)</span>', $num_participants ), number_format_i18n( $num_participants ) ) . '</a>';
+
+		/** 
+		 * END HACK ALERT
+		 */
+
+		$num_supervisors		=	count( $all_supervisors );
+		$num_participants		=	count( $all_participants );
+
+		if( isset( $_GET['cpd_role'] ) && $_GET['cpd_role'] == 'supervisor' ) {
+			$class 					= 	'class="current"';
+		}
+		$views['supervisors'] 	= 	"<a href='" . network_admin_url('users.php?cpd_role=supervisor') . "'$class>" . sprintf( _n( 'Supervisors <span class="count">(%s)</span>', 'Supervisors <span class="count">(%s)</span>', $num_supervisors ), number_format_i18n( $num_supervisors ) ) . '</a>';
+		$class 					=	'';
+
+		if( isset( $_GET['cpd_role'] ) && $_GET['cpd_role'] == 'participant' ) {
+			$class 					= 	'class="current"';
+		}
+		$views['pariticpants'] 	= 	"<a href='" . network_admin_url('users.php?cpd_role=participant') . "'$class>" . sprintf( _n( 'Participants <span class="count">(%s)</span>', 'Participants <span class="count">(%s)</span>', $num_participants ), number_format_i18n( $num_participants ) ) . '</a>';
+		$class 					=	'';
+
 		return $views;
+	}
+
+	/**
+	 * Filter the CPD Role Column
+	 * 
+	 * @param  object $query      	The sort query
+	 *
+	 * @since    2.0.0
+	 */
+	public function filter_column_cpd_role( $query )
+	{
+		global $wpdb;
+		$vars = $query->query_vars;
+
+		if( isset( $_GET['cpd_role'] ) ){
+			$query->query_from .= " LEFT JOIN ".$wpdb->prefix."usermeta n ON (".$wpdb->prefix."users.ID = n.user_id  AND n.meta_key = 'cpd_role')"; 				
+			$query->query_where.=$wpdb->prepare(" AND n.meta_value =%s", $_GET['cpd_role']);
+		} else if( $vars['orderby'] === 'cpd_role' ) {
+			$query->query_from .= " LEFT JOIN ".$wpdb->prefix."usermeta m ON (".$wpdb->prefix."users.ID = m.user_id  AND m.meta_key = '{$vars['orderby']}')"; 
+			$query->query_orderby = "ORDER BY m.meta_value ".$vars['order'];
+		} 
 	}
 }
 }

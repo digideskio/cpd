@@ -158,6 +158,12 @@ class CPD_Profile {
 		else if( in_array( 'administrator', $roles) ) {
 			$color_scheme 	= 'ectoplasm';
 		}
+		else if( in_array( 'supervisor', 	$roles) ) {
+			$color_scheme 	= 'ectoplasm';
+		}
+		else if( in_array( 'participant', 	$roles) ) {
+			$color_scheme 	= 'ocean';
+		}
 		else if( in_array( 'editor', 		$roles) ) {
 			$color_scheme 	= 'ocean';
 		}

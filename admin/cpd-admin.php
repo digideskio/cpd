@@ -151,5 +151,71 @@ class CPD_Admin {
 	public function remove_admin_version() {
 		return '';
 	}
+
+		/**
+	 * Rename page titles
+	 * 
+	 * @param  string 	$translation 	The translated text
+	 * @param  string 	$text        	The text to be translated
+	 * 
+	 * @param  string 	$domain      	The domain of the text we are translating
+	 * @return string 	$translation 	The translated text
+	 * 
+	 * @since    2.0.0
+	 */
+	public function rename_page_titles( $translation, $text, $domain )
+	{
+	    if ( $domain == 'default' && $text == 'Sites' )
+		{
+			remove_filter( 'gettext', 'rename_sites_page' );
+			return 'Journals';
+		}
+
+		if ( $domain == 'default' && $text == 'My Sites' )
+		{
+			remove_filter( 'gettext', 'rename_sites_page' );
+			return 'My Journals';
+		}
+
+		if ( $domain == 'default' && $text == 'Primary Site' )
+		{
+			remove_filter( 'gettext', 'rename_sites_page' );
+			return 'Primary Journal';
+		}
+
+		if ( $domain == 'default' && $text == 'Posts' )
+		{
+			remove_filter( 'gettext', 'rename_sites_page' );
+			return 'Journal Entries';
+		}
+
+		return $translation;
+	}
+
+
+	/**
+	 * Rename post object
+	 * 
+	 * @since    2.0.0
+	 */
+	function rename_post_object() {
+		
+		global $wp_post_types;
+
+		$labels = &$wp_post_types['post']->labels;
+		$labels->name = 'Journal Entry';
+		$labels->singular_name = 'Journal Entry';
+		$labels->add_new = 'Add Journal Entry';
+		$labels->add_new_item = 'Add Journal Entry';
+		$labels->edit_item = 'Edit Journal Entry';
+		$labels->new_item = 'Journal Entry';
+		$labels->view_item = 'View Journal Entries';
+		$labels->search_items = 'Search Journal Entries';
+		$labels->not_found = 'No Journal Entries found';
+		$labels->not_found_in_trash = 'No Journal Entries found in Trash';
+		$labels->all_items = 'All Journal Entries';
+		$labels->menu_name = 'Journal Entry';
+		$labels->name_admin_bar = 'Journal Entry';
+	}
 }
 }
