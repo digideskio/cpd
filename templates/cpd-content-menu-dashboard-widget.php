@@ -1,4 +1,10 @@
 <?php
+/**
+ * Template to render a CPD Content Menu widget
+ * 
+ * @since    2.0.0
+ */
+
 $post_listing 	= $widget[ 'link' ];
 $post_new 		= $widget[ 'call_to_action_link' ];
 

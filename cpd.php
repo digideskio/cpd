@@ -123,7 +123,7 @@ class CPD {
 			'mkdo-admin-profile',			// Profile screen ammendments
 			'mkdo-admin-metaboxes',			// Deregister metaboxes
 			'mkdo-admin-columns',			// Column modifications
-			
+
 			'cpd-users',					// User functions
 			'cpd-profiles',					// Profile ammendments
 			'cpd-menus',					// Menu ammendments
@@ -248,55 +248,15 @@ class CPD {
 		 * [1] Add the cpd_content_menu
 		 * [2] Add menu items to the cpd_content_menu
 		 * [3] Add dashboard widgets to the cpd_content_menu 
+		 * [4] Remove admin menu items
+		 * [5] Remove admin sub menu items
 		 */
 
-		add_action( 'admin_menu', array( $menus, 'add_content_menu'), 5 );
-		add_action( 'admin_menu', array( $menus, 'add_content_menu_items'), 99 );
-		add_action( 'cpd_content_menu_render_widgets', array( $menus, 'add_content_menu_dashboard_widgets'), 99 );
-		
-		// Remove admin menus
-		// 
-		// - Use the filter 'cpd_content_menu_remove_admin_menus' to add menu items to be removed
-		// - Each item in the filter is an array in the following format:
-		// 
-		// 		$admin_menu[] 	= 	array( 
-		// 								'menu' 			=> 		'edit.php',
-		// 								'admin_remove'	=>		TRUE,
-		// 								'mkdo_remove'	=> 		TRUE
-		// 							);
-		// 							
-		// 	  - 'menu' is the menu to remove
-		// 	  - 'admin_remove' will remove the item for admins
-		// 	  - 'mkdo_remove' will remove the item for super users
-		if( get_option( 'mkdo_admin_remove_admin_menus', TRUE ) ) { 
-			add_action( 'admin_menu', array( $admin_menus, 'remove_admin_menus'), 99  );
-		}
-
-		// Remove admin sub menus
-		// 
-		// - Use the filter 'cpd_content_menu_remove_admin_sub_menus' to add sub menu items to be removed
-		// - Each item in the filter is an array in the following format:
-		// 
-		// 		$admin_sub_menu[] 	= 	array(
-		// 								'parent' 		=> 		'themes.php',
-		//								'child' 		=> 		'theme-editor.php',
-		//								'admin_remove'	=>		TRUE,
-		//								'mkdo_remove'	=> 		FALSE
-		//							);
-		//							
-		// 	  - 'parent' is the parent of the sub menu to remove						
-		// 	  - 'child' is the sub menu to remove
-		// 	  - 'admin_remove' will remove the item for admins
-		// 	  - 'mkdo_remove' will remove the item for super users
-		if( get_option( 'mkdo_admin_remove_admin_sub_menus', TRUE ) ) { 
-			add_action( 'admin_menu', array( $admin_menus, 'remove_admin_sub_menus'), 99  );
-		}
-
-		// Rename Media Library to Assets Library
-		if( get_option( 'mkdo_admin_rename_media_library', FALSE ) ) { 
-			add_action( 'admin_menu', 	array( $admin_menus,	'rename_media_menu' 	) );
-			add_filter( 'gettext', 		array( $admin_menus,	'rename_media_page'), 	10,	3  );
-		}
+		/*1*/ add_action( 'admin_menu', array( $menus, 'add_content_menu'), 5 );
+		/*2*/ add_action( 'admin_menu', array( $menus, 'add_content_menu_items'), 99 );
+		/*3*/ add_action( 'cpd_content_menu_render_widgets', array( $menus, 'add_content_menu_dashboard_widgets'), 99 );
+		/*4*/ add_action( 'admin_menu', array( $menus, 'remove_admin_menus'), 99  );
+		/*5*/ add_action( 'admin_menu', array( $menus, 'remove_admin_sub_menus'), 99 );
 
 		// Correct menu hierarchy
 		if( get_option( 'mkdo_admin_correct_menu_hierarchy', TRUE ) ) { 
@@ -570,10 +530,6 @@ class CPD {
 			add_filter( 'mkdo_admin_add_network_admin_sub_menus_filter', array( $menus, 'filter_network_admin_sub_menus' ), 99  );
 		}
 
-		// Remove sub menus
-		if( get_option( 'cpd_remove_admin_sub_menus', TRUE ) ) { 
-			add_action( 'admin_menu', array( $menus, 'remove_admin_sub_menus' ), 99  );
-		}
 
 		/** 
 		 * Journal Dashboards

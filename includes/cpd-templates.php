@@ -5,8 +5,8 @@
  * @link       http://makedo.in
  * @since      1.0.0
  *
- * @package    MKDO_Chat
- * @subpackage MKDO_Chat/admin
+ * @package    CPD
+ * @subpackage CPD/includes
  */
 
 // Exit if accessed directly

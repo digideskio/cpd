@@ -1,4 +1,15 @@
 <?php
+/**
+ * Template to render the CPD Content Menu
+ *
+ * @hook 	cpd_content_menu_before_screen_output 	Render before screen output
+ * @hook 	cpd_content_menu_before_widgets 		Render before the widgets
+ * @hook 	cpd_content_menu_render_widgets			Render the widgets
+ * @hook 	cpd_content_menu_after_widgets			Render after the widgets
+ * @hook 	cpd_content_menu_after_screen_output	Render after screen output
+ * 
+ * @since    2.0.0
+ */
 
 $menu_title 			= __( 'Journal Content', $this->text_domain );
 $menu_description 		= __( 'Below are your journals content types. They are grouped here for ease of access to allow you to quickly add or edit content.', $this->text_domain );

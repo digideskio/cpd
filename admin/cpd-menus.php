@@ -62,6 +62,11 @@ class CPD_Menus {
 		$this->text_domain = $text_domain;
 	}
 
+	/**
+	 * Add the CPD Content Menu
+	 *
+	 * @since    2.0.0
+	 **/
 	public function add_content_menu() {
 	
 		add_object_page(
@@ -69,12 +74,17 @@ class CPD_Menus {
 			'Content',
 			'edit_posts',
 			'cpd_content_menu',
-			array( $this, 'cpd_content_menu'),
+			array( $this, 'render_content_menu'),
 			'dashicons-admin-page'
 		);
 	}
 
-	public function cpd_content_menu() {
+	/**
+	 * Render the CPD Content Menu
+	 *
+	 * @since    2.0.0
+	 **/
+	public function render_content_menu() {
 
 		$template_name 						= 	'cpd-content-menu';
 		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
@@ -84,6 +94,13 @@ class CPD_Menus {
 		}
 	}
 
+	/**
+	 * Add menu items to the  CPD Content Menu
+	 *
+	 * @hook 	filter_cpd_add_content_menu_items 	Filter menu items we are adding to the CPD Content Menu
+	 * 
+	 * @since    2.0.0
+	 **/
 	public function add_content_menu_items() {
 
 		$cpd_content_menu_items 	= 	array();
@@ -106,7 +123,7 @@ class CPD_Menus {
 
 
 		$menus 						=	apply_filters(
-											'filter_cpd_content_menu_add_items',
+											'filter_cpd_add_content_menu_items',
 											$cpd_content_menu_items
 										);
 
@@ -121,6 +138,13 @@ class CPD_Menus {
 		}
 	}
 
+	/**
+	 * Add dashboard widgets to the CPD Content Menu
+	 *
+	 * @hook 	filter_cpd_content_menu_dashboard_widgets 	Filter dashboard widgets we are adding to the CPD Content Menu
+	 * 
+	 * @since    2.0.0
+	 **/
 	public function add_content_menu_dashboard_widgets() {
 
 		$content_menu_dashboard_widgets 	= 	array();
@@ -186,6 +210,166 @@ class CPD_Menus {
 
 	}
 
+	/**
+	 * Remove menus from the admin screen
+	 *
+	 * @hook 	filter_cpd_remove_admin_menus 	Filter menus to remove from the admin screen
+	 * 
+	 * @since    2.0.0
+	 **/
+	public function remove_admin_menus() {
+
+		$user_id 			= 	get_current_user_id();
+		$is_admin 			=	current_user_can( 'manage_options' );
+		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
+		$admin_menus 		=	array();
+
+		// Remove for everyone		
+		$admin_menus[] 		= 	'edit.php';										// Posts
+		$admin_menus[] 		= 	'edit.php?post_type=page';						// Pages
+		$admin_menus[] 		= 	'edit-comments.php';							// Comments
+
+		// Remove for everyone but elevated users
+		if( !$is_elevated_user ) {
+			$admin_menus[] 		= 	'seperator1';								// Seperator
+			$admin_menus[] 		= 	'tools.php';								// Tools
+			$admin_menus[] 		= 	'options-general.php';						// Settings
+			$admin_menus[] 		= 	'plugins.php';								// Plugins
+			$admin_menus[] 		= 	'wpseo_dashboard';							// Yoast SEO
+			$admin_menus[] 		= 	'all-in-one-seo-pack/aioseop_class.php';	// All in one SEO
+			$admin_menus[] 		= 	'activity_log_page';						// Activity Log
+			$admin_menus[] 		= 	'edit.php?post_type=acf';					// ACF
+			$admin_menus[] 		= 	'wp-user-avatar';							// Avatar
+		}
+
+		// Remove for everyone but admins
+		if( !$is_admin || $is_elevated_user ) {
+
+		}
+
+		// Remove for everyone but elevated users and admins
+		if( !$is_elevated_user && !$is_admin ) {
+
+		}
+
+		$menus 			=	apply_filters(
+								'filter_cpd_remove_admin_menus',
+								$admin_menus
+							);
+
+		foreach( $menus as $menu ) {
+			remove_menu_page( $menu );
+		}
+	}
+
+	/**
+	 * Remove sub menus from the admin screen
+	 *
+	 * @hook 	filter_cpd_remove_sub_admin_menus 	Filter menus to remove from the admin screen
+	 * 
+	 * @since    2.0.0
+	 **/
+	public function remove_admin_sub_menus() {
+
+		$user_id 			= 	get_current_user_id();
+		$is_admin 			=	current_user_can( 'manage_options' );
+		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
+		$user_type 	= get_user_meta( $user_id, 'cpd_role', true );
+		$sub_menus 			=	array();
+
+		// Remove for everyone
+		
+
+		// Remove for participants
+		if( $user_type == 'participant' )
+		{
+			// Users
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'users.php',
+									'menu' 		=>	'users.php',
+								);
+
+			// New User
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'users.php',
+									'menu' 		=>	'user-new.php',
+								);
+
+			// Discussion Settings
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'users.php',
+									'menu' 		=>	'options-discussion.php',
+								);
+		}
+
+
+		// Remove for supervisors
+		if( $user_type == 'supervisor' ) {
+		}
+
+
+		// Remove for participants or supervisors
+		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
+
+			// My Sites
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'index.php',
+									'menu' 		=>	'my-sites.php',
+								);
+		}
+
+
+		// Remove for everyone but elevated users
+		if( !$is_elevated_user ) {
+
+			// Themes
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'themes.php',
+								);
+
+			// Theme Customiser
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'customize.php',
+								);
+
+			// Theme Editor
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'theme-editor.php',
+								);
+
+			// Delete Site
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'tools.php',
+									'menu' 		=>	'ms-delete-site.php',
+								);
+		}
+
+
+		// Remove for everyone but admins
+		if( !$is_admin || $is_elevated_user ) {
+
+		}
+
+
+		// Remove for everyone but elevated users and admins
+		if( !$is_elevated_user && !$is_admin ) {
+
+		}
+		
+
+		$menus 			=	apply_filters(
+								'filter_cpd_remove_sub_admin_menus',
+								$sub_menus
+							);
+
+		foreach( $menus as $menu ) {
+			remove_submenu_page( $menu['parent'], $menu['menu'] );
+		}
+	}
+
 	/** TODO: OLD NEEDS REFACTOR */
 
 
@@ -222,27 +406,6 @@ class CPD_Menus {
 		}
 
 		return $menus;
-	}
-
-	/**
-	 * Remove sub menus
-	 */
-	public function remove_admin_sub_menus() {
-		
-		$user_id 	= get_current_user_id();
-		$user_type 	= get_user_meta( $user_id, 'cpd_role', true );
-
-		if( $user_type == 'participant' )
-		{
-			remove_submenu_page( 'users.php', 'users.php' );
-			remove_submenu_page( 'users.php', 'user-new.php' );
-			remove_submenu_page( 'tools.php', 'ms-delete-site.php' );
-			remove_submenu_page( 'options-general.php', 'options-discussion.php' );
-		}
-
-		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
-			remove_submenu_page( 'index.php', 'my-sites.php' );
-		}
 	}
 
 	/**
