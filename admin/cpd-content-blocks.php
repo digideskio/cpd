@@ -38,7 +38,7 @@ class CPD_Journal_Content_Blocks{
 	public function add_welcome_content_block() {
 		
 		$welcome_widget_function 		= 'render_welcome_subscriber';
-		$welcome_title 					= 'Welcome to CPD Journals ';
+		$welcome_title 					= 'Welcome to Aspire CPD ';
 		$dashboard 						= 'dashboard';
 
 		$current_user 					= wp_get_current_user();
