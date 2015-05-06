@@ -577,44 +577,5 @@ class CPD_Menus {
 			}
 		}
 	}
-
-	/** TODO: BELOW IS OLD CODE - NEEDS REFACTOR */
-
-	/**
-	 * Filter menus
-	 */
-	public function filter_menu_items( $menus ) {
-
-		foreach( $menus as &$menu ) {
-
-			if( $menu['post_type'] == 'post' ) {
-
-				$menu['post_name'] 					= 	'Journal Entry';
-				$menu['menu_name'] 					= 	'Journal Entry';
-				$menu['add_to_dashboard_block'] 	= 	array(
-															'dashicon' 		=> 'dashicons-book'
-														);
-			}
-		}
-
-		return $menus;
-	}
-
-	/**
-	 * Rename network sub menus
-	 */
-	public function filter_network_admin_sub_menus( $menus ) {
-		
-		foreach( $menus as &$menu ) {
-			if( $menu['page_title'] == 'Sites' ) {
-				$menu['page_title'] = 'Journals';
-				$menu['menu_title'] = 'Journals';
-			}
-		}
-
-		return $menus;
-	}
-
-
 }
 }

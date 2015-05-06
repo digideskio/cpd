@@ -129,6 +129,7 @@ class CPD {
 			'cpd-dashboard-widget-comments',	// Dashboard widget (comments)
 			'cpd-notices',						// Admin notices modifications
 			'cpd-profile',						// Profile ammendments
+			'cpd-metaboxes',					// Metabox ammendments
 			'cpd-columns',						// Column modifications
 
 			'cpd-users',						// User functions
@@ -218,7 +219,7 @@ class CPD {
 		$dashboard_widget_comments 			= CPD_Dashboard_Widget_Comments::get_instance();
 		$notices							= CPD_Notices::get_instance();
 		$profile							= CPD_Profile::get_instance();
-		$metaboxes							= CPD_Profile::get_instance();
+		$metaboxes							= CPD_Metaboxes::get_instance();
 		$columns 							= CPD_Columns::get_instance();
 
 		/** 
@@ -404,21 +405,6 @@ class CPD {
 		// On creation of new MS user, redirect to custom area
 		if( get_option( 'cpd_redirect_on_create_user', TRUE ) ) { 
 			add_action( 'wpmu_new_user', array( $journal_users, 'redirect_on_create_user' ) );
-		}
-
-
-		/** 
-		 * Journal Menus
-		 */
-		
-		// Rename Menu Items
-		if( get_option( 'cpd_filter_menu_items', TRUE ) ) { 
-			add_filter( 'cpd_content_menu_add_menu_items', array( $menus, 'filter_menu_items' ) );
-		}
-
-		// Rename Network sub menus
-		if( get_option( 'cpd_filter_network_admin_sub_menus', TRUE ) ) { 
-			add_filter( 'mkdo_admin_add_network_admin_sub_menus_filter', array( $menus, 'filter_network_admin_sub_menus' ), 99  );
 		}
 
 
