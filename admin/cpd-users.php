@@ -239,8 +239,190 @@ class CPD_Users{
 				}
 			}
 		}
-		
-		return $users;
 
+		return $users;
 	}
+
+	public static function get_participants() {
+
+		$users 				= 	array();
+		$blogs 				= 	wp_get_sites();
+
+		foreach ( $blogs as $blog ){
+
+			$blog_users 	= 	get_users(
+									array( 
+										'blog_id' 	=> 	$blog['blog_id'],
+										'role' 		=> 	'participant',
+									) 
+								);
+
+			if( is_array( $blog_users ) ) {
+				foreach( $blog_users as $user ) {
+					if( !in_array( $user, $users ) ) {
+						$users[] = $user;
+					}
+				}
+			}
+		}
+
+		return $users;
+	}
+
+	public static function get_supervisors() {
+
+		$users 				= 	array();
+		$blogs 				= 	wp_get_sites();
+
+		foreach ( $blogs as $blog ){
+
+			$blog_users 	= 	get_users(
+									array( 
+										'blog_id' 	=> 	$blog['blog_id'],
+										'role' 		=> 	'supervisor',
+									) 
+								);
+
+			if( is_array( $blog_users ) ) {
+				foreach( $blog_users as $user ) {
+					if( !in_array( $user, $users ) ) {
+						$users[] = $user;
+					}
+				}
+			}
+		}
+
+		return $users;
+	}
+
+	public static function remove_user_from_related_supervisors( $user_id, $participants ) {
+
+		foreach( $participants as $participant ) {
+
+			if( is_object( $participant ) ) {
+				$participant 					= 	$participant->ID;
+			}
+			$participant_supervisors 			= 	get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+			$position 							= 	array_search( $user_id, (array)$participant_supervisors );
+			if( $position !== FALSE ) {
+				unset( $participant_supervisors[$position] );
+				update_user_meta( $participant, 'cpd_related_supervisors', $participant_supervisors );
+			}
+		}
+	}
+
+	public static function remove_user_from_related_participants( $user_id, $supervisors ) {
+
+		foreach( $participants as $participant ) {
+
+			if( is_object( $participant ) ) {
+				$supervisor 					= 	$supervisor->ID;
+			}
+			$supervisor_participants 			= 	get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
+			$position 							= 	array_search( $user_id, (array)$supervisor_participants );
+			if( $position !== FALSE ) {
+				unset( $supervisor_participants[$position] );
+				update_user_meta( $supervisor, 'cpd_related_participants', $supervisor_participants );
+			}
+		}
+	}
+
+	public static function add_cpd_relationship( $supervisor, $participant ) {
+
+		$supervisors 	= get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+		$participants 	= get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
+
+		if( !in_array( $supervisor, $supervisors ) ) {
+			$supervisors[] = $supervisor;
+		}
+
+		if( !in_array( $participant, $participants ) ) {
+			$participants[] = $participant;
+		}
+
+		update_user_meta( $participant, 'cpd_related_supervisors', $supervisors );
+		update_user_meta( $supervisor, 'cpd_related_participants', $participants );
+	}
+
+	public static function remove_cpd_relationship( $supervisor, $participant ) {
+
+		$supervisors 	= get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
+		$participants 	= get_user_meta( $supervisor, 'cpd_related_participants', TRUE );
+
+		if( in_array( $supervisor, $supervisors ) ) {
+			$position 	= 	array_search( $supervisor, (array)$supervisors );
+			unset( $supervisors[$position] );
+		}
+
+		if( in_array( $participant, $participants ) ) {
+			$position 	= 	array_search( $participant, (array)$participants );
+			unset( $participants[$position] );
+		}
+
+		update_user_meta( $participant, 'cpd_related_supervisors', $supervisors );
+		update_user_meta( $supervisor, 'cpd_related_participants', $participants );
+	}
+
+	public static function add_participant_to_supervisor_journals( $user_id ) {
+		$current_journals = get_blogs_of_user( $user_id );
+		if( is_array( $current_journals ) && count( $current_journals  ) ) {
+			foreach( $current_journals as $journal ) {
+				foreach( $post_supervisors as $supervisor ) {
+					add_user_to_blog( $journal->userblog_id, $supervisor, 'supervisor' );
+				}
+			}
+		}
+	}
+
+	public static function add_supervisor_to_participant_journals( $user_id ) {
+
+		$should_have_journals = array();
+		$participants = get_user_meta( $user_id, 'cpd_related_participants', TRUE );
+
+		foreach( $participants as $participant ) {
+			$blogs = get_blogs_of_user( $participant );
+			if( is_array( $blogs ) && count( $blogs ) > 0 ) {
+				foreach ( $blogs as $blog ) {
+					$should_have_journals[] = $blog->userblog_id;
+				}
+			}
+		}
+		if( count( $all_cpd_journals ) > 0 ) {
+			foreach( $all_cpd_journals as $journal ) {
+				$journal = $journal['blog_id'];
+				if( in_array( $journal, $should_have_journals ) ) {
+					add_user_to_blog( $journal, $user_id, 'supervisor' );
+				} 
+				else {
+					remove_user_from_blog( $user_id, $journal );
+				}
+			}
+		}
+	}
+
+	public static function remove_user_from_blogs() {
+		$current_journals = get_blogs_of_user( $user_id );
+		if( count( $current_journals ) > 0 ) {
+			
+			foreach( $current_journals as $journal ) {
+				remove_user_from_blog( $user_id, $journal->userblog_id );
+			}
+		}
+	}
+
+	public static function create_user_journal( $user_id ) {
+		$user 			= 	get_userdata( $user_id );
+		$user_data 		= 	$user->data;
+		$current_site 	= 	network_site_url();
+		$domain 		= 	parse_url( network_site_url(), PHP_URL_HOST );
+		$path 			= 	parse_url( network_site_url(), PHP_URL_PATH ) . $user_data->user_login . '/';
+
+		$cpd_settings 	= 	get_option( 'cpd_new_blog_options' );
+		$cpd_settings 	= 	preg_replace( '/[\n\r]+/', '&', $cpd_settings );
+		$cpd_settings 	= 	preg_replace( '/[\s\:]+/', '=', $cpd_settings );
+		parse_str( $cpd_settings, $options );
+
+		$cpd_journal 	= 	wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
+	}
+			
 }
