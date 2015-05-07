@@ -43,18 +43,18 @@ class CPD_Notices {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -63,7 +63,7 @@ class CPD_Notices {
 	/**
 	 * Add taxonomies as a notice
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_notice_taxonomy() {
 	
@@ -116,7 +116,7 @@ class CPD_Notices {
 	/**
 	 * Tree page view switcher as a notice
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_notice_tree_view() {
 

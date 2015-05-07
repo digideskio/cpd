@@ -44,9 +44,9 @@ class CPD_Templates {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
-	 * @var      string    $instance    The name of this plugin.
-	 * @var      string    $version    	The version of this plugin.
+
+	 * @param      string    $instance    The name of this plugin.
+	 * @param      string    $version    	The version of this plugin.
 	 */
 	public function __construct() {
 		

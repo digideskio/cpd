@@ -45,18 +45,18 @@ class CPD_Blogs {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -67,7 +67,7 @@ class CPD_Blogs {
 	 * 
 	 * @param  int  $blog_id  The newly created blog id
 	 *
-	 * @since    2.0.0
+
 	 */
 	function new_blog( $blog_id /*, $user_id, $domain, $path, $site_id, $meta*/ ) 
 	{
@@ -228,7 +228,7 @@ class CPD_Blogs {
 	 * @param  object $b Object b
 	 * @return sort order
 	 *
-	 * @since    2.0.0
+
 	 */
 	private function sort_by_menu_order($a, $b)
 	{

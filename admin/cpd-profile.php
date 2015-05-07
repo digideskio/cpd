@@ -45,18 +45,18 @@ class CPD_Profile {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -67,7 +67,7 @@ class CPD_Profile {
 	 * 
 	 * @param object 	$user 	Current user object
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_field_elevated_user( $user ) {
 
@@ -110,7 +110,7 @@ class CPD_Profile {
 	 * 
 	 * @param int 	$user_id 	Current user ID
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function save_field_elevated_user( $user_id ) {
 		
@@ -131,7 +131,7 @@ class CPD_Profile {
 	/**
 	 * Remove admin colour scheme
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function remove_admin_color_schemes() {
 		remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
@@ -142,7 +142,7 @@ class CPD_Profile {
 	 *
 	 * @param string 	$color_scheme 	Current Colour Scheme
 	 * 
-	 * @since    2.0.0
+
 	 */
 	public function set_color_scheme( $color_scheme ) {
 		
@@ -190,7 +190,7 @@ class CPD_Profile {
 	 * 
 	 * @param object 	$user 	Current user object
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_field_cpd_relationship_management( $user ) {
 
@@ -309,7 +309,7 @@ class CPD_Profile {
 	 * 
 	 * @param int 	$user_id 	Current user ID
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function save_field_cpd_relationship_management( $user_id ) {
 			

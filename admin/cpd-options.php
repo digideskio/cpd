@@ -46,20 +46,20 @@ class CPD_Options {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+
+	 * @param      string    $instance       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -88,7 +88,7 @@ class CPD_Options {
 	/**
 	 * Show the Assignments section message
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_assignments_callback() {
 		?>
@@ -112,7 +112,7 @@ class CPD_Options {
 	/**
 	 * Show the Pages section message
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_pages_callback() {
 		?>
@@ -136,7 +136,7 @@ class CPD_Options {
 	/**
 	 * Show the Posts section message
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_posts_callback() {
 		?>
@@ -160,7 +160,7 @@ class CPD_Options {
 	/**
 	 * Show the Manual Defaults section message
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_manual_defaults_callback() {
 		?>
@@ -177,7 +177,7 @@ class CPD_Options {
 	/**
 	 * Render the assignments field
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_assignments_default_assignments_callback() {
 
@@ -321,7 +321,7 @@ class CPD_Options {
 	/**
 	 * Render the pages field
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_pages_default_pages_callback() {
 
@@ -465,7 +465,7 @@ class CPD_Options {
 	/**
 	 * Render the posts field
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_posts_default_posts_callback() {
 
@@ -609,7 +609,7 @@ class CPD_Options {
 	/**
 	 * Render the manual defaults field
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function cpd_section_manual_defaults_key_values_callback() {
 		$cpd_settings 	= 	get_option( 'cpd_new_blog_options' );
@@ -621,7 +621,7 @@ class CPD_Options {
 	/**
 	 * Add the options page
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_options_page() {
 		add_submenu_page( 'settings.php', 'CPD Journal Defaults', 'CPD Journal Defaults', 'manage_network_options', 'cpd_settings', array( $this, 'render_options_page' ) );
@@ -630,7 +630,7 @@ class CPD_Options {
 	/**
 	 * Render the options page
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function render_options_page(){ 
 		?>

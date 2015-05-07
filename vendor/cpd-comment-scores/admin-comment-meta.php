@@ -3,58 +3,7 @@
  * @package CPD Comment Scores
  */
 
-/**
- * 
- * @since  		2.0.0
- * 
- * Add the score to the bottom of the comment when previewed
- * 
- */
-function cpd_meta_row_action( $actions ) 
-{
-	global $comment;
 
-	// Output the score if it has been set
-	$score = get_comment_meta( $comment->comment_ID, 'score', true );
-
-	if( !empty( $score ) )
-	{
-		echo '<div class="comment-meta"><strong>Score: ';
-		echo get_comment_meta( $comment->comment_ID, 'score', true );
-		echo '</strong></div>';
-	}
-
-	$comment_id = $comment->comment_ID;
-
-	// Disable edit options if submitted by a supervisor
-	$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
-
-	// If they are not a user, return
-	if ( !( $comment_author instanceof WP_User ) )
-		return $actions;
-
-	// If the person logged in is the supervisor, return
-	if( wp_get_current_user() == $comment_author )
-		return $actions;
-
-	// Check to make sure they are a supervisor
-	if( in_array( 'supervisor', $comment_author->roles ) )
-	{
-		$supervisors = get_user_meta( wp_get_current_user()->ID, 'cpd_related_participants', TRUE );
-
-		// If the author of the comment is a supervisor, and they are associated with the participant, prevent edit of the content
-		foreach ( $supervisors as $supervisor )
-		{
-			if( $supervisor == $comment_author->id )
-			{
-				unset( $actions['quickedit'], $actions['edit'], $actions['spam'], $actions['unapprove'], $actions['trash'] );
-			}
-		}
-	}
-
-	return $actions;
-}
-add_filter( 'comment_row_actions', 'cpd_meta_row_action', 11, 1 );
 
 
 
@@ -67,7 +16,7 @@ add_filter( 'comment_row_actions', 'cpd_meta_row_action', 11, 1 );
  */
 function cpd_comment_columns( $columns )
 {
-	$columns['score'] = 'Assignment score';
+	$columns['score'] = 'Score';
 
 	return $columns;
 }
@@ -113,7 +62,7 @@ function cpd_add_meta_box()
 	// Check to make sure they are a supervisor
 	if( in_array( 'supervisor', $current_user->roles ) )
 	{
-		add_meta_box( 'cpd_score', 'Assignment score', 'cpd_meta_box', 'comment', 'normal', 'high' );
+		add_meta_box( 'cpd_score', 'Score', 'cpd_meta_box', 'comment', 'normal', 'high' );
 	}
 }
 add_action( 'add_meta_boxes_comment', 'cpd_add_meta_box' );
@@ -175,10 +124,6 @@ function cpd_prevent_supervisor_edits()
 		$comment_id = $_GET['c'];
 		$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
 
-		// If the CPD Journal plugin isnt running, return
-		if( !is_object( $cpd ) )
-			return;
-
 		// If they are not a user, return
 		if ( !( $comment_author instanceof WP_User ) )
 			return;
@@ -215,7 +160,12 @@ add_action( 'current_screen','cpd_prevent_supervisor_edits', 10, 1 );
  */
 function cpd_prevent_comments_if_not_logged_in()
 {
-	update_option( 'comment_registration', 1 );
+	if( get_option( 'comment_registration', NULL ) !== NULL ) {
+		update_option( 'comment_registration', TRUE );
+	}
+	else {
+		add_option( 'comment_registration', TRUE );
+	}
 }
 add_action( 'init','cpd_prevent_comments_if_not_logged_in', 10, 1 );
 

@@ -66,8 +66,6 @@ class CPD {
 	 * Define the core functionality of the plugin.
 	 *
 	 * Load the dependencies, define the locale, and set the hooks
-	 *
-	 * @since    2.0.0
 	 */
 	private function __construct() {
 
@@ -90,9 +88,6 @@ class CPD {
 	 * groupings. This allows easy reading of what loads in what order.
 	 *
 	 * It also allows easier and documented reading of what each dependancie is.
-	 *
-	 * @since    2.0.0
-	 * @access   private
 	 */
 	private function load_dependencies() {
 
@@ -107,7 +102,6 @@ class CPD {
 
 		// Prepare vendor dependancies
 		$dependencies['vendor'] 	= 	array(
-			'cpd-comment-scores/index', 		// CPD comment scores
 		);
 		
 		// Prepare common dependancies
@@ -117,7 +111,6 @@ class CPD {
 		
 		// Prepare admin dependancies
 		$dependencies['admin'] 		= 	array(
-			
 			'cpd-admin-scripts',				// Register Admin Scripts
 			'cpd-admin', 						// WordPress Admin Overrides
 			'cpd-menus',						// Menu ammendments
@@ -136,6 +129,7 @@ class CPD {
 			'cpd-options-copy-assignments', 	// Create options page
 			'cpd-blogs',						// Blog settings
 			'cpd-emails', 						// Send emails
+			'cpd-comments', 					// Manage comments
 		);
 		
 		// Prepare public dependancies
@@ -162,8 +156,6 @@ class CPD {
 	 * Fired during plugin activation.
 	 *
 	 * All code necessary to run during the plugin's activation.
-	 *
-	 * @since      2.0.0
 	 */
 	public static function activation() {
 
@@ -186,8 +178,6 @@ class CPD {
 	 * Fired during plugin deactivation.
 	 *
 	 * All code necessary to run during the plugin's deactivation.
-	 *
-	 * @since      2.0.0
 	 */
 	public static function deactivation() {
 
@@ -195,19 +185,15 @@ class CPD {
 
 	/**
 	 * Run the plugin loader
-	 *
-	 * @since    2.0.0
 	 */
 	public function run() {
 		$this->admin_hooks();
 		$this->public_hooks();
 	}
 
-			/**
+	/**
 	 * Register all of the hooks related to the dashboard functionality
 	 * of the plugin.
-	 *
-	 * @since    2.0.0
 	 * @access   private
 	 */
 	private function admin_hooks() {
@@ -230,6 +216,7 @@ class CPD {
 		$options_copy_assignments			= CPD_Options_Copy_Assignments::get_instance();
 		$blogs 								= CPD_Blogs::get_instance();
 		$emails 							= CPD_Emails::get_instance();
+		$comments 							= CPD_Comments::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -253,6 +240,7 @@ class CPD {
 		$options_copy_assignments->set_text_domain( $this->text_domain );
 		$blogs->set_text_domain( $this->text_domain );
 		$emails->set_text_domain( $this->text_domain );
+		$comments->set_text_domain( $this->text_domain );
 		
 		/** 
 		 * Scripts
@@ -497,14 +485,33 @@ class CPD {
 		/*1*/ add_action( 'save_post', array( $emails, 'send_mail_on_update' ) );
 		/*2*/ add_action( 'cpd_unassigned_users_email', array( $emails, 'unassigned_users_email' ) );
 		
+		/**
+		 * Comments
+		 *
+		 * [1]  
+		 * [2] 
+		 * [3] 
+		 * [4] 
+		 * [5] 
+		 * [6] 
+		 * [7] 
+		 * [8] 
+		 */
+		
+		/*1*/ add_filter( 'comment_row_actions', array( $comments, 'prevent_comment_edit_supervisor_ui' ), 11, 1 );
+		/*2*/ add_filter( 'manage_edit-comments_columns', array( $comments, 'add_score_column' ) );
+		/*3*/ add_filter( 'manage_comments_custom_column',  array( $comments, 'add_score_column_data' ), 10, 2 );
+		/*4*/ add_action( 'add_meta_boxes_comment',  array( $comments, 'add_comment_metabox_score' ) );
+		/*5*/ add_filter( 'comment_save_pre',  array( $comments, 'save_comment_metabox_score' ) );
+		/*6*/ add_action( 'current_screen', array( $comments, 'prevent_comment_edit_supervisor' ), 10, 1 );
+		/*7*/ add_action( 'init', array( $comments, 'set_comment_options'), 10, 1 );
+		/*8*/ add_filter( 'comment_form_defaults', array( $comments, 'enable_comment_tinymce' ) );
+		/*9*/ add_filter('preprocess_comment', array( $comments, 'enable_comment_tags' ) );
 	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
-	 *
-	 * @since    2.0.0
-	 * @access   private
 	 */
 	private function public_hooks() {
 

@@ -44,19 +44,15 @@ class CPD_Users {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-	 * @since    2.0.0
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
-	 *
-	 * @since    2.0.0
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -68,8 +64,6 @@ class CPD_Users {
 	 * @hook 	filter_cpd_set_admin_capabilities 	Filter the admin capabilities
 	 * 
 	 * @param array 	$capabilities 	Array of Capabilities
-	 * 
-	 * @since    2.0.0
 	 */
 	public function set_admin_capabilities( $capabilities ) {
 	
@@ -128,8 +122,6 @@ class CPD_Users {
 	 * Create roles for Supervisors and Participants
 	 *
 	 * @hook 	filter_cpd_remove_participant_capabilities 	Capabilities to remove from participants
-	 *
-	 * @since    2.0.0
 	 */
 	public function create_roles() {
 
@@ -145,7 +137,6 @@ class CPD_Users {
 													array(
 														'edit_users',
 														'create_users',
-														'edit_posts',
 														'edit_others_posts',
 														'edit_others_pages',
 														'delete_others_posts',
@@ -168,8 +159,6 @@ class CPD_Users {
 	 * 
 	 * @param int 		$user_id 	The users id
 	 * @param strong 	$role 		The role that has been assigned
-	 *
-	 * @since    2.0.0
 	 */
 	public function set_user_role( $user_id, $role ) {
 
@@ -185,8 +174,6 @@ class CPD_Users {
 	 * @return array    $all_roles      All user roles
 	 *
 	 * @hook 	filter_cpd_remove_participant_capabilities 	Capabilities to remove from participants
-	 *
-	 * @since   2.0.0
 	 */
 	public function remove_participant_capabilities( $all_roles ){
 
@@ -198,7 +185,6 @@ class CPD_Users {
 										array(
 											'edit_users',
 											'create_users',
-											'edit_posts',
 											'edit_others_posts',
 											'edit_others_pages',
 											'delete_others_posts',
@@ -232,8 +218,6 @@ class CPD_Users {
 	 * @param array 	$args    	[0] Requested capability
 	 *                        		[1] User ID
 	 *                        	 	[2] Associated object ID
-	 *
-	 * @since   2.0.0
 	 */
 	public function prevent_partcipant_removing_supervisor( $allcaps, $caps, $args ) {
 			
@@ -259,8 +243,6 @@ class CPD_Users {
 	 * Redirect user on creation
 	 * 
 	 * @param  int 		$user_id 	The user ID
-	 *
-	 * @since   2.0.0
 	 */
 	public function redirect_on_create_user( $user_id ){
 
@@ -289,8 +271,6 @@ class CPD_Users {
 
 	/**
 	 * Get all multisite users
-	 *
-	 * @since   2.0.0
 	 */
 	public static function get_multisite_users() {
 
@@ -317,8 +297,6 @@ class CPD_Users {
 
 	/**
 	 * Get all participants
-	 *
-	 * @since   2.0.0
 	 */
 	public static function get_participants() {
 
@@ -352,8 +330,6 @@ class CPD_Users {
 
 	/**
 	 * Get all supervisors
-	 *
-	 * @since   2.0.0
 	 */
 	public static function get_supervisors() {
 
@@ -390,8 +366,6 @@ class CPD_Users {
 	 *
 	 * @param  int 		$user_id 		The user ID
 	 * @param  array 	$participants 	Participants to be removed from
-	 *
-	 * @since   2.0.0
 	 */
 	public static function remove_user_from_related_supervisors( $user_id, $participants ) {
 
@@ -414,8 +388,6 @@ class CPD_Users {
 	 *
 	 * @param  int 		$user_id 		The user ID
 	 * @param  array 	$supervisors 	Supervisors to be removed from
-	 *
-	 * @since   2.0.0
 	 */
 	public static function remove_user_from_related_participants( $user_id, $supervisors ) {
 
@@ -438,8 +410,6 @@ class CPD_Users {
 	 *
 	 * @param  int 		$supervisor 		The supervisor ID
 	 * @param  int 		$participant 		The participant ID
-	 *
-	 * @since   2.0.0
 	 */
 	public static function add_cpd_relationship( $supervisor, $participant ) {
 
@@ -463,8 +433,6 @@ class CPD_Users {
 	 *
 	 * @param  int 		$supervisor 		The supervisor ID
 	 * @param  int 		$participant 		The participant ID
-	 *
-	 * @since   2.0.0
 	 */
 	public static function remove_cpd_relationship( $supervisor, $participant ) {
 
@@ -489,8 +457,6 @@ class CPD_Users {
 	 * Add a supervisor to its participants journals
 	 *
 	 * @param  int 		$user_id 		The user ID
-	 *
-	 * @since   2.0.0
 	 */
 	public static function add_supervisor_to_participant_journals( $user_id ) {
 
@@ -524,8 +490,6 @@ class CPD_Users {
 	 * Remove a user from all blogs
 	 *
 	 * @param  int 		$user_id 		The user ID
-	 *
-	 * @since   2.0.0
 	 */
 	public static function remove_user_from_blogs( $user_id ) {
 		$current_journals = get_blogs_of_user( $user_id );
@@ -541,8 +505,6 @@ class CPD_Users {
 	 * Create a  user journal
 	 *
 	 * @param  int 		$user_id 		The user ID
-	 *
-	 * @since   2.0.0
 	 */
 	public static function create_user_journal( $user_id ) {
 		$user 			= 	get_userdata( $user_id );

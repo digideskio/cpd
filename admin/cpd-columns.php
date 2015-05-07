@@ -45,18 +45,18 @@ class CPD_Columns {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -70,7 +70,7 @@ class CPD_Columns {
 	 *
 	 * @hook 	filter_cpd_hide_columns 	Filter columns that get hidden when a user logs in
 	 * 
-	 * @since    2.0.0
+
 	 */
 	public function hide_columns( $user_login, $user ) {
 
@@ -120,7 +120,7 @@ class CPD_Columns {
 	/**
 	 * Remove column filters
 	 * 
-	 * @since    2.0.0
+
 	 */
 	public function remove_column_filters() {
 		
@@ -137,7 +137,7 @@ class CPD_Columns {
 	 * @param  array $columns      	Any array of columns
 	 * @return array $columns      	Any array of columns
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function add_column_cpd_role( $columns ) {
 		$columns['cpd_role'] = 'CPD Role';
@@ -153,7 +153,7 @@ class CPD_Columns {
 	 * 
 	 * @return string cpd_role of user
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function manage_column_cpd_role( $value, $column_name, $id ) {
 		if( 'cpd_role' == $column_name ) {
@@ -167,7 +167,7 @@ class CPD_Columns {
 	 * @param  array $columns      	Any array of columns
 	 * @return array $columns      	Any array of columns
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function sort_column_cpd_role( $columns )
 	{
@@ -181,7 +181,7 @@ class CPD_Columns {
 	 * @param  array $views      	Any array of views
 	 * @return array $views      	Any array of views
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function view_count_cpd_role( $views ) {
 
@@ -250,7 +250,7 @@ class CPD_Columns {
 	 * 
 	 * @param  object $query      	The sort query
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function filter_column_cpd_role( $query )
 	{

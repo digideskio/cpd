@@ -43,22 +43,19 @@ class CPD_Menus {
 
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @since    2.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+	 * @param      string    $instance       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
-	 *
-	 * @since    2.0.0
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -66,8 +63,6 @@ class CPD_Menus {
 
 	/**
 	 * Add the CPD Content Menu
-	 *
-	 * @since    2.0.0
 	 **/
 	public function add_content_menu() {
 	
@@ -83,8 +78,6 @@ class CPD_Menus {
 
 	/**
 	 * Render the CPD Content Menu
-	 *
-	 * @since    2.0.0
 	 **/
 	public function render_content_menu() {
 
@@ -100,8 +93,6 @@ class CPD_Menus {
 	 * Add menu items to the  CPD Content Menu
 	 *
 	 * @hook 	filter_cpd_add_content_menu_items 	Filter menu items we are adding to the CPD Content Menu
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function add_content_menu_items() {
 
@@ -144,8 +135,6 @@ class CPD_Menus {
 	 * Add dashboard widgets to the CPD Content Menu
 	 *
 	 * @hook 	filter_cpd_content_menu_dashboard_widgets 	Filter dashboard widgets we are adding to the CPD Content Menu
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function add_content_menu_dashboard_widgets() {
 
@@ -216,8 +205,6 @@ class CPD_Menus {
 	 * Remove menus from the admin screen
 	 *
 	 * @hook 	filter_cpd_remove_admin_menus 	Filter menus to remove from the admin screen
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function remove_admin_menus() {
 
@@ -229,7 +216,7 @@ class CPD_Menus {
 		// Remove for everyone		
 		$admin_menus[] 		= 	'edit.php';										// Posts
 		$admin_menus[] 		= 	'edit.php?post_type=page';						// Pages
-		$admin_menus[] 		= 	'edit-comments.php';							// Comments
+		// $admin_menus[] 		= 	'edit-comments.php';							// Comments
 
 		// Remove for everyone but elevated users
 		if( !$is_elevated_user ) {
@@ -268,8 +255,6 @@ class CPD_Menus {
 	 * Remove sub menus from the admin screen
 	 *
 	 * @hook 	filter_cpd_remove_sub_admin_menus 	Filter menus to remove from the admin screen
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function remove_admin_sub_menus() {
 
@@ -300,6 +285,12 @@ class CPD_Menus {
 			// Discussion Settings
 			$sub_menus[] 	= 	array( 
 									'parent' 	=>	'users.php',
+									'menu' 		=>	'options-discussion.php',
+								);
+
+			// Discussion Settings
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'options-general.php',
 									'menu' 		=>	'options-discussion.php',
 								);
 		}
@@ -374,8 +365,6 @@ class CPD_Menus {
 
 	/**
 	 * Correct the content menu hierarchy
-	 *
-	 * @since    2.0.0
 	 **/
 	public function correct_content_menu_hierarchy( $parent_file ) {
 	
@@ -449,8 +438,6 @@ class CPD_Menus {
 
 	/**
 	 * Correct the content sub menu hierarchy
-	 *
-	 * @since    2.0.0
 	 **/
 	public function correct_content_menu_sub_hierarchy() {
 		global $submenu;
@@ -467,8 +454,6 @@ class CPD_Menus {
 	 * Add sub menus to admin menu
 	 *
 	 * @hook 	filter_cpd_add_admin_sub_menus 	Filter to add sub menus to admin menus
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function add_admin_sub_menus() {
 
@@ -511,8 +496,6 @@ class CPD_Menus {
 	 * Add menus to network admin menu
 	 *
 	 * @hook 	filter_cpd_add_network_admin_menus 	Filter to add menus to network admin menus
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function add_network_admin_menus() {
 
@@ -555,8 +538,6 @@ class CPD_Menus {
 
 	/**
 	 * Rename network admin menus
-	 * 
-	 * @since    2.0.0
 	 **/
 	public function rename_network_admin_menus() {
 

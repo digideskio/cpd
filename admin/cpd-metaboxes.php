@@ -44,20 +44,20 @@ class CPD_Metaboxes {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+
+	 * @param      string    $instance       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -72,7 +72,7 @@ class CPD_Metaboxes {
 	 *
 	 * @hook 	filter_cpd_hide_metaboxes 	Filter the metaboxes we wish to hide
 	 * 
-	 * @since    2.0.0
+
 	 */
 	public function hide_metaboxes( $hidden, $screen ) {
 

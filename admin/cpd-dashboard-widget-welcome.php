@@ -45,21 +45,18 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-	 * @since    2.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+	 * 
+	 * @param      string    $instance       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
-	 *
-	 * @since    2.0.0
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -67,8 +64,6 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Add the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function add_dashboard_widget() {
 		
@@ -103,12 +98,10 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Render the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function render_welcome_participant(){
 		
-		$template_name 						= 	'cpd-dashboard-widget-welcome-participants';
+		$template_name 						= 	'cpd-dashboard-widget-welcome-participant';
 		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
 
 		if( $template_path !== FALSE ) {
@@ -118,8 +111,6 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Render the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function render_welcome_admin(){
 		
@@ -133,8 +124,6 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Render the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function render_welcome_supervisor(){
 		
@@ -148,8 +137,6 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Render the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function render_welcome_subscriber(){
 		
@@ -163,8 +150,6 @@ class CPD_Dashboard_Widget_Welcome {
 
 	/**
 	 * Render the dashboard widget
-	 *
-	 * @since    2.0.0
 	 */
 	public function render_welcome_network(){
 		$template_name 						= 	'cpd-dashboard-widget-welcome-network';

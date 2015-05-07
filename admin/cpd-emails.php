@@ -44,9 +44,9 @@ class CPD_Emails {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+
+	 * @param      string    $instance       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
 		
@@ -54,11 +54,11 @@ class CPD_Emails {
 
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -67,9 +67,9 @@ class CPD_Emails {
 	/**
 	 * Send a mail to supervisors when a participant updates their blog
 	 *
-	 * @var      int    $post_id       The post id
+	 * @param      int    $post_id       The post id
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function send_mail_on_update( $post_id ) {
 
@@ -117,7 +117,7 @@ class CPD_Emails {
 	/**
 	 * Email the admin with details of supervisor and particpants that are unassigned
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function unassigned_users_email() {
 

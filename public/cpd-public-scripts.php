@@ -46,18 +46,18 @@ class CPD_Public_Scripts {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -66,7 +66,7 @@ class CPD_Public_Scripts {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), $this->version, 'all' );
@@ -75,7 +75,7 @@ class CPD_Public_Scripts {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->instance, plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), $this->version, false );

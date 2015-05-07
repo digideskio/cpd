@@ -44,7 +44,6 @@ class CPD_Upgrade_Legacy {
 	 *
 	 * Load the dependencies
 	 *
-	 * @since    2.0.0
 	 */
 	private function __construct() {
 
@@ -59,7 +58,6 @@ class CPD_Upgrade_Legacy {
 	 *
 	 * It also allows easier and documented reading of what each dependancie is.
 	 *
-	 * @since    2.0.0
 	 * @access   private
 	 */
 	private function load_dependencies() {

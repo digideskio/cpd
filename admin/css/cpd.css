@@ -157,3 +157,7 @@ div.updated.view-notice .dashicons-before:before {
 .journal-wrapper.disabled p {
     color: #aaa
 }
+
+.mce-tinymce.mce-container.mce-panel {
+    border: 1px solid #ddd !important;
+}

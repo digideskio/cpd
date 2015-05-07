@@ -45,18 +45,18 @@ class CPD_Admin {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    2.0.0
+
 	 */
 	public function __construct() {
 		
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Set the text domain
 	 *
-	 * @var      string    $text_domain       The text domain of the plugin.
+	 * @param      string    $text_domain       The text domain of the plugin.
 	 *
-	 * @since    2.0.0
+
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -161,7 +161,7 @@ class CPD_Admin {
 	 * @param  string 	$domain      	The domain of the text we are translating
 	 * @return string 	$translation 	The translated text
 	 * 
-	 * @since    2.0.0
+
 	 */
 	public function rename_page_titles( $translation, $text, $domain )
 	{
@@ -195,8 +195,6 @@ class CPD_Admin {
 
 	/**
 	 * Rename post object
-	 * 
-	 * @since    2.0.0
 	 */
 	function rename_post_object() {
 		
@@ -209,7 +207,7 @@ class CPD_Admin {
 		$labels->add_new_item = 'Add Journal Entry';
 		$labels->edit_item = 'Edit Journal Entry';
 		$labels->new_item = 'Journal Entry';
-		$labels->view_item = 'View Journal Entries';
+		$labels->view_item = 'View Journal Entry';
 		$labels->search_items = 'Search Journal Entries';
 		$labels->not_found = 'No Journal Entries found';
 		$labels->not_found_in_trash = 'No Journal Entries found in Trash';
