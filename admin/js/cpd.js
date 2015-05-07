@@ -83,4 +83,36 @@
 		}
 	});
 
+	var cpd_assignment_input			= $('.cpd_options .assignments input');
+	var cpd_journal_input				= $('.cpd_options .journals input');
+
+	cpd_journal_input.prop('disabled', true);
+	cpd_journal_input.parent().addClass('disabled');
+	cpd_journal_input.closest('.journal-wrapper').addClass('disabled');
+
+	cpd_assignment_input.bind( 'click', function() {
+
+		var checked = false;
+		cpd_assignment_input.each(function() {
+			if( $(this).prop('checked') )
+			{
+				checked = true;
+			}
+		});
+
+		if( checked )
+		{
+			cpd_journal_input.prop('disabled', false);
+			cpd_journal_input.parent().removeClass('disabled');
+			cpd_journal_input.closest('.journal-wrapper').removeClass('disabled');
+		}
+		else
+		{
+			cpd_journal_input.prop('disabled', true);
+			cpd_journal_input.parent().addClass('disabled');
+			cpd_journal_input.closest('.journal-wrapper').addClass('disabled');
+		}
+
+	});
+
 })( jQuery );

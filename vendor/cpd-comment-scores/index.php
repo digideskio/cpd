@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 /////////  VERSION HISTORY
 
-1.0.0			First development version
+2.0.0			First development version
 1.0.1			Prevent participant from disabling comments by removing the menu
 
 

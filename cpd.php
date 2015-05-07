@@ -25,7 +25,7 @@
 /** 
  * Change Log
  * 
- * 1.0.0		Initial Prototype
+ * 2.0.0		Initial Prototype
  * 2.0.0		Complete Refactor
  */
 
@@ -108,13 +108,11 @@ class CPD {
 		// Prepare vendor dependancies
 		$dependencies['vendor'] 	= 	array(
 			'cpd-comment-scores/index', 		// CPD comment scores
-			'cpd-copy-assignments/index', 		// CPD copy assignments
 		);
 		
 		// Prepare common dependancies
 		$dependencies['includes'] 	= 	array(
 			'cpd-templates',					// Templating Engine
-			'mkdo-helper-user'					// User Helpers
 		);
 		
 		// Prepare admin dependancies
@@ -127,12 +125,15 @@ class CPD {
 			'cpd-dashboard-widget-comments',	// Dashboard widget (comments)
 			'cpd-dashboard-widget-welcome',		// Dashboard widget (welcome)
 			'cpd-dashboard-widget-unassigned-users',	// Dashboard widget (unassigned users)
+			'cpd-dashboard-widget-latest-posts',		// Dashboard widget (latest posts)
+			'cpd-dashboard-widget-user-posts',	// Dashboard widget (user posts)
 			'cpd-notices',						// Admin notices modifications
 			'cpd-profile',						// Profile ammendments
 			'cpd-metaboxes',					// Metabox ammendments
 			'cpd-columns',						// Column modifications
 			'cpd-users',						// User functions
 			'cpd-options', 						// Create options page
+			'cpd-options-copy-assignments', 	// Create options page
 			'cpd-blogs',						// Blog settings
 			'cpd-emails', 						// Send emails
 		);
@@ -218,12 +219,15 @@ class CPD {
 		$dashboard_widget_comments 			= CPD_Dashboard_Widget_Comments::get_instance();
 		$dashboard_widget_welcome 			= CPD_Dashboard_Widget_Welcome::get_instance();
 		$dashboard_widget_unassigned_users 	= CPD_Dashboard_Widget_Unassigned_Users::get_instance();
+		$dashboard_widget_latest_posts 		= CPD_Dashboard_Widget_Latest_Posts::get_instance();
+		$dashboard_widget_user_posts 		= CPD_Dashboard_Widget_User_Posts::get_instance();
 		$notices							= CPD_Notices::get_instance();
 		$profile							= CPD_Profile::get_instance();
 		$metaboxes							= CPD_Metaboxes::get_instance();
 		$columns 							= CPD_Columns::get_instance();
 		$users 								= CPD_Users::get_instance();
 		$options							= CPD_Options::get_instance();
+		$options_copy_assignments			= CPD_Options_Copy_Assignments::get_instance();
 		$blogs 								= CPD_Blogs::get_instance();
 		$emails 							= CPD_Emails::get_instance();
 
@@ -238,12 +242,15 @@ class CPD {
 		$dashboard_widget_comments->set_text_domain( $this->text_domain );
 		$dashboard_widget_welcome->set_text_domain( $this->text_domain );
 		$dashboard_widget_unassigned_users->set_text_domain( $this->text_domain );
+		$dashboard_widget_latest_posts->set_text_domain( $this->text_domain );
+		$dashboard_widget_user_posts->set_text_domain( $this->text_domain );
 		$notices->set_text_domain( $this->text_domain );
 		$profile->set_text_domain( $this->text_domain );
 		$metaboxes->set_text_domain( $this->text_domain );
 		$columns->set_text_domain( $this->text_domain );
 		$users->set_text_domain( $this->text_domain );
 		$options->set_text_domain( $this->text_domain );
+		$options_copy_assignments->set_text_domain( $this->text_domain );
 		$blogs->set_text_domain( $this->text_domain );
 		$emails->set_text_domain( $this->text_domain );
 		
@@ -334,13 +341,20 @@ class CPD {
 		 *
 		 * [1] Add welcome widget to dashboard
 		 * [2] Add welcome widget to network dashboard
-		 * [3] Show orphaned participants and users
-		 * [4] 
+		 * [3] Add orphaned participants and users widget to network dashboard
+		 * [4] Add latest posts widget to dashboard
+		 * [5] Add latest posts widget to network dashboard
+		 * [6] Add user posts widget to dashboard
+		 * [7] Add user posts widget to network dashboard
 		 */
 		
 		/*1*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
 		/*2*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
 		/*3*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_unassigned_users, 'add_dashboard_widget' ) );
+		/*4*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
+		/*5*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
+		/*6*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
+		/*7*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
 		
 
 		/**
@@ -451,11 +465,19 @@ class CPD {
 		 * Options
 		 *
 		 * [1] Initialise the options page
-		 * [2] Add the options page (uses settings)
+		 * [2] Add the options page (uses settings API)
 		 */
 
 		/*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
 		/*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
+
+		/**
+		 * Options
+		 *
+		 * [1] Add the options page (Page also saves data)
+		 */
+
+		/*1*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
 
 		/**
 		 * Blogs

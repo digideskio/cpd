@@ -3,7 +3,7 @@
  * The content blocks
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    MKDO_Admin
  * @subpackage MKDO_Admin/admin
@@ -46,7 +46,7 @@ class CPD_Dashboard_Widget_Welcome {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
@@ -78,13 +78,14 @@ class CPD_Dashboard_Widget_Welcome {
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
+		$is_elevated_user 				= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
 
 		if( is_network_admin() ) {
 			$dashboard 					= 'dashboard-network';
 			$welcome_widget_function 	= 'render_welcome_network';
 			$welcome_title 				= 'Welcome to the CPD Network Settings ';
 		}
-		else if( is_super_admin() || MKDO_Helper_User::is_elevated_user() ) {
+		else if( is_super_admin() || $is_elevated_user ) {
 			$welcome_widget_function 	= 'render_welcome_admin';
 		}
 		else if ( user_can( $current_user, 'subscriber' ) ) {

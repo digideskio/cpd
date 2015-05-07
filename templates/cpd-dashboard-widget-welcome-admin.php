@@ -1,5 +1,7 @@
 <?php
-	$elevated_user = MKDO_Helper_User::is_elevated_user();
+
+	$user_id 			= get_current_user_id();
+	$is_elevated_user 	= get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
 ?>
 
 <p>
@@ -17,7 +19,7 @@
 				</li>
 			<?php
 		}
-		if( $elevated_user ) {
+		if( $is_elevated_user ) {
 			?>	
 				<li>
 					<span class="dashicons-before dashicons-admin-appearance"></span> 
@@ -50,7 +52,7 @@
 			<?php
 		}
 
-		if( $elevated_user || is_super_admin() ) {
+		if( $is_elevated_user || is_super_admin() ) {
 			?>
 				<li>
 					<span class="dashicons-before dashicons-admin-users"></span> 

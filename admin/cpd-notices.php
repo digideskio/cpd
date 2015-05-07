@@ -3,7 +3,7 @@
  * Admin notices
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    MKDO_Admin
  * @subpackage MKDO_Admin/admin

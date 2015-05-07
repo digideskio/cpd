@@ -4,7 +4,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/public
@@ -66,7 +66,7 @@ class CPD_Public_Scripts {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), $this->version, 'all' );
@@ -75,7 +75,7 @@ class CPD_Public_Scripts {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->instance, plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), $this->version, false );

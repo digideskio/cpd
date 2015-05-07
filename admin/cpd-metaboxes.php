@@ -3,7 +3,7 @@
  * Metaboxes
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    MKDO_Admin
  * @subpackage MKDO_Admin/admin
@@ -44,7 +44,7 @@ class CPD_Metaboxes {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */

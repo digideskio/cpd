@@ -5,12 +5,12 @@
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Add the score to the bottom of the comment when previewed
  * 
  */
-function cpdcs_meta_row_action( $actions ) 
+function cpd_meta_row_action( $actions ) 
 {
 	global $comment;
 
@@ -54,54 +54,54 @@ function cpdcs_meta_row_action( $actions )
 
 	return $actions;
 }
-add_filter( 'comment_row_actions', 'cpdcs_meta_row_action', 11, 1 );
+add_filter( 'comment_row_actions', 'cpd_meta_row_action', 11, 1 );
 
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Add the score column
  * 
  */
-function cpdcs_comment_columns( $columns )
+function cpd_comment_columns( $columns )
 {
 	$columns['score'] = 'Assignment score';
 
 	return $columns;
 }
-add_filter( 'manage_edit-comments_columns', 'cpdcs_comment_columns' );
+add_filter( 'manage_edit-comments_columns', 'cpd_comment_columns' );
 
 
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Put data in the score column
  * 
  */
-function cpdcs_comment_column( $column, $comment_ID )
+function cpd_comment_column( $column, $comment_ID )
 {
 	if ( 'score' == $column ) {
 		echo '<strong>' . get_comment_meta( $comment_ID, 'score', true ) . '<strong>';
 	}
 }
-add_filter( 'manage_comments_custom_column', 'cpdcs_comment_column', 10, 2 );
+add_filter( 'manage_comments_custom_column', 'cpd_comment_column', 10, 2 );
 
 
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Add a meta box to the comment
  * 
  */
-function cpdcs_add_meta_box()
+function cpd_add_meta_box()
 {
 	// Get the current user
 	$current_user = wp_get_current_user();
@@ -113,24 +113,24 @@ function cpdcs_add_meta_box()
 	// Check to make sure they are a supervisor
 	if( in_array( 'supervisor', $current_user->roles ) )
 	{
-		add_meta_box( 'cpdcs_score', 'Assignment score', 'cpdcs_meta_box', 'comment', 'normal', 'high' );
+		add_meta_box( 'cpd_score', 'Assignment score', 'cpd_meta_box', 'comment', 'normal', 'high' );
 	}
 }
-add_action( 'add_meta_boxes_comment', 'cpdcs_add_meta_box' );
+add_action( 'add_meta_boxes_comment', 'cpd_add_meta_box' );
 
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Render the comment meta box
  * 
  */
-function cpdcs_meta_box( $comment )
+function cpd_meta_box( $comment )
 {
 	$score = get_comment_meta( $comment->comment_ID, 'score', true );
-	wp_nonce_field( 'cpdcs_score_nonce', 'cpdcs_score_nonce', false );
+	wp_nonce_field( 'cpd_score_nonce', 'cpd_score_nonce', false );
 	?>
 	<p>
 		<label for="score">Score</label>;
@@ -142,12 +142,12 @@ function cpdcs_meta_box( $comment )
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Save data from the meta box
  * 
  */
-function cpdcs_meta_box_handle_data( $comment_content ) 
+function cpd_meta_box_handle_data( $comment_content ) 
 {
 	if( isset( $_POST['score'] ) )
 	{
@@ -157,16 +157,16 @@ function cpdcs_meta_box_handle_data( $comment_content )
 	}
 	return $comment_content;
 }
-add_filter( 'comment_save_pre', 'cpdcs_meta_box_handle_data' );
+add_filter( 'comment_save_pre', 'cpd_meta_box_handle_data' );
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Render the comment meta box
  * 
  */
-function cpdcs_prevent_supervisor_edits()
+function cpd_prevent_supervisor_edits()
 {
 	$screen = get_current_screen();
 
@@ -203,31 +203,31 @@ function cpdcs_prevent_supervisor_edits()
 		}
 	}
 }
-add_action( 'current_screen','cpdcs_prevent_supervisor_edits', 10, 1 );
+add_action( 'current_screen','cpd_prevent_supervisor_edits', 10, 1 );
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Force users to be logged in to leave a comment
  * 
  */
-function cpdcs_prevent_comments_if_not_logged_in()
+function cpd_prevent_comments_if_not_logged_in()
 {
 	update_option( 'comment_registration', 1 );
 }
-add_action( 'init','cpdcs_prevent_comments_if_not_logged_in', 10, 1 );
+add_action( 'init','cpd_prevent_comments_if_not_logged_in', 10, 1 );
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Use TinyMCE editor for comment form
  * 
  */
-function cpdcs_tinymce_comment_form ( $args ) {
+function cpd_tinymce_comment_form ( $args ) {
     
     ob_start();
     wp_editor( '', 'comment', array('tinymce') );
@@ -236,22 +236,22 @@ function cpdcs_tinymce_comment_form ( $args ) {
     
     return $args;
 }
-add_filter( 'comment_form_defaults', 'cpdcs_tinymce_comment_form' );
+add_filter( 'comment_form_defaults', 'cpd_tinymce_comment_form' );
 
 
 /**
  * 
- * @since  		1.0.0
+ * @since  		2.0.0
  * 
  * Add styles to TinyMCE so we can see the editable area
  * 
  */
-function cpdcs_add_styles() {
+function cpd_add_styles() {
 
-    wp_register_style( 'cpdcs-styles', plugins_url( 'styles.css', __FILE__ ) );
-    wp_enqueue_style( 'cpdcs-styles' );
+    wp_register_style( 'cpd-styles', plugins_url( 'styles.css', __FILE__ ) );
+    wp_enqueue_style( 'cpd-styles' );
 }
-add_action( 'wp_enqueue_scripts', 'cpdcs_add_styles' );
+add_action( 'wp_enqueue_scripts', 'cpd_add_styles' );
 
 add_filter('preprocess_comment','fa_allow_tags_in_comments');
 
@@ -269,7 +269,7 @@ function fa_allow_tags_in_comments($data) {
  * Prevent participant from disabling comments by removing the menu
  * 
  */
-function cpdcs_remove_admin_menus() 
+function cpd_remove_admin_menus() 
 {
 	$user = wp_get_current_user();
 
@@ -280,4 +280,4 @@ function cpdcs_remove_admin_menus()
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 	}
 }
-add_action( 'admin_menu', 'cpdcs_remove_admin_menus' );
+add_action( 'admin_menu', 'cpd_remove_admin_menus' );

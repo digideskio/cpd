@@ -3,7 +3,7 @@
  * The menu-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -45,7 +45,7 @@ class CPD_Menus {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */

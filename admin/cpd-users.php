@@ -3,7 +3,7 @@
  * The user-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -155,6 +155,10 @@ class CPD_Users {
 		foreach( $barred_participant_capabilities as $capability ) {
 			$role->remove_cap( $capability );
 		}
+
+		// Make sure supervisors can copy assignments
+		$role = get_role( 'supervisor' );
+		$role->add_cap( 'copy_assignments' );
 	}
 
 	/**

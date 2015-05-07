@@ -3,7 +3,7 @@
  * The dashboard-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -65,7 +65,7 @@ class CPD_Admin_Scripts {
 	/**
 	 * Register the stylesheets for the Dashboard.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public function enqueue_styles() {
 
@@ -75,7 +75,7 @@ class CPD_Admin_Scripts {
 	/**
 	 * Register the JavaScript for the dashboard.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public function enqueue_scripts() {
 

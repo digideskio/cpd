@@ -3,7 +3,7 @@
  * The dashboard-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/admin

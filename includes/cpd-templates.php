@@ -3,7 +3,7 @@
  * The template-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/includes
@@ -44,7 +44,7 @@ class CPD_Templates {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance    The name of this plugin.
 	 * @var      string    $version    	The version of this plugin.
 	 */

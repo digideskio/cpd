@@ -3,7 +3,7 @@
  * The dashboard-specific functionality of the plugin.
  *
  * @link       http://makedo.in
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -46,7 +46,7 @@ class CPD_Options {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
@@ -624,7 +624,7 @@ class CPD_Options {
 	 * @since    2.0.0
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'settings.php', 'CPD Journal defaults', 'CPD Journal defaults', 'manage_network_options', 'cpd_settings', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'settings.php', 'CPD Journal Defaults', 'CPD Journal Defaults', 'manage_network_options', 'cpd_settings', array( $this, 'render_options_page' ) );
 	}
 
 	/**
