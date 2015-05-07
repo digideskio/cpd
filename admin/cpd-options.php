@@ -278,7 +278,7 @@ class CPD_Options {
 								<label for="menu_blog_<?php echo $site['blog_id']; ?>-post_<?php echo $assignment->ID; ?>" class="screen-reader-text">
 									Add '<?php echo $assignment->post_title; ?>' to menu
 								</label>
-								<input type="hidden" name="cpd_default_posts[<?php echo $site['blog_id'];?>][<?php echo $assignment->ID;?>][type]" value='post'/>
+								<input type="hidden" name="cpd_default_posts[<?php echo $site['blog_id'];?>][<?php echo $assignment->ID;?>][type]" value='page'/>
 							</td>
 							<td>
 								<input 
@@ -422,6 +422,7 @@ class CPD_Options {
 								<label for="menu_blog_<?php echo $site['blog_id']; ?>-post_<?php echo $page->ID; ?>" class="screen-reader-text">
 									Add '<?php echo $page->post_title; ?>' to menu
 								</label>
+								<input type="hidden" name="cpd_default_posts[<?php echo $site['blog_id'];?>][<?php echo $page->ID;?>][type]" value='page'/>
 							</td>
 							<td>
 								<input 
@@ -565,6 +566,7 @@ class CPD_Options {
 								<label for="menu_blog_<?php echo $site['blog_id']; ?>-post_<?php echo $post->ID; ?>" class="screen-reader-text">
 									Add '<?php echo $post->post_title; ?>' to menu
 								</label>
+								<input type="hidden" name="cpd_default_posts[<?php echo $site['blog_id'];?>][<?php echo $post->ID;?>][type]" value='post'/>
 							</td>
 							<td>
 								<input 
