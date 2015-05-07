@@ -114,7 +114,6 @@ class CPD {
 		// Prepare common dependancies
 		$dependencies['includes'] 	= 	array(
 			'cpd-templates',					// Templating Engine
-			'mkdo-helper-screen',				// Screen helpers
 			'mkdo-helper-user'					// User Helpers
 		);
 		
@@ -126,6 +125,8 @@ class CPD {
 			'cpd-menus',						// Menu ammendments
 			'cpd-dashboards',					// Dashboard ammendments
 			'cpd-dashboard-widget-comments',	// Dashboard widget (comments)
+			'cpd-dashboard-widget-welcome',		// Dashboard widget (welcome)
+			'cpd-dashboard-widget-unassigned-users',	// Dashboard widget (unassigned users)
 			'cpd-notices',						// Admin notices modifications
 			'cpd-profile',						// Profile ammendments
 			'cpd-metaboxes',					// Metabox ammendments
@@ -133,13 +134,12 @@ class CPD {
 			'cpd-users',						// User functions
 			'cpd-options', 						// Create options page
 			'cpd-blogs',						// Blog settings
-			'cpd-content-blocks', 				// Register content blocks
-			'cpd-email', 						// Send emails
+			'cpd-emails', 						// Send emails
 		);
 		
 		// Prepare public dependancies
 		$dependencies['public'] 	= 	array(
-			'cpd-register-scripts-public' 		// Register public scripts
+			'cpd-public-scripts' 				// Register public scripts
 		);
 
 		// Prepare public dependancies
@@ -216,6 +216,8 @@ class CPD {
 		$menus 								= CPD_Menus::get_instance();
 		$dashboards 						= CPD_Dashboards::get_instance();
 		$dashboard_widget_comments 			= CPD_Dashboard_Widget_Comments::get_instance();
+		$dashboard_widget_welcome 			= CPD_Dashboard_Widget_Welcome::get_instance();
+		$dashboard_widget_unassigned_users 	= CPD_Dashboard_Widget_Unassigned_Users::get_instance();
 		$notices							= CPD_Notices::get_instance();
 		$profile							= CPD_Profile::get_instance();
 		$metaboxes							= CPD_Metaboxes::get_instance();
@@ -223,6 +225,7 @@ class CPD {
 		$users 								= CPD_Users::get_instance();
 		$options							= CPD_Options::get_instance();
 		$blogs 								= CPD_Blogs::get_instance();
+		$emails 							= CPD_Emails::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -233,6 +236,8 @@ class CPD {
 		$menus->set_text_domain( $this->text_domain );
 		$dashboards->set_text_domain( $this->text_domain );
 		$dashboard_widget_comments->set_text_domain( $this->text_domain );
+		$dashboard_widget_welcome->set_text_domain( $this->text_domain );
+		$dashboard_widget_unassigned_users->set_text_domain( $this->text_domain );
 		$notices->set_text_domain( $this->text_domain );
 		$profile->set_text_domain( $this->text_domain );
 		$metaboxes->set_text_domain( $this->text_domain );
@@ -240,10 +245,8 @@ class CPD {
 		$users->set_text_domain( $this->text_domain );
 		$options->set_text_domain( $this->text_domain );
 		$blogs->set_text_domain( $this->text_domain );
-
-		$content_blocks			= new CPD_Journal_Content_Blocks	();
-		$email 					= new CPD_Journal_Email				();
-
+		$emails->set_text_domain( $this->text_domain );
+		
 		/** 
 		 * Scripts
 		 *
@@ -328,7 +331,17 @@ class CPD {
 
 		/**
 		 * Dashboard Widgets
+		 *
+		 * [1] Add welcome widget to dashboard
+		 * [2] Add welcome widget to network dashboard
+		 * [3] Show orphaned participants and users
+		 * [4] 
 		 */
+		
+		/*1*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
+		/*2*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
+		/*3*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_unassigned_users, 'add_dashboard_widget' ) );
+		
 
 		/**
 		 * Admin notices
@@ -453,23 +466,14 @@ class CPD {
 		/*1*/ add_action( 'wpmu_new_blog', array( $blogs, 'new_blog' ) );
 
 		/**
-		 * Content Blocks
+		 * Emails
+		 *
+		 * [1] Send a mail to supervisors when a participant updates their blog
+		 * [2] Email the admin with details of supervisor and particpants that are unassigned
 		 */
 		
-		// Show content on dashboard
-		if( get_option( 'cpd_show_welcome_content_block', TRUE ) ) { 
-			add_action( 'wp_dashboard_setup', array( $content_blocks, 'add_welcome_content_block' ) );
-			add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_welcome_content_block' ) );
-		}
-
-		add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
-		add_action( 'wp_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
-
-		
-
-		add_action( 'save_post', array( $email, 'send_mail_on_update' ) );
-		add_action( 'cpd_unassigned_users_email', array( $email, 'unassigned_users_email' ) );
-
+		/*1*/ add_action( 'save_post', array( $emails, 'send_mail_on_update' ) );
+		/*2*/ add_action( 'cpd_unassigned_users_email', array( $emails, 'unassigned_users_email' ) );
 		
 	}
 
@@ -482,10 +486,23 @@ class CPD {
 	 */
 	private function public_hooks() {
 
-		// $public_scripts = new CPD_Register_Scripts_Public();
+		$scripts = new CPD_Public_Scripts();
 
-		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_styles' ) );
-		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_scripts' ) );
+		/** 
+		 * Set Text Domain
+		 */
+		
+		$scripts->set_text_domain( $this->text_domain );
+
+		/** 
+		 * Scripts
+		 *
+		 * [1] Register styles
+		 * [2] Register scripts
+		 */
+		
+		// /*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
+		// /*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
 
 	}
 

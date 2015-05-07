@@ -9,21 +9,42 @@
  * @subpackage CPD/admin
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
+if( !class_exists( 'CPD_Emails' ) ) {
+	
 /**
  * The dashboard-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and enqueue the dashboard-specific stylesheet and JavaScript.
  *
  * @package    CPD
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Journal_Email{
+class CPD_Emails {
+
+	private static $instance = null;
+	private $text_domain;
+
+	/**
+	 * Creates or returns an instance of this class.
+	 */
+	public static function get_instance() {
+		/**
+		 * If an instance hasn't been created and set to $instance create an instance 
+		 * and set it to $instance.
+		 */
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
+
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @var      string    $instance       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
@@ -31,15 +52,31 @@ class CPD_Journal_Email{
 		
 	}
 
-	public function set_html_content_type() {
-		return 'text/html';
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @var      string    $text_domain       The text domain of the plugin.
+	 *
+	 * @since    2.0.0
+	 **/
+	public function set_text_domain( $text_domain ) { 
+		$this->text_domain = $text_domain;
 	}
 
+	/**
+	 * Send a mail to supervisors when a participant updates their blog
+	 *
+	 * @var      int    $post_id       The post id
+	 *
+	 * @since    2.0.0
+	 **/
 	public function send_mail_on_update( $post_id ) {
 
 		// If this is just a revision, don't send the email.
-		if ( wp_is_post_revision( $post_id ) )
+		if ( wp_is_post_revision( $post_id ) ) {
 			return;
+		}
 
 		$saved_post 	= get_post( $post_id );
 
@@ -77,6 +114,11 @@ class CPD_Journal_Email{
 		}
 	}
 
+	/**
+	 * Email the admin with details of supervisor and particpants that are unassigned
+	 *
+	 * @since    2.0.0
+	 **/
 	public function unassigned_users_email() {
 
 		global $wpdb;
@@ -84,7 +126,7 @@ class CPD_Journal_Email{
 		$orphaned_participants 		= 	array();
 		$redundant_supervisors		= 	array();
 
-		$mu_users 			= 	$wpdb->get_results( "SELECT ID, user_nicename FROM $wpdb->users" );
+		$mu_users 					= 	CPD_Users::get_multisite_users();
 
 		foreach( $mu_users as $mu_user ) {
 
@@ -210,4 +252,14 @@ class CPD_Journal_Email{
 		}
 
 	}
+
+	/**
+	 * Set the email content type to HTML
+	 *
+	 * @since   2.0.0
+	 */
+	private function set_html_content_type() {
+		return 'text/html';
+	}
+}
 }
