@@ -270,7 +270,7 @@ class CPD_Users {
 			// create a new password, because we need to send it and we don't have access to the one already generated 
 			$password 	= wp_generate_password( 12, false);
 			
-			wp_set_password($password, $user_id);
+			wp_set_password( $password, $user_id );
 
 			wp_new_user_notification( $user_id, $password );
 
@@ -289,6 +289,7 @@ class CPD_Users {
 	public static function get_multisite_users() {
 
 		$users 				= 	array();
+		$user_ids 			=	array();
 		$blogs 				= 	wp_get_sites();
 
 		foreach ( $blogs as $blog ){
@@ -297,8 +298,9 @@ class CPD_Users {
 
 			if( is_array( $blog_users ) ) {
 				foreach( $blog_users as $user ) {
-					if( !in_array( $user, $users ) ) {
-						$users[] = $user;
+					if( !in_array( $user->ID, $user_ids, TRUE ) ) {
+						$users[] 	= $user;
+						$user_ids[] = $user->ID;
 					}
 				}
 			}
@@ -315,6 +317,7 @@ class CPD_Users {
 	public static function get_participants() {
 
 		$users 				= 	array();
+		$user_ids 			=	array();
 		$blogs 				= 	wp_get_sites();
 
 		foreach ( $blogs as $blog ){
@@ -330,8 +333,9 @@ class CPD_Users {
 
 			if( is_array( $blog_users ) ) {
 				foreach( $blog_users as $user ) {
-					if( !in_array( $user, $users ) ) {
-						$users[] = $user;
+					if( !in_array( $user->ID, $user_ids, TRUE ) ) {
+						$users[] 	= $user;
+						$user_ids[] = $user->ID;
 					}
 				}
 			}
@@ -348,6 +352,7 @@ class CPD_Users {
 	public static function get_supervisors() {
 
 		$users 				= 	array();
+		$user_ids 			=	array();
 		$blogs 				= 	wp_get_sites();
 
 		foreach ( $blogs as $blog ){
@@ -363,8 +368,9 @@ class CPD_Users {
 
 			if( is_array( $blog_users ) ) {
 				foreach( $blog_users as $user ) {
-					if( !in_array( $user, $users ) ) {
-						$users[] = $user;
+					if( !in_array( $user->ID, $user_ids, TRUE ) ) {
+						$users[] 	= $user;
+						$user_ids[] = $user->ID;
 					}
 				}
 			}
