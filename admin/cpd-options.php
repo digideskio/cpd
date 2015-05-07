@@ -71,7 +71,7 @@ class CPD_Options {
 		register_setting( 'cpd_settings_group', 'cpd_default_posts' );
 		register_setting( 'cpd_settings_group', 'cpd_new_blog_options' );
 
-		/* Add a section */
+		/* Add sections */
 		add_settings_section( 'cpd_section_assignments', 'Assignment Templates', array( $this, 'cpd_section_assignments_callback' ), 'cpd_settings' );
 		add_settings_section( 'cpd_section_pages', 'Page Templates', array( $this, 'cpd_section_pages_callback' ), 'cpd_settings' );
 		add_settings_section( 'cpd_section_posts', 'Post Templates', array( $this, 'cpd_section_posts_callback' ), 'cpd_settings' );
@@ -86,7 +86,7 @@ class CPD_Options {
 
 
 	/**
-	 * Example section help text
+	 * Show the Assignments section message
 	 *
 	 * @since    2.0.0
 	 */
@@ -109,6 +109,11 @@ class CPD_Options {
 		<?php
 	}
 
+	/**
+	 * Show the Pages section message
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_pages_callback() {
 		?>
 		<p>
@@ -128,6 +133,11 @@ class CPD_Options {
 		<?php
 	}
 
+	/**
+	 * Show the Posts section message
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_posts_callback() {
 		?>
 		<p>
@@ -147,10 +157,15 @@ class CPD_Options {
 		<?php
 	}
 
+	/**
+	 * Show the Manual Defaults section message
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_manual_defaults_callback() {
 		?>
 		<p>
-			These options are used to set up a new blog for a CPD participant. For example, they can be used to set a default theme.
+			<strong>Warning, these settings are for experts only.</strong> Thes settings are used to set up a new blog for a CPD participant. For example, they can be used to set a default theme.
 		</p>
 		<ul>
 			<li>- Enter any valid blog meta name/value pairs.</li>
@@ -160,7 +175,7 @@ class CPD_Options {
 	}
 
 	/**
-	 * Example field render
+	 * Render the assignments field
 	 *
 	 * @since    2.0.0
 	 */
@@ -263,6 +278,7 @@ class CPD_Options {
 								<label for="menu_blog_<?php echo $site['blog_id']; ?>-post_<?php echo $assignment->ID; ?>" class="screen-reader-text">
 									Add '<?php echo $assignment->post_title; ?>' to menu
 								</label>
+								<input type="hidden" name="cpd_default_posts[<?php echo $site['blog_id'];?>][<?php echo $assignment->ID;?>][type]" value='post'/>
 							</td>
 							<td>
 								<input 
@@ -302,6 +318,11 @@ class CPD_Options {
 		}
 	}
 
+	/**
+	 * Render the pages field
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_pages_default_pages_callback() {
 
 		global $wpdb;
@@ -440,6 +461,11 @@ class CPD_Options {
 		}
 	}
 
+	/**
+	 * Render the posts field
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_posts_default_posts_callback() {
 
 		global $wpdb;
@@ -578,6 +604,11 @@ class CPD_Options {
 		}
 	}
 
+	/**
+	 * Render the manual defaults field
+	 *
+	 * @since    2.0.0
+	 */
 	public function cpd_section_manual_defaults_key_values_callback() {
 		$cpd_settings 	= 	get_option( 'cpd_new_blog_options' );
 		?>
@@ -612,29 +643,5 @@ class CPD_Options {
 	<?php
 	}
 
-	/**
-	 * Update the options page settings
-	 *
-	 * @since    2.0.0
-	 */
-	function update_options_page(){
-
-		check_admin_referer( 'update_cpd_settings' );
-
-		if( !current_user_can('manage_network_options' )) 
-		{
-			wp_die( 'You do not have permission to do this' );
-		}
-
-		update_option( 'cpd_new_blog_options', $_POST['cpd_new_blog_options'] );
-
-		$cpd_settings 	= 	get_option( 'cpd_new_blog_options' );
-		$cpd_settings 	= 	preg_replace( '/[\n\r]+/', '&', $cpd_settings );
-		$cpd_settings 	= 	preg_replace( '/[\s\:]+/', '=', $cpd_settings );
-		parse_str( $cpd_settings, $update_options );
-
-		wp_redirect( add_query_arg( array( 'page' => 'cpd_settings', 'updated' => 'true' ), network_admin_url( 'index.php' ) ) );
-		exit;  
-	}
 }
 }

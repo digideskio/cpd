@@ -109,7 +109,6 @@ class CPD {
 		$dependencies['vendor'] 	= 	array(
 			'cpd-comment-scores/index', 		// CPD comment scores
 			'cpd-copy-assignments/index', 		// CPD copy assignments
-			'cpd-new-journal/index' 			// CPD new journals
 		);
 		
 		// Prepare common dependancies
@@ -131,10 +130,10 @@ class CPD {
 			'cpd-profile',						// Profile ammendments
 			'cpd-metaboxes',					// Metabox ammendments
 			'cpd-columns',						// Column modifications
-
 			'cpd-users',						// User functions
-			'cpd-content-blocks', 				// Register content blocks
 			'cpd-options', 						// Create options page
+			'cpd-blogs',						// Blog settings
+			'cpd-content-blocks', 				// Register content blocks
 			'cpd-email', 						// Send emails
 		);
 		
@@ -222,6 +221,8 @@ class CPD {
 		$metaboxes							= CPD_Metaboxes::get_instance();
 		$columns 							= CPD_Columns::get_instance();
 		$users 								= CPD_Users::get_instance();
+		$options							= CPD_Options::get_instance();
+		$blogs 								= CPD_Blogs::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -237,9 +238,10 @@ class CPD {
 		$metaboxes->set_text_domain( $this->text_domain );
 		$columns->set_text_domain( $this->text_domain );
 		$users->set_text_domain( $this->text_domain );
+		$options->set_text_domain( $this->text_domain );
+		$blogs->set_text_domain( $this->text_domain );
 
 		$content_blocks			= new CPD_Journal_Content_Blocks	();
-		$options				= CPD_Options::get_instance();
 		$email 					= new CPD_Journal_Email				();
 
 		/** 
@@ -436,13 +438,19 @@ class CPD {
 		 * Options
 		 *
 		 * [1] Initialise the options page
-		 * [2] Add the options page
-		 * [3] Update the options page
+		 * [2] Add the options page (uses settings)
 		 */
 
 		/*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
 		/*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
-		/*3*/ add_action( 'network_admin_edit_update_cpd_settings', array( $options, 'update_options_page' ) );
+
+		/**
+		 * Blogs
+		 *
+		 * [1] Add pages on new blog creation
+		 */
+		
+		/*1*/ add_action( 'wpmu_new_blog', array( $blogs, 'new_blog' ) );
 
 		/**
 		 * Content Blocks
