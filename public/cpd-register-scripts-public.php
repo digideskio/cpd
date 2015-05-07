@@ -53,7 +53,7 @@ class CPD_Register_Scripts_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/continuous-professional-development-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->instance, plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), $this->version, 'all' );
 
 	}
 
@@ -76,7 +76,7 @@ class CPD_Register_Scripts_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->instance, plugin_dir_url( __FILE__ ) . 'js/continuous-professional-development-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->instance, plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), $this->version, false );
 
 	}
 

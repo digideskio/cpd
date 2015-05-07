@@ -221,6 +221,7 @@ class CPD {
 		$profile							= CPD_Profile::get_instance();
 		$metaboxes							= CPD_Metaboxes::get_instance();
 		$columns 							= CPD_Columns::get_instance();
+		$users 								= CPD_Users::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -235,6 +236,11 @@ class CPD {
 		$profile->set_text_domain( $this->text_domain );
 		$metaboxes->set_text_domain( $this->text_domain );
 		$columns->set_text_domain( $this->text_domain );
+		$users->set_text_domain( $this->text_domain );
+
+		$content_blocks			= new CPD_Journal_Content_Blocks	();
+		$options				= CPD_Options::get_instance();
+		$email 					= new CPD_Journal_Email				();
 
 		/** 
 		 * Scripts
@@ -383,49 +389,60 @@ class CPD {
 		/*5*/ add_filter( 'manage_users-network_sortable_columns', array( $columns,'sort_column_cpd_role' ) );
 		/*6*/ add_filter( 'views_users-network', array( $columns,'view_count_cpd_role' ) );
 		/*7*/ add_action( 'pre_user_query', array( $columns,'filter_column_cpd_role' ) );
-		
-		
-		$journal_users 			= new CPD_Users				();
-		$content_blocks			= new CPD_Journal_Content_Blocks	();
-		$options				= CPD_Options::get_instance();
-		$email 					= new CPD_Journal_Email				();
-
 
 		/**
-		 * Journal User Management
+		 * Users
+		 *
+		 * [1] Set capabilities so high end updates can only be done by elivated users
+		 * [2] Create roles for participants and supervisors
+		 * [3] On users role change, set the user role meta
+		 * [4] Remove Participant Capabilities
+		 * [5] Prevent participants from removing supervisors
+		 * [6] Redirect users on creation
+		 *
+		 * Static Methods
 		 * 
-		 * [6] Set capabilities so high end updates can only be done by elivated users
+		 * [7] Get all multisite users
+		 * [8] Get all participants
+		 * [9] Get all supervisors
+		 * [10] Remove a supervisor from related supervisors
+		 * [11] Remove a participant from related participants
+		 * [12] Add a relationship between a participant and a supervisor
+		 * [13] Remove a relationship between a participant and a supervisor
+		 * [14] Add a supervisor to a participants journals
+		 * [15] Remove a user from all blogs
+		 * [16] Create a user journal based on a user
 		 */
 		
-		/*6*/ add_action( 'user_has_cap', array( $journal_users, 'set_admin_capabilities' ) ); 
-		
-		// Create roles
-		if( get_option( 'cpd_create_roles', TRUE ) ) { 
-			add_action( 'init', array( $journal_users, 'create_roles' ) );
-		}
+		/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) ); 
+		/*2*/ add_action( 'init', array( $users, 'create_roles' ) );
+		/*3*/ add_action( 'set_user_role', array( $users, 'set_user_role' ), 10, 2  );
+		/*4*/ add_filter( 'editable_roles', array( $users, 'remove_participant_capabilities' ) );
+		/*5*/ add_filter( 'user_has_cap', array( $users, 'prevent_partcipant_removing_supervisor' ), 10, 3 );
+		/*6*/ add_action( 'wpmu_new_user', array( $users, 'redirect_on_create_user' ) );
 
-		// Add user meta data
-		if( get_option( 'cpd_add_meta_data', TRUE ) ) { 
-			add_action( 'set_user_role', array( $journal_users, 'add_meta_data' ), 10, 2  );
-		}
+		/*7*/ // CPD_Users::get_multisite_users();
+		/*8*/ // CPD_Users::get_participants();
+		/*9*/ // CPD_Users::get_supervisors();
+		/*10*/ // CPD_Users::remove_user_from_related_supervisors( $user_id, $participants );
+		/*11*/ // CPD_Users::remove_user_from_related_participants( $user_id, $supervisors );
+		/*12*/ // CPD_Users::add_cpd_relationship( $supervisor, $participant );
+		/*13*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
+		/*14*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
+		/*15*/ // CPD_Users::remove_user_from_blogs( $user_id );
+		/*16*/ // CPD_Users::create_user_journal( $user_id );
 
-		// Remove user management roles
-		if( get_option( 'cpd_remove_user_management_roles', TRUE ) ) { 
-			add_filter( 'editable_roles', array( $journal_users, 'remove_user_management_roles' ) );
-		}
+		/**
+		 * Options
+		 *
+		 * [1] Initialise the options page
+		 * [2] Add the options page
+		 * [3] Update the options page
+		 */
 
-		// Prevent participants removing supervisors
-		if( get_option( 'cpd_prevent_partcipant_removing_supervisor', TRUE ) ) { 
-			add_filter( 'user_has_cap', array( $journal_users, 'prevent_partcipant_removing_supervisor' ), 10, 3  );
-		}
-
-		// On creation of new MS user, redirect to custom area
-		if( get_option( 'cpd_redirect_on_create_user', TRUE ) ) { 
-			add_action( 'wpmu_new_user', array( $journal_users, 'redirect_on_create_user' ) );
-		}
-
-
-
+		/*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
+		/*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
+		/*3*/ add_action( 'network_admin_edit_update_cpd_settings', array( $options, 'update_options_page' ) );
 
 		/**
 		 * Content Blocks
@@ -440,9 +457,7 @@ class CPD {
 		add_action( 'wp_network_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
 		add_action( 'wp_dashboard_setup', array( $content_blocks, 'add_cpd_dashboard_widgets' ) );
 
-		add_action( 'admin_init', array( $options, 'init_options_page' ) );
-		add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
-		add_action( 'network_admin_edit_update_cpd_settings', array( $options, 'update_options_page' ) );
+		
 
 		add_action( 'save_post', array( $email, 'send_mail_on_update' ) );
 		add_action( 'cpd_unassigned_users_email', array( $email, 'unassigned_users_email' ) );
@@ -463,7 +478,6 @@ class CPD {
 
 		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_styles' ) );
 		// add_action( 'wp_enqueue_scripts', array( $public_scripts, 'enqueue_scripts' ) );
-
 
 	}
 

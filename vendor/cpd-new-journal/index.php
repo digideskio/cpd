@@ -37,11 +37,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
 
-// 1  - New blog creation
-require_once 'admin-new-blog.php';
+// // 1  - New blog creation
+// require_once 'admin-new-blog.php';
 
-// 2  - Options screen
-require_once 'admin-options.php';
+// // 2  - Options screen
+// require_once 'admin-options.php';
 
-// 3  - Admin scripts
-require_once 'admin-scripts.php';
+// // 3  - Admin scripts
+// require_once 'admin-scripts.php';

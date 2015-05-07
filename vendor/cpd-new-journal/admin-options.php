@@ -12,7 +12,7 @@
  */
 function cpdnj_add_options_page() {
 
-	add_submenu_page( 'settings.php', 'CPD journal defaults', 'CPD journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
+	add_submenu_page( 'settings.php', 'CPD Journal defaults', 'CPD Journal defaults', 'manage_options', 'cpdnj-settings', 'cpdnj_render_options_page' );
 
 	add_action( 'admin_init', 'cpdnj_register_settings' );
 }
@@ -30,7 +30,7 @@ add_action( 'network_admin_menu', 'cpdnj_add_options_page' );
  */
 function cpdnj_register_settings() 
 {
-	register_setting( 'cpdnj_group', '_cpdnj_journal_defaults' );
+	register_setting( 'cpdnj_group', 'cpd_journal_defaults' );
 }
 
 
@@ -52,7 +52,7 @@ function cpdnj_render_options_page()
 	$have_templates_message 	= false;
 	$have_posts 				= false;
 	$have_posts_message 		= false;
-	$page_list 					= array();
+	$post_list 					= array();
 
 	// Get all of the sites and journals
 	$sites = wp_get_sites( 
@@ -73,7 +73,7 @@ function cpdnj_render_options_page()
 			{
 				$key_split = split( '-', $key );
 
-				$page_list[$key] = array(
+				$post_list[$key] = array(
 					'blog_id' 		=> str_replace( 'blog_', '', $key_split[0] ),
 					'post_id' 		=> str_replace( 'post_', '', $key_split[1] ),
 					'menu'			=> isset( $_POST['menu_' . $key] ) ? 1 : 0,
@@ -86,7 +86,7 @@ function cpdnj_render_options_page()
 			{
 				$key_split = split( '-', $key );
 
-				$page_list[$key] = array(
+				$post_list[$key] = array(
 					'blog_id' 		=> str_replace( 'blog_', '', $key_split[0] ),
 					'post_id' 		=> str_replace( 'post_', '', $key_split[1] ),
 					'menu'			=> 0,
@@ -96,14 +96,14 @@ function cpdnj_render_options_page()
 			}
 		}
 
-		update_option( '_cpdnj_journal_defaults', $page_list );
+		update_option( 'cpd_journal_defaults', $post_list );
 	}
 
-	$page_list = get_option('_cpdnj_journal_defaults');
+	$post_list = get_option('cpd_journal_defaults');
 
 	?>
 		<div class="wrap cpdnj_options">
-			<h2>CPD journal defaults</h2>
+			<h2>CPD Journal Defaults</h2>
 			<p>Please choose the assignments, pages and blog posts that you wish to be created within every new journal.</p>
 			<p>If you check the 'Add to menu' box next to a page or assignment, that item will be added to the top level menu on the participants journal.</p>
 			<p>To alter the order of items in the menu, you can assign a number next to an item. The lower the number, the earlier in the menu it will appear.</p>
@@ -123,7 +123,7 @@ function cpdnj_render_options_page()
 				{
 					switch_to_blog( $site['blog_id'] );
 
-					$assignment = get_page_by_path( 'assignments' );
+					$assignment = get_page_by_path( 'assignment-templates' );
 					$assignment_id = is_object( $assignment ) ? $assignment->ID : NULL;
 
 					// If there is a page titled 'Assignments' in this blog
@@ -171,14 +171,14 @@ function cpdnj_render_options_page()
 								$menu = '';
 								$menu_order = 0;
 
-								if ( isset( $page_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID] ) )
+								if ( isset( $post_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID] ) )
 								{
 									$checked = 'checked';
-									if( $page_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID]['menu'] == 1 )
+									if( $post_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID]['menu'] == 1 )
 									{
 										$menu = 'checked';
 									}
-									$menu_order = $page_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID]['menu_order'];
+									$menu_order = $post_list['blog_' . $site['blog_id'] . '-post_' . $assignment->ID]['menu_order'];
 								}
 
 								?>
@@ -285,14 +285,14 @@ function cpdnj_render_options_page()
 								$menu = '';
 								$menu_order = 0;
 
-								if ( isset( $page_list['blog_' . $site['blog_id'] . '-post_' . $template->ID] ) )
+								if ( isset( $post_list['blog_' . $site['blog_id'] . '-post_' . $template->ID] ) )
 								{
 									$checked = 'checked';
-									if( $page_list['blog_' . $site['blog_id'] . '-post_' . $template->ID]['menu'] == 1 )
+									if( $post_list['blog_' . $site['blog_id'] . '-post_' . $template->ID]['menu'] == 1 )
 									{
 										$menu = 'checked';
 									}
-									$menu_order = $page_list['blog_' . $site['blog_id'] . '-post_' . $template->ID]['menu_order'];
+									$menu_order = $post_list['blog_' . $site['blog_id'] . '-post_' . $template->ID]['menu_order'];
 								}
 								?>
 								<tr>
@@ -394,7 +394,7 @@ function cpdnj_render_options_page()
 							{
 								$checked = '';
 
-								if ( isset( $page_list['post_blog_' . $site['blog_id'] . '-post_' . $template->ID] ) )
+								if ( isset( $post_list['post_blog_' . $site['blog_id'] . '-post_' . $template->ID] ) )
 								{
 									$checked = 'checked';
 								}

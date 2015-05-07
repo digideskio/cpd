@@ -129,3 +129,34 @@ div.updated.view-notice .dashicons-before:before {
 #latest_posts_histogram_widget table td ul {
 	display: none;
 }
+
+.cpd-settings table table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cpd-settings table table tr {
+	background-color: #eaeaea;
+}
+
+.cpd-settings table table td, 
+.cpd-settings table table th {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+.cpd-settings table table td.center, 
+.cpd-settings table table th.center {
+	text-align: center;
+}
+
+.cpd-settings table table td.left, 
+.cpd-settings table table th.left {
+	text-align: left;
+}
+
+.cpd-settings table table td input.disabled , 
+.cpd-settings table table th input.disabled  {
+	background-color: #eee;
+	color: #ddd;
+}

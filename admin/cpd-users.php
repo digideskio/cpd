@@ -9,24 +9,57 @@
  * @subpackage CPD/admin
  */
 
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
+if( !class_exists( 'CPD_Users' ) ) {
+
 /**
- * The user-specific functionality of the plugin.
+ * The admin-specific functionality of the plugin.
+ *
+ * Defines the admin settings
  *
  * @package    CPD
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Users{
+class CPD_Users {
+
+	private static $instance = null;
+	private $text_domain;
+
+	/**
+	 * Creates or returns an instance of this class.
+	 */
+	public static function get_instance() {
+		/**
+		 * If an instance hasn't been created and set to $instance create an instance 
+		 * and set it to $instance.
+		 */
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @var      string    $instance       The name of this plugin.
-	 * @var      string    $version    The version of this plugin.
+	 * @since    2.0.0
 	 */
 	public function __construct() {
 		
+	}
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @var      string    $text_domain       The text domain of the plugin.
+	 *
+	 * @since    2.0.0
+	 **/
+	public function set_text_domain( $text_domain ) { 
+		$this->text_domain = $text_domain;
 	}
 
 	/**
@@ -92,34 +125,47 @@ class CPD_Users{
 	}
 
 	/**
-	 * Create new roles
+	 * Create roles for Supervisors and Participants
+	 *
+	 * @hook 	filter_cpd_remove_participant_capabilities 	Capabilities to remove from participants
+	 *
+	 * @since    2.0.0
 	 */
 	public function create_roles() {
 
 		// Create roles with same capabilities as administrators
-		add_role( 'supervisor', 	'Supervisor', 	get_role('administrator')->capabilities );
-		add_role( 'participant', 	'Participant', 	get_role('administrator')->capabilities );
-		
-		// Get the particpant roles
+		add_role( 'supervisor', 	'Supervisor', 	get_role('editor')->capabilities );
+		add_role( 'participant', 	'Participant', 	get_role('editor')->capabilities );
+
 		$role 	= get_role( 'participant' );
 
-		// Remove capabilities
-		$role->remove_cap( 'edit_others_posts' );
-		$role->remove_cap( 'edit_others_pages' );
-		$role->remove_cap( 'delete_others_posts' );
-		$role->remove_cap( 'delete_others_pages' );
+		$barred_participant_capabilities 	= 	apply_filters(
+													'filter_cpd_remove_participant_capabilities',
+													array(
+														'edit_users',
+														'create_users',
+														'edit_posts',
+														'edit_others_posts',
+														'edit_others_pages',
+														'delete_others_posts',
+														'delete_others_pages'
+													)
+												);
+
+		foreach( $barred_participant_capabilities as $capability ) {
+			$role->remove_cap( $capability );
+		}
 	}
 
 	/**
-	 * Add Meta Data
-	 *
-	 * If a users role is changed, update their meta
-	 * data to add the role to the cpd_role meta
+	 * On users role change, set the user role meta
 	 * 
 	 * @param int 		$user_id 	The users id
 	 * @param strong 	$role 		The role that has been assigned
+	 *
+	 * @since    2.0.0
 	 */
-	public function add_meta_data( $user_id, $role ) {
+	public function set_user_role( $user_id, $role ) {
 
 		if( 'supervisor' === $role || 'participant' === $role ){
 			update_user_meta( $user_id, 'cpd_role', $role );
@@ -127,25 +173,33 @@ class CPD_Users{
 	}
 
 	/**
-	 * [editable_roles description
-	 *
-	 * Disallow participants from adding/removing any roles 
-	 * that can edit posts or manage users
+	 * Remove participant capabilities
 	 * 
 	 * @param  array 	$all_roles 		All user roles
 	 * @return array    $all_roles      All user roles
+	 *
+	 * @hook 	filter_cpd_remove_participant_capabilities 	Capabilities to remove from participants
+	 *
+	 * @since   2.0.0
 	 */
-	public function remove_user_management_roles( $all_roles ){
+	public function remove_participant_capabilities( $all_roles ){
 
-		// These are the capabilities that we don't let participants create users with
-		$barred_capabilities 	= 	array(
-									'edit_users',
-									'create_users',
-									'edit_posts'
-								); 
-
-		$cpd_role 				= 	get_user_meta( get_current_user_id(), 'cpd_role', TRUE );
-
+		$user_id 				=	get_current_user_id();
+		$cpd_role 				= 	get_user_meta( $user_id, 'cpd_role', TRUE );
+		
+		$barred_capabilities 	= 	apply_filters(
+										'filter_cpd_remove_participant_capabilities',
+										array(
+											'edit_users',
+											'create_users',
+											'edit_posts',
+											'edit_others_posts',
+											'edit_others_pages',
+											'delete_others_posts',
+											'delete_others_pages'
+										)
+									);
+		
 		if( $cpd_role == 'participant' ) {
 
 			foreach( $all_roles as $rolename=>$role ) {
@@ -172,6 +226,8 @@ class CPD_Users{
 	 * @param array 	$args    	[0] Requested capability
 	 *                        		[1] User ID
 	 *                        	 	[2] Associated object ID
+	 *
+	 * @since   2.0.0
 	 */
 	public function prevent_partcipant_removing_supervisor( $allcaps, $caps, $args ) {
 			
@@ -195,9 +251,12 @@ class CPD_Users{
 
 	/**
 	 * Redirect user on creation
+	 * 
 	 * @param  int 		$user_id 	The user ID
+	 *
+	 * @since   2.0.0
 	 */
-	function redirect_on_create_user( $user_id ){
+	public function redirect_on_create_user( $user_id ){
 
 		// We need to stop the redirect to the user-new.php page happening.
 		// the only way is to recreate the password and send the user notification ourselves.
@@ -222,6 +281,11 @@ class CPD_Users{
 
 	}
 
+	/**
+	 * Get all multisite users
+	 *
+	 * @since   2.0.0
+	 */
 	public static function get_multisite_users() {
 
 		$users 				= 	array();
@@ -243,6 +307,11 @@ class CPD_Users{
 		return $users;
 	}
 
+	/**
+	 * Get all participants
+	 *
+	 * @since   2.0.0
+	 */
 	public static function get_participants() {
 
 		$users 				= 	array();
@@ -271,6 +340,11 @@ class CPD_Users{
 		return $users;
 	}
 
+	/**
+	 * Get all supervisors
+	 *
+	 * @since   2.0.0
+	 */
 	public static function get_supervisors() {
 
 		$users 				= 	array();
@@ -299,6 +373,14 @@ class CPD_Users{
 		return $users;
 	}
 
+	/**
+	 * Remove user from related supervisors
+	 *
+	 * @param  int 		$user_id 		The user ID
+	 * @param  array 	$participants 	Participants to be removed from
+	 *
+	 * @since   2.0.0
+	 */
 	public static function remove_user_from_related_supervisors( $user_id, $participants ) {
 
 		foreach( $participants as $participant ) {
@@ -315,6 +397,14 @@ class CPD_Users{
 		}
 	}
 
+	/**
+	 * Remove user from related participants
+	 *
+	 * @param  int 		$user_id 		The user ID
+	 * @param  array 	$supervisors 	Supervisors to be removed from
+	 *
+	 * @since   2.0.0
+	 */
 	public static function remove_user_from_related_participants( $user_id, $supervisors ) {
 
 		foreach( $supervisors as $supervisor ) {
@@ -331,6 +421,14 @@ class CPD_Users{
 		}
 	}
 
+	/**
+	 * Add a CPD relationship
+	 *
+	 * @param  int 		$supervisor 		The supervisor ID
+	 * @param  int 		$participant 		The participant ID
+	 *
+	 * @since   2.0.0
+	 */
 	public static function add_cpd_relationship( $supervisor, $participant ) {
 
 		$supervisors 	= get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
@@ -348,6 +446,14 @@ class CPD_Users{
 		update_user_meta( $supervisor, 'cpd_related_participants', $participants );
 	}
 
+	/**
+	 * Remove a CPD relationship
+	 *
+	 * @param  int 		$supervisor 		The supervisor ID
+	 * @param  int 		$participant 		The participant ID
+	 *
+	 * @since   2.0.0
+	 */
 	public static function remove_cpd_relationship( $supervisor, $participant ) {
 
 		$supervisors 	= get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
@@ -367,6 +473,13 @@ class CPD_Users{
 		update_user_meta( $supervisor, 'cpd_related_participants', $participants );
 	}
 
+	/**
+	 * Add a supervisor to its participants journals
+	 *
+	 * @param  int 		$user_id 		The user ID
+	 *
+	 * @since   2.0.0
+	 */
 	public static function add_supervisor_to_participant_journals( $user_id ) {
 
 		$all_cpd_journals 		= 	wp_get_sites();
@@ -394,6 +507,14 @@ class CPD_Users{
 		}
 	}
 
+
+	/**
+	 * Remove a user from all blogs
+	 *
+	 * @param  int 		$user_id 		The user ID
+	 *
+	 * @since   2.0.0
+	 */
 	public static function remove_user_from_blogs( $user_id ) {
 		$current_journals = get_blogs_of_user( $user_id );
 		if( count( $current_journals ) > 0 ) {
@@ -404,6 +525,13 @@ class CPD_Users{
 		}
 	}
 
+	/**
+	 * Create a  user journal
+	 *
+	 * @param  int 		$user_id 		The user ID
+	 *
+	 * @since   2.0.0
+	 */
 	public static function create_user_journal( $user_id ) {
 		$user 			= 	get_userdata( $user_id );
 		$user_data 		= 	$user->data;
@@ -418,5 +546,5 @@ class CPD_Users{
 
 		$cpd_journal 	= 	wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
 	}
-			
+}		
 }

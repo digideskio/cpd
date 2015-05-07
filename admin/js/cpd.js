@@ -33,4 +33,54 @@
 		$( this ).parent().find( 'ul' ).slideToggle();
 	});
 
+	$('table input.check').each(function(){
+		if( $(this).prop('checked') )
+		{
+			$(this).closest('tr').find('.menu').removeClass('disabled').prop('disabled', false);
+			if( $(this).closest('tr').find('.menu').prop('checked') )
+			{
+				$(this).closest('tr').find('.menu_order').removeClass('disabled').prop('disabled', false);
+			}
+		}
+		else
+		{
+			$(this).closest('tr').find('.menu').addClass('disabled').prop('disabled', true);
+			$(this).closest('tr').find('.menu_order').addClass('disabled').prop('disabled', true);
+		}
+	});
+
+	$('table input.check').click(function(){
+		if( $(this).prop('checked') )
+		{
+			$(this).closest('tr').find('.menu').removeClass('disabled').prop('disabled', false);
+			if( $(this).closest('tr').find('.menu').prop('checked') )
+			{
+				$(this).closest('tr').find('.menu_order').removeClass('disabled').prop('disabled', false);
+			}
+		}
+		else
+		{
+			$(this).closest('tr').find('.menu').addClass('disabled').prop('disabled', true);
+			$(this).closest('tr').find('.menu_order').addClass('disabled').prop('disabled', true);
+		}
+	});
+
+	$('table input.menu').click(function(){
+		if( $(this).prop('checked') )
+		{
+			$(this).closest('tr').find('.menu_order').removeClass('disabled').prop('disabled', false);
+		}
+		else
+		{
+			$(this).closest('tr').find('.menu_order').addClass('disabled').prop('disabled', true);
+		}
+	});
+
+	$('table input.menu_order').blur(function(){
+		if( !$.isNumeric( $(this).val() ) )
+		{
+			$(this).val(0);
+		}
+	});
+
 })( jQuery );
