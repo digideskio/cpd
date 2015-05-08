@@ -1,13 +1,4 @@
 <?php
-/**
- * The content blocks
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,12 +6,12 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Dashboard_Widget_Comments' ) ) {
 
 /**
- * The content blocks
+ * Comments Dashboard Widget
  *
- * Changes the default functionality of the admin bar
+ * Dashbaord Widget for Comments
  *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
+ * @package    CPD
+ * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Dashboard_Widget_Comments {
@@ -45,8 +36,6 @@ class CPD_Dashboard_Widget_Comments {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,17 +47,13 @@ class CPD_Dashboard_Widget_Comments {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add the dashboard widget
-	 *
-
 	 */
 	public function add_dashboard_widget() {
 		
@@ -83,8 +68,6 @@ class CPD_Dashboard_Widget_Comments {
 
 	/**
 	 * Render the dashboard widget
-	 *
-
 	 */
 	public function render_dashboard_widget(){
 		

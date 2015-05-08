@@ -1,8 +1,6 @@
 <?php
 /**
  * Template to render a CPD Content Menu widget
- * 
- * @since    2.0.0
  */
 
 $post_listing 	= $widget[ 'link' ];

@@ -1,13 +1,4 @@
 <?php
-/**
- * Admin notices
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,8 +6,10 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Notices' ) ) {
 
 /**
- * The notice-specific functionality of the plugin.
- * *
+ * Notices
+ *
+ * Notice functionality
+ * 
  * @package    CPD
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
@@ -42,8 +35,6 @@ class CPD_Notices {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -53,17 +44,13 @@ class CPD_Notices {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add taxonomies as a notice
-	 *
-
 	 */
 	public function add_notice_taxonomy() {
 	
@@ -115,8 +102,6 @@ class CPD_Notices {
 
 	/**
 	 * Tree page view switcher as a notice
-	 *
-
 	 */
 	public function add_notice_tree_view() {
 

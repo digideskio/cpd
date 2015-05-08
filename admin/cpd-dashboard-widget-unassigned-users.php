@@ -1,13 +1,4 @@
 <?php
-/**
- * The content blocks
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,12 +6,12 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Dashboard_Widget_Unassigned_Users' ) ) {
 
 /**
- * The content blocks
+ * Unassigned Users Dashboard Widget
  *
- * Changes the default functionality of the admin bar
+ * Show unassigned users in the dashboard
  *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
+ * @package    CPD
+ * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Dashboard_Widget_Unassigned_Users {
@@ -46,7 +37,6 @@ class CPD_Dashboard_Widget_Unassigned_Users {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,17 +48,13 @@ class CPD_Dashboard_Widget_Unassigned_Users {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add the dashboard widget
-	 *
-
 	 */
 	public function add_dashboard_widget() {
 		add_meta_box( 'add_dashboard_widget_unassigned_users', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-groups"></span> CPD Relationships', array( $this, 'render_dashboard_widget' ), 'dashboard-network', 'side' );	
@@ -76,8 +62,6 @@ class CPD_Dashboard_Widget_Unassigned_Users {
 
 	/**
 	 * Render the dashboard widget
-	 *
-
 	 */
 	public function render_dashboard_widget(){
 		

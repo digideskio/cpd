@@ -1,4 +1,8 @@
 <?php
+/**
+ * Template to render User Posts Dashboard Widget
+ */
+
 $user 				= 	wp_get_current_user();
 $cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
 $break 				= 	intval( get_option( 'posts_by_participants_barchart_widget_count' ) );

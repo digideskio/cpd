@@ -1,3 +1,8 @@
+<?php
+/**
+ * Template to render Comments Dashboard Widget
+ */
+?>
 <div>
 			
 	<p><a class="button button-primary" href="edit-comments.php">Manage</a></p>

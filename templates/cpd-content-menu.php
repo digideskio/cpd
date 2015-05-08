@@ -7,8 +7,6 @@
  * @hook 	cpd_content_menu_render_widgets			Render the widgets
  * @hook 	cpd_content_menu_after_widgets			Render after the widgets
  * @hook 	cpd_content_menu_after_screen_output	Render after screen output
- * 
- * @since    2.0.0
  */
 
 $menu_title 			= __( 'Journal Content', $this->text_domain );

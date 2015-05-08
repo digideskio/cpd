@@ -550,7 +550,6 @@ class CPD {
 		/*2*/ add_filter( 'preprocess_comment', array( $comments_ui, 'verify_comment_field_score' ), 99 );
 		/*3*/ add_action( 'comment_post', array( $comments_ui, 'add_comment_field_score_meta' ), 1 );
 		/*4*/ add_filter( 'comments_array', array( $comments_ui, 'render_comment_field_score' ) );
-
 	}
 
 }

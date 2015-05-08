@@ -1,23 +1,13 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
-
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 if( !class_exists( 'CPD_Profile' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Profile
  *
- * Defines the admin settings
+ * Manage user profiles
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -44,8 +34,6 @@ class CPD_Profile {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -55,9 +43,7 @@ class CPD_Profile {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -66,8 +52,6 @@ class CPD_Profile {
 	 * Add elevated user field to the profile page
 	 * 
 	 * @param object 	$user 	Current user object
-	 *
-
 	 */
 	public function add_field_elevated_user( $user ) {
 
@@ -109,8 +93,6 @@ class CPD_Profile {
 	 * Save elevated user field data
 	 * 
 	 * @param int 	$user_id 	Current user ID
-	 *
-
 	 */
 	public function save_field_elevated_user( $user_id ) {
 		
@@ -130,8 +112,6 @@ class CPD_Profile {
 
 	/**
 	 * Remove admin colour scheme
-	 *
-
 	 */
 	public function remove_admin_color_schemes() {
 		remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
@@ -141,8 +121,6 @@ class CPD_Profile {
 	 * Set Colour Schemes
 	 *
 	 * @param string 	$color_scheme 	Current Colour Scheme
-	 * 
-
 	 */
 	public function set_color_scheme( $color_scheme ) {
 		
@@ -189,8 +167,6 @@ class CPD_Profile {
 	 * Add relationship management field to the profile page
 	 * 
 	 * @param object 	$user 	Current user object
-	 *
-
 	 */
 	public function add_field_cpd_relationship_management( $user ) {
 
@@ -308,8 +284,6 @@ class CPD_Profile {
 	 * Save relationship management field
 	 * 
 	 * @param int 	$user_id 	Current user ID
-	 *
-
 	 */
 	public function save_field_cpd_relationship_management( $user_id ) {
 			

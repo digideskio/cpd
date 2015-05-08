@@ -5,6 +5,7 @@
 	$('#cpd_role').change(function(e) {
 		showRelationships();
 	});
+	
 	function showRelationships() {
 
 		if( $('#cpd_role').length > 0 ) {

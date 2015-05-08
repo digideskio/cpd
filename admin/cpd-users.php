@@ -1,13 +1,4 @@
 <?php
-/**
- * The user-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Users' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Users
  *
- * Defines the admin settings
+ * Manage user privaliges
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -53,7 +44,7 @@ class CPD_Users {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}

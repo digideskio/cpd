@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Columns' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Columns
  *
- * Defines the admin settings
+ * Admin column rendering
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -44,8 +35,6 @@ class CPD_Columns {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -55,9 +44,7 @@ class CPD_Columns {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -69,8 +56,6 @@ class CPD_Columns {
 	 * @param  object $user       User Object
 	 *
 	 * @hook 	filter_cpd_hide_columns 	Filter columns that get hidden when a user logs in
-	 * 
-
 	 */
 	public function hide_columns( $user_login, $user ) {
 
@@ -119,8 +104,6 @@ class CPD_Columns {
 
 	/**
 	 * Remove column filters
-	 * 
-
 	 */
 	public function remove_column_filters() {
 		
@@ -135,9 +118,8 @@ class CPD_Columns {
 	 * Add the CPD Role Column
 	 * 
 	 * @param  array $columns      	Any array of columns
+	 * 
 	 * @return array $columns      	Any array of columns
-	 *
-
 	 */
 	public function add_column_cpd_role( $columns ) {
 		$columns['cpd_role'] = 'CPD Role';
@@ -152,8 +134,6 @@ class CPD_Columns {
 	 * @param  int $id          	User ID
 	 * 
 	 * @return string cpd_role of user
-	 *
-
 	 */
 	public function manage_column_cpd_role( $value, $column_name, $id ) {
 		if( 'cpd_role' == $column_name ) {
@@ -165,9 +145,8 @@ class CPD_Columns {
 	 * Sort the CPD Role Column
 	 * 
 	 * @param  array $columns      	Any array of columns
+	 * 
 	 * @return array $columns      	Any array of columns
-	 *
-
 	 */
 	public function sort_column_cpd_role( $columns )
 	{
@@ -179,15 +158,12 @@ class CPD_Columns {
 	 * Sort the CPD Role Column
 	 * 
 	 * @param  array $views      	Any array of views
+	 * 
 	 * @return array $views      	Any array of views
-	 *
-
 	 */
 	public function view_count_cpd_role( $views ) {
 
 		global $wpdb;
-		
-
 
 		$class 					=	'';
 		
@@ -249,8 +225,6 @@ class CPD_Columns {
 	 * Filter the CPD Role Column
 	 * 
 	 * @param  object $query      	The sort query
-	 *
-
 	 */
 	public function filter_column_cpd_role( $query )
 	{

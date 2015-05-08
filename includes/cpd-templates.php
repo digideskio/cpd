@@ -1,13 +1,4 @@
 <?php
-/**
- * The template-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/includes
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Templates' ) ) {
 
 /**
- * The template-specific functionality of the plugin.
+ * Templates
  *
- * Functions needed for the finding templates
+ * Manage templates
  *
  * @package    MKDO_Chat
  * @subpackage MKDO_Chat/includes
@@ -44,7 +35,6 @@ class CPD_Templates {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance    The name of this plugin.
 	 * @param      string    $version    	The version of this plugin.
 	 */
@@ -59,6 +49,7 @@ class CPD_Templates {
 	 * 
 	 * @param  string 			$template_name      	The name of the template we are looking for
 	 * @param  array<string> 	$template_locations 	A list of locations to look in
+	 * 
 	 * @return string 			$template_path 			The path of the tempalte
 	 */
 	public static function get_template_path( $template_name, $template_locations = array() ) {

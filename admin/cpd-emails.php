@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Emails' ) ) {
 	
 /**
- * The dashboard-specific functionality of the plugin.
+ * Emails
+ *
+ * Email functionality
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -44,7 +37,6 @@ class CPD_Emails {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -57,9 +49,7 @@ class CPD_Emails {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -68,9 +58,7 @@ class CPD_Emails {
 	 * Send a mail to supervisors when a participant updates their blog
 	 *
 	 * @param      int    $post_id       The post id
-	 *
-
-	 **/
+	 */
 	public function send_mail_on_update( $post_id ) {
 
 		// If this is just a revision, don't send the email.
@@ -116,9 +104,7 @@ class CPD_Emails {
 
 	/**
 	 * Email the admin with details of supervisor and particpants that are unassigned
-	 *
-
-	 **/
+	 */
 	public function unassigned_users_email() {
 
 		global $wpdb;
@@ -255,8 +241,6 @@ class CPD_Emails {
 
 	/**
 	 * Set the email content type to HTML
-	 *
-	 * @since   2.0.0
 	 */
 	private function set_html_content_type() {
 		return 'text/html';

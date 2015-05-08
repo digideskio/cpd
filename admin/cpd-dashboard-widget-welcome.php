@@ -1,13 +1,4 @@
 <?php
-/**
- * The content blocks
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,12 +6,12 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Dashboard_Widget_Welcome' ) ) {
 
 /**
- * The content blocks
+ * Welcome Dashboard Widget
  *
- * Changes the default functionality of the admin bar
+ * Display a welcome message in the dashboard
  *
- * @package    MKDO_Admin
- * @subpackage MKDO_Admin/admin
+ * @package    CPD
+ * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Dashboard_Widget_Welcome {
@@ -57,7 +48,7 @@ class CPD_Dashboard_Widget_Welcome {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}

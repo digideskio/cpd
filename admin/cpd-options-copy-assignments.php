@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Options_Copy_Assignments' ) ) {
 
 /**
- * The dashboard-specific functionality of the plugin.
+ * Copy Assignments
  *
- * Defines the plugin name, version, and enqueue the dashboard-specific stylesheet and JavaScript.
+ * Functionality to copy assignments
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -46,7 +37,6 @@ class CPD_Options_Copy_Assignments {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,17 +48,13 @@ class CPD_Options_Copy_Assignments {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add the options page
-	 *
-
 	 */
 	public function add_options_page() {
 		add_submenu_page( 'settings.php', 'CPD Copy Assignments', 'CPD Copy Assignments', 'copy_assignments', 'cpd_settings_copy_assignments', array( $this, 'render_options_page' ) );
@@ -76,8 +62,6 @@ class CPD_Options_Copy_Assignments {
 
 	/**
 	 * Render the options page
-	 *
-
 	 */
 	public function render_options_page(){ 
 		global $wpdb;

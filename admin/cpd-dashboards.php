@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Dashboards' ) ) {
 	
 /**
- * The dashboard-specific functionality of the plugin.
+ * Dashboards
+ *
+ * Methods for the dashboard
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -44,7 +37,6 @@ class CPD_Dashboards {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -56,9 +48,7 @@ class CPD_Dashboards {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -68,9 +58,7 @@ class CPD_Dashboards {
 	 * Remove dashboard widgets
 	 *
 	 * @hook 	filter_cpd_remove_dashboard_widgets 	Filter to remove meta boxes from dashboards
-	 * 
-
-	 **/
+	 */
 	public function remove_dashboard_widgets() {
 
 		$meta = array(

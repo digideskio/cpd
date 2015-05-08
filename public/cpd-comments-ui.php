@@ -1,24 +1,14 @@
 <?php
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/public
- */
-
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 if( !class_exists( 'CPD_Comments_UI' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Comments UI
  *
- * Defines the admin settings
+ * Front End Comment Rendering
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -54,7 +44,7 @@ class CPD_Comments_UI {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -117,11 +107,7 @@ class CPD_Comments_UI {
 	}
 
 	/**
-	 * 
-	 * @since  		2.0.0
-	 * 
 	 * Save the submitted data
-	 * 
 	 */
 	function add_comment_field_score_meta( $comment_id ) 
 	{
@@ -153,6 +139,5 @@ class CPD_Comments_UI {
 		}
 		return $comments;
 	}
-
 }
 }

@@ -1,24 +1,14 @@
 <?php
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/public
- */
-
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 if( !class_exists( 'CPD_Public_Scripts' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Public Scripts
  *
- * Defines the admin settings
+ * Load Public Scripts
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -54,7 +44,7 @@ class CPD_Public_Scripts {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}

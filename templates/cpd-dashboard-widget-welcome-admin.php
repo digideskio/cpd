@@ -1,4 +1,7 @@
 <?php
+/**
+ * Template to render Welcome Dashboard Widget for Admins
+ */
 
 	$user_id 			= get_current_user_id();
 	$is_elevated_user 	= get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';

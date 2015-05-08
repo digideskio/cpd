@@ -1,13 +1,4 @@
 <?php
-/**
- * The menu-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +7,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Menus' ) ) {
 
 /**
- * The menu-specific functionality of the plugin.
+ * Menus
+ *
+ * Menu functionality
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -56,14 +49,14 @@ class CPD_Menus {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add the CPD Content Menu
-	 **/
+	 */
 	public function add_content_menu() {
 	
 		add_object_page(
@@ -78,7 +71,7 @@ class CPD_Menus {
 
 	/**
 	 * Render the CPD Content Menu
-	 **/
+	 */
 	public function render_content_menu() {
 
 		$template_name 						= 	'cpd-content-menu';
@@ -93,7 +86,7 @@ class CPD_Menus {
 	 * Add menu items to the  CPD Content Menu
 	 *
 	 * @hook 	filter_cpd_add_content_menu_items 	Filter menu items we are adding to the CPD Content Menu
-	 **/
+	 */
 	public function add_content_menu_items() {
 
 		$cpd_content_menu_items 	= 	array();
@@ -135,7 +128,7 @@ class CPD_Menus {
 	 * Add dashboard widgets to the CPD Content Menu
 	 *
 	 * @hook 	filter_cpd_content_menu_dashboard_widgets 	Filter dashboard widgets we are adding to the CPD Content Menu
-	 **/
+	 */
 	public function add_content_menu_dashboard_widgets() {
 
 		$content_menu_dashboard_widgets 	= 	array();
@@ -205,7 +198,7 @@ class CPD_Menus {
 	 * Remove menus from the admin screen
 	 *
 	 * @hook 	filter_cpd_remove_admin_menus 	Filter menus to remove from the admin screen
-	 **/
+	 */
 	public function remove_admin_menus() {
 
 		$user_id 			= 	get_current_user_id();
@@ -255,7 +248,7 @@ class CPD_Menus {
 	 * Remove sub menus from the admin screen
 	 *
 	 * @hook 	filter_cpd_remove_sub_admin_menus 	Filter menus to remove from the admin screen
-	 **/
+	 */
 	public function remove_admin_sub_menus() {
 
 		$user_id 			= 	get_current_user_id();
@@ -365,7 +358,7 @@ class CPD_Menus {
 
 	/**
 	 * Correct the content menu hierarchy
-	 **/
+	 */
 	public function correct_content_menu_hierarchy( $parent_file ) {
 	
 		global $current_screen;
@@ -438,7 +431,7 @@ class CPD_Menus {
 
 	/**
 	 * Correct the content sub menu hierarchy
-	 **/
+	 */
 	public function correct_content_menu_sub_hierarchy() {
 		global $submenu;
 		
@@ -454,7 +447,7 @@ class CPD_Menus {
 	 * Add sub menus to admin menu
 	 *
 	 * @hook 	filter_cpd_add_admin_sub_menus 	Filter to add sub menus to admin menus
-	 **/
+	 */
 	public function add_admin_sub_menus() {
 
 		$sub_menus 			=	array();
@@ -496,7 +489,7 @@ class CPD_Menus {
 	 * Add menus to network admin menu
 	 *
 	 * @hook 	filter_cpd_add_network_admin_menus 	Filter to add menus to network admin menus
-	 **/
+	 */
 	public function add_network_admin_menus() {
 
 
@@ -538,7 +531,7 @@ class CPD_Menus {
 
 	/**
 	 * Rename network admin menus
-	 **/
+	 */
 	public function rename_network_admin_menus() {
 
 		if( is_super_admin() ) {

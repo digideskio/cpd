@@ -1,4 +1,8 @@
 <?php
+/**
+ * Template to render Unassigned Users Dashboard Widget
+ */
+
 global $wpdb;
 
 $orphaned_participants 		= 	array();

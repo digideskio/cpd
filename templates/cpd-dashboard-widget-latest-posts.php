@@ -1,4 +1,8 @@
-<?php 
+<?php
+/**
+ * Template to render Latest Posts Dashboard Widget
+ */
+
 $user 				= 	wp_get_current_user();
 $cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
 $weeks 				= 	intval( get_option( 'latest_posts_histogram_widget_weeks' ) );

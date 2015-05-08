@@ -1,13 +1,4 @@
 <?php
-/**
- * The comment-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      1.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Comments' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Comments
  *
- * Defines the admin settings
+ * Handle comments in the back end
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -53,7 +44,7 @@ class CPD_Comments {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}

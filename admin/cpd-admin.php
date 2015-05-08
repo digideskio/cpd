@@ -1,13 +1,4 @@
 <?php
-/**
- * The admin-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Admin' ) ) {
 
 /**
- * The admin-specific functionality of the plugin.
+ * Admin
  *
  * Defines the admin settings
  *
@@ -44,8 +35,6 @@ class CPD_Admin {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -55,9 +44,7 @@ class CPD_Admin {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -66,8 +53,6 @@ class CPD_Admin {
 	 * Remove menu items from the admin bar
 	 *
 	 * @hook 	filter_cpd_remove_admin_bar_menus		filter the menu items to remove from the admin bar
-	 * 
-	 * @since 	2.0.0
 	 */
 	public function remove_admin_bar_menus() {
 
@@ -106,8 +91,6 @@ class CPD_Admin {
 
 	/**
 	 * Add custom menu switcher to the admin bar
-	 *
-	 * @since 	2.0.0
 	 */
 	public function add_admin_bar_menu_switcher() {
 
@@ -136,8 +119,6 @@ class CPD_Admin {
 
 	/**
 	 * Remove admin footer text
-	 *
-	 * @since 	2.0.0
 	 */
 	public function remove_admin_footer_text() {
 		return '';
@@ -145,23 +126,19 @@ class CPD_Admin {
 
 	/**
 	 * Remove footer version
-	 *
-	 * @since 	2.0.0
 	 */
 	public function remove_admin_version() {
 		return '';
 	}
 
-		/**
+	/**
 	 * Rename page titles
 	 * 
 	 * @param  string 	$translation 	The translated text
 	 * @param  string 	$text        	The text to be translated
-	 * 
 	 * @param  string 	$domain      	The domain of the text we are translating
-	 * @return string 	$translation 	The translated text
 	 * 
-
+	 * @return string 	$translation 	The translated text
 	 */
 	public function rename_page_titles( $translation, $text, $domain )
 	{

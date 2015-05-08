@@ -1,5 +1,4 @@
 /* Use FontAwesome */
-
 .dashicons-before.fa:before {
     font-family: FontAwesome !important;
 }

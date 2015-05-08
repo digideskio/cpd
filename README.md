@@ -1,7 +1,5 @@
-Continuous Professional Development
------------------------------------
-
-~Current Version:1.0.1~
+Aspire CPD
+----------
 
 A single plugin to transform a WordPress install into a CPD management platform. Built in association with The University of Sheffield.
 

@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,16 +6,15 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Options' ) ) {
 
 /**
- * The dashboard-specific functionality of the plugin.
+ * Options
  *
- * Defines the plugin name, version, and enqueue the dashboard-specific stylesheet and JavaScript.
+ * Manage plugin options
  *
  * @package    CPD
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Options {
-
 
 	private static $instance = null;
 	private $text_domain;
@@ -57,7 +47,7 @@ class CPD_Options {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}

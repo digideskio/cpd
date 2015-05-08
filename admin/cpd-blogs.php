@@ -1,13 +1,4 @@
 <?php
-/**
- * The dashboard-specific functionality of the plugin.
- *
- * @link       http://makedo.in
- * @since      2.0.0
- *
- * @package    CPD
- * @subpackage CPD/admin
- */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -15,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 if( !class_exists( 'CPD_Blogs' ) ) {
 
 /**
- * The dashboard-specific functionality of the plugin.
+ * Blogs
  *
- * Defines the plugin name, version, and enqueue the dashboard-specific stylesheet and JavaScript.
+ * Methods affecting blogs
  *
  * @package    CPD
  * @subpackage CPD/admin
@@ -44,8 +35,6 @@ class CPD_Blogs {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -55,9 +44,7 @@ class CPD_Blogs {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
-	 **/
+	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
 	}
@@ -66,8 +53,6 @@ class CPD_Blogs {
 	 * On creation of new blog
 	 * 
 	 * @param  int  $blog_id  The newly created blog id
-	 *
-
 	 */
 	function new_blog( $blog_id /*, $user_id, $domain, $path, $site_id, $meta*/ ) 
 	{
@@ -226,9 +211,8 @@ class CPD_Blogs {
 	 * 
 	 * @param  object $a Object a
 	 * @param  object $b Object b
+	 * 
 	 * @return sort order
-	 *
-
 	 */
 	private function sort_by_menu_order($a, $b)
 	{

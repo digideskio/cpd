@@ -1,21 +1,12 @@
 <?php
 
-/**
- * CPD Legacy Upgrade
- *
- * Upgrades the legacy CPD system to use the functionality in this plugin.
- * 
- * @since             2.0.0
- * @package           CPD
- */
-
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 if( !class_exists( 'CPD_Upgrade_Legacy' ) ) {
 
 /**
- * CPD_Upgrade_Legacy
+ * Legacy Upgrade
  *
  * The container for all legacy upgrade functions
  *
@@ -57,8 +48,6 @@ class CPD_Upgrade_Legacy {
 	 * groupings. This allows easy reading of what loads in what order.
 	 *
 	 * It also allows easier and documented reading of what each dependancie is.
-	 *
-	 * @access   private
 	 */
 	private function load_dependencies() {
 
