@@ -13,7 +13,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       A plugin to clean up the WordPress dashboard
- * Version:           2.0.0
+ * Version:           2.0.1
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
