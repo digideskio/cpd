@@ -257,11 +257,6 @@ class CPD_Menus {
 		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
 		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', true );
 		$sub_menus 			=	array();
-		$blog_details 		= 	get_blog_details();
-		$admin_path 		=	admin_url();
-		$admin_path 		=	str_replace( $blog_details->siteurl, '', $admin_path );
-		$customize_path 	= 	$blog_details->path . $admin_path;
-		$customize_path 	= 	str_replace( '//', '/', $customize_path );
 
 		// Remove for everyone
 		
@@ -311,20 +306,8 @@ class CPD_Menus {
 			// Customize
 			$sub_menus[] 	= 	array( 
 									'parent' 	=>	'themes.php',
-									'menu' 		=>	'customize.php?return=' . urlencode( $customize_path ),
+									'menu' 		=>	'customize.php',
 								);
-
-			// Remove everything but Menus and Widgets
-			foreach( $submenu as $key=>$menu ) {
-				if( $key == 'themes.php') {
-					foreach( $menu as $item_key=>$item ) {
-						if( $item[0] != 'Menus' && $item[0] != 'Widgets' ) {
-							unset( $submenu[$key][$item_key] );
-						}
-					}
-				}
-
-			}
 
 		}
 
@@ -377,6 +360,18 @@ class CPD_Menus {
 
 		foreach( $menus as $menu ) {
 			remove_submenu_page( $menu['parent'], $menu['menu'] );
+
+			if( $menu['parent'] == 'themes.php' && $menu['menu'] = 'customize.php') {
+				foreach( $submenu as $key=>$menu ) {
+					if( $key == 'themes.php') {
+						foreach( $menu as $item_key=>$item ) {
+							if( isset( $item[4] ) && $item[4] == 'hide-if-no-customize' ) {
+								unset( $submenu[$key][$item_key] );
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -29,6 +29,7 @@
  * 2.0.0		Complete Refactor
  * 2.0.1		Participants switch to main blog on login
  * 				Participants can no longer un-tick allow comments
+ * 				Remove theme customizer menus for supervisors and participants
  */
 
 // Exit if accessed directly
