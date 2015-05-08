@@ -6,14 +6,14 @@
  * Turns WordPress into a CPD Journal management system.
  *
  * @link              http://makedo.in
- * @since             2.0.1
+ * @since             2.0.2
  * @package           CPD
  *
  * @wordpress-plugin
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       A plugin to clean up the WordPress dashboard
- * Version:           2.0.1
+ * Version:           2.0.2
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -30,6 +30,18 @@
  * 2.0.1		Participants switch to main blog on login
  * 				Participants can no longer un-tick allow comments
  * 				Remove theme customizer menus for supervisors and participants
+ * 2.0.2 		Added subscriber dashboard widget
+ * 				If supervisor, subscriber dashboard widget advises of correct journals
+ * 				Added network admin dashboard widget
+ *
+ * Change Roadmap
+ *
+ * 2.1.0		PPD Custom Post Type
+ * 2.1.1 		Improved Privacy Options
+ * 2.2.0		Competencies Functionality
+ * 2.2.1		Retire 'Assignments', use pages only
+ * 2.2.2 		Email Options
+ * 2.3.0		Personal Data Entry
  */
 
 // Exit if accessed directly
