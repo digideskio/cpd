@@ -36,12 +36,12 @@
  *
  * Change Roadmap
  *
- * 2.1.0		PPD Custom Post Type
+ * 2.1.0		PPD Custom Post Type (Development Log)
  * 2.1.1 		Improved Privacy Options
- * 2.2.0		Competencies Functionality
+ * 2.2.0		Competencies Functionality (Assessments)
  * 2.2.1		Retire 'Assignments', use pages only
- * 2.2.2 		Email Options
- * 2.3.0		Personal Data Entry
+ * 2.2.2 		Email Options (Opt in/out)
+ * 2.3.0		Personal Data Entry (Portfolio)
  */
 
 // Exit if accessed directly
