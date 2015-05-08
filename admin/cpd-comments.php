@@ -59,11 +59,48 @@ class CPD_Comments {
 	}
 
 	/**
+	 * Prevent supervisor from editing the comments
+	 */
+	public function prevent_participants_editing_supervisor_comments()
+	{
+		$screen = get_current_screen();
+
+		if( $screen->id == 'comment' )
+		{
+			$comment_id = $_GET['c'];
+			$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
+
+			// If they are not a user, return
+			if ( !( $comment_author instanceof WP_User ) )
+				return;
+
+			// If the person logged in is the supervisor, return
+			if( wp_get_current_user() == $comment_author )
+				return;
+
+			// Check to make sure they are a supervisor
+			if( in_array( 'supervisor', $comment_author->roles ) )
+			{
+				$supervisors = get_user_meta( wp_get_current_user()->ID, 'cpd_related_supervisors', TRUE );
+
+				// If the author of the comment is a supervisor, and they are associated with the participant, prevent edit of the content
+				foreach ( $supervisors as $supervisor )
+				{
+					if( $supervisor == $comment_author->ID )
+					{
+						wp_die( 'You do not have permission to edit this post. To make changes please contact your supervisor.', 'Insufficient permissions' );
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Add the score to the bottom of the comment when previewed
 	 *
 	 * @param      array    $actions       Array of actions
 	 */
-	public function prevent_comment_edit_supervisor_ui( $actions ) 
+	public function prevent_participants_editing_supervisor_comments_ui( $actions ) 
 	{
 		global $comment;
 
@@ -186,43 +223,6 @@ class CPD_Comments {
 	}
 
 	/**
-	 * Prevent supervisor from editing the comments
-	 */
-	public function prevent_comment_edit_supervisor()
-	{
-		$screen = get_current_screen();
-
-		if( $screen->id == 'comment' )
-		{
-			$comment_id = $_GET['c'];
-			$comment_author = get_user_by( 'login', get_comment_author( $comment_id ) );
-
-			// If they are not a user, return
-			if ( !( $comment_author instanceof WP_User ) )
-				return;
-
-			// If the person logged in is the supervisor, return
-			if( wp_get_current_user() == $comment_author )
-				return;
-
-			// Check to make sure they are a supervisor
-			if( in_array( 'supervisor', $comment_author->roles ) )
-			{
-				$supervisors = get_user_meta( wp_get_current_user()->ID, 'cpd_related_supervisors', TRUE );
-
-				// If the author of the comment is a supervisor, and they are associated with the participant, prevent edit of the content
-				foreach ( $supervisors as $supervisor )
-				{
-					if( $supervisor == $comment_author->ID )
-					{
-						wp_die( 'You do not have permission to edit this post. To make changes please contact your supervisor.', 'Insufficient permissions' );
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * Set comment options
 	 */
 	public function set_comment_options()
@@ -255,7 +255,7 @@ class CPD_Comments {
 	 *
 	 * @param      array    $data      array of data
 	 */
-	public function  enable_comment_tags( $data ) {
+	public function enable_comment_tags( $data ) {
 		
 		global $allowedtags;
 		

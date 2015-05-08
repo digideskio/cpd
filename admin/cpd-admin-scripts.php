@@ -44,8 +44,6 @@ class CPD_Admin_Scripts {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
-
 	 */
 	public function __construct() {
 		
@@ -55,8 +53,6 @@ class CPD_Admin_Scripts {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -64,18 +60,14 @@ class CPD_Admin_Scripts {
 
 	/**
 	 * Register the stylesheets for the Dashboard.
-	 *
-
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'cpd', plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), '1.0', 'all' );
+		wp_enqueue_style( 'cpd-admin-scripts', plugin_dir_url( __FILE__ ) . 'css/cpd.css', array(), '1.0', 'all' );
 	}
 
 	/**
 	 * Register the JavaScript for the dashboard.
-	 *
-
 	 */
 	public function enqueue_scripts() {
 
@@ -87,7 +79,7 @@ class CPD_Admin_Scripts {
 		}
 
 		// Scripts unique to the plugin
-		wp_enqueue_script( 'cpd', plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), '1.0', TRUE );
+		wp_enqueue_script( 'cpd-admin-scripts', plugin_dir_url( __FILE__ ) . 'js/cpd.js', array( 'jquery' ), '1.0', TRUE );
 
 	}
 }

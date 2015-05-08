@@ -25,7 +25,7 @@
 /** 
  * Change Log
  * 
- * 2.0.0		Initial Prototype
+ * 1.0.0		Initial Prototype
  * 2.0.0		Complete Refactor
  */
 
@@ -134,7 +134,8 @@ class CPD {
 		
 		// Prepare public dependancies
 		$dependencies['public'] 	= 	array(
-			'cpd-public-scripts' 				// Register public scripts
+			'cpd-public-scripts', 				// Register public scripts
+			'cpd-comments-ui', 					// Manage comments
 		);
 
 		// Prepare public dependancies
@@ -488,25 +489,27 @@ class CPD {
 		/**
 		 * Comments
 		 *
-		 * [1]  
-		 * [2] 
-		 * [3] 
-		 * [4] 
-		 * [5] 
-		 * [6] 
-		 * [7] 
-		 * [8] 
+		 * [1] Prevent participants editing supervisor comments (UI)
+		 * [2] Prevent participants editing supervisor comments
+		 * [3] Add score column to comments page
+		 * [4] Add data to the score column
+		 * [5] Add score metabox to comment
+		 * [6] Save data from the metabox
+		 * [7] Set comment options (prevent options from being unticked)
+		 * [8] Enable TinyMCE for comments
+		 * [9] Enable HTML Tags in comments
 		 */
 		
-		/*1*/ add_filter( 'comment_row_actions', array( $comments, 'prevent_comment_edit_supervisor_ui' ), 11, 1 );
-		/*2*/ add_filter( 'manage_edit-comments_columns', array( $comments, 'add_score_column' ) );
-		/*3*/ add_filter( 'manage_comments_custom_column',  array( $comments, 'add_score_column_data' ), 10, 2 );
-		/*4*/ add_action( 'add_meta_boxes_comment',  array( $comments, 'add_comment_metabox_score' ) );
-		/*5*/ add_filter( 'comment_save_pre',  array( $comments, 'save_comment_metabox_score' ) );
-		/*6*/ add_action( 'current_screen', array( $comments, 'prevent_comment_edit_supervisor' ), 10, 1 );
+		/*1*/ add_action( 'current_screen', array( $comments, 'prevent_participants_editing_supervisor_comments' ), 10, 1 );
+		/*2*/ add_filter( 'comment_row_actions', array( $comments, 'prevent_participants_editing_supervisor_comments_ui' ), 11, 1 );
+		/*3*/ add_filter( 'manage_edit-comments_columns', array( $comments, 'add_score_column' ) );
+		/*4*/ add_filter( 'manage_comments_custom_column',  array( $comments, 'add_score_column_data' ), 10, 2 );
+		/*5*/ add_action( 'add_meta_boxes_comment',  array( $comments, 'add_comment_metabox_score' ) );
+		/*6*/ add_filter( 'comment_save_pre',  array( $comments, 'save_comment_metabox_score' ) );
 		/*7*/ add_action( 'init', array( $comments, 'set_comment_options'), 10, 1 );
 		/*8*/ add_filter( 'comment_form_defaults', array( $comments, 'enable_comment_tinymce' ) );
-		/*9*/ add_filter('preprocess_comment', array( $comments, 'enable_comment_tags' ) );
+		/*9*/ add_filter( 'preprocess_comment', array( $comments, 'enable_comment_tags' ) );
+		
 	}
 
 	/**
@@ -515,7 +518,8 @@ class CPD {
 	 */
 	private function public_hooks() {
 
-		$scripts = new CPD_Public_Scripts();
+		$scripts 		= new CPD_Public_Scripts();
+		$comments_ui 	= new CPD_Comments_UI();
 
 		/** 
 		 * Set Text Domain
@@ -530,8 +534,22 @@ class CPD {
 		 * [2] Register scripts
 		 */
 		
-		// /*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
+		/*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
 		// /*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
+		
+		/**
+		 * Comments UI
+		 *
+		 * [1] Show score field to supervisors
+		 * [2] Ensure score is required for supervisors
+		 * [3] Add the score meta data to the comment
+		 * [4] Render the comment meta in the UI
+		 */
+
+		/*1*/ add_action( 'comment_form_logged_in_after',  array( $comments_ui, 'add_comment_field_score' ), 10, 2 );
+		/*2*/ add_filter( 'preprocess_comment', array( $comments_ui, 'verify_comment_field_score' ), 99 );
+		/*3*/ add_action( 'comment_post', array( $comments_ui, 'add_comment_field_score_meta' ), 1 );
+		/*4*/ add_filter( 'comments_array', array( $comments_ui, 'render_comment_field_score' ) );
 
 	}
 

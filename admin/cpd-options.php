@@ -46,7 +46,6 @@ class CPD_Options {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-
 	 * @param      string    $instance       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,8 +57,6 @@ class CPD_Options {
 	 * Set the text domain
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
-	 *
-
 	 **/
 	public function set_text_domain( $text_domain ) { 
 		$this->text_domain = $text_domain;
@@ -87,8 +84,6 @@ class CPD_Options {
 
 	/**
 	 * Show the Assignments section message
-	 *
-
 	 */
 	public function cpd_section_assignments_callback() {
 		?>
@@ -111,8 +106,6 @@ class CPD_Options {
 
 	/**
 	 * Show the Pages section message
-	 *
-
 	 */
 	public function cpd_section_pages_callback() {
 		?>
@@ -135,8 +128,6 @@ class CPD_Options {
 
 	/**
 	 * Show the Posts section message
-	 *
-
 	 */
 	public function cpd_section_posts_callback() {
 		?>
@@ -159,8 +150,6 @@ class CPD_Options {
 
 	/**
 	 * Show the Manual Defaults section message
-	 *
-
 	 */
 	public function cpd_section_manual_defaults_callback() {
 		?>
@@ -176,8 +165,6 @@ class CPD_Options {
 
 	/**
 	 * Render the assignments field
-	 *
-
 	 */
 	public function cpd_section_assignments_default_assignments_callback() {
 
@@ -320,8 +307,6 @@ class CPD_Options {
 
 	/**
 	 * Render the pages field
-	 *
-
 	 */
 	public function cpd_section_pages_default_pages_callback() {
 
@@ -464,8 +449,6 @@ class CPD_Options {
 
 	/**
 	 * Render the posts field
-	 *
-
 	 */
 	public function cpd_section_posts_default_posts_callback() {
 
@@ -608,8 +591,6 @@ class CPD_Options {
 
 	/**
 	 * Render the manual defaults field
-	 *
-
 	 */
 	public function cpd_section_manual_defaults_key_values_callback() {
 		$cpd_settings 	= 	get_option( 'cpd_new_blog_options' );
@@ -620,8 +601,6 @@ class CPD_Options {
 
 	/**
 	 * Add the options page
-	 *
-
 	 */
 	public function add_options_page() {
 		add_submenu_page( 'settings.php', 'CPD Journal Defaults', 'CPD Journal Defaults', 'manage_network_options', 'cpd_settings', array( $this, 'render_options_page' ) );
@@ -629,8 +608,6 @@ class CPD_Options {
 
 	/**
 	 * Render the options page
-	 *
-
 	 */
 	public function render_options_page(){ 
 		?>
