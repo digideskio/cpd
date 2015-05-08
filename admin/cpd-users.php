@@ -511,5 +511,21 @@ class CPD_Users {
 
 		$cpd_journal 	= 	wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
 	}
+
+
+	public function login_redirect( $redirect_to, $request_redirect_to, $user ) {
+	
+		if( $user && is_object( $user ) && !is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
+
+			$user_type 				= 	get_user_meta( $user->ID, 'cpd_role', true );
+			
+			if( $user_type == 'participant' ) {
+				$primary_blog 	= 	get_active_blog_for_user( $user->ID );
+				$redirect_to 	= 	get_admin_url( $primary_blog->blog_id );
+			}
+		}
+
+		return $redirect_to;
+	}
 }		
 }

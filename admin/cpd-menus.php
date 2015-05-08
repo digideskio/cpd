@@ -254,7 +254,7 @@ class CPD_Menus {
 		$user_id 			= 	get_current_user_id();
 		$is_admin 			=	current_user_can( 'manage_options' );
 		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
-		$user_type 	= get_user_meta( $user_id, 'cpd_role', true );
+		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', true );
 		$sub_menus 			=	array();
 
 		// Remove for everyone

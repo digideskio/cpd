@@ -87,15 +87,11 @@ class CPD_Emails {
 			$message		.= '</ul>';
 
 			// Get the supervisors of the author
-<<<<<<< HEAD:admin/class-cpd-journal-email.php
 			$supervisors = get_user_meta( $post_author_id, 'cpd_related_supervisors', TRUE );
 
 			if( !is_array( $supervisors ) ) {
 				$supervisors = array();
 			}
-=======
-			$supervisors = get_user_meta( $post_author_id, 'cpd_related_participants', TRUE );
->>>>>>> refactor:admin/cpd-emails.php
 
 			// Email each supervisor
 			foreach ( $supervisors as $supervisor )

@@ -6,7 +6,7 @@
  * Turns WordPress into a CPD Journal management system.
  *
  * @link              http://makedo.in
- * @since             2.0.0
+ * @since             2.0.1
  * @package           CPD
  *
  * @wordpress-plugin
@@ -27,6 +27,8 @@
  * 
  * 1.0.0		Initial Prototype
  * 2.0.0		Complete Refactor
+ * 2.0.1		Participants switch to main blog on login
+ * 				Participants can no longer un-tick allow comments
  */
 
 // Exit if accessed directly
@@ -384,10 +386,12 @@ class CPD {
 		 * Metaboxes
 		 *
 		 * [1] Hide metaboxes
+		 * [2] Remove metaboxes
 		 */
 		
 		/*1*/ add_action( 'default_hidden_meta_boxes', array( $metaboxes, 'hide_metaboxes'), 10, 2 );
-
+		/*2*/ add_action( 'admin_menu', array( $metaboxes, 'remove_metaboxes') );
+		
 		/** 
 		 * Columns
 		 *
@@ -417,19 +421,20 @@ class CPD {
 		 * [4] Remove Participant Capabilities
 		 * [5] Prevent participants from removing supervisors
 		 * [6] Redirect users on creation
+		 * [7] 
 		 *
 		 * Static Methods
 		 * 
-		 * [7] Get all multisite users
-		 * [8] Get all participants
-		 * [9] Get all supervisors
-		 * [10] Remove a supervisor from related supervisors
-		 * [11] Remove a participant from related participants
-		 * [12] Add a relationship between a participant and a supervisor
-		 * [13] Remove a relationship between a participant and a supervisor
-		 * [14] Add a supervisor to a participants journals
-		 * [15] Remove a user from all blogs
-		 * [16] Create a user journal based on a user
+		 * [8] Get all multisite users
+		 * [9] Get all participants
+		 * [10] Get all supervisors
+		 * [11] Remove a supervisor from related supervisors
+		 * [12] Remove a participant from related participants
+		 * [13] Add a relationship between a participant and a supervisor
+		 * [14] Remove a relationship between a participant and a supervisor
+		 * [15] Add a supervisor to a participants journals
+		 * [16] Remove a user from all blogs
+		 * [17] Create a user journal based on a user
 		 */
 		
 		/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) ); 
@@ -438,17 +443,18 @@ class CPD {
 		/*4*/ add_filter( 'editable_roles', array( $users, 'remove_participant_capabilities' ) );
 		/*5*/ add_filter( 'user_has_cap', array( $users, 'prevent_partcipant_removing_supervisor' ), 10, 3 );
 		/*6*/ add_action( 'wpmu_new_user', array( $users, 'redirect_on_create_user' ) );
+		/*7*/ add_action( 'login_redirect', array( $users, 'login_redirect' ), 9999, 3 );
 
-		/*7*/ // CPD_Users::get_multisite_users();
-		/*8*/ // CPD_Users::get_participants();
-		/*9*/ // CPD_Users::get_supervisors();
-		/*10*/ // CPD_Users::remove_user_from_related_supervisors( $user_id, $participants );
-		/*11*/ // CPD_Users::remove_user_from_related_participants( $user_id, $supervisors );
-		/*12*/ // CPD_Users::add_cpd_relationship( $supervisor, $participant );
-		/*13*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
-		/*14*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
-		/*15*/ // CPD_Users::remove_user_from_blogs( $user_id );
-		/*16*/ // CPD_Users::create_user_journal( $user_id );
+		/*8*/ // CPD_Users::get_multisite_users();
+		/*9*/ // CPD_Users::get_participants();
+		/*20*/ // CPD_Users::get_supervisors();
+		/*12*/ // CPD_Users::remove_user_from_related_supervisors( $user_id, $participants );
+		/*13*/ // CPD_Users::remove_user_from_related_participants( $user_id, $supervisors );
+		/*13*/ // CPD_Users::add_cpd_relationship( $supervisor, $participant );
+		/*14*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
+		/*15*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
+		/*16*/ // CPD_Users::remove_user_from_blogs( $user_id );
+		/*17*/ // CPD_Users::create_user_journal( $user_id );
 
 		/**
 		 * Options
