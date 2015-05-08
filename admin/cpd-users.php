@@ -493,7 +493,7 @@ class CPD_Users {
 	}
 
 	/**
-	 * Create a  user journal
+	 * Create a user journal
 	 *
 	 * @param  int 		$user_id 		The user ID
 	 */
@@ -512,7 +512,14 @@ class CPD_Users {
 		$cpd_journal 	= 	wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
 	}
 
-
+	/**
+	 * Redirect users on redirect
+	 * 
+	 * @param  string $redirect_to         	location of redirect
+	 * @param  string $request_redirect_to 	location of new redirect
+	 * @param  object $user                	User object
+	 * @return string                     	New redirect
+	 */
 	public function login_redirect( $redirect_to, $request_redirect_to, $user ) {
 	
 		if( $user && is_object( $user ) && !is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {

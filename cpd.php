@@ -304,7 +304,7 @@ class CPD {
 		/*2*/ add_action( 'admin_menu', array( $menus, 'add_content_menu_items'), 99 );
 		/*3*/ add_action( 'cpd_content_menu_render_widgets', array( $menus, 'add_content_menu_dashboard_widgets'), 99 );
 		/*4*/ add_action( 'admin_menu', array( $menus, 'remove_admin_menus'), 99 );
-		/*5*/ add_action( 'admin_menu', array( $menus, 'remove_admin_sub_menus'), 99 );
+		/*5*/ add_action( 'admin_menu', array( $menus, 'remove_admin_sub_menus'), 999 );
 		/*6*/ add_filter( 'parent_file', array( $menus, 'correct_content_menu_hierarchy'), 10000 );
 		/*7*/ add_filter( 'admin_head', array( $menus, 'correct_content_menu_sub_hierarchy') );
 		/*8*/ add_action( 'admin_menu', array( $menus, 'add_admin_sub_menus'), 99 );

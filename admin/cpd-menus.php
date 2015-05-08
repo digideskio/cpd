@@ -251,11 +251,17 @@ class CPD_Menus {
 	 */
 	public function remove_admin_sub_menus() {
 
+		global $submenu;
 		$user_id 			= 	get_current_user_id();
 		$is_admin 			=	current_user_can( 'manage_options' );
 		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
 		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', true );
 		$sub_menus 			=	array();
+		$blog_details 		= 	get_blog_details();
+		$admin_path 		=	admin_url();
+		$admin_path 		=	str_replace( $blog_details->siteurl, '', $admin_path );
+		$customize_path 	= 	$blog_details->path . $admin_path;
+		$customize_path 	= 	str_replace( '//', '/', $customize_path );
 
 		// Remove for everyone
 		
@@ -293,7 +299,6 @@ class CPD_Menus {
 		if( $user_type == 'supervisor' ) {
 		}
 
-
 		// Remove for participants or supervisors
 		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
 
@@ -302,6 +307,25 @@ class CPD_Menus {
 									'parent' 	=>	'index.php',
 									'menu' 		=>	'my-sites.php',
 								);
+
+			// Customize
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'customize.php?return=' . urlencode( $customize_path ),
+								);
+
+			// Remove everything but Menus and Widgets
+			foreach( $submenu as $key=>$menu ) {
+				if( $key == 'themes.php') {
+					foreach( $menu as $item_key=>$item ) {
+						if( $item[0] != 'Menus' && $item[0] != 'Widgets' ) {
+							unset( $submenu[$key][$item_key] );
+						}
+					}
+				}
+
+			}
+
 		}
 
 

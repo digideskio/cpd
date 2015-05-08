@@ -248,7 +248,7 @@ class CPD_Emails {
 	/**
 	 * Set the email content type to HTML
 	 */
-	private function set_html_content_type() {
+	public function set_html_content_type() {
 		return 'text/html';
 	}
 }
