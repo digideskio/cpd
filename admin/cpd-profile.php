@@ -214,11 +214,14 @@ class CPD_Profile {
 								<?php
 									if( count( $all_cpd_journals ) ) {
 										foreach( $all_cpd_journals as $journal ) {
+
+											if( BLOG_ID_CURRENT_SITE != $journal['blog_id']  ) {
 											?>
 												<option value="<?php echo $journal['blog_id'];?>" <?php echo $journal['blog_id'] == $cpd_journal['blog_id'] ? 'selected' : '';?>>
 													http://<?php echo $journal['domain'] . $journal['path'];?>
 												</option>
 											<?php
+											}
 										}
 									}
 								?>
