@@ -178,7 +178,7 @@ class CPD_Admin {
 		global $wp_post_types;
 
 		$labels = &$wp_post_types['post']->labels;
-		$labels->name = 'Journal Entry';
+		$labels->name = 'Journal Entries';
 		$labels->singular_name = 'Journal Entry';
 		$labels->add_new = 'Add Journal Entry';
 		$labels->add_new_item = 'Add Journal Entry';
@@ -189,8 +189,8 @@ class CPD_Admin {
 		$labels->not_found = 'No Journal Entries found';
 		$labels->not_found_in_trash = 'No Journal Entries found in Trash';
 		$labels->all_items = 'All Journal Entries';
-		$labels->menu_name = 'Journal Entry';
-		$labels->name_admin_bar = 'Journal Entry';
+		$labels->menu_name = 'Journal Entries';
+		$labels->name_admin_bar = 'Journal Entries';
 	}
 }
 }

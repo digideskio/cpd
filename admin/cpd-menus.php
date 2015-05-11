@@ -94,7 +94,7 @@ class CPD_Menus {
 		// Posts
 		$cpd_content_menu_items[] 	= 	array(
 			'post_name'		=>	'post',
-			'menu_name'		=>	'Journal Entry',
+			'menu_name'		=>	'Journal Entries',
 			'capability'	=>	'edit_posts',
 			'function'		=>	'edit.php'
 		);
@@ -164,6 +164,20 @@ class CPD_Menus {
 			'call_to_action_link' 	=> admin_url( 'post-new.php?post_type=page' )
 		);
 
+		// PPD
+		$content_menu_dashboard_widgets[] 	= 	array(
+			'title' 				=> __( 'Activity Logs', $this->text_domain ),
+			'dashicon' 				=> 'dashicons-index-card',
+			'desc' 					=> '<p>' . __( 'This content type is for managing your Activity Log.</p>', $this->text_domain),
+			'post_type' 			=> 'page',
+			'button_label' 			=> __( 'Edit / Manage Activity Log', $this->text_domain),
+			'css_class' 			=> 'page',
+			'show_tax' 				=> TRUE,
+			'link' 					=> admin_url( 'edit.php?post_type=ppd' ),
+			'call_to_action_text'	=> 'Add New',
+			'call_to_action_link' 	=> admin_url( 'post-new.php?post_type=ppd' )
+		);
+
 
 		$widgets 							= 	apply_filters(
 													'filter_cpd_content_menu_dashboard_widgets',
@@ -209,7 +223,7 @@ class CPD_Menus {
 		// Remove for everyone		
 		$admin_menus[] 		= 	'edit.php';										// Posts
 		$admin_menus[] 		= 	'edit.php?post_type=page';						// Pages
-		// $admin_menus[] 		= 	'edit-comments.php';							// Comments
+		// $admin_menus[] 		= 	'edit-comments.php';						// Comments
 
 		// Remove for everyone but elevated users
 		if( !$is_elevated_user ) {
@@ -397,7 +411,7 @@ class CPD_Menus {
 					}
 	
 					if( $item[2] == 'edit.php' ) {
-						$pages[] = 'Journal Entry';
+						$pages[] = 'Journal Entries';
 					}
 					else if( $item[2] == 'edit.php?post_type=page' || $item[2] == 'edit.php?post_type=page&page=cms-tpv-page-page' ) {
 						$pages[] = 'Pages';

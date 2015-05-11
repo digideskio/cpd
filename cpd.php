@@ -6,14 +6,14 @@
  * Turns WordPress into a CPD Journal management system.
  *
  * @link              http://makedo.in
- * @since             2.0.2
+ * @since             2.1.0
  * @package           CPD
  *
  * @wordpress-plugin
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       A plugin to clean up the WordPress dashboard
- * Version:           2.0.2
+ * Version:           2.1.0
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -33,7 +33,7 @@
  * 2.0.2 		Added subscriber dashboard widget
  * 				If supervisor, subscriber dashboard widget advises of correct journals
  * 				Added network admin dashboard widget
- * 2.1.0		PPD Custom Post Type (Development Log)
+ * 2.1.0		PPD Custom Post Type (Activity Log)
  *
  * Change Roadmap
  *
@@ -118,6 +118,11 @@ class CPD {
 		// Prepare vendor dependancies
 		$dependencies['vendor'] 	= 	array(
 		);
+
+		// Human Made Custom Meta Boxes
+		if( !class_exists( 'CMB_Meta_Box' ) ) {
+			$dependencies['vendor'][] = 'humanmade/Custom-Meta-Boxes/custom-meta-boxes';
+		}
 		
 		// Prepare common dependancies
 		$dependencies['includes'] 	= 	array(
@@ -145,6 +150,7 @@ class CPD {
 			'cpd-blogs',						// Blog settings
 			'cpd-emails', 						// Send emails
 			'cpd-comments', 					// Manage comments
+			'cpd-cpt-ppd',						// PPD CPT
 		);
 		
 		// Prepare public dependancies
@@ -233,6 +239,7 @@ class CPD {
 		$blogs 								= CPD_Blogs::get_instance();
 		$emails 							= CPD_Emails::get_instance();
 		$comments 							= CPD_Comments::get_instance();
+		$ppd 								= CPD_CPT_PPD::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -257,6 +264,7 @@ class CPD {
 		$blogs->set_text_domain( $this->text_domain );
 		$emails->set_text_domain( $this->text_domain );
 		$comments->set_text_domain( $this->text_domain );
+		$ppd->set_text_domain( $this->text_domain );
 		
 		/** 
 		 * Scripts
@@ -529,6 +537,19 @@ class CPD {
 		/*8*/ add_filter( 'comment_form_defaults', array( $comments, 'enable_comment_tinymce' ) );
 		/*9*/ add_filter( 'preprocess_comment', array( $comments, 'enable_comment_tags' ) );
 		
+		/**
+		 * PPD
+		 *
+		 * [1] Register the PPD CPT
+		 * [2] Move advanced metaboxes above the editor
+		 * [3] Set the featured image metabox
+		 * [4] Add helper text to the title
+		 */
+		
+		/*1*/ add_action( 'init', array( $ppd, 'register_post_type' ) );
+		/*2*/ add_action( 'edit_form_after_title', array( $ppd, 'move_advanced_metaboxes_above_editor' ) );
+		/*3*/ add_action( 'edit_form_after_title', array( $ppd, 'set_featured_image_metabox_title' ) );
+		/*4*/ add_action( 'edit_form_top', array( $ppd, 'add_title_helper_text' ), 99 );
 	}
 
 	/**
