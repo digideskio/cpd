@@ -77,7 +77,7 @@
 
 				<li>
 					<span class="dashicons-before dashicons-book"></span> 
-					<a href="<?php echo home_url() . '/wp-admin/network/sites.php';?>">
+					<a href="<?php echo network_admin_url( 'sites.php' );?>">
 						Manage all Journals
 					</a>
 				</li>

@@ -33,10 +33,10 @@
  * 2.0.2 		Added subscriber dashboard widget
  * 				If supervisor, subscriber dashboard widget advises of correct journals
  * 				Added network admin dashboard widget
+ * 2.1.0		PPD Custom Post Type (Development Log)
  *
  * Change Roadmap
  *
- * 2.1.0		PPD Custom Post Type (Development Log)
  * 2.1.1 		Improved Privacy Options
  * 2.2.0		Competencies Functionality (Assessments)
  * 2.2.1		Retire 'Assignments', use pages only

@@ -3,7 +3,6 @@
  * Template to render Welcome Dashboard Widget for Supervisors
  */
 $current_user 	= 	wp_get_current_user();
-$supervisors 	=	get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
 $name 			= 	$current_user->user_firstname . ' ' . $current_user->user_lastname;
 $name 			= 	trim( $name );
 if( empty( $name ) ) {

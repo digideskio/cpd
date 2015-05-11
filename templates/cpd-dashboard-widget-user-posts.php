@@ -78,7 +78,8 @@ if( $break != 0 ) {
 			$percent = ( $count / $biggest_count ) * 100 ;
 		}
 
-		if( empty( trim( $name ) ) ) {
+		$name 		=	trim( $name );
+		if( empty( $name ) ) {
 			$name = $user->display_name;
 		}
 		?>

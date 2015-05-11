@@ -2,7 +2,6 @@
 /**
  * Template to render Welcome Dashboard Widget for Participants
  */
-
 $current_user 	= 	wp_get_current_user();
 $supervisors 	=	get_user_meta( $current_user->ID, 'cpd_related_supervisors', TRUE );
 $name 			= 	$current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -65,8 +64,9 @@ if( empty( $name ) ) {
 				<?php
 					foreach( $supervisors as $supervisor_id ) {
 						$supervisor = get_user_by( 'id', $supervisor_id );
-						$name = $supervisor->user_firstname . ' ' . $supervisor->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$name 		= $supervisor->user_firstname . ' ' . $supervisor->user_lastname;
+						$name 		= trim( $name );
+						if( empty( $name ) ) {
 							$name = $supervisor->display_name;
 						}
 						?>

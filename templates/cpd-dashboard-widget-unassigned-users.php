@@ -51,9 +51,11 @@ if( count( $orphaned_participants ) ) {
 				$site_admin_url 	= 	$site_url . 'wp-admin';
 				$user 				= 	get_user_by( 'id', $participant->ID );
 				$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-				if( empty( trim( $name ) ) ) {
+				$name 				=	trim( $name );
+				if( empty( $name ) ) {
 					$name = $user->display_name;
 				}
+
 				?>
 				<tr>
 					<td>
@@ -73,7 +75,7 @@ if( count( $orphaned_participants ) ) {
 					</td>
 				</tr>
 				<?php 
-			} 
+			}
 		?>
 	</table>
 	<?php 
@@ -100,7 +102,8 @@ if( count( $redundant_supervisors ) ) {
 				$edit_url			= 	add_query_arg( array( 'user_id' => $supervisor->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
 				$user 				= 	get_user_by( 'id', $supervisor->ID );
 				$name 				= 	$user->user_firstname . ' ' . $user->user_lastname;
-				if( empty( trim( $name ) ) ) {
+				$name 				=	trim( $name );
+				if( empty( $name ) ) {
 					$name = $user->display_name;
 				}
 				?>

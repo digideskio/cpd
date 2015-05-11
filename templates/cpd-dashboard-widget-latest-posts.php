@@ -104,7 +104,8 @@ if( empty( $weeks ) ) {
 					foreach( $post_group[ $i ] as $post ) {
 						$user 		= 	get_user_by( 'id', $post->post_author );
 						$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
-						if( empty( trim( $name ) ) ) {
+						$name 		=	trim( $name );
+						if( empty( $name ) ) {
 							$name = $user->display_name;
 						}
 						$edit_url	= 	add_query_arg( array( 'user_id' => $user->ID ), network_admin_url( 'user-edit.php#cpd_profile' ) );
