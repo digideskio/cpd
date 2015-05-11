@@ -3,7 +3,7 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if( !class_exists( 'CPD_Meta_Box_Date_Completed' ) ) {
+if( !class_exists( 'CPD_Meta_Box_Points' ) ) {
 
 /**
  * Admin Scripts
@@ -14,7 +14,7 @@ if( !class_exists( 'CPD_Meta_Box_Date_Completed' ) ) {
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Meta_Box_Date_Completed {
+class CPD_Meta_Box_Points {
 
 	private static $instance = null;
 	private $text_domain;
@@ -47,10 +47,10 @@ class CPD_Meta_Box_Date_Completed {
 	public function __construct() {
 		
 		$this->args 							= 	array(
-														'id' 					=> 'date_completed',
+														'id' 					=> 'points',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Date Completed',
-														'context' 				=> 'advanced',
+														'name' 					=> 'Points',
+														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
 														'key_prefix' 			=> '',
@@ -93,11 +93,12 @@ class CPD_Meta_Box_Date_Completed {
 		$metabox_args	= 	array(
 								'fields' 	=> 	array(
 													array( 
-														'id'			=> 	$this->key_prefix . 'date_completed', 
-														'name' 			=> 	__( 'Date completed (unless ongoing)', $this->text_domain ),
-														'desc'			=>	'<strong>Note:</strong> The date is in US format MM/DD/YYYY',
-														'type'			=> 	'date_unix',
+														'id'			=> 	$this->key_prefix . 'points', 
+														'name' 			=> 	__( 'Points Awarded', $this->text_domain ),
+														'desc'			=>	'Enter the points that this achivement should be awarded',
+														'type'			=> 	'text_small',
 														'cols'			=> 	12,
+														'readonly'		=>	FALSE
 													),
 												)
 							);
@@ -122,6 +123,27 @@ class CPD_Meta_Box_Date_Completed {
 	 */
 	function register_metabox( $meta_boxes ) {
 		
+		$user_id 			= 	get_current_user_id();
+		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', TRUE );
+		
+		if( $user_type == 'participant' )
+		{
+			$metabox_args	= 	array(
+									'fields' 	=> 	array(
+														array( 
+															'id'			=> 	$this->key_prefix . 'points', 
+															'name' 			=> 	__( 'Points Awarded', $this->text_domain ),
+															'desc'			=>	'Only a supervisor can award points',
+															'type'			=> 	'text_small',
+															'cols'			=> 	12,
+															'readonly'		=>	TRUE
+														),
+													)
+								);
+
+			$this->args['metabox_args'] 			= 	array_merge( $this->args[ 'metabox_args'], $metabox_args );
+		}
+
 		$meta_boxes[] 							= 	$this->args['metabox_args'];
 		
 		return $meta_boxes;

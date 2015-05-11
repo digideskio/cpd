@@ -141,19 +141,29 @@
 			var group 	= $(this).closest('div[data-class="CMB_Group_Field"]');
 			var upload 	= group.find('div.CMB_File_Field');
 			var journal = group.find('div.CMB_Select');
-			var url 	= group.find('div.CMB_Url_Field');
+			var url 	= group.find('div.CMB_URL_Field');
+			var text 	= group.find('div.CMB_Text_Field');
 
 			upload.hide();
 			journal.hide();
 			url.hide();
+			text.hide();
+
+			upload.css('border', '0px');
+			journal.css('border', '0px');
+			url.css('border', '0px');
+			text.css('border', '0px');
 
 			if( $(this).val() == 'upload' ) {
 				upload.show();
+				text.show();
 			} else if( $(this).val() == 'journal' ) {
 				journal.show();
 			} else if( $(this).val() == 'url' ) {
 				url.show();
+				text.show();
 			}
+			
 		});
 	}
 	cpd_meta_box_evidence_filter();

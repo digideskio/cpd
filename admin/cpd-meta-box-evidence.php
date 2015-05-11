@@ -70,7 +70,7 @@ class CPD_Meta_Box_Evidence {
 
 		if( empty( $this->args['key_prefix'] ) )
 		{
-			$this->args['key_prefix'] 			=	'_' . $this->id_prefix . '_';
+			$this->args['key_prefix'] 			=	'_' . $this->id_prefix;
 		}
 
 		$this->metabox_id						=	$this->args['metabox_id'];
@@ -114,6 +114,7 @@ class CPD_Meta_Box_Evidence {
 														'type'			=> 	'group',
 														'cols'			=> 	12,
 														'fields'		=> 	array(
+																				
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_type', 
 																					'name' 			=> 	__( 'Evidence Type', $this->text_domain ),
@@ -125,6 +126,13 @@ class CPD_Meta_Box_Evidence {
 																											'journal' 	=>	'Journal Entry',
 																											'url' 		=>	'URL',
 																										)
+																				),
+																				array( 
+																					'id'			=> 	$this->key_prefix . 'evidence_title', 
+																					'name' 			=> 	__( 'Title', $this->text_domain ),
+																					'desc'			=>	'Title or short description of the evidence:',
+																					'type'			=> 	'text',
+																					'cols'			=> 	12
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_file', 

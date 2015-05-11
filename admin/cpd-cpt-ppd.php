@@ -263,5 +263,35 @@ class CPD_CPT_PPD {
 			add_action( 'save_post', array( $this, 'update_excerpt_on_save' ) );
 		}
 	}
+
+	/**
+	 * Fallback template for the single CPT post type
+	 */
+	public function fallback_template_single( $template ) {
+
+		$template_parts 	= explode( '/', $template );
+		$template_end 		= end( $template_parts );
+
+		if ( is_singular( $this->cpt_name ) && ( $template_end == 'index.php' || $template_end == 'single.php' ) )  {
+			return plugin_dir_path( __FILE__ ) . '../templates/single-' . $this->cpt_name . '.php';
+		}
+
+		return $template;
+	}
+
+	/**
+	 * Fallback template for the archive CPT post type
+	 */
+	public function fallback_template_archive( $template ) {
+
+		$template_parts 	= explode( '/', $template );
+		$template_end 		= end( $template_parts );
+
+		if ( is_archive( $this->cpt_name ) && ( $template_end == 'index.php' || $template_end == 'archive.php' ) )  {
+			return plugin_dir_path( __FILE__ ) . '../templates/archive-' . $this->cpt_name . '.php';
+		}
+
+		return $template;
+	}
 }
 }

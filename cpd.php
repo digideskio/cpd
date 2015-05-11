@@ -154,6 +154,8 @@ class CPD {
 			'cpd-meta-box-date-completed',		// Date Completed Meta Box
 			'cpd-meta-box-description',			// Description Meta Box
 			'cpd-meta-box-evidence',			// Evidence Capture Meta Box
+			'cpd-meta-box-points',				// Points Meta Box
+			'cpd-taxonomy-development-category',	// Taxonomy for the development category
 		);
 		
 		// Prepare public dependancies
@@ -246,6 +248,8 @@ class CPD {
 		$date_completed 					= CPD_Meta_Box_Date_Completed::get_instance();
 		$description 						= CPD_Meta_Box_Description::get_instance();
 		$evidence 							= CPD_Meta_Box_Evidence::get_instance();
+		$points 							= CPD_Meta_Box_Points::get_instance();
+		$development_category				= CPD_Taxonomy_Development_Category::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -274,6 +278,8 @@ class CPD {
 		$date_completed->set_text_domain( $this->text_domain );
 		$description->set_text_domain( $this->text_domain );
 		$evidence->set_text_domain( $this->text_domain );
+		$points->set_text_domain( $this->text_domain );
+		$development_category->set_text_domain( $this->text_domain );
 		
 		/** 
 		 * Scripts
@@ -556,6 +562,8 @@ class CPD {
 		 * [5] Add helper text to the editor
 		 * [6] Remove the excerpt
 		 * [7] Save description to excerpt
+		 * [8] Fallback if no single template exists
+		 * [9] Fallback if no archive template exists
 		 */
 		
 		/*1*/ add_action( 'init', array( $ppd, 'register_post_type' ) );
@@ -565,6 +573,8 @@ class CPD {
 		/*5*/ add_action( 'edit_form_after_title', array( $ppd, 'add_editor_helper_text' ), 99 );
 		/*6*/ add_action( 'admin_init', array( $ppd, 'remove_excerpt' ) );
 		/*7*/ add_action( 'save_post', array( $ppd, 'update_excerpt_on_save' ) );
+		// /*8*/ add_filter( 'template_include', array( $ppd, 'fallback_template_single' ) , 99 );
+		/*9*/ add_filter( 'template_include', array( $ppd, 'fallback_template_archive' ) , 99 );
 		
 
 		/**
@@ -572,12 +582,22 @@ class CPD {
 		 *
 		 * [1] Register the date completed Meta Box
 		 * [2] Register the description Meta Box (excerpt)
-		 * [2] Register the Evidence Meta Box
+		 * [3] Register the Evidence Meta Box
+		 * [4] Register the Points Meta Box
 		 */
 		
 		/*1*/ add_filter( 'cmb_meta_boxes', array( $date_completed, 'register_metabox' ) );
 		/*2*/ add_filter( 'cmb_meta_boxes', array( $description, 'register_metabox' ) );
 		/*3*/ add_filter( 'cmb_meta_boxes', array( $evidence, 'register_metabox' ) );
+		/*4*/ add_filter( 'cmb_meta_boxes', array( $points, 'register_metabox' ) );
+
+		/**
+		 * Taxonomies
+		 *
+		 * [1] Register the development categories taxonomy
+		 */
+		
+		/*1*/ add_action( 'init', array( $development_category, 'register_taxonomy' ) );
 	}
 
 	/**
