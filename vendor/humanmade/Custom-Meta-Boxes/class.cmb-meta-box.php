@@ -49,6 +49,9 @@ class CMB_Meta_Box {
 			}
 
 			if ( class_exists( $class ) ) {
+				if( !isset( $field['name'] ) ) {
+					$field['name'] = '';
+				}
 				$this->fields[] = new $class( $field['id'], $field['name'], (array) $values, $args );
 			}
 

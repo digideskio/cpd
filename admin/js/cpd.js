@@ -116,4 +116,56 @@
 
 	});
 
+	// PPD Evidence
+	
+	// Hide not used on load
+	function cpd_meta_box_evidence_filter() {
+
+		$('#cpd_meta_box_evidence').find('div[data-class="CMB_Radio_Field"]').each(function(){
+			
+			var input 		= $(this).find('input');
+			var is_checked 	= false;
+			input.each( function() {
+				if( $(this).is(':checked') ) {
+					is_checked = true;
+				}
+			});
+
+			if( !is_checked ) {
+				$(this).find('input:first').prop('checked', true);
+			}
+		});
+
+		$('#cpd_meta_box_evidence').find('div[data-class="CMB_Radio_Field"] input:checked').each(function(){
+			
+			var group 	= $(this).closest('div[data-class="CMB_Group_Field"]');
+			var upload 	= group.find('div.CMB_File_Field');
+			var journal = group.find('div.CMB_Select');
+			var url 	= group.find('div.CMB_Url_Field');
+
+			upload.hide();
+			journal.hide();
+			url.hide();
+
+			if( $(this).val() == 'upload' ) {
+				upload.show();
+			} else if( $(this).val() == 'journal' ) {
+				journal.show();
+			} else if( $(this).val() == 'url' ) {
+				url.show();
+			}
+		});
+	}
+	cpd_meta_box_evidence_filter();
+	
+
+	$('body').on( 'click', '#cpd_meta_box_evidence div[data-class="CMB_Radio_Field"] input', function(){
+		cpd_meta_box_evidence_filter();
+	});
+
+	$('body').on( 'click', '#cpd_meta_box_evidence button.repeat-field', function(){
+		cpd_meta_box_evidence_filter();
+	});
+
+
 })( jQuery );

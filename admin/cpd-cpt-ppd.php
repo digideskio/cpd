@@ -98,10 +98,10 @@ class CPD_CPT_PPD {
 
 														'supports' 				=> 	array(
 																						'title',
-																						// 'editor',
+																						'editor',
 																						// 'author',
 																						'thumbnail',
-																						// 'excerpt',
+																						'excerpt',
 																						// 'trackbacks',
 																						// 'custom-fields',
 																						// 'comments',
@@ -164,7 +164,7 @@ class CPD_CPT_PPD {
 		}
 	}
 
-		/**
+	/**
 	 * Change the name of the featured image meta box so it is more relevent to the plugin
 	 */
 	public function set_featured_image_metabox_title() {
@@ -182,16 +182,14 @@ class CPD_CPT_PPD {
 	}
 
 	/**
-	 * Insert text
-	 *
-	 * @since    	1.0.0
+	 * Insert text above the title
 	 */
 	public function add_title_helper_text() {
 		
 		global $post, $wp_meta_boxes;
 
 		$html = '<h3>Activity Name</h3>';
-		$html .= '<p>The title should be the name of the activity.</p>';
+		$html .= '<p class="cmb_metabox_description">The title should be the name of the activity.</p>';
 
 		if( !empty( $html ) )
 		{
@@ -200,6 +198,69 @@ class CPD_CPT_PPD {
 			if( $screen->id == $this->cpt_name ) {
 				echo $html;
 			}
+		}
+	}
+
+	/**
+	 * Insert text above the editor
+	 */
+	public function add_editor_helper_text() {
+		
+		global $post, $wp_meta_boxes;
+
+		
+		$html = '<h2>Value obtained</h2>';
+		$html .= '<p class="cmb_metabox_description"><em>Eg. Value obtained, skills acquired, learning outcomes, how PPD (Personal and Professional Development) has benefited the quality of my practice and users of my work.</em></p>';
+
+
+		if( !empty( $html ) )
+		{
+			$screen = get_current_screen();
+		
+			if( $screen->id == $this->cpt_name ) {
+				echo $html;
+			}
+		}	
+	}
+
+	/**
+	 * Remove the excerpt
+	 */
+	public function remove_excerpt() {
+		remove_meta_box( 'postexcerpt', 'ppd', 'core' );
+	}
+
+	/**
+	 * Update excerpt on save
+	 *
+	 * @param 	int 	$post_id 		The post ID
+	 */
+	public function update_excerpt_on_save( $post_id ) {
+	
+		// If it is just a revision don't worry about it
+		if ( wp_is_post_revision( $post_id ) ) {
+			return $post_id;
+		}
+
+		// Check it's not an auto save routine
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+
+		if( isset( $_POST['_cpd_description'] ) && !empty( $_POST['_cpd_description'] ) ) {
+
+			// Unhook this function so it doesn't loop infinitely
+			remove_action( 'save_post', array( $this, 'update_excerpt_on_save' ) );
+
+			wp_update_post(
+				array(
+					'ID'			=>	$post_id,
+					'post_excerpt'	=>	$_POST['_cpd_description']['cmb-field-0']
+				)
+			);
+
+			// Re-hook this function
+			add_action( 'save_post', array( $this, 'update_excerpt_on_save' ) );
 		}
 	}
 }

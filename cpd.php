@@ -151,6 +151,9 @@ class CPD {
 			'cpd-emails', 						// Send emails
 			'cpd-comments', 					// Manage comments
 			'cpd-cpt-ppd',						// PPD CPT
+			'cpd-meta-box-date-completed',		// Date Completed Meta Box
+			'cpd-meta-box-description',			// Description Meta Box
+			'cpd-meta-box-evidence',			// Evidence Capture Meta Box
 		);
 		
 		// Prepare public dependancies
@@ -240,6 +243,9 @@ class CPD {
 		$emails 							= CPD_Emails::get_instance();
 		$comments 							= CPD_Comments::get_instance();
 		$ppd 								= CPD_CPT_PPD::get_instance();
+		$date_completed 					= CPD_Meta_Box_Date_Completed::get_instance();
+		$description 						= CPD_Meta_Box_Description::get_instance();
+		$evidence 							= CPD_Meta_Box_Evidence::get_instance();
 
 		/** 
 		 * Set Text Domain
@@ -265,6 +271,9 @@ class CPD {
 		$emails->set_text_domain( $this->text_domain );
 		$comments->set_text_domain( $this->text_domain );
 		$ppd->set_text_domain( $this->text_domain );
+		$date_completed->set_text_domain( $this->text_domain );
+		$description->set_text_domain( $this->text_domain );
+		$evidence->set_text_domain( $this->text_domain );
 		
 		/** 
 		 * Scripts
@@ -544,12 +553,31 @@ class CPD {
 		 * [2] Move advanced metaboxes above the editor
 		 * [3] Set the featured image metabox
 		 * [4] Add helper text to the title
+		 * [5] Add helper text to the editor
+		 * [6] Remove the excerpt
+		 * [7] Save description to excerpt
 		 */
 		
 		/*1*/ add_action( 'init', array( $ppd, 'register_post_type' ) );
 		/*2*/ add_action( 'edit_form_after_title', array( $ppd, 'move_advanced_metaboxes_above_editor' ) );
 		/*3*/ add_action( 'edit_form_after_title', array( $ppd, 'set_featured_image_metabox_title' ) );
 		/*4*/ add_action( 'edit_form_top', array( $ppd, 'add_title_helper_text' ), 99 );
+		/*5*/ add_action( 'edit_form_after_title', array( $ppd, 'add_editor_helper_text' ), 99 );
+		/*6*/ add_action( 'admin_init', array( $ppd, 'remove_excerpt' ) );
+		/*7*/ add_action( 'save_post', array( $ppd, 'update_excerpt_on_save' ) );
+		
+
+		/**
+		 * Meta Boxes
+		 *
+		 * [1] Register the date completed Meta Box
+		 * [2] Register the description Meta Box (excerpt)
+		 * [2] Register the Evidence Meta Box
+		 */
+		
+		/*1*/ add_filter( 'cmb_meta_boxes', array( $date_completed, 'register_metabox' ) );
+		/*2*/ add_filter( 'cmb_meta_boxes', array( $description, 'register_metabox' ) );
+		/*3*/ add_filter( 'cmb_meta_boxes', array( $evidence, 'register_metabox' ) );
 	}
 
 	/**
