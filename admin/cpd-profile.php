@@ -337,7 +337,7 @@ class CPD_Profile {
 			if( $cpd_journal == 'new' ) {
 				
 				// Create the new journal
-				CPD_User::create_user_journal( $user_id );
+				CPD_Users::create_user_journal( $user_id );
 			}
 
 			// If the journal picked is not the current one for this user
