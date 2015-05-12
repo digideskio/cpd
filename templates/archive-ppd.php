@@ -10,13 +10,11 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<header class="page-header">
-			<h1 class="page-title">Activity Logs</h1>
-			</header><!-- .page-header -->
-
-			<article>
+			<article class="hentry">
 				<header class="entry-header">
+                    		    <h2 class="entry-title">Activity Logs</h2>
 				</header><!-- .entry-header -->
+				
 				<div class="entry-content">
 				<table style="font-size:10px;">
 					<tr>
