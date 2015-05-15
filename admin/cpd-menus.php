@@ -218,12 +218,26 @@ class CPD_Menus {
 		$user_id 			= 	get_current_user_id();
 		$is_admin 			=	current_user_can( 'manage_options' );
 		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
+		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', true );
 		$admin_menus 		=	array();
 
 		// Remove for everyone		
 		$admin_menus[] 		= 	'edit.php';										// Posts
 		$admin_menus[] 		= 	'edit.php?post_type=page';						// Pages
 		// $admin_menus[] 		= 	'edit-comments.php';						// Comments
+
+		// Remove for participants
+		if( $user_type == 'participant' ) {
+		}
+
+		// Remove for supervisors
+		if( $user_type == 'supervisor' ) {
+		}
+
+		// Remove for participants or supervisors
+		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
+			$admin_menus[] 		= 	'themes.php';								// Themes
+		}
 
 		// Remove for everyone but elevated users
 		if( !$is_elevated_user ) {
@@ -301,6 +315,19 @@ class CPD_Menus {
 									'parent' 	=>	'options-general.php',
 									'menu' 		=>	'options-discussion.php',
 								);
+
+			// Menus
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'nav-menus.php',
+								);
+
+			// Widgets
+			$sub_menus[] 	= 	array( 
+									'parent' 	=>	'themes.php',
+									'menu' 		=>	'widgets.php',
+								);
+
 		}
 
 
