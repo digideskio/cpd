@@ -162,6 +162,7 @@ class CPD {
 		$dependencies['public'] 	= 	array(
 			'cpd-public-scripts', 				// Register public scripts
 			'cpd-comments-ui', 					// Manage comments
+			'cpd-archive-titles',				// Set archive titles
 		);
 
 		// Prepare public dependancies
@@ -573,7 +574,7 @@ class CPD {
 		/*5*/ add_action( 'edit_form_after_title', array( $ppd, 'add_editor_helper_text' ), 99 );
 		/*6*/ add_action( 'admin_init', array( $ppd, 'remove_excerpt' ) );
 		/*7*/ add_action( 'save_post', array( $ppd, 'update_excerpt_on_save' ) );
-		// /*8*/ add_filter( 'template_include', array( $ppd, 'fallback_template_single' ) , 99 );
+		/*8*/ add_filter( 'template_include', array( $ppd, 'fallback_template_single' ) , 99 );
 		/*9*/ add_filter( 'template_include', array( $ppd, 'fallback_template_archive' ) , 99 );
 		
 
@@ -606,14 +607,17 @@ class CPD {
 	 */
 	private function public_hooks() {
 
-		$scripts 		= new CPD_Public_Scripts();
-		$comments_ui 	= new CPD_Comments_UI();
+		$scripts 		= CPD_Public_Scripts::get_instance();
+		$comments_ui 	= CPD_Comments_UI::get_instance();
+		$archive_titles = CPD_Archive_Titles::get_instance();
 
 		/** 
 		 * Set Text Domain
 		 */
 		
 		$scripts->set_text_domain( $this->text_domain );
+		$comments_ui->set_text_domain( $this->text_domain );
+		$archive_titles->set_text_domain( $this->text_domain );
 
 		/** 
 		 * Scripts
@@ -623,7 +627,7 @@ class CPD {
 		 */
 		
 		/*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
-		// /*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
+		/*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
 		
 		/**
 		 * Comments UI
@@ -638,6 +642,14 @@ class CPD {
 		/*2*/ add_filter( 'preprocess_comment', array( $comments_ui, 'verify_comment_field_score' ), 99 );
 		/*3*/ add_action( 'comment_post', array( $comments_ui, 'add_comment_field_score_meta' ), 1 );
 		/*4*/ add_filter( 'comments_array', array( $comments_ui, 'render_comment_field_score' ) );
+	
+		/**
+		 * Archive Titles
+		 *
+		 * [1] Change the Archive titles
+		 */
+		
+		/*1*/ add_filter( 'get_the_archive_title', array( $archive_titles, 'change_archive_titles' ), 99 );
 	}
 
 }

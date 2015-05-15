@@ -51,8 +51,8 @@ class CPD_CPT_PPD {
 		$this->args 							= 	array(
 														'cpt_name' 				=> 'ppd',
 														'dash_icon' 			=> 'dashicons-index-card',
-														'name_singular' 		=> 'Activity Log',
-														'name_plural' 			=> 'Activity Logs',
+														'name_singular' 		=> 'Activity',
+														'name_plural' 			=> 'Activities',
 														'slug' 					=> 'ppd',
 														'image_metabox_title'	=> '',
 														'menu_postition'		=> 20,
