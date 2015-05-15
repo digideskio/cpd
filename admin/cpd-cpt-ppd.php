@@ -287,7 +287,7 @@ class CPD_CPT_PPD {
 		$template_parts 	= explode( '/', $template );
 		$template_end 		= end( $template_parts );
 
-		if ( is_archive( $this->cpt_name ) && ( $template_end == 'index.php' || $template_end == 'archive.php' ) )  {
+		if ( ( is_tax( 'development-category' ) || is_post_type_archive( $this->cpt_name ) ) && ( $template_end == 'index.php' || $template_end == 'archive.php' ) )  {
 			return plugin_dir_path( __FILE__ ) . '../templates/archive-' . $this->cpt_name . '.php';
 		}
 
