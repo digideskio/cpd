@@ -122,6 +122,7 @@ class CPD_Users {
 
 		$role 	= get_role( 'participant' );
 		$role->add_cap( 'edit_theme_options' );
+		$role->add_cap( 'is_participant' );
 
 		$barred_participant_capabilities 	= 	apply_filters(
 													'filter_cpd_remove_participant_capabilities',
@@ -143,6 +144,7 @@ class CPD_Users {
 		$role = get_role( 'supervisor' );
 		$role->add_cap( 'copy_assignments' );
 		$role->add_cap( 'edit_theme_options' );
+		$role->add_cap( 'supervise_users' );
 	}
 
 	/**
