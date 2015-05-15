@@ -228,6 +228,7 @@ class CPD_Menus {
 
 		// Remove for participants
 		if( $user_type == 'participant' ) {
+			$admin_menus[] 		= 	'themes.php';								// Themes
 		}
 
 		// Remove for supervisors
@@ -236,7 +237,6 @@ class CPD_Menus {
 
 		// Remove for participants or supervisors
 		if( $user_type == 'participant' || $user_type == 'supervisor' ) {
-			$admin_menus[] 		= 	'themes.php';								// Themes
 		}
 
 		// Remove for everyone but elevated users
