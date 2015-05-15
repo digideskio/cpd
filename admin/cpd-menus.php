@@ -218,7 +218,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 			// Remove for participants
 			if ( $user_type == 'participant' ) {
-				$admin_menus[]        =    'themes.php';                                // Themes
+				// $admin_menus[]        =    'themes.php';                                // Themes
 			}
 
 			// Remove for supervisors
@@ -317,10 +317,10 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				);
 
 				// Customize
-				$sub_menus[]    =    array(
-					'parent'    =>    'themes.php',
-					'menu'        =>    'customize.php',
-				);
+				// $sub_menus[]    =    array(
+				// 	'parent'    =>    'themes.php',
+				// 	'menu'        =>    'customize.php',
+				// );
 			}
 
 			// Remove for supervisors
