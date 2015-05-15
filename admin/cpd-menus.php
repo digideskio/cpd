@@ -341,11 +341,11 @@ class CPD_Menus
                                     'menu'        =>    'my-sites.php',
                                 );
 
-            // Customize
-            $sub_menus[]    =    array(
-                                    // 'parent' 	=>	'themes.php',
-                                    'menu'        =>    'customize.php',
-                                );
+            // // Customize
+            // $sub_menus[] 	= 	array(
+            // 						'parent' 	=>	'themes.php',
+            // 						'menu' 		=>	'customize.php',
+            // 					);
 
         }
 
