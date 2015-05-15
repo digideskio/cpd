@@ -326,6 +326,11 @@ class CPD_Menus
                                     'menu'        =>    'widgets.php',
                                 );
 
+            // Customize
+            $sub_menus[]    =    array(
+                                    'parent'    =>    'themes.php',
+                                    'menu'        =>    'customize.php',
+                                );
         }
 
         // Remove for supervisors
@@ -342,10 +347,10 @@ class CPD_Menus
                                 );
 
             // // Customize
-            // $sub_menus[] 	= 	array(
-            // 						'parent' 	=>	'themes.php',
-            // 						'menu' 		=>	'customize.php',
-            // 					);
+            // $sub_menus[]    =    array(
+            //                         'parent'    =>    'themes.php',
+            //                         'menu'        =>    'customize.php',
+            //                     );
 
         }
 
@@ -358,11 +363,11 @@ class CPD_Menus
                                     'menu'        =>    'themes.php',
                                 );
 
-            // Theme Customiser
-            $sub_menus[]    =    array(
-                                    'parent'    =>    'themes.php',
-                                    'menu'        =>    'customize.php',
-                                );
+            // // Theme Customiser
+            // $sub_menus[]    =    array(
+            //                         'parent'    =>    'themes.php',
+            //                         'menu'        =>    'customize.php',
+            //                     );
 
             // Theme Editor
             $sub_menus[]    =    array(
@@ -395,17 +400,17 @@ class CPD_Menus
         foreach ($menus as $menu) {
             remove_submenu_page( $menu['parent'], $menu['menu'] );
 
-            if ($menu['parent'] == 'themes.php' && $menu['menu'] = 'customize.php') {
-                foreach ($submenu as $key=>$menu) {
-                    if ($key == 'themes.php') {
-                        foreach ($menu as $item_key=>$item) {
-                            if ( isset( $item[4] ) && $item[4] == 'hide-if-no-customize' ) {
-                                unset( $submenu[$key][$item_key] );
-                            }
-                        }
-                    }
-                }
-            }
+            // if ($menu['parent'] == 'themes.php' && $menu['menu'] = 'customize.php') {
+            //     foreach ($submenu as $key=>$menu) {
+            //         if ($key == 'themes.php') {
+            //             foreach ($menu as $item_key=>$item) {
+            //                 if ( isset( $item[4] ) && $item[4] == 'hide-if-no-customize' ) {
+            //                     unset( $submenu[$key][$item_key] );
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
         }
     }
 
