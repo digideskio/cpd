@@ -83,7 +83,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 * @hook  filter_cpd_add_content_menu_items  Filter menu items we are adding to the CPD Content Menu
 		 */
 		public function add_content_menu_items() {
-			$cpd_content_menu_items    =    array();
+			$cpd_content_menu_items      =    array();
 
 			// Posts
 			$cpd_content_menu_items[]    =    array(
@@ -124,53 +124,53 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 */
 		public function add_content_menu_dashboard_widgets() {
 			$content_menu_dashboard_widgets    =    array();
-			$counter                            =    1;
-			$template_name                        =    'cpd-content-menu-dashboard-widget';
-			$template_path                        =    CPD_Templates::get_template_path( $template_name );
+			$counter                           =    1;
+			$template_name                     =    'cpd-content-menu-dashboard-widget';
+			$template_path                     =    CPD_Templates::get_template_path( $template_name );
 
 			// Posts
 			$content_menu_dashboard_widgets[]    =    array(
-				'title'                => __( 'Journal Entries', $this->text_domain ),
+				'title'                   => __( 'Journal Entries', $this->text_domain ),
 				'dashicon'                => 'dashicons-admin-post',
 				'desc'                    => '<p>' . __( 'This content type is for managing Journal Entries.</p>', $this->text_domain ),
-				'post_type'            => 'post',
+				'post_type'               => 'post',
 				'button_label'            => __( 'Edit / Manage Journal Entries', $this->text_domain ),
-				'css_class'            => 'post',
+				'css_class'               => 'post',
 				'show_tax'                => TRUE,
 				'link'                    => admin_url( 'edit.php' ),
-				'call_to_action_text'    => __( 'Add New', $this->text_domain ),
-				'call_to_action_link'    => admin_url( 'post-new.php' )
+				'call_to_action_text'     => __( 'Add New', $this->text_domain ),
+				'call_to_action_link'     => admin_url( 'post-new.php' )
 			);
 
 			// Pages
 			$content_menu_dashboard_widgets[]    =    array(
-				'title'                => __( 'Pages', $this->text_domain ),
+				'title'                   => __( 'Pages', $this->text_domain ),
 				'dashicon'                => 'dashicons-admin-page',
 				'desc'                    => '<p>' . __( 'This content type is for managing Pages.</p>', $this->text_domain ),
-				'post_type'            => 'page',
+				'post_type'               => 'page',
 				'button_label'            => __( 'Edit / Manage Pages', $this->text_domain ),
-				'css_class'            => 'page',
+				'css_class'               => 'page',
 				'show_tax'                => TRUE,
 				'link'                    => admin_url( 'edit.php?post_type=page' ),
-				'call_to_action_text'    => 'Add New',
-				'call_to_action_link'    => admin_url( 'post-new.php?post_type=page' )
+				'call_to_action_text'     => 'Add New',
+				'call_to_action_link'     => admin_url( 'post-new.php?post_type=page' )
 			);
 
 			// PPD
 			$content_menu_dashboard_widgets[]    =    array(
-				'title'                => __( 'Activity Logs', $this->text_domain ),
+				'title'                   => __( 'Activity Logs', $this->text_domain ),
 				'dashicon'                => 'dashicons-index-card',
 				'desc'                    => '<p>' . __( 'This content type is for managing your Activity Log.</p>', $this->text_domain ),
-				'post_type'            => 'page',
+				'post_type'               => 'page',
 				'button_label'            => __( 'Edit / Manage Activity Log', $this->text_domain ),
-				'css_class'            => 'page',
+				'css_class'               => 'page',
 				'show_tax'                => TRUE,
 				'link'                    => admin_url( 'edit.php?post_type=ppd' ),
-				'call_to_action_text'    => 'Add New',
-				'call_to_action_link'    => admin_url( 'post-new.php?post_type=ppd' )
+				'call_to_action_text'     => 'Add New',
+				'call_to_action_link'     => admin_url( 'post-new.php?post_type=ppd' )
 			);
 
-			$widgets                            =    apply_filters(
+			$widgets = apply_filters(
 				'filter_cpd_content_menu_dashboard_widgets',
 				$content_menu_dashboard_widgets
 			);
@@ -206,14 +206,14 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 */
 		public function remove_admin_menus() {
 			$user_id            =    get_current_user_id();
-			$is_admin            =    current_user_can( 'manage_options' );
-			$is_elevated_user    =    get_user_meta( $user_id, 'elevated_user', true ) == '1';
-			$user_type            =    get_user_meta( $user_id, 'cpd_role', true );
+			$is_admin           =    current_user_can( 'manage_options' );
+			$is_elevated_user   =    get_user_meta( $user_id, 'elevated_user', true ) == '1';
+			$user_type          =    get_user_meta( $user_id, 'cpd_role', true );
 			$admin_menus        =    array();
 
 			// Remove for everyone
-			$admin_menus[]        =    'edit.php';                                        // Posts
-			$admin_menus[]        =    'edit.php?post_type=page';                        // Pages
+			$admin_menus[]      =    'edit.php';                                        // Posts
+			$admin_menus[]      =    'edit.php?post_type=page';                        // Pages
 			// $admin_menus[]   =  'edit-comments.php';      // Comments
 
 			// Remove for participants
@@ -270,10 +270,10 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		public function remove_admin_sub_menus() {
 			global $submenu;
 			$user_id            =    get_current_user_id();
-			$is_admin            =    current_user_can( 'manage_options' );
-			$is_elevated_user    =    get_user_meta( $user_id, 'elevated_user', true ) == '1';
-			$user_type            =    get_user_meta( $user_id, 'cpd_role', true );
-			$sub_menus            =    array();
+			$is_admin           =    current_user_can( 'manage_options' );
+			$is_elevated_user   =    get_user_meta( $user_id, 'elevated_user', true ) == '1';
+			$user_type          =    get_user_meta( $user_id, 'cpd_role', true );
+			$sub_menus          =    array();
 
 			// Remove for everyone
 
@@ -283,43 +283,43 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				// Users
 				$sub_menus[]    =    array(
 					'parent'    =>    'users.php',
-					'menu'        =>    'users.php',
+					'menu'      =>    'users.php',
 				);
 
 				// New User
 				$sub_menus[]    =    array(
 					'parent'    =>    'users.php',
-					'menu'        =>    'user-new.php',
+					'menu'      =>    'user-new.php',
 				);
 
 				// Discussion Settings
 				$sub_menus[]    =    array(
 					'parent'    =>    'users.php',
-					'menu'        =>    'options-discussion.php',
+					'menu'      =>    'options-discussion.php',
 				);
 
 				// Discussion Settings
 				$sub_menus[]    =    array(
 					'parent'    =>    'options-general.php',
-					'menu'        =>    'options-discussion.php',
+					'menu'      =>    'options-discussion.php',
 				);
 
 				// Menus
 				$sub_menus[]    =    array(
 					'parent'    =>    'themes.php',
-					'menu'        =>    'nav-menus.php',
+					'menu'      =>    'nav-menus.php',
 				);
 
 				// Widgets
 				$sub_menus[]    =    array(
 					'parent'    =>    'themes.php',
-					'menu'        =>    'widgets.php',
+					'menu'      =>    'widgets.php',
 				);
 
 				// Customize
-				// $sub_menus[]    =    array(
+				// $sub_menus[] =    array(
 				// 	'parent'    =>    'themes.php',
-				// 	'menu'        =>    'customize.php',
+				// 	'menu'      =>    'customize.php',
 				// );
 			}
 
@@ -333,15 +333,8 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				// My Sites
 				$sub_menus[]    =    array(
 					'parent'    =>    'index.php',
-					'menu'        =>    'my-sites.php',
+					'menu'      =>    'my-sites.php',
 				);
-
-				// // Customize
-				// $sub_menus[]    =    array(
-				//                         'parent'    =>    'themes.php',
-				//                         'menu'        =>    'customize.php',
-				//                     );
-
 			}
 
 			// Remove for everyone but elevated users
@@ -350,25 +343,19 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				// Themes
 				$sub_menus[]    =    array(
 					'parent'    =>    'themes.php',
-					'menu'        =>    'themes.php',
+					'menu'      =>    'themes.php',
 				);
-
-				// // Theme Customiser
-				// $sub_menus[]    =    array(
-				//                         'parent'    =>    'themes.php',
-				//                         'menu'        =>    'customize.php',
-				//                     );
 
 				// Theme Editor
 				$sub_menus[]    =    array(
 					'parent'    =>    'themes.php',
-					'menu'        =>    'theme-editor.php',
+					'menu'      =>    'theme-editor.php',
 				);
 
 				// Delete Site
 				$sub_menus[]    =    array(
 					'parent'    =>    'tools.php',
-					'menu'        =>    'ms-delete-site.php',
+					'menu'      =>    'ms-delete-site.php',
 				);
 			}
 
@@ -382,7 +369,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 			}
 
-			$menus            =    apply_filters(
+			$menus = apply_filters(
 				'filter_cpd_remove_sub_admin_menus',
 				$sub_menus
 			);
@@ -412,7 +399,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			global $submenu;
 
 			$pages        = array();
-			$parent    = 'cpd_content_menu';
+			$parent       = 'cpd_content_menu';
 
 			if ( is_array( $submenu ) && isset( $submenu[ $parent ] ) ) {
 
@@ -503,17 +490,17 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			if ( is_super_admin() ) {
 
 				// Network Admin Menus
-				$sub_menus[]    =    array(
+				$sub_menus[] = array(
 					'parent'        =>    'index.php',
 					'page_title'    =>    'Network Settings',
 					'menu_title'    =>    'Network Settings',
 					'capability'    =>    'manage_network',
-					'menu_slug'        =>    'network/index.php',
-					'function'        =>    ''
+					'menu_slug'     =>    'network/index.php',
+					'function'      =>    ''
 				);
 			}
 
-			$menus                =    apply_filters(
+			$menus = apply_filters(
 				'filter_cpd_add_admin_sub_menus',
 				$sub_menus
 			);
@@ -536,7 +523,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 * @hook  filter_cpd_add_network_admin_menus  Filter to add menus to network admin menus
 		 */
 		public function add_network_admin_menus() {
-			$sub_menus            =    array();
+			$sub_menus = array();
 
 			// Add for all users
 
@@ -547,14 +534,14 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 					'page_title'    =>    'Dashboard',
 					'menu_title'    =>    'Dashboard',
 					'capability'    =>    'manage_network',
-					'menu_slug'        =>    '../',
-					'function'        =>    '',
-					'dashicon'        =>    'dashicons-dashboard',
-					'position'        =>    1
+					'menu_slug'     =>    '../',
+					'function'      =>    '',
+					'dashicon'      =>    'dashicons-dashboard',
+					'position'      =>    1
 				);
 			}
 
-			$menus                =    apply_filters(
+			$menus = apply_filters(
 				'filter_cpd_add_network_admin_menus',
 				$network_menus
 			);
@@ -586,9 +573,9 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 						$menu_item[0]    = 'Network Settings';
 						$menu_item[6]    = 'dashicons-admin-site';
-						$network        = $menu[$key];
+						$network         = $menu[$key];
 						unset( $menu[$key] );
-						$menu[2]        = $network;
+						$menu[2]         = $network;
 					}
 				}
 			}
