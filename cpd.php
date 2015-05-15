@@ -627,7 +627,7 @@ class CPD {
 		 */
 		
 		/*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
-		/*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
+		// /*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
 		
 		/**
 		 * Comments UI
