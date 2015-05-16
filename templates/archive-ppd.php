@@ -6,33 +6,33 @@
 
 get_header(); ?>
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+    <section id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
 
-		<?php if ( have_posts() ) : ?>
+        <?php if ( have_posts() ) : ?>
 
             <header class="page-header">
                 <?php
-					the_archive_title( '<h1 class="page-title">', '</h1>' );
-					the_archive_description( '<div class="taxonomy-description">', '</div>' );
-				?>
+                    the_archive_title( '<h1 class="page-title">', '</h1>' );
+                    the_archive_description( '<div class="taxonomy-description">', '</div>' );
+                ?>
             </header><!-- .entry-header -->
-			
-			<article class="ppd-archive-container">
+            
+            <article class="ppd-archive-container">
 
                 <table id="ppd-archive" class="ppd-archive">
                     <thead>
-    					<tr class="header-row">
-    						<th class="date">Date <br/>Completed</th>
-    						<th class="activity">PPD <br/>Activity</th>
+                        <tr class="header-row">
+                            <th class="date">Date <br/>Completed</th>
+                            <th class="activity">PPD <br/>Activity</th>
                             <th class="description">Activity <br/>Description</th>
-    						<!-- <th>Value </br>Obtained</th> -->
-    						<th class="points">Points <br/>Awarded</th>
-    						<th class="evidence">Evidence <br/>Gathered</th>
-    						<th class="categories">Development </br>Categories</th>
-    					</tr>
+                            <!-- <th>Value </br>Obtained</th> -->
+                            <th class="points">Points <br/>Awarded</th>
+                            <th class="evidence">Evidence <br/>Gathered</th>
+                            <th class="categories">Development </br>Categories</th>
+                        </tr>
                     </thead>
-					<?php
+                    <?php
                     $i = 1;
                     // Start the Loop.
                     while ( have_posts() ) : the_post();
@@ -47,23 +47,23 @@ get_header(); ?>
                             $row = 'odd';
                         }
                         ?>
-							<tr class="<?php echo $row; ?>">
-								<td class="date">
-									<?php
+                            <tr class="<?php echo $row; ?>">
+                                <td class="date">
+                                    <?php
 
                                         if ( empty( $date_completed ) ) {
                                             ?>
-											Ongoing
-											<?php
+                                            Ongoing
+                                            <?php
                                         } else {
                                             echo date( 'F jS, Y', $date_completed );
                                         }
 
                                     ?>
-								</td>
-								<td class="activity">
-									<a href="<?php the_permalink(); ?>"><?php the_title();?></a>
-								</td>
+                                </td>
+                                <td class="activity">
+                                    <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
+                                </td>
                                 <td class="description">
                                     <?php
                                     $string  = wp_trim_words(get_the_excerpt(), 30, '');
@@ -71,19 +71,19 @@ get_header(); ?>
                                     echo $excerpt; ?>...
 
                                     <a class="more" href="<?php echo get_the_permalink(); ?>">Read More</a>
-								</td>
-								<!-- <td>
-									<?php //the_content();?>
-								</td> -->
-								<td class="points">
-									<?php echo $points;?>
-								</td>
-								<td class="evidence">
-									<?php
+                                </td>
+                                <!-- <td>
+                                    <?php //the_content();?>
+                                </td> -->
+                                <td class="points">
+                                    <?php echo $points;?>
+                                </td>
+                                <td class="evidence">
+                                    <?php
                                         if (    is_array( $evidence_group ) && count( $evidence_group ) > 0 ) {
                                             ?>
-											<ul>
-												<?php
+                                            <ul>
+                                                <?php
                                                 foreach ($evidence_group as $evidence) {
                                                     if ($evidence['_cpd_evidence_type'] == 'upload') {
 
@@ -95,8 +95,8 @@ get_header(); ?>
                                                         }
 
                                                         ?>
-														<li><a href="<?php echo $link;?>" target="_blank"><?php echo $title;?></a></li>
-														<?php
+                                                        <li><a href="<?php echo $link;?>" target="_blank"><?php echo $title;?></a></li>
+                                                        <?php
 
                                                     } elseif ($evidence['_cpd_evidence_type'] == 'journal') {
 
@@ -105,8 +105,8 @@ get_header(); ?>
                                                         $title   = $journal->post_title;
 
                                                         ?>
-														<li><a href="<?php echo $link;?>"><?php echo $title;?></a></li>
-														<?php
+                                                        <li><a href="<?php echo $link;?>"><?php echo $title;?></a></li>
+                                                        <?php
                                                     } elseif ($evidence['_cpd_evidence_type'] == 'url') {
                                                         $link  = $evidence['_cpd_evidence_url'];
                                                         $title = $link;
@@ -116,46 +116,46 @@ get_header(); ?>
                                                         }
 
                                                         ?>
-														<li><a href="<?php echo $link;?>" target="_blank"><?php echo $title;?></a></li>
-														<?php
+                                                        <li><a href="<?php echo $link;?>" target="_blank"><?php echo $title;?></a></li>
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
-											</ul>
-											<?php
+                                            </ul>
+                                            <?php
                                         }
                                     ?>
-								</td>
-								<td class="categories">
-									<?php
+                                </td>
+                                <td class="categories">
+                                    <?php
                                     if ( is_array( $terms ) && count( $terms ) > 0 ) {
                                         ?>
-											<ul>
-												<?php
+                                            <ul>
+                                                <?php
                                                 foreach ($terms as $term) {
                                                     ?>
-													<li><a href="<?php echo get_term_link( $term, 'development-category' );?>"><?php echo $term->name;?></a></li>
-													<?php
+                                                    <li><a href="<?php echo get_term_link( $term, 'development-category' );?>"><?php echo $term->name;?></a></li>
+                                                    <?php
                                                 }
                                                 ?>
-											</ul>
-										<?php
+                                            </ul>
+                                        <?php
                                     }
                                     ?>
-								</td>
-							</tr>
+                                </td>
+                            </tr>
 
-						<?php
+                        <?php
 
                     // End the loop.
                     $i++;
                     endwhile;
                     ?>
-				</table>
+                </table>
 
-			</article>
+            </article>
 
-			<?php
+            <?php
             // Previous/next page navigation.
             the_posts_pagination( array(
                 'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
@@ -170,7 +170,7 @@ get_header(); ?>
         endif;
         ?>
 
-		</main><!-- .site-main -->
-	</section><!-- .content-area -->
+        </main><!-- .site-main -->
+    </section><!-- .content-area -->
 
 <?php get_footer(); ?>
