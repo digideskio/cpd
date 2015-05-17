@@ -17,19 +17,27 @@ get_header(); ?>
                     the_archive_description( '<div class="taxonomy-description">', '</div>' );
                 ?>
             </header><!-- .entry-header -->
-            
+
             <article class="ppd-archive-container">
 
                 <table id="ppd-archive" class="ppd-archive">
                     <thead>
                         <tr class="header-row">
-                            <th class="date">Date <br/>Completed</th>
+<!--                             <th class="date">Date <br/>Completed</th>
                             <th class="activity">PPD <br/>Activity</th>
                             <th class="description">Activity <br/>Description</th>
-                            <!-- <th>Value </br>Obtained</th> -->
+                            <th>Value </br>Obtained</th>
                             <th class="points">Points <br/>Awarded</th>
                             <th class="evidence">Evidence <br/>Gathered</th>
-                            <th class="categories">Development </br>Categories</th>
+                            <th class="categories">Development </br>Categories</th> -->
+
+                            <th class="date">Date</th>
+                            <th class="activity">Activity</th>
+                            <th class="description">Description</th>
+                            <!-- <th>Value </br>Obtained</th> -->
+                            <th class="points">Points</th>
+                            <th class="evidence">Evidence</th>
+                            <th class="categories">Categories</th>
                         </tr>
                     </thead>
                     <?php
