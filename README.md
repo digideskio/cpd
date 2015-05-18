@@ -16,9 +16,13 @@ Documentation is still work in progress, but is shaping [in our Wiki](https://gi
 
 ## Credits
 
+We belive in giving credit where credit is due. The following plugins and people helped us get a kick start in delivering this project. Thank you to them!
+
 The foundations of this project are based on the [CPD Journals](http://wordpress.org/plugins/cpd-journals/) WordPress plugin originally by [Saul Cozens](http://saulcozens.co.uk) - licenced under the GPLv2 licence.
 
 The way that new Journals are created with base 'Journal Templates' could not be done without code taken from the [Blog Copier](https://wordpress.org/plugins/blog-copier) WordPress plugin by [MODERN TRIBE](https://tri.be/) - licenced under the GPLv2 licence.
+
+To create metaboxes we use the excelent [Custom Meta Boxes](https://github.com/humanmade/Custom-Meta-Boxes) plugin by [Human Made](https://hmn.md/) - licenced under the GPLv2 licence.
 
 ## Version Control
 
