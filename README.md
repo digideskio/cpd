@@ -1,20 +1,18 @@
 # Aspire CPD
 
-A single plugin to transform a WordPress Multisite install into a CPD (Continuous Professional Development) management platform. 
-
-Built in association with The [University of Sheffield](http://www.sheffield.ac.uk/).
+A single plugin to transform a WordPress Multisite install into a CPD (Continuous Professional Development) management platform. Built in association with The [University of Sheffield](http://www.sheffield.ac.uk/).
 
 [Got an issue? Make sure you report it to us](https://github.com/mkdo/cpd/issues).
 
 ## Theme
 
-To get the most out of this plugin you will need to install it's companion theme: [Aspire CPD Theme](https://github.com/mkdo/aspire-cpd).
+To get the most out of this plugin you will need to install the companion [Aspire CPD Theme](https://github.com/mkdo/aspire-cpd).
 
 A planned feature of this plugin is to enable the installation of this theme when the plugin is activated.
 
 ## Documentation
 
-Documentation is still work in progress, but is shaping up here: [Wiki](https://github.com/mkdo/cpd/wiki)
+Documentation is still work in progress, but is shaping [in our Wiki](https://github.com/mkdo/cpd/wiki).
 
 ## Credits
 
