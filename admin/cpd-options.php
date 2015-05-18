@@ -56,19 +56,19 @@ class CPD_Options {
 		
 		/* Register Settings */
 		register_setting( 'cpd_settings_group', 'cpd_default_posts' );
-		register_setting( 'cpd_settings_group', 'cpd_new_blog_options' );
+		// register_setting( 'cpd_settings_group', 'cpd_new_blog_options' );
 
 		/* Add sections */
 		add_settings_section( 'cpd_section_assignments', 'Assignment Templates', array( $this, 'cpd_section_assignments_callback' ), 'cpd_settings' );
 		add_settings_section( 'cpd_section_pages', 'Page Templates', array( $this, 'cpd_section_pages_callback' ), 'cpd_settings' );
 		add_settings_section( 'cpd_section_posts', 'Post Templates', array( $this, 'cpd_section_posts_callback' ), 'cpd_settings' );
-		add_settings_section( 'cpd_section_manual_defaults', 'Manual Defaults', array( $this, 'cpd_section_manual_defaults_callback' ), 'cpd_settings' );
+		// add_settings_section( 'cpd_section_manual_defaults', 'Manual Defaults', array( $this, 'cpd_section_manual_defaults_callback' ), 'cpd_settings' );
     	
     	/* Add fields to a section */
     	add_settings_field( 'cpd_section_assignments_default_assignments', 'Default Assignments', array( $this, 'cpd_section_assignments_default_assignments_callback' ), 'cpd_settings', 'cpd_section_assignments' );
     	add_settings_field( 'cpd_section_pages_default_pages', 'Default Pages', array( $this, 'cpd_section_pages_default_pages_callback' ), 'cpd_settings', 'cpd_section_pages' );
     	add_settings_field( 'cpd_section_posts_default_posts', 'Default Posts', array( $this, 'cpd_section_posts_default_posts_callback' ), 'cpd_settings', 'cpd_section_posts' );
-    	add_settings_field( 'cpd_section_manual_defaults_key_values', 'Key / Values', array( $this, 'cpd_section_manual_defaults_key_values_callback' ), 'cpd_settings', 'cpd_section_manual_defaults' );
+    	// add_settings_field( 'cpd_section_manual_defaults_key_values', 'Key / Values', array( $this, 'cpd_section_manual_defaults_key_values_callback' ), 'cpd_settings', 'cpd_section_manual_defaults' );
 	}
 
 

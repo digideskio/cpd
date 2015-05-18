@@ -200,13 +200,45 @@ if ( !class_exists( 'CPD' ) ) {
 			$user_id     =  get_current_user_id();
 			$cpd_upgrade_legacy  =  CPD_Upgrade_Legacy::get_instance();
 
-			// Make current user an elivated user
-			update_user_meta( $user_id, 'elevated_user', 1 );
+			/**
+			 * User permissions
+			 *
+			 * [1] Make current user an elivated user  
+			 */
+			
+			/*1*/ update_user_meta( $user_id, 'elevated_user', 1 );
 
-			// Upgrade the legacy CPD plugin
-			$cpd_upgrade_legacy->upgrade_relationships();
 
-			// Setup the regular email
+			/**
+			 * Upgrade legacy database references
+			 *
+			 * [1] Upgrade the legacy CPD plugin
+			 */
+			
+			/*1*/ $cpd_upgrade_legacy->upgrade_relationships();
+
+			/**
+			 * Create the default theme template
+			 *
+			 * [1] If the Template Default dosnt exist, create it
+			 */
+			
+			// /*1*/ Create Template Default
+			$blog = get_blog_details( 'template-default' );
+			if( !is_object( $blog ) ) {
+				$domain    =    parse_url( network_site_url(), PHP_URL_HOST );
+				$path      =    parse_url( network_site_url(), PHP_URL_PATH ) . 'template-default/';
+				$user_id   = 	get_current_user_id();
+				wpmu_create_blog( $domain, $path, 'Template Default', $user_id );
+			}
+
+			/**
+			 * Setup email
+			 *
+			 * [1] Setup the regular email
+			 */
+			
+			// /*1*/ Setup the regular email
 			if ( !wp_next_scheduled( 'cpd_unassigned_users_email' ) ) {
 				wp_schedule_event( strtotime( '02:00am' ), 'daily', 'cpd_unassigned_users_email' );
 			}
