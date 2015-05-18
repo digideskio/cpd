@@ -10,8 +10,8 @@ if( !class_exists( 'CPD_Templates' ) ) {
  *
  * Manage templates
  *
- * @package    MKDO_Chat
- * @subpackage MKDO_Chat/includes
+ * @package    CPD
+ * @subpackage CPD/includes
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Templates {

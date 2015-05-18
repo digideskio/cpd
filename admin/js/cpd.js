@@ -33,6 +33,7 @@
 	$('.user_posts_barchart_bar').click( function (e) {
 		$( this ).parent().find( 'ul' ).slideToggle();
 	});
+	
 
 	$('table input.check').each(function(){
 		if( $(this).prop('checked') )

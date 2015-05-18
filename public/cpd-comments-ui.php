@@ -11,7 +11,7 @@ if( !class_exists( 'CPD_Comments_UI' ) ) {
  * Front End Comment Rendering
  *
  * @package    CPD
- * @subpackage CPD/admin
+ * @subpackage CPD/public
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Comments_UI {

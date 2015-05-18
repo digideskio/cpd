@@ -65,6 +65,7 @@ Here are all the great features that we plan to implement. If you have a feature
 ### 2.1.1 
 
 - Improved Privacy Options
+- Dashboard Widget(s) for Template Authors
 
 ### 2.2.0
 

@@ -10,7 +10,9 @@ if( !class_exists( 'CPD_Upgrade_Legacy' ) ) {
  *
  * The container for all legacy upgrade functions
  *
- * @since             	2.0.0
+ * @package    CPD
+ * @subpackage CPD/upgrade
+ * @author     Make Do <hello@makedo.in>
  */
 class CPD_Upgrade_Legacy {
 

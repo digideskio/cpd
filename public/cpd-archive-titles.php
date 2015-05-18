@@ -11,7 +11,7 @@ if( !class_exists( 'CPD_Archive_Titles' ) ) {
  * Load Public Scripts
  *
  * @package    CPD
- * @subpackage CPD/admin
+ * @subpackage CPD/public
  * @author     Make Do <hello@makedo.in>
  */
 class CPD_Archive_Titles {
