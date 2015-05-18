@@ -34,13 +34,21 @@
  *        If supervisor, subscriber dashboard widget advises of correct journals
  *        Added network admin dashboard widget
  * 2.1.0  PPD Custom Post Type (Activity Log)
+ *        Activites Dashbaord Widget
+ *        Development Category Taxonomy
+ *        Customizer integration
+ *        Categories Dashboard Widget
+ *        Master Template on activation
+ *        New Journals user Master as Template
  *
  * Change Roadmap
  *
  * 2.1.1  Improved Privacy Options
  * 2.2.0  Competencies Functionality (Assessments)
+ *        Journal Templating System
  * 2.2.1  Retire 'Assignments', use pages only
  * 2.2.2  Email Options (Opt in/out)
+ *        Supervisor can add Alerts to particpant journals
  * 2.3.0  Personal Data Entry (Portfolio)
  */
 
