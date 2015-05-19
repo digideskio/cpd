@@ -495,7 +495,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$user_data       =    $user->data;
 			$current_site    =    network_site_url();
 			$domain        	 =    parse_url( network_site_url(), PHP_URL_HOST );
-			$path            =    parse_url( network_site_url(), PHP_URL_PATH ) . $user_data->user_login . '/';
+			$path            =    $user_data->user_login . '/';
 			$title 			 =	  'CPD Journal for ' . $user_data->user_nicename;
 			$blog 			 =    get_blog_details( 'template-default' );
 

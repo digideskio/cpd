@@ -61,6 +61,9 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			$post_list    = get_option( 'cpd_default_posts' );
 			$new_list     = array();
 
+			if( !is_array( $post_list ) || empty( $post_list ) ) {
+				$post_list = array();
+			}
 			foreach ( $post_list as $key=>&$blog_posts ) {
 				foreach ( $blog_posts as &$blog_post ) {
 					$blog_post['blog_id'] = $key;
@@ -247,7 +250,7 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 
 					if ( $copy_files ) {
 
-						$this->copy_blog_files( $from_blog_id, $to_blog_id );
+						// $this->copy_blog_files( $from_blog_id, $to_blog_id );
 						$this->replace_content_urls( $from_blog_id, $to_blog_id );
 
 					}
@@ -388,6 +391,10 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			$from_blog_url = get_blog_option( $from_blog_id, 'siteurl' );
 			$to_blog_url = get_blog_option( $to_blog_id, 'siteurl' );
 			$query = $wpdb->prepare( "UPDATE {$to_blog_prefix}posts SET post_content = REPLACE(post_content, '%s', '%s')", $from_blog_url, $to_blog_url );
+			do_action( 'log', $query, $this->text_domain );
+			$wpdb->query( $query );
+
+			$query = $wpdb->prepare( "UPDATE {$to_blog_prefix}postmeta SET meta_value = REPLACE(meta_value, '%s', '%s') WHERE meta_key = '_menu_item_url'", $from_blog_url, $to_blog_url );
 			do_action( 'log', $query, $this->text_domain );
 			$wpdb->query( $query );
 		}
