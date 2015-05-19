@@ -523,7 +523,8 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 * @hook  filter_cpd_add_network_admin_menus  Filter to add menus to network admin menus
 		 */
 		public function add_network_admin_menus() {
-			$sub_menus = array();
+			
+			$network_menus = array();
 
 			// Add for all users
 

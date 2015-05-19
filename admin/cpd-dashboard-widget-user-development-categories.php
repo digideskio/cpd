@@ -105,19 +105,20 @@ class CPD_Dashboard_Widget_User_Development_Categories {
 		if( !isset( $_POST['categories_by_participants_barchart_widget_count'] ) ) {
 			?>
 			<input type="hidden" name="categories_by_participants_barchart_widget_count" value="1">
-			<label for="count">Ammount of participants to show</label>
+			<label for="count">Ammount of categories to show</label>
 			<select name="count" id="count">
 				<option <?php echo $count == 0 		? 'selected' : '';?> value="0">All</option>
 				<option <?php echo $count == 10 	? 'selected' : '';?> value="10">10</option>
 				<option <?php echo $count == 20 	? 'selected' : '';?> value="20">20</option>
 				<option <?php echo $count == 30 	? 'selected' : '';?> value="30">30</option>
 			</select>
-
+			<br/>
 			<label for="order">Order by</label>
 			<select name="order" id="order">
-				<option <?php echo $order == 'desc' 	? 'selected' : '';?> value="desc">Most posts</option>
-				<option <?php echo $order == 'asc' 		? 'selected' : '';?> value="asc">Least posts</option>
+				<option <?php echo $order == 'desc' 	? 'selected' : '';?> value="desc">Most categories</option>
+				<option <?php echo $order == 'asc' 		? 'selected' : '';?> value="asc">Least categories</option>
 			</select>
+			<br/><br/>
 			<?php
 		} 
 		else {

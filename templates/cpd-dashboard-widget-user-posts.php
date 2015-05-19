@@ -52,7 +52,7 @@ if( $break != 0 ) {
 	}
 
 	foreach( $post_group as $key=>$arr ) {
-		if( count( $post_group[ $key ] ) > $biggest ) {
+		if( count( $post_group[ $key ] ) > $biggest_count ) {
 			$biggest 		= 	$key;
 			$biggest_count 	= 	count( $post_group[ $key ] );
 		}
