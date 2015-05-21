@@ -11,7 +11,7 @@
  * @wordpress-plugin
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
- * Description:       A plugin to clean up the WordPress dashboard
+ * Description:       Turns WordPress into a CPD Journal management system.
  * Version:           2.1.0
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
@@ -477,7 +477,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [4] Remove Participant Capabilities
 			 * [5] Prevent participants from removing supervisors
 			 * [6] Redirect users on creation
-			 * [7]
+			 * [7] Redirect on login
 			 *
 			 * Static Methods
 			 *
