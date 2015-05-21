@@ -411,7 +411,8 @@ class CPD_Profile {
 			// Iterate the participants adding and removing the participants
 			$post_participants 						=	$_POST['cpd_participants'];
 			$post_participants 						= 	is_array($post_participants) ? $post_participants : array();
-			
+			$user_participants                      =   is_array($user_participants) ? $user_participants : array();
+
 			if( count( $all_participants ) > 0 ) {
 				
 				foreach( $all_participants as $participant ) {

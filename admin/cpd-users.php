@@ -398,8 +398,11 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 * @param int     $participant The participant ID
 		 */
 		public static function add_cpd_relationship( $supervisor, $participant ) {
-			$supervisors    = get_user_meta( $participant, 'cpd_related_supervisors', true );
+			$supervisors     = get_user_meta( $participant, 'cpd_related_supervisors', true );
 			$participants    = get_user_meta( $supervisor, 'cpd_related_participants', true );
+
+			$supervisors  =   is_array($supervisors) ? $supervisors : array();
+			$participants =   is_array($participants) ? $participants : array();
 
 			if ( !in_array( $supervisor, $supervisors ) ) {
 				$supervisors[] = $supervisor;
