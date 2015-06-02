@@ -102,29 +102,31 @@ class CPD_Options_Privacy {
 		</tr>
 		<?php
 
-		$users = get_users(); 
+		$users = CPD_Users::get_multisite_users(); 
 		foreach( $users as $user ) {
-			$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
-			$name 		=	trim( $name );
-			if( empty( $name ) ) {
-				$name = $user->display_name;
-			}
-			$roles = '';
-
-			if( is_array( $user->roles ) && count( $user->roles ) > 0 ){
-				foreach( $user->roles as $key=>$role ) {
-					if( $key > 0 ) {
-						$roles .= ', ';
-					}
-					$roles .= ucfirst( $role );
+			if( user_can( $user, 'read_private_posts' ) ) {
+				$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+				$name 		=	trim( $name );
+				if( empty( $name ) ) {
+					$name = $user->display_name;
 				}
+				$roles = '';
+
+				if( is_array( $user->roles ) && count( $user->roles ) > 0 ){
+					foreach( $user->roles as $key=>$role ) {
+						if( $key > 0 ) {
+							$roles .= ', ';
+						}
+						$roles .= ucfirst( $role );
+					}
+				}
+				?>
+				<tr>
+					<td><?php echo $name;?></td>
+					<td><?php echo $roles;?></td>
+				</tr>
+				<?php
 			}
-			?>
-			<tr>
-				<td><?php echo $name;?></td>
-				<td><?php echo $roles;?></td>
-			</tr>
-			<?php
 		}
 		?>
 		</table>
