@@ -533,5 +533,35 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 			return $redirect_to;
 		}
+
+		/**
+		 * If the site settings dictate it, force the user to login
+		 */
+		public function force_login() {
+			if ( !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
+				$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
+				if( $cpd_login_to_view == 'true' && !is_user_logged_in() ) {
+					auth_redirect();
+					exit;
+				}
+			}
+		}
+
+		/**
+		 * Add a custom message to the login page
+		 */
+		public function force_login_message( $message ) {
+			
+			if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
+				$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
+				if( $cpd_login_to_view == 'true' && !is_user_logged_in() ) {
+					if( empty( $message ) ) {
+						return '<div id="login_error"><p><strong>NOTE: </strong> You must be logged in to view this journal.</p></div>';
+					}
+				}
+			}
+
+			return $message;
+		}
 	}
 }

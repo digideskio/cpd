@@ -28,6 +28,10 @@ To create metaboxes we use the excelent [Custom Meta Boxes](https://github.com/h
 
 Here are all the great features that have been implemented so far!
 
+### 2.1.1 
+
+- Improved Privacy Options
+
 ### 2.1.0
 
 - PPD Custom Post Type (Activity Log)

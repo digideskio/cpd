@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.1.0
+ * Version:           2.1.1
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -124,6 +124,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-users',                             // User functions
 				'cpd-options',                           // Create options page
 				'cpd-options-copy-assignments',          // Create options page
+				'cpd-options-privacy',                   // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -254,6 +255,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$users                              = CPD_Users::get_instance();
 			$options                            = CPD_Options::get_instance();
 			$options_copy_assignments           = CPD_Options_Copy_Assignments::get_instance();
+			$options_privacy                    = CPD_Options_Privacy::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -286,6 +288,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$users->set_text_domain( $this->text_domain );
 			$options->set_text_domain( $this->text_domain );
 			$options_copy_assignments->set_text_domain( $this->text_domain );
+			$options_privacy->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -478,19 +481,8 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [5] Prevent participants from removing supervisors
 			 * [6] Redirect users on creation
 			 * [7] Redirect on login
-			 *
-			 * Static Methods
-			 *
-			 * [8] Get all multisite users
-			 * [9] Get all participants
-			 * [10] Get all supervisors
-			 * [11] Remove a supervisor from related supervisors
-			 * [12] Remove a participant from related participants
-			 * [13] Add a relationship between a participant and a supervisor
-			 * [14] Remove a relationship between a participant and a supervisor
-			 * [15] Add a supervisor to a participants journals
-			 * [16] Remove a user from all blogs
-			 * [17] Create a user journal based on a user
+			 * [8] Force users to login to view the site (if option set)
+			 * [9] Add a login message
 			 */
 
 			/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) );
@@ -500,35 +492,51 @@ if ( !class_exists( 'CPD' ) ) {
 			/*5*/ add_filter( 'user_has_cap', array( $users, 'prevent_partcipant_removing_supervisor' ), 10, 3 );
 			/*6*/ add_action( 'wpmu_new_user', array( $users, 'redirect_on_create_user' ) );
 			/*7*/ add_action( 'login_redirect', array( $users, 'login_redirect' ), 9999, 3 );
+			/*8*/ add_action( 'init', array( $users, 'force_login' ) );
+			/*8*/ add_filter( 'login_message', array( $users, 'force_login_message' ) );
 
-			/*8*/ // CPD_Users::get_multisite_users();
-			/*9*/ // CPD_Users::get_participants();
-			/*20*/ // CPD_Users::get_supervisors();
-			/*12*/ // CPD_Users::remove_user_from_related_supervisors( $user_id, $participants );
-			/*13*/ // CPD_Users::remove_user_from_related_participants( $user_id, $supervisors );
-			/*13*/ // CPD_Users::add_cpd_relationship( $supervisor, $participant );
-			/*14*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
-			/*15*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
-			/*16*/ // CPD_Users::remove_user_from_blogs( $user_id );
-			/*17*/ // CPD_Users::create_user_journal( $user_id );
+
+			/**
+			 * Users Static Methods
+			 *
+			 * [1] Get all multisite users
+			 * [2] Get all participants
+			 * [3] Get all supervisors
+			 * [4] Remove a supervisor from related supervisors
+			 * [5] Remove a participant from related participants
+			 * [6] Add a relationship between a participant and a supervisor
+			 * [7] Remove a relationship between a participant and a supervisor
+			 * [8] Add a supervisor to a participants journals
+			 * [9] Remove a user from all blogs
+			 * [10] Create a user journal based on a user
+			 */
+			
+			/*1*/ // CPD_Users::get_multisite_users();
+			/*2*/ // CPD_Users::get_participants();
+			/*3*/ // CPD_Users::get_supervisors();
+			/*4*/ // CPD_Users::remove_user_from_related_supervisors( $user_id, $participants );
+			/*5*/ // CPD_Users::remove_user_from_related_participants( $user_id, $supervisors );
+			/*6*/ // CPD_Users::add_cpd_relationship( $supervisor, $participant );
+			/*7*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
+			/*8*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
+			/*9*/ // CPD_Users::remove_user_from_blogs( $user_id );
+			/*10*/ // CPD_Users::create_user_journal( $user_id );
 
 			/**
 			 * Options
 			 *
 			 * [1] Initialise the options page
 			 * [2] Add the options page (uses settings API)
+			 * [3] Add the copy assignments options page (Page also saves data)
+			 * [4] Initialise the privacy options page
+			 * [5] Add the privacy options page (uses settings API)
 			 */
 
 			/*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
 			/*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
-
-			/**
-			 * Options
-			 *
-			 * [1] Add the options page (Page also saves data)
-			 */
-
-			/*1*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
+			/*3*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
+			/*4*/ add_action( 'admin_init', array( $options_privacy, 'init_options_page' ) );
+			/*5*/ add_action( 'admin_menu', array( $options_privacy, 'add_options_page' ) );
 
 			/**
 			 * Blogs
