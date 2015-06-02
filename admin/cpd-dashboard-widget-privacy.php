@@ -57,8 +57,9 @@ class CPD_Dashboard_Widget_Privacy {
 	 * Add the dashboard widget
 	 */
 	public function add_dashboard_widget() {
-		
-		add_meta_box('cpd_dashboard_widget_welcome', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> ' . 'Privacy', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+		if( current_user_can( 'manage_options' ) ) {
+			add_meta_box('cpd_dashboard_widget_welcome', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> ' . 'Privacy', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+		}
 	}
 
 	/**
