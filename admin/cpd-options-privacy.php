@@ -58,8 +58,6 @@ class CPD_Options_Privacy {
 		/* Register Settings */
 		register_setting( 'cpd_settings_privacy_group', 'cpd_login_to_view' );
 
-		
-
 		/* Add sections */
 		add_settings_section( 'cpd_section_login_to_view', 'Login to view journal', array( $this, 'cpd_section_login_to_view_callback' ), 'cpd_settings_privacy' );
 	
@@ -82,18 +80,17 @@ class CPD_Options_Privacy {
 	 * Render the field
 	 */
 	public function cpd_login_to_view_callback() {
-		
-		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 
+		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 		/* Set defaults */
 		if( $cpd_login_to_view == NULL ) {
 			add_option( 'cpd_login_to_view', 'true' );
-			$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
+			$cpd_login_to_view = get_option( 'cpd_login_to_view' );
 		}
 
 		?>
-		<label><input type="radio" name="cpd_login_to_view" value="true" <?php echo $cpd_login_to_view == 'true' ? 'checked' : '';?>> People with a username and password only</label><br/>
-		<label><input type="radio" name="cpd_login_to_view" value="false" <?php echo $cpd_login_to_view == 'false' ? 'checked' : '';?>> Anybody (available to the public)</label><br/>
+		<label><input type="radio" name="cpd_login_to_view" value="true" <?php checked( 'true', $cpd_login_to_view );?>> People with a username and password only</label><br/>
+		<label><input type="radio" name="cpd_login_to_view" value="false" <?php checked( 'false', $cpd_login_to_view );?>> Anybody (available to the public)</label><br/>
 		
 		<br/>
 		<p>People who have access to this journal via a username and password are as follows:</p>
@@ -146,9 +143,9 @@ class CPD_Options_Privacy {
 	 */
 	public function render_options_page(){ 
 		?>
-		<div class="wrap cpd-settings">  
+		<div class="wrap cpd-settings cpd-settings-privacy">  
 			<h2>Privacy Settings</h2> 
-			<form action="/wp-admin/options.php" method="POST">
+			<form action="options.php" method="POST">
 	            <?php settings_fields( 'cpd_settings_privacy_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_privacy' ); ?>
 	            <?php submit_button(); ?>
