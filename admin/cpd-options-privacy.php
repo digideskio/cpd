@@ -102,31 +102,49 @@ class CPD_Options_Privacy {
 		</tr>
 		<?php
 
-		$users = CPD_Users::get_multisite_users(); 
-		foreach( $users as $user ) {
-			if( user_can( $user, 'read_private_posts' ) ) {
-				$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
-				$name 		=	trim( $name );
-				if( empty( $name ) ) {
-					$name = $user->display_name;
-				}
-				$roles = '';
+		
 
-				if( is_array( $user->roles ) && count( $user->roles ) > 0 ){
-					foreach( $user->roles as $key=>$role ) {
-						if( $key > 0 ) {
-							$roles .= ', ';
-						}
-						$roles .= ucfirst( $role );
-					}
-				}
-				?>
-				<tr>
-					<td><?php echo $name;?></td>
-					<td><?php echo $roles;?></td>
-				</tr>
-				<?php
+		$users = CPD_Users::get_multisite_users();
+		foreach ( $users as $key => $user ) {
+			if( is_super_admin( $user->ID ) ) {
+			$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+			$name 		=	trim( $name );
+			if( empty( $name ) ) {
+				$name = $user->display_name;
 			}
+			$roles = 'Network Administrator';
+			?>
+			<tr>
+				<td><a href="mailto:<?php echo $user->user_email;?>"><?php echo $name;?></a></td>
+				<td><?php echo $roles;?></td>
+			</tr>
+			<?php
+			}
+		}
+
+		$users = get_users(); 
+		foreach( $users as $user ) {
+			$name 		= 	$user->user_firstname . ' ' . $user->user_lastname;
+			$name 		=	trim( $name );
+			if( empty( $name ) ) {
+				$name = $user->display_name;
+			}
+			$roles = '';
+
+			if( is_array( $user->roles ) && count( $user->roles ) > 0 ){
+				foreach( $user->roles as $key=>$role ) {
+					if( $key > 0 ) {
+						$roles .= ', ';
+					}
+					$roles .= ucfirst( $role );
+				}
+			}
+			?>
+			<tr>
+				<td><a href="mailto:<?php echo $user->user_email;?>"><?php echo $name;?> <?php echo  get_current_user_id() == $user->ID ? '(You)' : '';?></a> </td>
+				<td><?php echo $roles;?></td>
+			</tr>
+			<?php
 		}
 		?>
 		</table>

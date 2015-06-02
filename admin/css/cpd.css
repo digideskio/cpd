@@ -161,3 +161,10 @@ div.updated.view-notice .dashicons-before:before {
 .journal-wrapper.disabled p {
     color: #aaa
 }
+
+.content-description.alert.alert-success {
+    border: 1px solid #efefef;
+    border-left: 5px solid #7AD03A;
+    padding-left: 10px;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+}

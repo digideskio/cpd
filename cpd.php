@@ -117,6 +117,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-dashboard-widget-latest-posts',     // Dashboard widget (latest posts)
 				'cpd-dashboard-widget-user-posts',       // Dashboard widget (user posts)
 				'cpd-dashboard-widget-user-development-categories',    // Dashboard widget (user posts)
+				'cpd-dashboard-widget-privacy',          // Dashboard widget (privacy)
 				'cpd-notices',                           // Admin notices modifications
 				'cpd-profile',                           // Profile ammendments
 				'cpd-metaboxes',                         // Metabox ammendments
@@ -248,6 +249,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboard_widget_latest_posts      = CPD_Dashboard_Widget_Latest_Posts::get_instance();
 			$dashboard_widget_user_posts        = CPD_Dashboard_Widget_User_Posts::get_instance();
 			$dashboard_widget_user_development_categories    = CPD_Dashboard_Widget_User_Development_Categories::get_instance();
+			$dashboard_widget_privacy           = CPD_Dashboard_Widget_Privacy::get_instance();
 			$notices                            = CPD_Notices::get_instance();
 			$profile                            = CPD_Profile::get_instance();
 			$metaboxes                          = CPD_Metaboxes::get_instance();
@@ -281,6 +283,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboard_widget_latest_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_development_categories->set_text_domain( $this->text_domain );
+			$dashboard_widget_privacy->set_text_domain( $this->text_domain );
 			$notices->set_text_domain( $this->text_domain );
 			$profile->set_text_domain( $this->text_domain );
 			$metaboxes->set_text_domain( $this->text_domain );
@@ -394,6 +397,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [7] Add user posts widget to network dashboard
 			 * [8] Add user development categories widget to dashboard
 			 * [9] Add user development categories widget to network dashboard
+			 * [10] Add privacy widget to dashboard
 			 */
 
 			/*1*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
@@ -405,6 +409,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*7*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
 			/*8*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
 			/*9*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
+			/*10*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_privacy, 'add_dashboard_widget' ) );
 
 
 			/**
