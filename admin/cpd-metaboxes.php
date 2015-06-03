@@ -99,6 +99,15 @@ class CPD_Metaboxes {
 		
 		// Remove for everyone
 
+		// Remove if is template
+		if( CPD_Blogs::blog_is_template() ) {
+			$remove_metaboxes[] =	array(
+										'id'			=>	'commentstatusdiv',
+										'post_types' 	=>  $all_post_types,
+										'context'		=>	'normal'
+									);
+		}
+
 		// Remove for participants
 		if( $user_type == 'participant' )
 		{
@@ -108,7 +117,6 @@ class CPD_Metaboxes {
 										'context'		=>	'normal'
 									);
 		}
-							
 
 		$remove_metaboxes 	= 	apply_filters(
 									'filter_cpd_remove_metaboxes',

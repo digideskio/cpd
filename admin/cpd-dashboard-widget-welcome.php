@@ -66,7 +66,13 @@ class CPD_Dashboard_Widget_Welcome {
 		$roles 							= $current_user->roles;
 		$is_elevated_user 				= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
 
-		if( is_network_admin() ) {
+		if( CPD_Blogs::blog_is_template() && CPD_Blogs::blog_is_primary_template() ) {
+			$welcome_widget_function 	= 'render_welcome_primary_template';
+		}
+		else if( CPD_Blogs::blog_is_template() ) {
+			$welcome_widget_function 	= 'render_welcome_template';
+		}
+		else if( is_network_admin() ) {
 			$dashboard 					= 'dashboard-network';
 			$welcome_widget_function 	= 'render_welcome_network';
 			$welcome_title 				= 'Welcome to the CPD Network Settings ';
@@ -144,6 +150,30 @@ class CPD_Dashboard_Widget_Welcome {
 	 */
 	public function render_welcome_network(){
 		$template_name 						= 	'cpd-dashboard-widget-welcome-network';
+		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+
+		if( $template_path !== FALSE ) {
+			include $template_path;
+		}
+	}
+
+	/**
+	 * Render the dashboard widget
+	 */
+	public function render_welcome_template(){
+		$template_name 						= 	'cpd-dashboard-widget-welcome-template';
+		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+
+		if( $template_path !== FALSE ) {
+			include $template_path;
+		}
+	}
+
+	/**
+	 * Render the dashboard widget
+	 */
+	public function render_welcome_primary_template(){
+		$template_name 						= 	'cpd-dashboard-widget-welcome-template-primary';
 		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
 
 		if( $template_path !== FALSE ) {

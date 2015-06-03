@@ -11,12 +11,12 @@
 		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 		if( $cpd_login_to_view == 'true' ) {
 			?>
-			<p>Visitors must be <strong>logged in</strong> to view this journal.</p>
+			<p>Visitors must be <strong>logged in</strong> to view this Journal.</p>
 			<?php
 		}
 		else {
 			?>
-			<p><strong>Anyone</strong> can view this journal (including members of the public).</p>
+			<p><strong>Anyone</strong> can view this Journal (including members of the public).</p>
 			<?php
 		}
 		?>

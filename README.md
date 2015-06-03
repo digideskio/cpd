@@ -31,6 +31,7 @@ Here are all the great features that have been implemented so far!
 ### 2.1.1 
 
 - Improved Privacy Options
+- Dashboard Widget(s) for Template Authors
 
 ### 2.1.0
 
@@ -65,11 +66,6 @@ Here are all the great features that have been implemented so far!
 ## Feature Roadmap
 
 Here are all the great features that we plan to implement. If you have a feature request you can add it by [creating a new issue](https://github.com/mkdo/cpd/issues).
-
-### 2.1.1 
-
-- Improved Privacy Options
-- Dashboard Widget(s) for Template Authors
 
 ### 2.2.0
 

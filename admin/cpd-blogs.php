@@ -443,5 +443,35 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			return $a["menu_order"] - $b["menu_order"];
 		}
 
+		/**
+		 * Check if current blog is template
+		 *
+		 * @return true if is template
+		 */
+		public static function blog_is_template() {
+			$blog_id = get_current_blog_id();
+			$blog    = get_blog_details( $blog_id );
+
+			if( strrpos( $blog->path, '/template-' ) === 0 ) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Check if current blog is primary template
+		 *
+		 * @return true if is template
+		 */
+		public static function blog_is_primary_template() {
+			$blog_id = get_current_blog_id();
+			$blog    = get_blog_details( $blog_id );
+
+			if( strrpos( $blog->path, '/template-default/' ) === 0 ) {
+				return true;
+			}
+			return false;
+		}
+
 	}
 }

@@ -213,12 +213,16 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 			// Remove for everyone
 			$admin_menus[]      =    'edit.php';                                        // Posts
-			$admin_menus[]      =    'edit.php?post_type=page';                        // Pages
-			// $admin_menus[]   =  'edit-comments.php';      // Comments
+			$admin_menus[]      =    'edit.php?post_type=page';                         // Pages
+			
+			// Remove if is template
+			if( CPD_Blogs::blog_is_template() ) {
+				$admin_menus[]   =  'edit-comments.php';                                // Comments
+			}
 
 			// Remove for participants
 			if ( $user_type == 'participant' ) {
-				// $admin_menus[]        =    'themes.php';                                // Themes
+				// $admin_menus[]        =    'themes.php';                             // Themes
 			}
 
 			// Remove for supervisors
@@ -231,15 +235,15 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 			// Remove for everyone but elevated users
 			if ( !$is_elevated_user ) {
-				$admin_menus[]        =    'seperator1';                                // Seperator
+				$admin_menus[]        =    'seperator1';                               // Seperator
 				$admin_menus[]        =    'tools.php';                                // Tools
-				$admin_menus[]        =    'options-general.php';                        // Settings
-				$admin_menus[]        =    'plugins.php';                                // Plugins
-				$admin_menus[]        =    'wpseo_dashboard';                            // Yoast SEO
+				$admin_menus[]        =    'options-general.php';                      // Settings
+				$admin_menus[]        =    'plugins.php';                              // Plugins
+				$admin_menus[]        =    'wpseo_dashboard';                          // Yoast SEO
 				$admin_menus[]        =    'all-in-one-seo-pack/aioseop_class.php';    // All in one SEO
 				$admin_menus[]        =    'activity_log_page';                        // Activity Log
-				$admin_menus[]        =    'edit.php?post_type=acf';                    // ACF
-				$admin_menus[]        =    'wp-user-avatar';                            // Avatar
+				$admin_menus[]        =    'edit.php?post_type=acf';                   // ACF
+				$admin_menus[]        =    'wp-user-avatar';                           // Avatar
 			}
 
 			// Remove for everyone but admins

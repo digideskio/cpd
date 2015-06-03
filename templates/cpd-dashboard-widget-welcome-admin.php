@@ -47,7 +47,7 @@
 
 				<li>
 					<span class="dashicons-before dashicons-admin-settings"></span> 
-					<a href="<?php echo home_url() . '/wp-admin/setting.php';?>">
+					<a href="<?php echo home_url() . '/wp-admin/settings.php';?>">
 						Alter Journal settings
 					</a>
 				</li>
