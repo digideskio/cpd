@@ -8,8 +8,9 @@ $current_user 	= 	wp_get_current_user();
 <p>
 	Welcome <strong>Subscriber</strong> to the Journal '<?php echo get_bloginfo( 'title' );?>'. 
 </p>
-<p><strong>Note: </strong>As a subscriber, you cannot make changes to this Journal. If you belive that this is an error, please contact a system administrator.</p>
-
+<div class="alert alert-warning">
+	<p><strong>NOTE: </strong>As a subscriber, you cannot make changes to this Journal. If you belive that this is an error, please contact a system administrator.</p>
+</div>
 <?php
 
 	$blog_list 	= get_blogs_of_user( $current_user->ID );

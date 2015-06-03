@@ -134,6 +134,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-meta-box-description',              // Description Meta Box
 				'cpd-meta-box-evidence',                 // Evidence Capture Meta Box
 				'cpd-meta-box-points',                   // Points Meta Box
+				'cpd-meta-box-privacy',                  // Privacy Meta Box
 				'cpd-taxonomy-development-category',     // Taxonomy for the development category
 				'cpd-widgets',                           // Register Widgets
 			);
@@ -262,11 +263,12 @@ if ( !class_exists( 'CPD' ) ) {
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
 			$ppd                                = CPD_CPT_PPD::get_instance();
-			$date_completed                     = CPD_Meta_Box_Date_Completed::get_instance();
-			$description                        = CPD_Meta_Box_Description::get_instance();
-			$evidence                           = CPD_Meta_Box_Evidence::get_instance();
-			$points                             = CPD_Meta_Box_Points::get_instance();
-			$development_category               = CPD_Taxonomy_Development_Category::get_instance();
+			$meta_box_date_completed            = CPD_Meta_Box_Date_Completed::get_instance();
+			$meta_box_description               = CPD_Meta_Box_Description::get_instance();
+			$meta_box_evidence                  = CPD_Meta_Box_Evidence::get_instance();
+			$meta_box_points                    = CPD_Meta_Box_Points::get_instance();
+			$meta_box_privacy                   = CPD_Meta_Box_Privacy::get_instance();
+			$taxonomy_development_category      = CPD_Taxonomy_Development_Category::get_instance();
 			$widgets 			                = CPD_Widgets::get_instance();
 
 			/**
@@ -296,11 +298,12 @@ if ( !class_exists( 'CPD' ) ) {
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
 			$ppd->set_text_domain( $this->text_domain );
-			$date_completed->set_text_domain( $this->text_domain );
-			$description->set_text_domain( $this->text_domain );
-			$evidence->set_text_domain( $this->text_domain );
-			$points->set_text_domain( $this->text_domain );
-			$development_category->set_text_domain( $this->text_domain );
+			$meta_box_date_completed->set_text_domain( $this->text_domain );
+			$meta_box_description->set_text_domain( $this->text_domain );
+			$meta_box_evidence->set_text_domain( $this->text_domain );
+			$meta_box_points->set_text_domain( $this->text_domain );
+			$meta_box_privacy->set_text_domain( $this->text_domain );
+			$taxonomy_development_category->set_text_domain( $this->text_domain );
 			$widgets->set_text_domain( $this->text_domain );
 
 			/**
@@ -617,12 +620,16 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [2] Register the description Meta Box (excerpt)
 			 * [3] Register the Evidence Meta Box
 			 * [4] Register the Points Meta Box
+			 * [5] Register the Privacy Meta Box
+			 * [6] Change post status
 			 */
 
-			/*1*/ add_filter( 'cmb_meta_boxes', array( $date_completed, 'register_metabox' ) );
-			/*2*/ add_filter( 'cmb_meta_boxes', array( $description, 'register_metabox' ) );
-			/*3*/ add_filter( 'cmb_meta_boxes', array( $evidence, 'register_metabox' ) );
-			/*4*/ add_filter( 'cmb_meta_boxes', array( $points, 'register_metabox' ) );
+			/*1*/ add_filter( 'cmb_meta_boxes', array( $meta_box_date_completed, 'register_metabox' ) );
+			/*2*/ add_filter( 'cmb_meta_boxes', array( $meta_box_description, 'register_metabox' ) );
+			/*3*/ add_filter( 'cmb_meta_boxes', array( $meta_box_evidence, 'register_metabox' ) );
+			/*4*/ add_filter( 'cmb_meta_boxes', array( $meta_box_points, 'register_metabox' ), 99 );
+			/*5*/ add_filter( 'cmb_meta_boxes', array( $meta_box_privacy, 'register_metabox' ) );
+			/*6*/ add_action( 'save_post', array( $meta_box_privacy, 'change_post_status' ), 99, 2 );
 
 			/**
 			 * Taxonomies
@@ -630,7 +637,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [1] Register the development categories taxonomy
 			 */
 
-			/*1*/ add_action( 'init', array( $development_category, 'register_taxonomy' ) );
+			/*1*/ add_action( 'init', array( $taxonomy_development_category, 'register_taxonomy' ) );
 
 			/**
 			 * Widgets
