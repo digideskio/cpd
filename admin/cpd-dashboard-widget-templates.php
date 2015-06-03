@@ -58,11 +58,37 @@ class CPD_Dashboard_Widget_Templates {
 	 */
 	public function add_dashboard_widget() {
 
-		$current_user 					= wp_get_current_user();
-		$roles 							= $current_user->roles;
+		$current_user                   = wp_get_current_user();
+		$roles                          = $current_user->roles;
+		$supervisors                    = CPD_Users::get_supervisors();
+		$is_supervisor                  = false;
+		$has_templates 					= false;
+		$blogs 							= get_blogs_of_user( $current_user->ID );
 
-		if( in_array( 'supervisor', $roles ) || user_can( $current_user, 'administrator' ) || is_super_admin() || $is_elevated_user ) {
-			add_meta_box('cpd_dashboard_widget_templates', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-art"></span> ' . 'Templates', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+		if( !is_array( $supervisors ) ) {
+			$supervisors = array();
+		}
+
+		if( !is_array( $blogs ) ) {
+			$blogs = array();
+		}
+
+		foreach( $supervisors as $supervisor ) {
+			if( $supervisor->ID == $current_user->ID ) {
+				$is_supervisor = true;
+				break;
+			}
+		}
+
+		foreach( $blogs as $blog ) {
+			if( strrpos( $blog->path, '/template-' ) === 0 ) {
+				$has_templates = true;
+				break;
+			}
+		}
+
+		if( in_array( 'supervisor', $roles ) || $has_templates || $is_supervisor ) {
+			add_meta_box('cpd_dashboard_widget_templates', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-welcome-write-blog"></span> ' . 'Templates', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
 		}
 	}
 
@@ -71,7 +97,7 @@ class CPD_Dashboard_Widget_Templates {
 	 */
 	public function render_dashboard_widget(){
 		
-		$template_name 						= 	'cpd-dashboard-widget-privacy';
+		$template_name 						= 	'cpd-dashboard-widget-templates';
 		$template_path 						= 	CPD_Templates::get_template_path( $template_name );
 
 		if( $template_path !== FALSE ) {
