@@ -473,5 +473,29 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			return false;
 		}
 
+		/**
+		 * Check if user has templates
+		 *
+		 * @return true if has template
+		 */
+		public static function user_has_templates( $user ) {
+			
+			$blogs         = get_blogs_of_user( $user->ID );
+			$has_templates = false;
+
+			if( !is_array( $blogs ) ) {
+				$blogs = array();
+			}
+
+			foreach( $blogs as $blog ) {
+				if( strrpos( $blog->path, '/template-' ) === 0 ) {
+					$has_templates = true;
+					break;
+				}
+			}
+
+			return $has_templates;
+		}
+
 	}
 }

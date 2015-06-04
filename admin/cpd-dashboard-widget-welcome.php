@@ -77,7 +77,7 @@ class CPD_Dashboard_Widget_Welcome {
 			$welcome_widget_function 	= 'render_welcome_network';
 			$welcome_title 				= 'Welcome to the CPD Network Settings ';
 		}
-		else if( is_super_admin() || $is_elevated_user ) {
+		else if( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )  ) {
 			$welcome_widget_function 	= 'render_welcome_admin';
 		}
 		else if ( user_can( $current_user, 'subscriber' ) ) {

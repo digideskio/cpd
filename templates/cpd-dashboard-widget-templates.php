@@ -4,36 +4,13 @@
  */
 $current_user                   = wp_get_current_user();
 $roles                          = $current_user->roles;
-$supervisors                    = CPD_Users::get_supervisors();
-$is_supervisor                  = false;
-$has_templates 					= false;
-$blogs 							= get_blogs_of_user( $current_user->ID );
-
-if( !is_array( $supervisors ) ) {
-	$supervisors = array();
-}
-
-if( !is_array( $blogs ) ) {
-	$blogs = array();
-}
-
-foreach( $supervisors as $supervisor ) {
-	if( $supervisor->ID == $current_user->ID ) {
-		$is_supervisor = true;
-		break;
-	}
-}
-
-foreach( $blogs as $blog ) {
-	if( strrpos( $blog->path, '/template-' ) === 0 ) {
-		$has_templates = true;
-		break;
-	}
-}
+$is_supervisor                  = CPD_Users::user_is_site_supervisor( $current_user );
+$has_templates 					= CPD_Blogs::user_has_templates( $current_user );
+$blogs                          = get_blogs_of_user( $current_user->ID );
 ?>
 <div>
 	<div class="content-description">
-		<p>Templates define default content and settings that are added to a new Journal when it is created.</p>
+		<p>Templates define the content and settings that are added to a new Journal when it is created.</p>
 		<?php 
 
 			if( $has_templates ) {

@@ -563,5 +563,49 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 			return $message;
 		}
+
+		/**
+		 * Is the user a supervisor of any Journal
+		 */
+		public static function user_is_site_supervisor( $user ) {
+			$supervisors   = CPD_Users::get_supervisors();
+			$is_supervisor = false;
+
+			if( !is_array( $supervisors ) ) {
+				$supervisors = array();
+			}
+
+			foreach( $supervisors as $supervisor ) {
+				if( $supervisor->ID == $user->ID ) {
+					$is_supervisor = true;
+					break;
+				}
+			}
+
+			return $is_supervisor;
+		}
+
+		/**
+		 * If an email address is entered in the username box, then look up the matching username and authenticate as per normal, using that.
+		 *
+		 * @param string $user
+		 * @param string $username
+		 * @param string $password
+		 * @return Results of autheticating via wp_authenticate_username_password(), using the username found when looking up via email.
+		 */
+		public function authenticate_email_username_password( $user, $username, $password ) {
+			
+			if ( is_a( $user, 'WP_User' ) )
+				return $user;
+
+			if ( !empty( $username ) ) {
+				$username = str_replace( '&', '&amp;', stripslashes( $username ) );
+				$user = get_user_by( 'email', $username );
+				if ( isset( $user, $user->user_login, $user->user_status ) && 0 == (int) $user->user_status )
+					$username = $user->user_login;
+			}
+
+			return wp_authenticate_username_password( null, $username, $password );
+		}
 	}
 }

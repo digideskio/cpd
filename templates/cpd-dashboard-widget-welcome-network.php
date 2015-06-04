@@ -8,7 +8,7 @@
 ?>
 
 <p>
-	Welcome to the network settings dashboard. You can perform the following tasks:
+	Welcome to the <strong>network settings dashboard</strong>. You can perform the following tasks:
 </p>
 <ul class="tax-list">
 	<?php
@@ -26,12 +26,12 @@
 						Manage all Journals
 					</a>
 				</li>
-				<li>
+<!-- 				<li>
 					<span class="dashicons-before dashicons-admin-site"></span> 
 					<a href="<?php echo network_admin_url( 'settings.php?page=cpd_settings' );?>">
 						Manage Journal Defaults
 					</a>
-				</li>
+				</li> -->
 				<li>
 					<span class="dashicons-before dashicons-admin-plugins"></span> 
 					<a href="<?php echo network_admin_url( 'plugins.php' );?>">

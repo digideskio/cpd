@@ -19,7 +19,7 @@
 	<li>
 		<span class="dashicons-before dashicons-admin-appearance"></span> 
 		<a href="<?php echo home_url() . '/wp-admin/themes.php';?>">
-			Manage Journal look and feel
+			Manage Template look and feel
 		</a>
 	</li>
 

@@ -143,8 +143,12 @@ class CPD_CPT_PPD {
 	 * Register the CPT
 	 */
 	public function register_post_type() {
+		$blog_id = get_current_blog_id();
+			
+		if( SITE_ID_CURRENT_SITE != $blog_id ) {
+			register_post_type( $this->cpt_name, $this->args['post_type_args'] );
+		}
 		
-		register_post_type( $this->cpt_name, $this->args['post_type_args'] );
 	}
 
 	/**

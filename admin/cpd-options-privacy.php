@@ -58,6 +58,21 @@ class CPD_Options_Privacy {
 		/* Register Settings */
 		register_setting( 'cpd_settings_privacy_group', 'cpd_login_to_view' );
 
+		/* Set defaults */
+		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
+		if( $cpd_login_to_view == NULL ) {
+			
+			$blog_id = get_current_blog_id();
+			
+			if( SITE_ID_CURRENT_SITE == $blog_id ) {
+				add_option( 'cpd_login_to_view', 'false' );
+			}
+			else {
+				add_option( 'cpd_login_to_view', 'true' );
+			}
+			$cpd_login_to_view = get_option( 'cpd_login_to_view' );
+		}
+		
 		/* Add sections */
 		add_settings_section( 'cpd_section_login_to_view', 'Login to view journal', array( $this, 'cpd_section_login_to_view_callback' ), 'cpd_settings_privacy' );
 		add_settings_section( 'cpd_section_private_content', 'Private content access', array( $this, 'cpd_section_private_content_callback' ), 'cpd_settings_privacy' );
@@ -111,11 +126,6 @@ class CPD_Options_Privacy {
 	public function cpd_login_to_view_callback() {
 
 		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
-		/* Set defaults */
-		if( $cpd_login_to_view == NULL ) {
-			add_option( 'cpd_login_to_view', 'true' );
-			$cpd_login_to_view = get_option( 'cpd_login_to_view' );
-		}
 
 		?>
 		<label><input type="radio" name="cpd_login_to_view" value="true" <?php checked( 'true', $cpd_login_to_view );?>> People with a username and password only</label><br/>
@@ -288,7 +298,10 @@ class CPD_Options_Privacy {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_menu_page( 'Privacy', 'Privacy', 'manage_options', 'cpd_settings_privacy', array( $this, 'render_options_page' ), 'dashicons-shield' );
+		$blog_id = get_current_blog_id();
+		if( current_user_can( 'manage_options' ) && SITE_ID_CURRENT_SITE != $blog_id && !CPD_Blogs::blog_is_template() ) {
+			add_menu_page( 'Privacy', 'Privacy', 'manage_options', 'cpd_settings_privacy', array( $this, 'render_options_page' ), 'dashicons-shield' );
+		}
 	}
 
 		/**

@@ -124,7 +124,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-metaboxes',                         // Metabox ammendments
 				'cpd-columns',                           // Column modifications
 				'cpd-users',                             // User functions
-				'cpd-options',                           // Create options page
+				// 'cpd-options',                           // Create options page
 				'cpd-options-copy-assignments',          // Create options page
 				'cpd-options-privacy',                   // Create options page
 				'cpd-blogs',                             // Blog settings
@@ -258,7 +258,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$metaboxes                          = CPD_Metaboxes::get_instance();
 			$columns                            = CPD_Columns::get_instance();
 			$users                              = CPD_Users::get_instance();
-			$options                            = CPD_Options::get_instance();
+			// $options                            = CPD_Options::get_instance();
 			$options_copy_assignments           = CPD_Options_Copy_Assignments::get_instance();
 			$options_privacy                    = CPD_Options_Privacy::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
@@ -294,7 +294,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$metaboxes->set_text_domain( $this->text_domain );
 			$columns->set_text_domain( $this->text_domain );
 			$users->set_text_domain( $this->text_domain );
-			$options->set_text_domain( $this->text_domain );
+			// $options->set_text_domain( $this->text_domain );
 			$options_copy_assignments->set_text_domain( $this->text_domain );
 			$options_privacy->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
@@ -496,6 +496,8 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [7] Redirect on login
 			 * [8] Force users to login to view the site (if option set)
 			 * [9] Add a login message
+			 * [10] Remove the built in WP authentication filter
+			 * [11] Add Filter to authenticate with email address
 			 */
 
 			/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) );
@@ -506,8 +508,9 @@ if ( !class_exists( 'CPD' ) ) {
 			/*6*/ add_action( 'wpmu_new_user', array( $users, 'redirect_on_create_user' ) );
 			/*7*/ add_action( 'login_redirect', array( $users, 'login_redirect' ), 9999, 3 );
 			/*8*/ add_action( 'init', array( $users, 'force_login' ) );
-			/*8*/ add_filter( 'login_message', array( $users, 'force_login_message' ) );
-
+			/*9*/ add_filter( 'login_message', array( $users, 'force_login_message' ) );
+			/*10*/ remove_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
+			/*11*/ add_filter( 'authenticate', array( $users, 'authenticate_email_username_password' ), 20, 3 );
 
 			/**
 			 * Users Static Methods
@@ -545,8 +548,8 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [5] Add the privacy options page (uses settings API)
 			 */
 
-			/*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
-			/*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
+			// /*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
+			// /*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
 			/*3*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
 			/*4*/ add_action( 'admin_init', array( $options_privacy, 'init_options_page' ) );
 			/*5*/ add_action( 'admin_menu', array( $options_privacy, 'add_options_page' ) );
@@ -679,7 +682,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 */
 
 			/*1*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_styles' ) );
-			// /*2*/ add_action( 'wp_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
+			/*2*/ add_action( 'login_enqueue_scripts', array( $scripts, 'enqueue_scripts' ) );
 
 			/**
 			 * Comments UI

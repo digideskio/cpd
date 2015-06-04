@@ -83,12 +83,21 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 * @hook  filter_cpd_add_content_menu_items  Filter menu items we are adding to the CPD Content Menu
 		 */
 		public function add_content_menu_items() {
+
+			$posts_name = 'Journal Entries';		
+
+			$blog_id = get_current_blog_id();
+			
+			if( SITE_ID_CURRENT_SITE == $blog_id ) {
+				$posts_name = 'Posts';
+			}
+
 			$cpd_content_menu_items      =    array();
 
 			// Posts
 			$cpd_content_menu_items[]    =    array(
 				'post_name'        	=>    'post',
-				'menu_name'        	=>    'Journal Entries',
+				'menu_name'        	=>    $posts_name,
 				'capability'		=>    'edit_posts',
 				'function'			=>    'edit.php'
 			);
@@ -128,13 +137,21 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			$template_name                     =    'cpd-content-menu-dashboard-widget';
 			$template_path                     =    CPD_Templates::get_template_path( $template_name );
 
+			$posts_name = 'Journal Entries';		
+
+			$blog_id = get_current_blog_id();
+			
+			if( SITE_ID_CURRENT_SITE == $blog_id ) {
+				$posts_name = 'Posts';
+			}
+
 			// Posts
 			$content_menu_dashboard_widgets[]    =    array(
-				'title'                   => __( 'Journal Entries', $this->text_domain ),
+				'title'                   => __( $posts_name, $this->text_domain ),
 				'dashicon'                => 'dashicons-admin-post',
-				'desc'                    => '<p>' . __( 'This content type is for managing Journal Entries.</p>', $this->text_domain ),
+				'desc'                    => '<p>' . __( 'This content type is for managing '.$posts_name.'.</p>', $this->text_domain ),
 				'post_type'               => 'post',
-				'button_label'            => __( 'Edit / Manage Journal Entries', $this->text_domain ),
+				'button_label'            => __( 'Edit / Manage ' . $posts_name, $this->text_domain ),
 				'css_class'               => 'post',
 				'show_tax'                => TRUE,
 				'link'                    => admin_url( 'edit.php' ),
@@ -416,7 +433,12 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 						}
 
 						if ( $item[2] == 'edit.php' ) {
-							$pages[] = 'Journal Entries';
+							$blog_id = get_current_blog_id();
+							if( SITE_ID_CURRENT_SITE != $blog_id ) {
+								$pages[] = 'Journal Entries';
+							}else {
+								$pages[] = 'Posts';
+							}
 						} elseif ( $item[2] == 'edit.php?post_type=page' || $item[2] == 'edit.php?post_type=page&page=cms-tpv-page-page' ) {
 							$pages[] = 'Pages';
 						} else {

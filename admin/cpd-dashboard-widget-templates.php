@@ -60,33 +60,9 @@ class CPD_Dashboard_Widget_Templates {
 
 		$current_user                   = wp_get_current_user();
 		$roles                          = $current_user->roles;
-		$supervisors                    = CPD_Users::get_supervisors();
-		$is_supervisor                  = false;
-		$has_templates 					= false;
-		$blogs 							= get_blogs_of_user( $current_user->ID );
-
-		if( !is_array( $supervisors ) ) {
-			$supervisors = array();
-		}
-
-		if( !is_array( $blogs ) ) {
-			$blogs = array();
-		}
-
-		foreach( $supervisors as $supervisor ) {
-			if( $supervisor->ID == $current_user->ID ) {
-				$is_supervisor = true;
-				break;
-			}
-		}
-
-		foreach( $blogs as $blog ) {
-			if( strrpos( $blog->path, '/template-' ) === 0 ) {
-				$has_templates = true;
-				break;
-			}
-		}
-
+		$is_supervisor                  = CPD_Users::user_is_site_supervisor( $current_user );
+		$has_templates 					= CPD_Blogs::user_has_templates( $current_user );
+		
 		if( in_array( 'supervisor', $roles ) || $has_templates || $is_supervisor ) {
 			add_meta_box('cpd_dashboard_widget_templates', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-welcome-write-blog"></span> ' . 'Templates', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
 		}

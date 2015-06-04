@@ -24,6 +24,8 @@ The way that new Journals are created with base 'Journal Templates' could not be
 
 To create metaboxes we use the excelent [Custom Meta Boxes](https://github.com/humanmade/Custom-Meta-Boxes) plugin by [Human Made](https://hmn.md/) - licenced under the GPLv2 licence.
 
+The ability to login with email was done by following examples in the [WP Email Login](https://wordpress.org/plugins/wp-email-login/) plugin by [Beau Lebans](https://profiles.wordpress.org/beaulebens/), [r-a-y](https://profiles.wordpress.org/r-a-y/) and [andykillen](https://profiles.wordpress.org/andykillen/).
+
 ## Version Control
 
 Here are all the great features that have been implemented so far!
@@ -32,6 +34,9 @@ Here are all the great features that have been implemented so far!
 
 - Improved Privacy Options
 - Dashboard Widget(s) for Template Authors
+- Made root site reference 'site' (not journal)
+- Tidy up of root site menus and widgets
+- Login with email
 
 ### 2.1.0
 
