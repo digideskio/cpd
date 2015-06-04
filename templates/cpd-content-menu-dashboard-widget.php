@@ -36,7 +36,7 @@ $css_block_class = $widget[ 'css_class' ];
 	<?php
 		
 		if( $widget[ 'show_tax' ] == true ) {
-			
+
 			$taxonomies = get_object_taxonomies( $widget[ 'post_type' ], 'objects' );
 
 			unset( $taxonomies[ 'post_format' ] );

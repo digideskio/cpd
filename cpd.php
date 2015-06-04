@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.1.1
+ * Version:           2.2.0
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -131,6 +131,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
 				'cpd-cpt-ppd',                           // PPD CPT
+				'cpd-cpt-assessment',                    // PPD CPT
 				'cpd-meta-box-date-completed',           // Date Completed Meta Box
 				'cpd-meta-box-description',              // Description Meta Box
 				'cpd-meta-box-evidence',                 // Evidence Capture Meta Box
@@ -264,7 +265,8 @@ if ( !class_exists( 'CPD' ) ) {
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
-			$ppd                                = CPD_CPT_PPD::get_instance();
+			$cpd_ppd                            = CPD_CPT_PPD::get_instance();
+			$cpd_assessment                     = CPD_CPT_Assessment::get_instance();
 			$meta_box_date_completed            = CPD_Meta_Box_Date_Completed::get_instance();
 			$meta_box_description               = CPD_Meta_Box_Description::get_instance();
 			$meta_box_evidence                  = CPD_Meta_Box_Evidence::get_instance();
@@ -300,7 +302,8 @@ if ( !class_exists( 'CPD' ) ) {
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
-			$ppd->set_text_domain( $this->text_domain );
+			$cpd_ppd->set_text_domain( $this->text_domain );
+			$cpd_assessment->set_text_domain( $this->text_domain );
 			$meta_box_date_completed->set_text_domain( $this->text_domain );
 			$meta_box_description->set_text_domain( $this->text_domain );
 			$meta_box_evidence->set_text_domain( $this->text_domain );
@@ -608,18 +611,31 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [7] Save description to excerpt
 			 * [8] Fallback if no single template exists
 			 * [9] Fallback if no archive template exists
+			 * [10] Register the PPD CPT
+			 * [11] Move advanced metaboxes above the editor
+			 * [12] Set the featured image metabox
+			 * [13] Add helper text to the title
+			 * [14] Add helper text to the editor
+			 * [15] Fallback if no single template exists
+			 * [16] Fallback if no archive template exists
 			 */
 
-			/*1*/ add_action( 'init', array( $ppd, 'register_post_type' ) );
-			/*2*/ add_action( 'edit_form_after_title', array( $ppd, 'move_advanced_metaboxes_above_editor' ) );
-			/*3*/ add_action( 'edit_form_after_title', array( $ppd, 'set_featured_image_metabox_title' ) );
-			/*4*/ add_action( 'edit_form_top', array( $ppd, 'add_title_helper_text' ), 99 );
-			/*5*/ add_action( 'edit_form_after_title', array( $ppd, 'add_editor_helper_text' ), 99 );
-			/*6*/ add_action( 'admin_init', array( $ppd, 'remove_excerpt' ) );
-			/*7*/ add_action( 'save_post', array( $ppd, 'update_excerpt_on_save' ) );
-			/*8*/ add_filter( 'template_include', array( $ppd, 'fallback_template_single' ) , 99 );
-			/*9*/ add_filter( 'template_include', array( $ppd, 'fallback_template_archive' ) , 99 );
-
+			/*1*/ add_action( 'init', array( $cpd_ppd, 'register_post_type' ) );
+			/*2*/ add_action( 'edit_form_after_title', array( $cpd_ppd, 'move_advanced_metaboxes_above_editor' ) );
+			/*3*/ add_action( 'edit_form_after_title', array( $cpd_ppd, 'set_featured_image_metabox_title' ) );
+			/*4*/ add_action( 'edit_form_top', array( $cpd_ppd, 'add_title_helper_text' ), 99 );
+			/*5*/ add_action( 'edit_form_after_title', array( $cpd_ppd, 'add_editor_helper_text' ), 99 );
+			/*6*/ add_action( 'admin_init', array( $cpd_ppd, 'remove_excerpt' ) );
+			/*7*/ add_action( 'save_post', array( $cpd_ppd, 'update_excerpt_on_save' ) );
+			/*8*/ add_filter( 'template_include', array( $cpd_ppd, 'fallback_template_single' ) , 99 );
+			/*9*/ add_filter( 'template_include', array( $cpd_ppd, 'fallback_template_archive' ) , 99 );
+			/*10*/ add_action( 'init', array( $cpd_assessment, 'register_post_type' ) );
+			/*11*/ add_action( 'edit_form_after_title', array( $cpd_assessment, 'move_advanced_metaboxes_above_editor' ) );
+			/*12*/ add_action( 'edit_form_after_title', array( $cpd_assessment, 'set_featured_image_metabox_title' ) );
+			/*13*/ add_action( 'edit_form_top', array( $cpd_assessment, 'add_title_helper_text' ), 99 );
+			/*14*/ add_action( 'edit_form_after_title', array( $cpd_assessment, 'add_editor_helper_text' ), 99 );
+			/*15*/ add_filter( 'template_include', array( $cpd_assessment, 'fallback_template_single' ) , 99 );
+			/*16*/ add_filter( 'template_include', array( $cpd_assessment, 'fallback_template_archive' ) , 99 );
 
 			/**
 			 * Meta Boxes

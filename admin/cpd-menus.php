@@ -178,13 +178,27 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				'title'                   => __( 'Activity Logs', $this->text_domain ),
 				'dashicon'                => 'dashicons-index-card',
 				'desc'                    => '<p>' . __( 'This content type is for managing your Activity Log.</p>', $this->text_domain ),
-				'post_type'               => 'page',
+				'post_type'               => 'ppd',
 				'button_label'            => __( 'Edit / Manage Activity Log', $this->text_domain ),
-				'css_class'               => 'page',
+				'css_class'               => 'ppd',
 				'show_tax'                => TRUE,
 				'link'                    => admin_url( 'edit.php?post_type=ppd' ),
 				'call_to_action_text'     => 'Add New',
 				'call_to_action_link'     => admin_url( 'post-new.php?post_type=ppd' )
+			);
+
+			// Assessments
+			$content_menu_dashboard_widgets[]    =    array(
+				'title'                   => __( 'Assessments', $this->text_domain ),
+				'dashicon'                => 'dashicons-yes',
+				'desc'                    => '<p>' . __( 'This content type is for managing your Assessments.</p>', $this->text_domain ),
+				'post_type'               => 'assessment',
+				'button_label'            => __( 'Edit / Manage Assessments', $this->text_domain ),
+				'css_class'               => 'assessment',
+				'show_tax'                => TRUE,
+				'link'                    => admin_url( 'edit.php?post_type=assessment' ),
+				'call_to_action_text'     => 'Add New',
+				'call_to_action_link'     => admin_url( 'post-new.php?post_type=assessment' )
 			);
 
 			$widgets = apply_filters(
