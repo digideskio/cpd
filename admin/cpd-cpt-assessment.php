@@ -214,11 +214,15 @@ class CPD_CPT_Assessment {
 
 		
 		$html = '<h2>Response</h2>';
-		$html .= '<p class="cmb_metabox_description"><em>General response to the assessment. If provided, more information can be provided against each critera.</em></p>';
-		$html .= '<p class="cmb_metabox_description">When responding remember to detail...</p>';
+		$html .= '<div class="cmb_metabox_description">';
+		$html .= '<p>General response to the assessment. When responding remember to detail the following:</p>';
 		$html .= '<ul>';
-		$html .= '<li>I am just a test</li>';
+		$html .= '<li> - In the area that you work, <strong>why</strong> do you need to apply this knowlege and understanding?</li>';
+		$html .= '<li> - <strong>What</strong> is it that you need to understand?</li>';
+		$html .= '<li> - <strong>How</strong> did you apply this knowlege?</li>';
 		$html .= '</ul>';
+		$html .= '<p>More information can be provided against each critera in the \'Critera\' section (if they have been provided).</p>';
+		$html .= '</div>';
 
 		if( !empty( $html ) )
 		{

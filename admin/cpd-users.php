@@ -121,13 +121,14 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$role    = get_role( 'participant' );
 			$role->add_cap( 'edit_theme_options' );
 			$role->add_cap( 'is_participant' );
+			$role->add_cap( 'edit_others_posts' );
 
 			$barred_participant_capabilities    =    apply_filters(
 				'filter_cpd_remove_participant_capabilities',
 				array(
 					'edit_users',
 					'create_users',
-					'edit_others_posts',
+					// 'edit_others_posts',
 					'edit_others_pages',
 					'delete_others_posts',
 					'delete_others_pages'
