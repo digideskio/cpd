@@ -94,14 +94,16 @@ class CPD_Meta_Box_Evidence {
 
 		$journal_posts 							= 	get_posts(
 														array(
-															'post_type'			=> 	'post',
+															'post_type'			=> 	array( 'post', 'ppd', 'assessment' ),
 															'posts_per_page'	=>	-1
 														)
 													);
 
 		if( is_array( $journal_posts ) ) {
 			foreach( $journal_posts as $journal_post ) {
-				$journal_entries[ $journal_post->ID ]	=	$journal_post->post_title;
+				if( get_post_status ( $journal_post->ID ) != 'auto-draft' ) {
+					$journal_entries[ $journal_post->ID ]	=	$journal_post->post_title . ' - (' . $journal_post->post_type . ')';
+				}
 			}
 		}
 
@@ -123,7 +125,7 @@ class CPD_Meta_Box_Evidence {
 																					'cols'			=> 	12,
 																					'options'		=> 	array(
 																											'upload' 	=>	'File Upload',
-																											'journal' 	=>	'Journal Entry',
+																											'journal' 	=>	'Journal Item',
 																											'url' 		=>	'URL',
 																										)
 																				),
@@ -143,8 +145,8 @@ class CPD_Meta_Box_Evidence {
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_journal', 
-																					'name' 			=> 	__( 'Journal Entry', $this->text_domain ),
-																					'desc'			=>	'Please select the Journal Entry:',
+																					'name' 			=> 	__( 'Journal Item', $this->text_domain ),
+																					'desc'			=>	'Please select the Journal Item:',
 																					'type'			=> 	'select',
 																					'cols'			=> 	12,
 																					'options'		=>  $journal_entries,
@@ -183,6 +185,45 @@ class CPD_Meta_Box_Evidence {
 	 * @return	array 	$meta_boxes 	The modified metaboxes array
 	 */
 	function register_metabox( $meta_boxes ) {
+		
+		$journal_entries 						= 	array();
+
+		$journal_posts 							= 	get_posts(
+														array(
+															'post_type'			=> 	array( 'post', 'ppd', 'assessment' ),
+															'posts_per_page'	=>	-1,
+															'post_status'		=> 'any'
+														)
+													);
+
+		echo count( $journal_posts );
+
+		if( is_array( $journal_posts ) ) {
+			foreach( $journal_posts as $journal_post ) {
+				if( get_post_status ( $journal_post->ID ) != 'auto-draft' ) {
+					$post_type = $journal_post->post_type;
+					$post_type_object = get_post_type_object( $post_type );
+					if( is_object( $post_type_object ) ) {
+						$journal_entries[ $journal_post->ID ]	=	$journal_post->post_title . ' - (' . $post_type_object->labels->singular_name . ')';
+					}
+				}
+			}
+		}
+
+		foreach( $this->args['metabox_args']['fields'][0]['fields'] as $key=>&$field ) {
+			if( $field['id'] == '_cpd_evidence_journal' ) {
+				$this->args['metabox_args']['fields'][0]['fields'][$key] = 	array( 
+					'id'			=> 	$this->key_prefix . 'evidence_journal', 
+					'name' 			=> 	__( 'Journal Item', $this->text_domain ),
+					'desc'			=>	'Please select the Journal Item:',
+					'type'			=> 	'select',
+					'cols'			=> 	12,
+					'options'		=>  $journal_entries,
+					'allow_none'	=>	TRUE
+				);
+				break;
+			}
+		}
 		
 		$meta_boxes[] 							= 	$this->args['metabox_args'];
 		
