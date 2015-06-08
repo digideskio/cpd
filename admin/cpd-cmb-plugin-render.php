@@ -17,13 +17,20 @@ if( !class_exists( 'CPD_CMB_Plugin_Render' ) ) {
 class CPD_CMB_Plugin_Render extends CMB_Field {
 
 	/** 
+	 * Enqueue the scripts
+	 */
+	public function enqueue_scripts() {
+			parent::enqueue_scripts();
+	}
+
+	/** 
 	 * The HTML of the field
 	 */
 	public function html() { 
 
 		$defaults = array();
 
-		echo $this->value;
+		echo wpautop( $this->value );
 		
 	}
 }

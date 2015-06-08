@@ -196,8 +196,6 @@ class CPD_Meta_Box_Evidence {
 														)
 													);
 
-		echo count( $journal_posts );
-
 		if( is_array( $journal_posts ) ) {
 			foreach( $journal_posts as $journal_post ) {
 				if( get_post_status ( $journal_post->ID ) != 'auto-draft' ) {
