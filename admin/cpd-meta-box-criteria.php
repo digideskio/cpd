@@ -99,6 +99,13 @@ class CPD_Meta_Box_Criteria {
 														'cols'			=> 	12,
 														'fields'		=> 	array(
 																				array( 
+																					'id'			=> 	$this->key_prefix . 'criteria_title', 
+																					'name' 			=> 	__( 'Criteria Item', $this->text_domain ),
+																					'desc'			=>	'The fields below define an item in a set of criteria.',
+																					'type'			=> 	'title',
+																					'cols'			=> 	12
+																				),
+																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_guidance', 
 																					'name' 			=> 	__( 'Guidance', $this->text_domain ),
 																					'desc'			=>	'Guidance about this criteria (only editable by the supervisor).',
@@ -108,8 +115,8 @@ class CPD_Meta_Box_Criteria {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_response', 
 																					'name' 			=> 	__( 'Response', $this->text_domain ),
-																					'desc'			=>	'Response to the critera (only editable by the participant)',
-																					'type'			=> 	'render',
+																					'desc'			=>	'Response to the critera (editable by the participant)',
+																					'type'			=> 	'wysiwyg',
 																					'cols'			=> 	12
 																				),
 																				array( 
@@ -122,9 +129,8 @@ class CPD_Meta_Box_Criteria {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_participants_score', 
 																					'name' 			=> 	__( 'Participants score', $this->text_domain ),
-																					'desc'			=>	'Self assessement score (only editable by the participant)',
+																					'desc'			=>	'Self assessement score (editable by the participant)',
 																					'type'			=> 	'text',
-																					'readonly'		=>	TRUE,
 																					'cols'			=> 	12
 																				),
 																				array( 
@@ -135,7 +141,9 @@ class CPD_Meta_Box_Criteria {
 																					'cols'			=> 	12
 																				),
 																			),
-														'repeatable'	=> true
+														'repeatable'	=> true,
+														'string-repeat-field' => 'Add Criteria',
+														'string-delete-field' => 'Remove Criteria',
 													),
 													
 												)
@@ -166,13 +174,24 @@ class CPD_Meta_Box_Criteria {
 		
 		if( $user_type == 'participant' )
 		{
+
+			$this->args['metabox_args']['fields'][0]['repeatable'] = FALSE;
+
 			foreach( $this->args['metabox_args']['fields'][0]['fields'] as $key=>&$field ) {
 				if( $field['id'] == '_cpd_criteria_guidance' ) {
 					$this->args['metabox_args']['fields'][0]['fields'][$key]['type'] = 	'render';
 				}
 
-				if( $field['id'] == '_cpd_criteria_response' ) {
-					$this->args['metabox_args']['fields'][0]['fields'][$key]['type'] = 	'wysiwyg';
+				// if( $field['id'] == '_cpd_criteria_response' ) {
+				// 	$this->args['metabox_args']['fields'][0]['fields'][$key]['type'] = 	'wysiwyg';
+				// }
+
+				if( $field['id'] == '_cpd_criteria_max_score' ) {
+					$this->args['metabox_args']['fields'][0]['fields'][$key]['readonly'] = 	TRUE;
+				}
+
+				if( $field['id'] == '_cpd_criteria_supervisors_score' ) {
+					$this->args['metabox_args']['fields'][0]['fields'][$key]['readonly'] = 	TRUE;
 				}
 			}
 		}

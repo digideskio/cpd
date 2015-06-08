@@ -160,7 +160,9 @@ class CPD_Meta_Box_Evidence {
 																					'cols'			=> 	12
 																				),
 																			),
-														'repeatable'	=> true
+														'repeatable'	=> true,
+														'string-repeat-field' => 'Add Evidence',
+														'string-delete-field' => 'Remove Evidence',
 													),
 													
 												)
