@@ -176,3 +176,36 @@ div.updated.view-notice .dashicons-before:before {
 .alert.alert-warning {
     border-left: 5px solid orange;
 }
+
+#_cpd_criteria_title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 10px !important;
+    padding-bottom: 0px !important;
+}
+
+#_cpd_criteria_title .field-title {
+    margin-top: 0px !important;
+}
+
+#_cpd_criteria_title .field-title h2 {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-size: 13px;
+}
+
+#_cpd_criteria_evidence > .field-title label {
+    font-size: 13px;
+}
+
+#_cpd_criteria_evidence > .field-item {
+    background-color: #eee;
+}
+
+.cmb_metabox .CMB_Group_Field > .field-item {
+    padding: 0px 10px 0px;
+    margin-bottom: 16px;
+    border: 1px solid #DDD;
+    background: #FAFAFA none repeat scroll 0% 0%;
+    position: relative;
+}
