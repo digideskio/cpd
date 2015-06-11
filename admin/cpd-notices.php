@@ -135,5 +135,37 @@ class CPD_Notices {
 		}
 
 	}
+
+	/**
+	 * Add edting disabled as a notice
+	 */
+	public function add_notice_editing_disabled() {
+	
+		global $pagenow; global $typenow; global $post_id;
+		
+		/* get the current admin page */
+		$current_admin_page = $pagenow;
+
+		$post_id = -1;
+		$submitted = FALSE;
+		if( isset( $_GET['post'] ) ) {
+			$post_id   = $_GET['post'];
+			$submitted = get_post_meta( $post_id, '_cpd_submit', TRUE );
+		}
+		$user_id 			= 	get_current_user_id();
+		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', TRUE );
+		
+		/* check this is the post listing page for this post type */
+		if( $current_admin_page == 'post.php' && $user_type == 'participant' && $submitted ) {
+			
+			?>
+			<div class="updated">
+			<p>
+			This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your <strong>supervisor</strong>.
+			</p>
+			</div>
+			<?php
+		}
+	}
 }
 }

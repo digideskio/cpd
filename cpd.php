@@ -138,9 +138,11 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-meta-box-description',              // Description Meta Box
 				'cpd-meta-box-evidence',                 // Evidence Capture Meta Box
 				'cpd-meta-box-points',                   // Points Meta Box
+				'cpd-meta-box-score',                    // Points Meta Box
 				'cpd-meta-box-privacy',                  // Privacy Meta Box
 				'cpd-meta-box-guidance',                 // Guidance Meta Box
 				'cpd-meta-box-criteria',                 // Criteria Meta Box
+				'cpd-meta-box-submit',                   // Submit Meta Box
 				'cpd-taxonomy-development-category',     // Taxonomy for the development category
 				'cpd-widgets',                           // Register Widgets
 				'cpd-cmb-plugin-render'                  // CMB Plugin to render value
@@ -278,9 +280,11 @@ if ( !class_exists( 'CPD' ) ) {
 			$meta_box_description               = CPD_Meta_Box_Description::get_instance();
 			$meta_box_evidence                  = CPD_Meta_Box_Evidence::get_instance();
 			$meta_box_points                    = CPD_Meta_Box_Points::get_instance();
+			$meta_box_score                     = CPD_Meta_Box_Score::get_instance();
 			$meta_box_privacy                   = CPD_Meta_Box_Privacy::get_instance();
 			$meta_box_guidance                  = CPD_Meta_Box_Guidance::get_instance();
 			$meta_box_criteria                  = CPD_Meta_Box_Criteria::get_instance();
+			$meta_box_submit                    = CPD_Meta_Box_Submit::get_instance();
 			$taxonomy_development_category      = CPD_Taxonomy_Development_Category::get_instance();
 			$widgets 			                = CPD_Widgets::get_instance();
 
@@ -319,9 +323,11 @@ if ( !class_exists( 'CPD' ) ) {
 			$meta_box_description->set_text_domain( $this->text_domain );
 			$meta_box_evidence->set_text_domain( $this->text_domain );
 			$meta_box_points->set_text_domain( $this->text_domain );
+			$meta_box_score->set_text_domain( $this->text_domain );
 			$meta_box_privacy->set_text_domain( $this->text_domain );
 			$meta_box_guidance->set_text_domain( $this->text_domain );
 			$meta_box_criteria->set_text_domain( $this->text_domain );
+			$meta_box_submit->set_text_domain( $this->text_domain );
 			$taxonomy_development_category->set_text_domain( $this->text_domain );
 			$widgets->set_text_domain( $this->text_domain );
 
@@ -447,10 +453,12 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Add taxonomy selecter as notice
 			 * [2] Add tree view switcher as notice
+			 * [3] Add editing disabled as a notice
 			 */
 
 			/*1*/ add_action( 'all_admin_notices', array( $notices, 'add_notice_taxonomy' ) );
 			/*2*/ add_action( 'all_admin_notices', array( $notices, 'add_notice_tree_view' ) );
+			/*3*/ add_action( 'all_admin_notices', array( $notices, 'add_notice_editing_disabled' ) );
 
 			/**
 			 * Profile
@@ -665,20 +673,24 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [2] Register the description Meta Box (excerpt)
 			 * [3] Register the Evidence Meta Box
 			 * [4] Register the Points Meta Box
-			 * [5] Register the Privacy Meta Box
-			 * [6] Change post status
-			 * [7] Register the guidance Meta Box
-			 * [8] Criteria Metabox
+			 * [5] Register the Score Meta Box
+			 * [6] Register the Privacy Meta Box
+			 * [7] Change post status
+			 * [8] Register the guidance Meta Box
+			 * [9] Criteria Metabox
+			 * [10] Submit Metabox
 			 */
 
 			/*1*/ add_filter( 'cmb_meta_boxes', array( $meta_box_date_completed, 'register_metabox' ) );
 			/*2*/ add_filter( 'cmb_meta_boxes', array( $meta_box_description, 'register_metabox' ) );
 			/*3*/ add_filter( 'cmb_meta_boxes', array( $meta_box_evidence, 'register_metabox' ) );
 			/*4*/ add_filter( 'cmb_meta_boxes', array( $meta_box_points, 'register_metabox' ), 99 );
-			/*5*/ add_filter( 'cmb_meta_boxes', array( $meta_box_privacy, 'register_metabox' ) );
-			/*6*/ add_action( 'save_post', array( $meta_box_privacy, 'change_post_status' ), 99, 2 );
-			/*7*/ add_filter( 'cmb_meta_boxes', array( $meta_box_guidance, 'register_metabox' ) );
-			/*8*/ add_filter( 'cmb_meta_boxes', array( $meta_box_criteria, 'register_metabox' ) );
+			/*5*/ add_filter( 'cmb_meta_boxes', array( $meta_box_score, 'register_metabox' ), 99 );
+			/*6*/ add_filter( 'cmb_meta_boxes', array( $meta_box_privacy, 'register_metabox' ) );
+			/*7*/ add_action( 'save_post', array( $meta_box_privacy, 'change_post_status' ), 99, 2 );
+			/*8*/ add_filter( 'cmb_meta_boxes', array( $meta_box_guidance, 'register_metabox' ) );
+			/*9*/ add_filter( 'cmb_meta_boxes', array( $meta_box_criteria, 'register_metabox' ) );
+			/*10*/ add_filter( 'cmb_meta_boxes', array( $meta_box_submit, 'register_metabox' ) );
 
 			/**
 			 * Taxonomies
