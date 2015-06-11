@@ -202,7 +202,7 @@ class CPD_Meta_Box_Submit {
 			return $post_id;
 		}
 
-		remove_action( 'save_post',  array( $this, 'change_post_status' ), 99, 2 );
+		remove_action( 'save_post',  array( $this, 'notify_supervisor' ), 99, 2 );
 
 		$submitted    =  get_post_meta( $post_id, '_cpd_submit', TRUE );
 		$user_id      =  get_current_user_id();
@@ -215,7 +215,50 @@ class CPD_Meta_Box_Submit {
 			update_post_meta( $post_id, '_cpd_submitted_date', date('Y-m-d'), TRUE );
 		}
 
-		add_action( 'save_post', array( $this, 'change_post_status' ), 99, 2 );
+		add_action( 'save_post', array( $this, 'notify_supervisor' ), 99, 2 );
+	}
+
+	/**
+	 * Notify Participant
+	 * 
+	 * @param  int $post_id the post id
+	 * @param  object $post the post
+	 */
+	public function notify_participant( $post_id, $post ) {
+		
+		if( $post == NULL ) {
+			return;
+		}
+
+		// If it is just a revision don't worry about it
+		if ( wp_is_post_revision( $post_id ) ) {
+			return $post_id;
+		}
+
+		// Check it's not an auto save routine
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+
+		// Check that the current user has permission to edit the post
+		if ( !current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
+
+		remove_action( 'save_post',  array( $this, 'notify_participant' ), 99, 2 );
+
+		$complete     =  get_post_meta( $post_id, '_cpd_complete', TRUE );
+		$user_id      =  get_current_user_id();
+		$user_type    =  get_user_meta( $user_id, 'cpd_role', TRUE );
+
+		// Halt if the post has been submitted
+		if ( $user_type != 'participant' && $complete ) {
+			$emails = CPD_Emails::get_instance();
+			$emails->send_mail_on_marked_assessment( $post_id );
+			update_post_meta( $post_id, '_cpd_completed_date', date('Y-m-d'), TRUE );
+		}
+
+		add_action( 'save_post', array( $this, 'notify_participant' ), 99, 2 );
 	}
 
 }

@@ -685,6 +685,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [9] Criteria Metabox
 			 * [10] Submit Metabox
 			 * [11] Submit Metabox notify supervisors
+			 * [12] Submit Metabox notify participant
 			 */
 
 			/*1*/ add_filter( 'cmb_meta_boxes', array( $meta_box_date_completed, 'register_metabox' ) );
@@ -698,6 +699,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*9*/ add_filter( 'cmb_meta_boxes', array( $meta_box_criteria, 'register_metabox' ) );
 			/*10*/ add_filter( 'cmb_meta_boxes', array( $meta_box_submit, 'register_metabox' ) );
 			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_supervisor' ), 99, 2 );
+			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_participant' ), 99, 2 );
 			
 
 			/**
