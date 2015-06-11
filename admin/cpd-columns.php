@@ -239,5 +239,39 @@ class CPD_Columns {
 			$query->query_orderby = "ORDER BY m.meta_value ".$vars['order'];
 		} 
 	}
+
+	/**
+	 * Add the Assessment Status Column
+	 * 
+	 * @param  array $columns      	Any array of columns
+	 * 
+	 * @return array $columns      	Any array of columns
+	 */
+	public function add_column_assessment_status( $columns ) {
+		$columns['assessment_status'] = 'Status';
+		return $columns;
+	}
+
+	/**
+	 * Manage the Assessment Status Column
+	 * 
+	 * @param  string $column_name 	The Column Name
+	 * @param  int $id          	Post ID
+	 * 
+	 * @return string assessment_status of user
+	 */
+	public function manage_column_assessment_status( $column_name, $id ) {
+		if( 'assessment_status' == $column_name ) {
+			$submitted = get_post_meta( $id, '_cpd_submit', TRUE );
+			$complete  = get_post_meta( $id, '_cpd_complete', TRUE );
+			if( !$submitted && !$complete ) {
+				echo 'In progress';
+			} else if( $submitted && !$complete ) {
+				echo 'Submited';
+			} else if( $complete ) {
+				echo 'Completed';
+			}
+		}
+	}
 }
 }
