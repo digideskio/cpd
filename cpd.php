@@ -113,12 +113,14 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-dashboards',                        // Dashboard ammendments
 				'cpd-dashboard-widget-comments',         // Dashboard widget (comments)
 				'cpd-dashboard-widget-welcome',          // Dashboard widget (welcome)
+				'cpd-dashboard-widget-user-guide',       // Dashboard widget (User Guide)
 				'cpd-dashboard-widget-unassigned-users', // Dashboard widget (unassigned users)
 				'cpd-dashboard-widget-latest-posts',     // Dashboard widget (latest posts)
 				'cpd-dashboard-widget-user-posts',       // Dashboard widget (user posts)
 				'cpd-dashboard-widget-user-development-categories',    // Dashboard widget (user posts)
 				'cpd-dashboard-widget-privacy',          // Dashboard widget (privacy)
 				'cpd-dashboard-widget-templates',        // Dashboard widget (templates)
+				'cpd-dashboard-widget-comments-supervisor', // Dashboard widget (comment guidance)
 				'cpd-notices',                           // Admin notices modifications
 				'cpd-profile',                           // Profile ammendments
 				'cpd-metaboxes',                         // Metabox ammendments
@@ -251,12 +253,14 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboards                         = CPD_Dashboards::get_instance();
 			$dashboard_widget_comments          = CPD_Dashboard_Widget_Comments::get_instance();
 			$dashboard_widget_welcome           = CPD_Dashboard_Widget_Welcome::get_instance();
+			$dashboard_widget_user_guide        = CPD_Dashboard_Widget_User_guide::get_instance();
 			$dashboard_widget_unassigned_users  = CPD_Dashboard_Widget_Unassigned_Users::get_instance();
 			$dashboard_widget_latest_posts      = CPD_Dashboard_Widget_Latest_Posts::get_instance();
 			$dashboard_widget_user_posts        = CPD_Dashboard_Widget_User_Posts::get_instance();
 			$dashboard_widget_user_development_categories    = CPD_Dashboard_Widget_User_Development_Categories::get_instance();
 			$dashboard_widget_privacy           = CPD_Dashboard_Widget_Privacy::get_instance();
 			$dashboard_widget_templates         = CPD_Dashboard_Widget_Templates::get_instance();
+			$dashboard_widget_comments_supervisor   = CPD_Dashboard_Widget_Comments_Supervisor::get_instance();
 			$notices                            = CPD_Notices::get_instance();
 			$profile                            = CPD_Profile::get_instance();
 			$metaboxes                          = CPD_Metaboxes::get_instance();
@@ -290,12 +294,14 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboards->set_text_domain( $this->text_domain );
 			$dashboard_widget_comments->set_text_domain( $this->text_domain );
 			$dashboard_widget_welcome->set_text_domain( $this->text_domain );
+			$dashboard_widget_user_guide->set_text_domain( $this->text_domain );
 			$dashboard_widget_unassigned_users->set_text_domain( $this->text_domain );
 			$dashboard_widget_latest_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_development_categories->set_text_domain( $this->text_domain );
 			$dashboard_widget_privacy->set_text_domain( $this->text_domain );
 			$dashboard_widget_templates->set_text_domain( $this->text_domain );
+			$dashboard_widget_comments_supervisor->set_text_domain( $this->text_domain );
 			$notices->set_text_domain( $this->text_domain );
 			$profile->set_text_domain( $this->text_domain );
 			$metaboxes->set_text_domain( $this->text_domain );
@@ -406,28 +412,34 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Add welcome widget to dashboard
 			 * [2] Add welcome widget to network dashboard
-			 * [3] Add orphaned participants and users widget to network dashboard
-			 * [4] Add latest posts widget to dashboard
-			 * [5] Add latest posts widget to network dashboard
-			 * [6] Add user posts widget to dashboard
-			 * [7] Add user posts widget to network dashboard
-			 * [8] Add user development categories widget to dashboard
-			 * [9] Add user development categories widget to network dashboard
-			 * [10] Add privacy widget to dashboard
-			 * [11] Add privacy widget to dashboard
+			 * [3] Add user guide to dashboard
+			 * [4] Add user guide to network dashboard
+			 * [5] Add orphaned participants and users widget to network dashboard
+			 * [6] Add latest posts widget to dashboard
+			 * [7] Add latest posts widget to network dashboard
+			 * [8] Add user posts widget to dashboard
+			 * [9] Add user posts widget to network dashboard
+			 * [10] Add user development categories widget to dashboard
+			 * [11] Add user development categories widget to network dashboard
+			 * [12] Add privacy widget to dashboard
+			 * [13] Add template widget to dashboard
+			 * [14] Add notice to supervisors about comments
 			 */
 
 			/*1*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
 			/*2*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
-			/*3*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_unassigned_users, 'add_dashboard_widget' ) );
-			/*4*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
-			/*5*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
-			/*6*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
-			/*7*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
-			/*8*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
-			/*9*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
-			/*10*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_privacy, 'add_dashboard_widget' ) );
-			/*11*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_templates, 'add_dashboard_widget' ) );
+			/*3*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_guide, 'add_dashboard_widget' ) );
+			/*4*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_guide, 'add_dashboard_widget' ) );
+			/*5*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_unassigned_users, 'add_dashboard_widget' ) );
+			/*6*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
+			/*7*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_latest_posts, 'add_dashboard_widget' ) );
+			/*8*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
+			/*9*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
+			/*10*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
+			/*11*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
+			/*12*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_privacy, 'add_dashboard_widget' ) );
+			/*13*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_templates, 'add_dashboard_widget' ) );
+			/*14*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_comments_supervisor, 'add_dashboard_widget' ) );
 
 
 			/**
@@ -508,6 +520,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [9] Add a login message
 			 * [10] Remove the built in WP authentication filter
 			 * [11] Add Filter to authenticate with email address
+			 * [12] Prevent CPD roles on root
 			 */
 
 			/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) );
@@ -521,6 +534,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*9*/ add_filter( 'login_message', array( $users, 'force_login_message' ) );
 			/*10*/ remove_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
 			/*11*/ add_filter( 'authenticate', array( $users, 'authenticate_email_username_password' ), 20, 3 );
+			/*12*/ add_action( 'init', array( $users, 'prevent_cpd_roles_on_root' ) );
 
 			/**
 			 * Users Static Methods

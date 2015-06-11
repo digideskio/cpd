@@ -34,6 +34,7 @@ Here are all the great features that have been implemented so far!
 
 - Competencies Functionality (Assessments)
 - New Journal Templating System
+- New dashboard widgets to ease custom journey
 
 ### 2.1.1 
 

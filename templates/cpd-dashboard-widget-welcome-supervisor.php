@@ -34,27 +34,31 @@ if( empty( $name ) ) {
 	$blogs 		= array();
 
 	foreach( $blog_list as $blog ) {
-		switch_to_blog( $blog->userblog_id );
-        
-        if ( user_can( $current_user, 'supervisor' ) ) {
-        	$blogs[] = $blog;
-        }
 
-        restore_current_blog();
+		if( $blog->userblog_id != get_current_blog_id() ) {
+
+			switch_to_blog( $blog->userblog_id );
+
+			if ( user_can( $current_user, 'supervisor' ) || user_can( $current_user, 'participant' ) ) {
+	        	$blogs[] = $blog;
+			}
+
+	        restore_current_blog();
+	    }
 	}
 
 	if( is_array( $blogs ) && !empty( $blogs ) ) {
 		if( count( $blogs ) > 1 ) {
 			?>
 				<p>
-					The journals you manage are:
+					Other Journals you have access to are:
 				</p>
 			<?php
 		}
 		else{
 			?>
 				<p>
-					Journal you manage is:
+					The other Journal you have access to is:
 				</p>
 			<?php
 		}

@@ -17,13 +17,17 @@ $current_user 	= 	wp_get_current_user();
 	$blogs 		= array();
 
 	foreach( $blog_list as $blog ) {
-		switch_to_blog( $blog->userblog_id );
-        
-        if ( user_can( $current_user, 'supervisor' ) || user_can( $current_user, 'participant' ) ) {
-        	$blogs[] = $blog;
-        }
 
-        restore_current_blog();
+		if( $blog->userblog_id != get_current_blog_id() ) {
+
+			switch_to_blog( $blog->userblog_id );
+
+			if ( user_can( $current_user, 'supervisor' ) || user_can( $current_user, 'participant' ) ) {
+	        	$blogs[] = $blog;
+			}
+
+	        restore_current_blog();
+	    }
 	}
 
 	if( is_array( $blogs ) && !empty( $blogs ) ) {

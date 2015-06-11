@@ -608,5 +608,26 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 			return wp_authenticate_username_password( null, $username, $password );
 		}
+
+		public function prevent_cpd_roles_on_root() {
+
+			$blog_id = get_current_blog_id();
+			
+			if( SITE_ID_CURRENT_SITE == $blog_id ) {
+
+				$users = get_users( 
+					array(
+						'blog_id' => $blog_id
+					) 
+				);
+				foreach( $users as &$user ) {
+					$roles    = $user->roles;
+					if( in_array( 'participant', $roles ) || in_array( 'supervisor', $roles ) ) {
+						$user->set_role('subscriber');
+					}
+				}
+				
+			}
+		}
 	}
 }
