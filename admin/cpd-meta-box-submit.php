@@ -49,7 +49,7 @@ class CPD_Meta_Box_Submit {
 		$this->args 							= 	array(
 														'id' 					=> 'submit',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> '<span class="cpd-dashboard-widget-title dashicons-before dashicons-yes"></span> Submit',
+														'name' 					=> 'Submit',
 														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -123,11 +123,13 @@ class CPD_Meta_Box_Submit {
 	 */
 	function register_metabox( $meta_boxes ) {
 
-		$post_id = -1;
+		$post_id   = -1;
 		$submitted = FALSE;
+		$complete  = FALSE;
 		if( isset( $_GET['post'] ) ) {
 			$post_id   = $_GET['post'];
 			$submitted = get_post_meta( $post_id, '_cpd_submit', TRUE );
+			$complete  = get_post_meta( $post_id, '_cpd_complete', TRUE );
 		}
 
 
@@ -139,15 +141,29 @@ class CPD_Meta_Box_Submit {
 		{
 			$meta_boxes[] 							= 	$this->args['metabox_args'];
 		}
-		else if( $user_type != 'participant' && $submitted ) {
+		else if( $user_type != 'participant' ) {
 
-			$this->args['metabox_args']['title']     =   '<span class="cpd-dashboard-widget-title dashicons-before dashicons-yes"></span> Submited';
+			if( !$submitted && !$complete ) {
+				$this->args['metabox_args']['title']     =   'Status';
+			} else if( $submitted && !$complete ) {
+				$this->args['metabox_args']['title']     =   'Submited';
+			} else if( $complete ) {
+				$this->args['metabox_args']['title']     =   'Completed';
+			}
+			
 			$this->args['metabox_args']['fields'] 	= 	array(
 															array( 
 																'id'			=> 	$this->key_prefix . 'submit', 
-																'name' 			=> 	__( 'Mark as not submitted', $this->text_domain ),
-																'desc'			=>	'Uncheck this box to take this assessment out of \'submitted\' status.<br/><br/>Only do this if the participant has made an error and needs to ammend the submission.',
-																'type'			=> 	'checkbox',
+																'name' 			=> 	$submitted ? __( 'Assessment submitted', $this->text_domain ) : __( 'Assessment not submitted', $this->text_domain ),
+																'desc'			=>	$submitted ? 'Uncheck the \'Assessment submitted\' box to take this assessment out of \'submitted\' status.<br/><br/>Only do this if the participant has made an error and needs to ammend the submission.' : 'This assessment has not be submitted by the participant.',
+																'type'			=> 	$submitted ? 'checkbox' : 'render',
+																'cols'			=> 	12,
+															),
+															array( 
+																'id'			=> 	$this->key_prefix . 'complete', 
+																'name' 			=> 	$submitted ? __( 'Mark as complete', $this->text_domain ) : __( 'Not complete', $this->text_domain ),
+																'desc'			=>	$submitted ? 'The supervisor should check this box to mark the assessment as complete.<br/><br/>The participant will be notified.' : 'You cannot mark this assessment as complete until the participant has submitted it.',
+																'type'			=> 	$submitted ? 'checkbox' : 'render',
 																'cols'			=> 	12,
 																'readonly'		=>	FALSE
 															),
@@ -159,7 +175,13 @@ class CPD_Meta_Box_Submit {
 		return $meta_boxes;
 	}
 
-	public function change_post_status( $post_id, $post ) {
+	/**
+	 * Notify Supervisor
+	 * 
+	 * @param  int $post_id the post id
+	 * @param  object $post the post
+	 */
+	public function notify_supervisor( $post_id, $post ) {
 		
 		if( $post == NULL ) {
 			return;
@@ -182,7 +204,16 @@ class CPD_Meta_Box_Submit {
 
 		remove_action( 'save_post',  array( $this, 'change_post_status' ), 99, 2 );
 
-		// Send email to supervisors here.
+		$submitted    =  get_post_meta( $post_id, '_cpd_submit', TRUE );
+		$user_id      =  get_current_user_id();
+		$user_type    =  get_user_meta( $user_id, 'cpd_role', TRUE );
+
+		// Halt if the post has been submitted
+		if ( $user_type == 'participant' && $submitted ) {
+			$emails = CPD_Emails::get_instance();
+			$emails->send_mail_on_submit_assessment( $post_id );
+			update_post_meta( $post_id, '_cpd_submitted_date', date('Y-m-d'), TRUE );
+		}
 
 		add_action( 'save_post', array( $this, 'change_post_status' ), 99, 2 );
 	}

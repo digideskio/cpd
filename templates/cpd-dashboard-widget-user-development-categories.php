@@ -15,7 +15,7 @@ $biggest_count 		=   0;
 foreach ( $blogs as $blog ){
     switch_to_blog( $blog['blog_id'] );
     $post_args 						=  	array(
-											'post_type' 		=> 'ppd',
+											'post_type' 		=> array('ppd', 'assessment'),
 											'posts_per_page' 	=>  -1
 			    						);
 

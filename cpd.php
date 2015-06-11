@@ -647,6 +647,8 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [14] Add helper text to the editor
 			 * [15] Fallback if no single template exists
 			 * [16] Fallback if no archive template exists
+			 * [17] Prevent submission of submitted assessments
+			 * [18] Prevent submission of submitted assessments by removing publish button
 			 */
 
 			/*1*/ add_action( 'init', array( $cpd_ppd, 'register_post_type' ) );
@@ -665,6 +667,9 @@ if ( !class_exists( 'CPD' ) ) {
 			/*14*/ add_action( 'edit_form_after_title', array( $cpd_assessment, 'add_editor_helper_text' ), 99 );
 			/*15*/ add_filter( 'template_include', array( $cpd_assessment, 'fallback_template_single' ) , 99 );
 			/*16*/ add_filter( 'template_include', array( $cpd_assessment, 'fallback_template_archive' ) , 99 );
+			/*17*/ add_action( 'pre_post_update', array( $cpd_assessment, 'prevent_assessment_publish' ), 10, 2 );
+			/*18*/ add_action( 'load-post.php', array( $cpd_assessment, 'prevent_assessment_publish_button' ), 10, 2 );
+		
 
 			/**
 			 * Meta Boxes
@@ -679,6 +684,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [8] Register the guidance Meta Box
 			 * [9] Criteria Metabox
 			 * [10] Submit Metabox
+			 * [11] Submit Metabox notify supervisors
 			 */
 
 			/*1*/ add_filter( 'cmb_meta_boxes', array( $meta_box_date_completed, 'register_metabox' ) );
@@ -691,6 +697,8 @@ if ( !class_exists( 'CPD' ) ) {
 			/*8*/ add_filter( 'cmb_meta_boxes', array( $meta_box_guidance, 'register_metabox' ) );
 			/*9*/ add_filter( 'cmb_meta_boxes', array( $meta_box_criteria, 'register_metabox' ) );
 			/*10*/ add_filter( 'cmb_meta_boxes', array( $meta_box_submit, 'register_metabox' ) );
+			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_supervisor' ), 99, 2 );
+			
 
 			/**
 			 * Taxonomies

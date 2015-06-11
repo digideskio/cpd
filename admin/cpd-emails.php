@@ -69,7 +69,7 @@ class CPD_Emails {
 		$saved_post 	= get_post( $post_id );
 
 		// Only email if the post is published
-		if( $saved_post->post_status == 'publish' )
+		if( $saved_post->post_status == 'publish' && $saved_post->post_type == 'post' )
 		{
 			$post_title 	= $saved_post->post_title;
 			$post_url 		= get_permalink( $post_id );
@@ -84,6 +84,59 @@ class CPD_Emails {
 			$message		.= '<ul>';
 			$message		.= '<li><a href="'. $post_url .'">View the journal entry: <strong>'. $post_title .'</strong></a></li>';
 			$message		.= '<li><a href="'. $post_url .'#reply-title">Leave a comment on: <strong>'. $post_title .'</strong></a></li>';
+			$message		.= '</ul>';
+
+			// Get the supervisors of the author
+			$supervisors = get_user_meta( $post_author_id, 'cpd_related_supervisors', TRUE );
+
+			if( !is_array( $supervisors ) ) {
+				$supervisors = array();
+			}
+
+			// Email each supervisor
+			foreach ( $supervisors as $supervisor )
+			{
+				$supervisor = get_userdata( $supervisor );
+
+				$message = '<p>Dear <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
+				add_filter( 'wp_mail_content_type',array($this,'set_html_content_type') );
+				wp_mail( $supervisor->user_email, $subject, $message );
+				remove_filter( 'wp_mail_content_type', array($this,'set_html_content_type'));
+			}
+		}
+	}
+
+	/**
+	 * Send a mail to supervisors when a participant submits an assessment
+	 *
+	 * @param      int    $post_id       The post id
+	 */
+	public function send_mail_on_submit_assessment( $post_id ) {
+
+		// If this is just a revision, don't send the email.
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$saved_post 	= get_post( $post_id );
+
+		// Only email if the post is published
+		if( $saved_post->post_status == 'publish' )
+		{
+			$post_title 	= $saved_post->post_title;
+			$post_url 		= get_permalink( $post_id );
+			$edit_url 		= get_edit_post_link( $post_id  );
+			$post_author_id	= $saved_post->post_author; 
+			$post_author 	= get_userdata( $post_author_id );
+			$subject 		= $post_author->display_name . ' has submitted an assessment for review';
+			$message 		= '';
+
+			//Create the message
+			$message		.= '<p>The participant <strong>' . $post_author->display_name . '</strong> has submitted an assessment in the journal \'<strong>' . wp_title( '', false ) . '</strong>\' with the entry: <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
+			$message		.= '<p>Options:</p>';
+			$message		.= '<ul>';
+			$message		.= '<li><a href="'. $post_url .'">View the assessment: <strong>'. $post_title .'</strong></a></li>';
+			$message		.= '<li><a href="'. $edit_url .'#reply-title">Provide feedback for the assessment: <strong>'. $post_title .'</strong></a></li>';
 			$message		.= '</ul>';
 
 			// Get the supervisors of the author

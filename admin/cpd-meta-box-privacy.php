@@ -138,6 +138,12 @@ class CPD_Meta_Box_Privacy {
 		return $meta_boxes;
 	}
 
+	/**
+	 * Change post status
+	 * 
+	 * @param  int $post_id the post id
+	 * @param  object $post the post
+	 */
 	public function change_post_status( $post_id, $post ) {
 		
 		if( $post == NULL ) {

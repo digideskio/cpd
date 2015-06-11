@@ -159,7 +159,7 @@ class CPD_Notices {
 		if( $current_admin_page == 'post.php' && $user_type == 'participant' && $submitted ) {
 			
 			?>
-			<div class="updated">
+			<div class="error">
 			<p>
 			This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your <strong>supervisor</strong>.
 			</p>

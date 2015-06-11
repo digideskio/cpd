@@ -104,7 +104,7 @@ class CPD_Taxonomy_Development_Category {
 	 */
 	public function register_taxonomy() {
 		
-		register_taxonomy( $this->taxonomy_name, array('ppd'), $this->args['taxonomy_args'] );
+		register_taxonomy( $this->taxonomy_name, array('ppd', 'assessment'), $this->args['taxonomy_args'] );
 	}
 }
 }
