@@ -79,7 +79,7 @@ class CPD_Meta_Box_Evidence {
 		$metabox_args							=	array(
 														'id' 				=> 	$this->metabox_id,
 														'title' 			=> 	$this->name,
-														'pages' 			=> 	array('ppd'),
+														'pages' 			=> 	array('ppd','assessment'),
 														'context' 			=> 	$this->context,
 														'priority' 			=> 	$this->priority,
 														'show_on'			=>	array(),
@@ -212,15 +212,7 @@ class CPD_Meta_Box_Evidence {
 
 		foreach( $this->args['metabox_args']['fields'][0]['fields'] as $key=>&$field ) {
 			if( $field['id'] == '_cpd_evidence_journal' ) {
-				$this->args['metabox_args']['fields'][0]['fields'][$key] = 	array( 
-					'id'			=> 	$this->key_prefix . 'evidence_journal', 
-					'name' 			=> 	__( 'Journal Item', $this->text_domain ),
-					'desc'			=>	'Please select the Journal Item:',
-					'type'			=> 	'select',
-					'cols'			=> 	12,
-					'options'		=>  $journal_entries,
-					'allow_none'	=>	TRUE
-				);
+				$this->args['metabox_args']['fields'][0]['fields'][$key]['options'] =  $journal_entries;
 				break;
 			}
 		}

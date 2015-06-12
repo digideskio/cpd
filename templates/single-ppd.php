@@ -1,7 +1,7 @@
 <?php
 /**
- * The template for displaying the PPD single pages
- * Template Name: PPD Single
+ * The template for displaying the Assessment single pages
+ * Template Name: Assessment Single
  */
 
 get_header(); ?>

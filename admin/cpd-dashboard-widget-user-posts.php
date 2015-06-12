@@ -58,13 +58,13 @@ class CPD_Dashboard_Widget_User_Posts {
 	 */
 	public function add_dashboard_widget() {
 		
-		$posts_by_participant_title  	= 'All posts by user';
+		$posts_by_participant_title  	= 'All journal entries by user';
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
-			$posts_by_participant_title  	= 'All your participants posts';
+			$posts_by_participant_title  	= 'All your participants journal entries';
 		}
 
 		if( in_array( 'supervisor', $roles ) || is_super_admin( $current_user->ID ) ) {

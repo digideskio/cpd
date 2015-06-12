@@ -122,7 +122,7 @@
 	// Hide not used on load
 	function cpd_meta_box_evidence_filter() {
 
-		$('#cpd_meta_box_evidence, #_cpd_criteria_evidence').find('div[data-class="CMB_Radio_Field"]').each(function(){
+		$('#cpd_meta_box_evidence').find('div[data-class="CMB_Radio_Field"]').each(function(){
 			
 			var input 		= $(this).find('input');
 			var is_checked 	= false;
@@ -137,7 +137,7 @@
 			}
 		});
 
-		$('#cpd_meta_box_evidence, #_cpd_criteria_evidence').find('div[data-class="CMB_Radio_Field"] input:checked').each(function(){
+		$('#cpd_meta_box_evidence').find('div[data-class="CMB_Radio_Field"] input:checked').each(function(){
 
 			var group 	= $(this).closest('div[data-class="CMB_Group_Field"]');
 			var upload 	= group.find('div.CMB_File_Field');
@@ -170,11 +170,11 @@
 	cpd_meta_box_evidence_filter();
 	
 
-	$('body').on( 'click', '#cpd_meta_box_evidence div[data-class="CMB_Radio_Field"] input, #_cpd_criteria_evidence div[data-class="CMB_Radio_Field"] input', function(){
+	$('body').on( 'click', '#cpd_meta_box_evidence div[data-class="CMB_Radio_Field"] input', function(){
 		cpd_meta_box_evidence_filter();
 	});
 
-	$('body').on( 'click', '#cpd_meta_box_evidence button.repeat-field, #_cpd_criteria_evidence button.repeat-field', function(){
+	$('body').on( 'click', '#cpd_meta_box_evidence button.repeat-field', function(){
 		cpd_meta_box_evidence_filter();
 	});
 

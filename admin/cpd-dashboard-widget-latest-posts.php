@@ -58,16 +58,16 @@ class CPD_Dashboard_Widget_Latest_Posts {
 	 */
 	public function add_dashboard_widget() {
 		
-		$latest_posts_title  			= 'All posts by week';
+		$latest_posts_title  			= 'All journal entries by week';
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
-			$latest_posts_title  			= 'Your participants posts by week';
+			$latest_posts_title  			= 'Your participants journal entries by week';
 		}
 		else if( in_array( 'participant', $roles ) ) {
-			$latest_posts_title  			= 'Your posts by week';
+			$latest_posts_title  			= 'Your journal entries by week';
 		}
 
 		wp_add_dashboard_widget(

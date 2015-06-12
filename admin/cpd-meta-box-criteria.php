@@ -109,7 +109,7 @@ class CPD_Meta_Box_Criteria {
 		$metabox_args	= 	array(
 								'fields' 	=> 	array(
 													array( 
-														'id'			=> 	$this->key_prefix . 'group', 
+														'id'			=> 	$this->key_prefix . 'criteria_group', 
 														// 'name' 			=> 	__( 'Evidence', $this->text_domain ),
 														'desc'			=>	'The criteria for this assessment. Criteria can only be added by a supervisor.',
 														'type'			=> 	'group',
@@ -168,61 +168,61 @@ class CPD_Meta_Box_Criteria {
 																										),
 																					'cols'			=> 	12
 																				),
-																				array( 
-																					'id'			=> 	$this->key_prefix . 'criteria_evidence', 
-																					'name' 			=> 	__( 'Evidence', $this->text_domain ),
-																					'desc'			=>	'Eg. certificate of achivement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need by adding more groups.',
-																					'type'			=> 	'group',
-																					'cols'			=> 	12,
-																					'fields'		=> 	array(
+																				// array( 
+																				// 	'id'			=> 	$this->key_prefix . 'criteria_evidence', 
+																				// 	'name' 			=> 	__( 'Evidence', $this->text_domain ),
+																				// 	'desc'			=>	'Eg. certificate of achivement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need by adding more groups.',
+																				// 	'type'			=> 	'group',
+																				// 	'cols'			=> 	12,
+																				// 	'fields'		=> 	array(
 																											
-																											array( 
-																												'id'			=> 	$this->key_prefix . 'evidence_type', 
-																												'name' 			=> 	__( 'Evidence Type', $this->text_domain ),
-																												'desc'			=>	'Choose the type of evidence you wish to add.',
-																												'type'			=> 	'radio',
-																												'cols'			=> 	12,
-																												'options'		=> 	array(
-																																		'upload' 	=>	'File Upload',
-																																		'journal' 	=>	'Journal Item',
-																																		'url' 		=>	'URL',
-																																	)
-																											),
-																											array( 
-																												'id'			=> 	$this->key_prefix . 'evidence_title', 
-																												'name' 			=> 	__( 'Title', $this->text_domain ),
-																												'desc'			=>	'Title or short description of the evidence:',
-																												'type'			=> 	'text',
-																												'cols'			=> 	12
-																											),
-																											array( 
-																												'id'			=> 	$this->key_prefix . 'evidence_file', 
-																												'name' 			=> 	__( 'File Upload', $this->text_domain ),
-																												'desc'			=>	'Upload your evidence:',
-																												'type'			=> 	'file',
-																												'cols'			=> 	12
-																											),
-																											array( 
-																												'id'			=> 	$this->key_prefix . 'evidence_journal', 
-																												'name' 			=> 	__( 'Journal Item', $this->text_domain ),
-																												'desc'			=>	'Please select the Journal Item:',
-																												'type'			=> 	'select',
-																												'cols'			=> 	12,
-																												'options'		=>  $journal_entries,
-																												'allow_none'	=>	TRUE
-																											),
-																											array( 
-																												'id'			=> 	$this->key_prefix . 'evidence_url', 
-																												'name' 			=> 	__( 'URL', $this->text_domain ),
-																												'desc'			=>	'Cut and paste the URL of your evidence into the field provided:',
-																												'type'			=> 	'text_url',
-																												'cols'			=> 	12
-																											),
-																										),
-																					'repeatable'	=> true,
-																					'string-repeat-field' => 'Add Evidence',
-																					'string-delete-field' => 'Remove Evidence',
-																				),
+																				// 							array( 
+																				// 								'id'			=> 	$this->key_prefix . 'evidence_type', 
+																				// 								'name' 			=> 	__( 'Evidence Type', $this->text_domain ),
+																				// 								'desc'			=>	'Choose the type of evidence you wish to add.',
+																				// 								'type'			=> 	'radio',
+																				// 								'cols'			=> 	12,
+																				// 								'options'		=> 	array(
+																				// 														'upload' 	=>	'File Upload',
+																				// 														'journal' 	=>	'Journal Item',
+																				// 														'url' 		=>	'URL',
+																				// 													)
+																				// 							),
+																				// 							array( 
+																				// 								'id'			=> 	$this->key_prefix . 'evidence_title', 
+																				// 								'name' 			=> 	__( 'Title', $this->text_domain ),
+																				// 								'desc'			=>	'Title or short description of the evidence:',
+																				// 								'type'			=> 	'text',
+																				// 								'cols'			=> 	12
+																				// 							),
+																				// 							array( 
+																				// 								'id'			=> 	$this->key_prefix . 'evidence_file', 
+																				// 								'name' 			=> 	__( 'File Upload', $this->text_domain ),
+																				// 								'desc'			=>	'Upload your evidence:',
+																				// 								'type'			=> 	'file',
+																				// 								'cols'			=> 	12
+																				// 							),
+																				// 							array( 
+																				// 								'id'			=> 	$this->key_prefix . 'evidence_journal', 
+																				// 								'name' 			=> 	__( 'Journal Item', $this->text_domain ),
+																				// 								'desc'			=>	'Please select the Journal Item:',
+																				// 								'type'			=> 	'select',
+																				// 								'cols'			=> 	12,
+																				// 								'options'		=>  $journal_entries,
+																				// 								'allow_none'	=>	TRUE
+																				// 							),
+																				// 							array( 
+																				// 								'id'			=> 	$this->key_prefix . 'evidence_url', 
+																				// 								'name' 			=> 	__( 'URL', $this->text_domain ),
+																				// 								'desc'			=>	'Cut and paste the URL of your evidence into the field provided:',
+																				// 								'type'			=> 	'text_url',
+																				// 								'cols'			=> 	12
+																				// 							),
+																				// 						),
+																				// 	'repeatable'	=> true,
+																				// 	'string-repeat-field' => 'Add Evidence',
+																				// 	'string-delete-field' => 'Remove Evidence',
+																				// ),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_feedback', 
 																					'name' 			=> 	__( 'Feedback', $this->text_domain ),

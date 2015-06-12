@@ -3,7 +3,7 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if( !class_exists( 'CPD_Taxonomy_Development_Category' ) ) {
+if( !class_exists( 'CPD_Taxonomy_Competency_Category' ) ) {
 
 /**
  * Admin Scripts
@@ -14,7 +14,7 @@ if( !class_exists( 'CPD_Taxonomy_Development_Category' ) ) {
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Taxonomy_Development_Category {
+class CPD_Taxonomy_Competency_Category {
 
 	private static $instance = null;
 	private $text_domain;
@@ -52,10 +52,10 @@ class CPD_Taxonomy_Development_Category {
 	 */
 	public function set_text_domain( $text_domain ) { 
 		$this->args 							= 	array(
-														'name_singular' 		=> 'Development Category',
-														'name_plural' 			=> 'Development Categories',
-														'taxonomy_name' 		=> 'development-category',
-														'slug' 					=> 'development-category',
+														'name_singular' 		=> 'Competency Category',
+														'name_plural' 			=> 'Competency Categories',
+														'taxonomy_name' 		=> 'competency-category',
+														'slug' 					=> 'competency-category',
 														'register_pages' 		=> array(),
 														'taxonomy_args'			=> array(),
 														'taxonomy_terms'		=> array(),
@@ -104,7 +104,7 @@ class CPD_Taxonomy_Development_Category {
 	 */
 	public function register_taxonomy() {
 		
-		register_taxonomy( $this->taxonomy_name, array('ppd'), $this->args['taxonomy_args'] );
+		register_taxonomy( $this->taxonomy_name, array('assessment'), $this->args['taxonomy_args'] );
 	}
 }
 }

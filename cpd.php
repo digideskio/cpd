@@ -143,7 +143,9 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-meta-box-guidance',                 // Guidance Meta Box
 				'cpd-meta-box-criteria',                 // Criteria Meta Box
 				'cpd-meta-box-submit',                   // Submit Meta Box
+				'cpd-meta-box-feedback',                 // Submit Meta Box
 				'cpd-taxonomy-development-category',     // Taxonomy for the development category
+				'cpd-taxonomy-competency-category',      // Taxonomy for the competency category
 				'cpd-widgets',                           // Register Widgets
 				'cpd-cmb-plugin-render'                  // CMB Plugin to render value
 			);
@@ -285,7 +287,9 @@ if ( !class_exists( 'CPD' ) ) {
 			$meta_box_guidance                  = CPD_Meta_Box_Guidance::get_instance();
 			$meta_box_criteria                  = CPD_Meta_Box_Criteria::get_instance();
 			$meta_box_submit                    = CPD_Meta_Box_Submit::get_instance();
+			$meta_box_feedback                  = CPD_Meta_Box_Feedback::get_instance();
 			$taxonomy_development_category      = CPD_Taxonomy_Development_Category::get_instance();
+			$taxonomy_competency_category       = CPD_Taxonomy_Competency_Category::get_instance();
 			$widgets 			                = CPD_Widgets::get_instance();
 
 			/**
@@ -328,7 +332,9 @@ if ( !class_exists( 'CPD' ) ) {
 			$meta_box_guidance->set_text_domain( $this->text_domain );
 			$meta_box_criteria->set_text_domain( $this->text_domain );
 			$meta_box_submit->set_text_domain( $this->text_domain );
+			$meta_box_feedback->set_text_domain( $this->text_domain );
 			$taxonomy_development_category->set_text_domain( $this->text_domain );
+			$taxonomy_competency_category->set_text_domain( $this->text_domain );
 			$widgets->set_text_domain( $this->text_domain );
 
 			/**
@@ -687,11 +693,12 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [10] Submit Metabox
 			 * [11] Submit Metabox notify supervisors
 			 * [12] Submit Metabox notify participant
+			 * [13] Register the feedback Meta Box
 			 */
 
 			/*1*/ add_filter( 'cmb_meta_boxes', array( $meta_box_date_completed, 'register_metabox' ) );
 			/*2*/ add_filter( 'cmb_meta_boxes', array( $meta_box_description, 'register_metabox' ) );
-			/*3*/ add_filter( 'cmb_meta_boxes', array( $meta_box_evidence, 'register_metabox' ) );
+			/*3*/ add_filter( 'cmb_meta_boxes', array( $meta_box_evidence, 'register_metabox' ), 98 );
 			/*4*/ add_filter( 'cmb_meta_boxes', array( $meta_box_points, 'register_metabox' ), 99 );
 			/*5*/ add_filter( 'cmb_meta_boxes', array( $meta_box_score, 'register_metabox' ), 99 );
 			/*6*/ add_filter( 'cmb_meta_boxes', array( $meta_box_privacy, 'register_metabox' ) );
@@ -700,16 +707,19 @@ if ( !class_exists( 'CPD' ) ) {
 			/*9*/ add_filter( 'cmb_meta_boxes', array( $meta_box_criteria, 'register_metabox' ) );
 			/*10*/ add_filter( 'cmb_meta_boxes', array( $meta_box_submit, 'register_metabox' ) );
 			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_supervisor' ), 99, 2 );
-			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_participant' ), 99, 2 );
+			/*12*/ add_action( 'save_post', array( $meta_box_submit, 'notify_participant' ), 99, 2 );
+			/*13*/ add_action( 'cmb_meta_boxes', array( $meta_box_feedback, 'register_metabox' ), 99 );
 			
 
 			/**
 			 * Taxonomies
 			 *
 			 * [1] Register the development categories taxonomy
+			 * [2] Register the competency categories taxonomy
 			 */
 
 			/*1*/ add_action( 'init', array( $taxonomy_development_category, 'register_taxonomy' ) );
+			/*2*/ add_action( 'init', array( $taxonomy_competency_category, 'register_taxonomy' ) );
 
 			/**
 			 * Widgets

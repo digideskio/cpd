@@ -12,10 +12,16 @@ get_header(); ?>
 		<?php
         // Start the loop.
         while ( have_posts() ) : the_post();
-            $date_completed    = get_post_meta( $post->ID, '_cpd_date_completed', true);
-            $points            = get_post_meta( $post->ID, '_cpd_points', true);
+            $guidance          = get_post_meta( $post->ID, '_cpd_guidance', TRUE);
+            $feedback          = get_post_meta( $post->ID, '_cpd_feedback', TRUE);    
+            $criteria_group    = get_post_meta( $post->ID, '_cpd_criteria_group', FALSE);
+            $submitted         = get_post_meta( $post->ID, '_cpd_submit', TRUE );
+            $complete          = get_post_meta( $post->ID, '_cpd_complete', TRUE );
+            $submitted_date    = get_post_meta( $post->ID, '_cpd_submitted_date', TRUE );
+            $completed_date    = get_post_meta( $post->ID, '_cpd_completed_date', TRUE );
+            $total_score       = get_post_meta( $post->ID, '_cpd_score', TRUE );
             $evidence_group    = get_post_meta( $post->ID, '_cpd_group', false);
-            $terms             = wp_get_post_terms( $post->ID, 'development-category');
+            $terms             = wp_get_post_terms( $post->ID, 'competency-category');
             ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<?php
@@ -32,42 +38,149 @@ get_header(); ?>
 
         						<div class="panel">
                                     <section>
-                                    <h2 class="section-title">Date Completed</h2>
+                                    <h2 class="section-title">Status</h2>
                                     <p>
                                         <?php
-                                            if ( empty( $date_completed ) ) {
+                                            if( !$submitted && !$complete ) {
                                                 ?>
-                                                Ongoing
+                                                    In Progress
                                                 <?php
-                                            } else {
-                                                echo date( 'F jS, Y', $date_completed );
+                                            } else if( $submitted && !$complete ) {
+                                                ?>
+                                                    Submitted - <?php echo date( 'F jS, Y', $submitted_date );?>
+                                                <?php
+                                            } else if( $complete ) {
+                                                ?>
+                                                    Completed - <?php echo date( 'F jS, Y', $completed_date );?>
+                                                <?php
                                             }
-
                                         ?>
                                     </p>
                                 </section>
                                 <?php
-                                    if ( !empty( $points ) ) {
+                                    if ( !empty( $total_score ) ) {
                                         ?>
                                         <section>
-                                            <h2>Points Awarded</h2>
-                                            <p><?php  echo $points;?></p>
+                                            <h2>Overall Score</h2>
+                                            <p><?php  echo $total_score;?></p>
                                         </section>
                                         <?php
                                     }
                                 ?>
                             </div>
-                            <h2 class="section-title">Description</h2>
-                            <p><?php echo get_the_excerpt();?></p>
+                            <h2 class="section-title">Guidance</h2>
+                            <?php echo wpautop( $guidance );?>
+                            <?php
+                            if (    is_array( $criteria_group ) && count( $criteria_group ) > 0 ) {
+                                ?>
+                                <section>
+                                    <h3>Criteria</h3>
+                                    <?php
+                                    foreach ($criteria_group as $criteria) {
+                                        if( isset( $criteria['_cpd_criteria_max_score'] ) ) {
+                                            $max_score = $criteria['_cpd_criteria_max_score'];
+                                            if( !empty($max_score)) {
+                                                ?> 
+                                                <div class="panel">
+                                                <section>
+                                                <h4>Points available</h4>
+                                                <p><?php echo $max_score;?></p>
+                                                </section>
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        if( isset( $criteria['_cpd_criteria_guidance'] ) ) {
+                                            echo wpautop( $criteria['_cpd_criteria_guidance'] );
+                                            ?>
+                                            <hr/>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </section>
+                                <?php
+                            }
+                            ?>
                         </section>
 
                         <section class="title">
-    						<h2 class="section-title">Value Obtained</h2>
+    						<h2 class="section-title">Response</h2>
     						<?php the_content();?>
+                            <?php
+                            if ( is_array( $criteria_group ) && count( $criteria_group ) > 0 ) {
+                                ?>
+                                <section>
+                                    <h3>Criteria Response</h3>
+                                    <?php
+                                    foreach ($criteria_group as $criteria) {
+                                        if( isset( $criteria['_cpd_criteria_participants_score'] ) || isset( $criteria['_cpd_criteria_supervisors_score'] ) ) {
+                                            ?>
+                                            <div class="panel">
+                                            <?php
+                                            if( isset( $criteria['_cpd_criteria_participants_score'] ) ) {
+                                                $self_score = $criteria['_cpd_criteria_participants_score'];
+                                                if( !empty($max_score)) {
+                                                    ?> 
+                                                    
+                                                    <section>
+                                                    <h4>Self assessment score</h4>
+                                                    <p><?php echo $self_score;?></p>
+                                                    </section>
+                                                    
+                                                    <?php
+                                                }
+                                            }
+                                            if( isset( $criteria['_cpd_criteria_supervisors_score'] ) ) {
+                                                $score = $criteria['_cpd_criteria_supervisors_score'];
+                                                if( !empty($score)) {
+                                                    ?> 
+                                                    
+                                                    <section>
+                                                    <h4>Points awarded</h4>
+                                                    <p><?php echo $score;?></p>
+                                                    </section>
+                                                    
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            </div>
+                                            <?php
+                                        }
+                                        if( isset( $criteria['_cpd_criteria_response'] ) ) {
+                                            echo wpautop( $criteria['_cpd_criteria_response'] );
+                                        }
+                                        if( isset( $criteria['_cpd_criteria_feedback'] ) ) {
+                                            ?>
+                                            <h4>Supervisor Feedback</h4>
+                                            <?php
+                                            echo wpautop( $criteria['_cpd_criteria_feedback'] );
+                                        }
+                                        ?>
+                                            <hr/>
+                                        <?php
+                                    }
+                                    ?>
+                                </section>
+                                <?php
+                            }
+                            ?>
                         </section>
 
+                        <?php 
+                        if( !empty( $feedback ) ) {
+                            ?>
+                            <section class="title">
+                                <h2 class="section-title">Overall Feedback</h2>
+                                <?php echo wpautop( $feedback );?>
+                            </section>
+                            <?php
+                        }
+                        ?>
+                        
 						<?php
-                        if (    is_array( $evidence_group ) && count( $evidence_group ) > 0 ) {
+                        if ( is_array( $evidence_group ) && count( $evidence_group ) > 0 ) {
                             ?>
                             <section class="evidence">
                                 <h2 class="section-title">Evidence</h2>
