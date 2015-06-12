@@ -218,6 +218,7 @@ class CPD_CPT_Assessment {
 		$html .= '<li> - <strong>How</strong> did you apply this knowlege?</li>';
 		$html .= '</ul>';
 		$html .= '<p>More information can be provided against each critera in the \'Critera\' section (if they have been provided).</p>';
+		$html .= '<p>You can provide evidence in the \'Evidence / Verification\' section.</p>';
 		$html .= '</div>';
 
 		if ( !empty( $html ) ) {

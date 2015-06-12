@@ -76,9 +76,9 @@ get_header(); ?>
                                     <?php
                                     $string  = wp_trim_words(get_the_excerpt(), 30, '');
                                     $excerpt = trim($string, '"\':;,');
-                                    echo $excerpt; ?>...
+                                    echo $excerpt; ?>&hellip;
 
-                                    <a class="more" href="<?php echo get_the_permalink(); ?>">Read More</a>
+                                    <a class="more" href="<?php echo get_the_permalink(); ?>">Read More <span class="screen-reader-text">about '<?php the_title();?>'</span></a>
                                 </td>
                                 <!-- <td>
                                     <?php //the_content();?>

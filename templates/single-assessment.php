@@ -77,6 +77,9 @@ get_header(); ?>
                                     <h3>Criteria</h3>
                                     <?php
                                     foreach ($criteria_group as $criteria) {
+                                        ?>
+                                        <div class="desc">
+                                        <?php
                                         if( isset( $criteria['_cpd_criteria_max_score'] ) ) {
                                             $max_score = $criteria['_cpd_criteria_max_score'];
                                             if( !empty($max_score)) {
@@ -92,10 +95,11 @@ get_header(); ?>
                                         }
                                         if( isset( $criteria['_cpd_criteria_guidance'] ) ) {
                                             echo wpautop( $criteria['_cpd_criteria_guidance'] );
-                                            ?>
-                                            <hr/>
-                                            <?php
                                         }
+                                        ?>
+                                        <hr/>
+                                        </div>
+                                        <?php
                                     }
                                     ?>
                                 </section>
@@ -114,6 +118,9 @@ get_header(); ?>
                                     <h3>Criteria Response</h3>
                                     <?php
                                     foreach ($criteria_group as $criteria) {
+                                        ?>
+                                        <div class="desc">
+                                        <?php
                                         if( isset( $criteria['_cpd_criteria_participants_score'] ) || isset( $criteria['_cpd_criteria_supervisors_score'] ) ) {
                                             ?>
                                             <div class="panel">
@@ -159,6 +166,7 @@ get_header(); ?>
                                         }
                                         ?>
                                             <hr/>
+                                            </div>
                                         <?php
                                     }
                                     ?>
