@@ -101,8 +101,9 @@ if ( !class_exists( 'CPD' ) ) {
 
 			// Prepare common dependancies
 			$dependencies['includes']  =  array(
-				'cpd-templates',                 // Templating Engine
+				'cpd-templates',                  // Templating Engine
 				'cpd-widget-latest-activities',   // Load Latest Activites Widget
+				'cpd-widget-latest-assessments',  // Load Latest Assessments Widget
 			);
 
 			// Prepare admin dependancies
@@ -118,6 +119,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-dashboard-widget-latest-posts',     // Dashboard widget (latest posts)
 				'cpd-dashboard-widget-user-posts',       // Dashboard widget (user posts)
 				'cpd-dashboard-widget-user-development-categories',    // Dashboard widget (user posts)
+				'cpd-dashboard-widget-user-competency-categories',    // Dashboard widget (user posts)
 				'cpd-dashboard-widget-privacy',          // Dashboard widget (privacy)
 				'cpd-dashboard-widget-templates',        // Dashboard widget (templates)
 				'cpd-dashboard-widget-comments-supervisor', // Dashboard widget (comment guidance)
@@ -262,6 +264,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboard_widget_latest_posts      = CPD_Dashboard_Widget_Latest_Posts::get_instance();
 			$dashboard_widget_user_posts        = CPD_Dashboard_Widget_User_Posts::get_instance();
 			$dashboard_widget_user_development_categories    = CPD_Dashboard_Widget_User_Development_Categories::get_instance();
+			$dashboard_widget_user_competency_categories     = CPD_Dashboard_Widget_User_Competency_Categories::get_instance();
 			$dashboard_widget_privacy           = CPD_Dashboard_Widget_Privacy::get_instance();
 			$dashboard_widget_templates         = CPD_Dashboard_Widget_Templates::get_instance();
 			$dashboard_widget_comments_supervisor   = CPD_Dashboard_Widget_Comments_Supervisor::get_instance();
@@ -307,6 +310,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$dashboard_widget_latest_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_posts->set_text_domain( $this->text_domain );
 			$dashboard_widget_user_development_categories->set_text_domain( $this->text_domain );
+			$dashboard_widget_user_competency_categories->set_text_domain( $this->text_domain );
 			$dashboard_widget_privacy->set_text_domain( $this->text_domain );
 			$dashboard_widget_templates->set_text_domain( $this->text_domain );
 			$dashboard_widget_comments_supervisor->set_text_domain( $this->text_domain );
@@ -433,9 +437,11 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [9] Add user posts widget to network dashboard
 			 * [10] Add user development categories widget to dashboard
 			 * [11] Add user development categories widget to network dashboard
-			 * [12] Add privacy widget to dashboard
-			 * [13] Add template widget to dashboard
-			 * [14] Add notice to supervisors about comments
+			 * [12] Add user competency categories widget to dashboard
+			 * [13] Add user competency categories widget to network dashboard
+			 * [14] Add privacy widget to dashboard
+			 * [15] Add template widget to dashboard
+			 * [16] Add notice to supervisors about comments
 			 */
 
 			/*1*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_welcome, 'add_dashboard_widget' ) );
@@ -449,9 +455,11 @@ if ( !class_exists( 'CPD' ) ) {
 			/*9*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_posts, 'add_dashboard_widget' ) );
 			/*10*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
 			/*11*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_development_categories, 'add_dashboard_widget' ) );
-			/*12*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_privacy, 'add_dashboard_widget' ) );
-			/*13*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_templates, 'add_dashboard_widget' ) );
-			/*14*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_comments_supervisor, 'add_dashboard_widget' ) );
+			/*12*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_user_competency_categories, 'add_dashboard_widget' ) );
+			/*13*/ add_action( 'wp_network_dashboard_setup', array( $dashboard_widget_user_competency_categories, 'add_dashboard_widget' ) );
+			/*14*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_privacy, 'add_dashboard_widget' ) );
+			/*15*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_templates, 'add_dashboard_widget' ) );
+			/*16*/ add_action( 'wp_dashboard_setup', array( $dashboard_widget_comments_supervisor, 'add_dashboard_widget' ) );
 
 
 			/**

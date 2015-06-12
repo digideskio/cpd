@@ -5,8 +5,8 @@
 
 $user 				= 	wp_get_current_user();
 $cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
-$break 				= 	intval( get_option( 'development_categories_by_participants_barchart_widget_count' ) );
-$order 				= 	get_option( 'development_categories_by_participants_barchart_widget_order' ) == 'asc' ? 'asc' : 'desc';
+$break 				= 	intval( get_option( 'competency_categories_by_participants_barchart_widget_count' ) );
+$order 				= 	get_option( 'competency_categories_by_participants_barchart_widget_order' ) == 'asc' ? 'asc' : 'desc';
 $blogs 				= 	wp_get_sites();
 $categories 		=	array();
 $biggest 			=   0;
@@ -26,7 +26,7 @@ foreach ( $blogs as $blog ){
     	$blog_post->siteurl = get_bloginfo('wpurl');
     	$blog_post->blogname = get_bloginfo( 'name' );
     	$blog_post->permalink = get_permalink( $blog_post->ID );
-    	$terms             				= 	wp_get_post_terms( $blog_post->ID, 'development-category');
+    	$terms             				= 	wp_get_post_terms( $blog_post->ID, 'competency-category');
     	foreach ( $terms as $term ) {
     		$categories[ $term->name ][]  = $blog_post;
     	}
@@ -68,7 +68,7 @@ if( $break != 0 ) {
 
 		$percent 	= 	0;
 		$count 		= 	count( $categories[ $key ] );
-		$term 		=	get_term_by( 'name', $key, 'development-category' );
+		$term 		=	get_term_by( 'name', $key, 'competency-category' );
 
 		if( $count > 0 ) {
 			$percent = ( $count / $biggest_count ) * 100 ;

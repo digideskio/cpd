@@ -90,6 +90,7 @@ div.updated.view-notice .dashicons-before:before {
     padding: 2px;
 }
 #cpd_dashboard_widget_user_development_categories table,
+#cpd_dashboard_widget_user_competency_categories table,
 #cpd_dashboard_widget_user_posts table,
 #cpd_dashboard_widget_latest_posts table,
 #cpd_admin_dashboard_widget table {
@@ -104,6 +105,8 @@ div.updated.view-notice .dashicons-before:before {
 }
 #cpd_dashboard_widget_user_development_categories table th,
 #cpd_dashboard_widget_user_development_categories table td,
+#cpd_dashboard_widget_user_competency_categories table th,
+#cpd_dashboard_widget_user_competency_categories table td,
 #cpd_dashboard_widget_user_posts table th,
 #cpd_dashboard_widget_user_posts table td,
 #cpd_dashboard_widget_latest_posts table th,
@@ -111,11 +114,13 @@ div.updated.view-notice .dashicons-before:before {
     text-align: left;
 }
 #cpd_dashboard_widget_user_development_categories table td,
+#cpd_dashboard_widget_user_competency_categories table td,
 #cpd_dashboard_widget_user_posts table td,
 #cpd_dashboard_widget_latest_posts table td {
     width: 75%;
 }
 #cpd_dashboard_widget_user_development_categories table td ul,
+#cpd_dashboard_widget_user_competency_categories table td ul,
 #cpd_dashboard_widget_user_posts table td ul,
 #cpd_dashboard_widget_latest_posts table td ul {
     display: none;

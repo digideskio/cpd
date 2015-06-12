@@ -54,6 +54,7 @@ class CPD_Widgets {
 	 */
 	public function register_widgets() {
 		register_widget( 'WP_Widget_Recent_Activities' );
+		register_widget( 'WP_Widget_Recent_Assessments' );
 	}
 
 }

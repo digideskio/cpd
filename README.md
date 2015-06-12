@@ -33,7 +33,6 @@ Here are all the great features that have been implemented so far!
 ### 2.2.0
 
 - Competencies Functionality (Assessments)
-- New Journal Templating System
 - New dashboard widgets to ease custom journey
 
 ### 2.1.1 
@@ -80,6 +79,7 @@ Here are all the great features that we plan to implement. If you have a feature
 
 ### 2.2.1
 
+- New Journal Templating System
 - Retire 'Assignments' copy, use pages only
 - Create copy page for each content type
 

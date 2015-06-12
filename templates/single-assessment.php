@@ -47,11 +47,11 @@ get_header(); ?>
                                                 <?php
                                             } else if( $submitted && !$complete ) {
                                                 ?>
-                                                    Submitted - <?php echo date( 'F jS, Y', $submitted_date );?>
+                                                    Submitted - <?php echo date( 'F jS, Y', strtotime( $submitted_date ) );?>
                                                 <?php
                                             } else if( $complete ) {
                                                 ?>
-                                                    Completed - <?php echo date( 'F jS, Y', $completed_date );?>
+                                                    Completed - <?php echo date( 'F jS, Y', strtotime ( $completed_date ) );?>
                                                 <?php
                                             }
                                         ?>
