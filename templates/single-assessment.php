@@ -43,7 +43,7 @@ get_header(); ?>
                                         <?php
                                             if( !$submitted && !$complete ) {
                                                 ?>
-                                                    In Progress
+                                                    Ongoing
                                                 <?php
                                             } else if( $submitted && !$complete ) {
                                                 ?>
@@ -109,10 +109,24 @@ get_header(); ?>
                         </section>
 
                         <section class="title">
-    						<h2 class="section-title">Response</h2>
-    						<?php the_content();?>
-                            <?php
-                            if ( is_array( $criteria_group ) && count( $criteria_group ) > 0 ) {
+
+                            <?php 
+                            if( !empty( $post->post_content ) ) {
+                                ?>
+                                <h2 class="section-title">Response</h2>
+                                <?php
+                                the_content();
+                            }
+    						
+                            $show_response = FALSE;
+
+                            foreach ($criteria_group as $criteria) {
+                                if( isset( $criteria['_cpd_criteria_response'] ) && !empty( $criteria['_cpd_criteria_response'] ) ) {
+                                    $show_response = TRUE;
+                                    break;
+                                }
+                            }
+                            if ( is_array( $criteria_group ) && count( $criteria_group ) > 0 && $show_response ) {
                                 ?>
                                 <section>
                                     <h3>Criteria Response</h3>
@@ -121,7 +135,7 @@ get_header(); ?>
                                         ?>
                                         <div class="desc">
                                         <?php
-                                        if( isset( $criteria['_cpd_criteria_participants_score'] ) || isset( $criteria['_cpd_criteria_supervisors_score'] ) ) {
+                                        if( ( isset( $criteria['_cpd_criteria_participants_score'] ) && !empty( $criteria['_cpd_criteria_participants_score'] ) ) || ( isset( $criteria['_cpd_criteria_supervisors_score'] ) && !empty( $criteria['_cpd_criteria_supervisors_score'] ) ) ) {
                                             ?>
                                             <div class="panel">
                                             <?php
@@ -155,10 +169,10 @@ get_header(); ?>
                                             </div>
                                             <?php
                                         }
-                                        if( isset( $criteria['_cpd_criteria_response'] ) ) {
+                                        if( isset( $criteria['_cpd_criteria_response'] ) && !empty( $criteria['_cpd_criteria_response'] ) ) {
                                             echo wpautop( $criteria['_cpd_criteria_response'] );
                                         }
-                                        if( isset( $criteria['_cpd_criteria_feedback'] ) ) {
+                                        if( isset( $criteria['_cpd_criteria_feedback'] ) && !empty( $criteria['_cpd_criteria_feedback'] ) ) {
                                             ?>
                                             <h4>Supervisor Feedback</h4>
                                             <?php

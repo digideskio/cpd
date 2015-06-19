@@ -23,13 +23,6 @@ get_header(); ?>
                 <table id="ppd-archive" class="ppd-archive">
                     <thead>
                         <tr class="header-row">
-<!--                             <th class="date">Date <br/>Completed</th>
-                            <th class="activity">PPD <br/>Activity</th>
-                            <th class="description">Activity <br/>Description</th>
-                            <th>Value </br>Obtained</th>
-                            <th class="points">Points <br/>Awarded</th>
-                            <th class="evidence">Evidence <br/>Gathered</th>
-                            <th class="categories">Development </br>Categories</th> -->
 
                             <th class="date">Date</th>
                             <th class="activity">Activity</th>

@@ -24,6 +24,7 @@ get_header(); ?>
                     <thead>
                         <tr class="header-row">
 
+                            <th class="date">Date</th>
                             <th class="assessment">Assessment</th>
                             <th class="guidance">Guidance</th>
                             <th class="response">Response</th>
@@ -54,7 +55,23 @@ get_header(); ?>
                         }
                         ?>
                             <tr class="<?php echo $row; ?>">
-                                
+                                <td class="date">
+                                    <?php
+                                        if( !$submitted && !$complete ) {
+                                            ?>
+                                                Ongoing
+                                            <?php
+                                        } else if( $submitted && !$complete ) {
+                                            ?>
+                                                <?php echo date( 'F jS, Y', strtotime( $submitted_date ) );?> (Submitted)
+                                            <?php
+                                        } else if( $complete ) {
+                                            ?>
+                                                <?php echo date( 'F jS, Y', strtotime ( $completed_date ) );?> (Completed)
+                                            <?php
+                                        }
+                                    ?>
+                                </td>
                                 <td class="assessment">
                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                 </td>
