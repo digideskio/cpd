@@ -109,7 +109,7 @@ class CPD_Upgrade_Legacy {
 					if( !in_array( $row->supervisor_id, $supervisors ) ) {
 						$supervisors[] = $row->supervisor_id;
 					}
-					update_user_meta( $row->participant_id, 'cpd_related_participants', $supervisors );
+					update_user_meta( $row->participant_id, 'cpd_related_supervisors', $supervisors );
 				}
 			}
 

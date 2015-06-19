@@ -353,6 +353,7 @@ class CPD_Profile {
 			// Get the posted supervisors
 			$post_supervisors 		= $_POST['cpd_supervisors'];
 			$post_supervisors 		= is_array( $post_supervisors ) ? $post_supervisors : array();
+			$user_supervisors 		= is_array( $user_supervisors ) ? $user_supervisors : array();
 
 			if( count( $all_supervisors ) > 0 ) {
 				
