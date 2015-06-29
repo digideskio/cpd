@@ -30,6 +30,13 @@ foreach ( $blogs as $blog ){
 	}
 
     $blog_posts	 					= 	get_posts( $post_args );
+    foreach( $blog_posts as $blog_post ) {
+    	
+    	$blog_post->blog_id = $blog['blog_id'];
+    	$blog_post->siteurl = get_bloginfo('wpurl');
+    	$blog_post->blogname = get_bloginfo( 'name' );
+    	$blog_post->permalink = get_permalink( $blog_post->ID );
+    }
     $posts 							= 	array_merge( $posts, $blog_posts );
     restore_current_blog();
 }
@@ -91,7 +98,7 @@ if( $break != 0 ) {
 					<?php
 					foreach( $arr as $post ) {
 						?>
-							<li><a href="<?php echo get_permalink( $post->ID );?>"><?php echo $post->post_title;?></a> on <?php echo get_the_time( 'jS, F Y', $post );?></li>
+							<li><a href="<?php echo $post->permalink;?>"><?php echo $post->post_title;?></a> on <?php echo get_the_time( 'jS, F Y', $post );?></li>
 						<?php
 					}
 					?>

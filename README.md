@@ -34,6 +34,7 @@ Here are all the great features that have been implemented so far!
 
 - Competencies Functionality (Assessments)
 - New dashboard widgets to ease custom journey
+- Bug Fix: Journal Entries by... widgets were not linking to correct Journal Entries
 
 ### 2.1.1 
 
