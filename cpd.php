@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.2.0
+ * Version:           2.2.1
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -99,6 +99,11 @@ if ( !class_exists( 'CPD' ) ) {
 				$dependencies['vendor'][] = 'humanmade/Custom-Meta-Boxes/custom-meta-boxes';
 			}
 
+			// WordPress GitHub Plugin Updater
+			if ( !class_exists( 'WP_GitHub_Updater' ) ) {
+				$dependencies['vendor'][] = 'radishconcepts/WordPress-GitHub-Plugin-Updater/updater';
+			}
+
 			// Prepare common dependancies
 			$dependencies['includes']  =  array(
 				'cpd-templates',                  // Templating Engine
@@ -149,7 +154,8 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-taxonomy-development-category',     // Taxonomy for the development category
 				'cpd-taxonomy-competency-category',      // Taxonomy for the competency category
 				'cpd-widgets',                           // Register Widgets
-				'cpd-cmb-plugin-render'                  // CMB Plugin to render value
+				'cpd-cmb-plugin-render',                 // CMB Plugin to render value
+				'cpd-login',                             // WordPress Login Overrides
 			);
 
 			// Prepare public dependancies
@@ -294,6 +300,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$taxonomy_development_category      = CPD_Taxonomy_Development_Category::get_instance();
 			$taxonomy_competency_category       = CPD_Taxonomy_Competency_Category::get_instance();
 			$widgets 			                = CPD_Widgets::get_instance();
+			$cpd_login 			                = CPD_Login::get_instance();
 
 			/**
 			 * Set Text Domain
@@ -340,6 +347,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$taxonomy_development_category->set_text_domain( $this->text_domain );
 			$taxonomy_competency_category->set_text_domain( $this->text_domain );
 			$widgets->set_text_domain( $this->text_domain );
+			$cpd_login->set_text_domain( $this->text_domain );
 
 			/**
 			 * Scripts
@@ -356,10 +364,14 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Remove menus from the admin bar
 			 * [2] Add menu switcher to the admin bar
+			 * [3] Add Aspire CPD about link
+			 * [4] Add custom logo
 			 */
 
 			/*1*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'remove_admin_bar_menus' ) );
 			/*2*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'add_admin_bar_menu_switcher' ) );
+			/*3*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'add_admin_bar_about_link' ), 0  );
+			/*4*/ add_action( 'init', array( $admin, 'add_admin_bar_logo' ) );
 
 			/**
 			 * Admin Footer
@@ -738,6 +750,15 @@ if ( !class_exists( 'CPD' ) ) {
 			
 			/*1*/ add_action( 'init', array( $widgets, 'register_widgets' ), 1 );
 
+			/** 
+			 * Login
+			 *
+			 * [1] Change Login Logo
+			 */
+			
+			/*1*/ add_action( 'login_enqueue_scripts', array( $cpd_login, 'add_login_logo' ), 1 );
+
+
 			/**
 			 * CMB Plugins
 			 *
@@ -805,3 +826,23 @@ if ( !class_exists( 'CPD' ) ) {
 }
 
 CPD::get_instance();
+
+/**
+ * GitHub Updater
+ */
+if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
+    $config = array(
+        'slug'                => plugin_basename(__FILE__),                    // this is the slug of your plugin
+        'proper_folder_name'  => 'cpd',                                        // this is the name of the folder your plugin lives in
+        'api_url'             => 'https://api.github.com/repos/mkdo/cpd',      // the GitHub API url of your GitHub repo
+        'raw_url'             => 'https://raw.github.com/mkdo/cpd/master',     // the GitHub raw url of your GitHub repo
+        'github_url'          => 'https://github.com/mkdo/cpd',                // the GitHub url of your GitHub repo
+        'zip_url'             => 'https://github.com/mkdo/cpd/zipball/master', // the zip url of the GitHub repo
+        'sslverify'           => true,                                         // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
+        'requires'            => '4.0',                                        // which version of WordPress does your plugin require?
+        'tested'              => '4.0',                                        // which version of WordPress is your plugin tested up to?
+        'readme'              => 'README.md',                                  // which file to use as the readme for the version number
+        'access_token'        => '',                                           // Access private repositories by authorizing under Appearance > GitHub Updates when this example plugin is installed
+    );
+    new WP_GitHub_Updater( $config );
+}

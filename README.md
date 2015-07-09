@@ -30,6 +30,12 @@ The ability to login with email was done by following examples in the [WP Email 
 
 Here are all the great features that have been implemented so far!
 
+### 2.2.1
+
+- Added Aspire CPD branding to system
+- Theme installer
+- GitHub Version Vontrol
+
 ### 2.2.0
 
 - Competencies Functionality (Assessments)
@@ -78,7 +84,7 @@ Here are all the great features that have been implemented so far!
 
 Here are all the great features that we plan to implement. If you have a feature request you can add it by [creating a new issue](https://github.com/mkdo/cpd/issues).
 
-### 2.2.1
+### 2.2.2
 
 - New Journal Templating System
 - Retire 'Assignments' copy, use pages only
@@ -86,6 +92,7 @@ Here are all the great features that we plan to implement. If you have a feature
 
 ### 2.3.0 
 
+- New membership management area
 - Email Options (Opt in/out)
 - Supervisor can add Alerts to particpant journals
 

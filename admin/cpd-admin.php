@@ -59,11 +59,12 @@ class CPD_Admin {
 		global $wp_admin_bar;
 
 		$admin_bar_menus 	=	array(
+									'wp-logo',
 									'my-sites',
 									'site-name',
 									'wpseo-menu',
 									'new-content',
-									// 'comments',
+									'comments',
 									'updates',
 									'search'
 								);
@@ -195,6 +196,40 @@ class CPD_Admin {
 			$labels->all_items = 'All Journal Entries';
 			$labels->menu_name = 'Journal Entries';
 			$labels->name_admin_bar = 'Journal Entries';
+		}
+	}
+
+	/**
+	 * Add about link to the menu bar
+	 */
+	public function add_admin_bar_about_link() {
+		global $wp_admin_bar;
+
+		$wp_admin_bar->add_menu(
+			array(
+				'id'    => 'aspire-logo',
+				'title' => '<span class="ab-icon"></span><span class="screen-reader-text">About Aspire CPD</span>',
+				'href'  => 'http://aspirecpd.org',
+				'meta'  => array(
+					'target' => '_blank'
+				)
+			)
+		);
+
+	}
+
+	/**
+	 * Add custom logo to the admin bar
+	 */
+	public function add_admin_bar_logo() {
+		
+		if( is_admin_bar_showing() ) {
+			$template_name 						= 	'cpd-admin-bar-logo';
+			$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+
+			if( $template_path !== FALSE ) {
+				include $template_path;
+			}
 		}
 	}
 }
