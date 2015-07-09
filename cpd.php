@@ -529,6 +529,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*7*/ add_action( 'pre_user_query', array( $columns, 'filter_column_cpd_role' ) );
 			/*3*/ add_filter( 'manage_edit-assessment_columns', array( $columns, 'add_column_assessment_status' ), 15, 1 );
 			/*4*/ add_action( 'manage_assessment_posts_custom_column', array( $columns, 'manage_column_assessment_status' ), 15, 3 );
+			
 			/**
 			 * Users
 			 *
