@@ -274,7 +274,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 
 			global $wp_filesystem;
 
-			if( $hook_extra['theme'] == 'cpd-theme' || $hook_extra['theme'] == 'aspire-cpd' ) {
+			if( isset( $hook_extra['theme'] ) && ( $hook_extra['theme'] == 'cpd-theme' || $hook_extra['theme'] == 'aspire-cpd' ) ) {
 				// Move & Activate
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
@@ -283,6 +283,66 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 				return $result;
 			}
 
+		}
+
+		/**
+		 * Add taxonomies as a notice
+		 */
+		public function add_missing_theme_notice() {
+
+			global $pagenow; 
+			global $typenow;
+			
+			if( $pagenow != 'update.php' ) {
+
+				$current_user = wp_get_current_user();
+
+				if( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) ) {
+					
+					$parent_installed = FALSE;
+					$theme_installed  = TRUE;
+
+					$slug             = 'cpd-theme';
+					$theme            = wp_get_theme( 'cpd-theme' );
+					$parent           = wp_get_theme( 'twentyfifteen' );
+					
+					if( !$theme->exists() ) {
+						$slug  = 'aspire-cpd';
+						$theme = wp_get_theme( 'aspire-cpd' );
+						$theme_installed  = FALSE;
+					}
+
+					if( $theme->exists() ) {
+						$theme_installed  = TRUE;
+					}
+
+					if( $parent->exists() ) {
+						$parent_installed = TRUE;
+					}
+
+					if( !$parent_installed  || !$theme_installed ) {
+					?>
+					<div class="error">
+						<?php
+							if( !$parent_installed ) {
+								?>
+								<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=twentyfifteen' ), 'install-theme_twentyfifteen' );?>">Twenty Fifteen</a>.</p>
+								<?php
+							}
+							if( !$theme_installed ) {
+								?>
+									<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=twentyfifteen' ), 'install-theme_twentyfifteen' );?>">Aspire CPD Theme</a>.</p>
+								<?php
+							}
+							?>
+						
+							<p><a href="?example_nag_ignore=0">Do not show this notice again</a></p>
+					</div>
+					<?php
+					}
+				}
+
+			}
 		}
 
 	}
