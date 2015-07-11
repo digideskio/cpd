@@ -781,7 +781,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 */
 			
 			/*1*/ add_filter( 'pre_set_site_transient_update_themes', array( $cpd_theme, 'pre_set_site_transient_update_themes' ) );
-			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 10, 3 );
+			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 999, 3 );
 			/*3*/ add_action( 'all_admin_notices', array( $cpd_theme, 'add_missing_theme_notice' ) );
 			/*4*/ add_filter( 'themes_api', array( $cpd_theme, 'get_theme_info' ), 10, 3 );
 			/*5*/ add_filter( 'admin_init', array( $cpd_theme, 'hide_missing_theme_notice' ) );

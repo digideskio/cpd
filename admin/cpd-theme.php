@@ -40,8 +40,9 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 */
 		public function __construct() {
 
-			$slug  = get_option( 'cpd_theme', 'cpd-theme' );
-			$theme = wp_get_theme( $slug );
+			$slug            = get_option( 'cpd_theme', 'cpd-theme' );
+			$theme           = wp_get_theme( $slug );
+			$blogs_to_update = array();
 
 			$this->config = array(
 				'slug'                => $slug,                                                  // this is the slug of your plugin
@@ -58,13 +59,29 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 			);
 
 			// Legacy installs
-			if( $slug == 'cpd-theme' ) {
+			if ( $slug == 'cpd-theme' ) {
 				$theme = wp_get_theme( 'aspire-cpd' );
-				if( $theme->exists() ) {
-					$this->config['slug'] = 'aspire-cpd';
-					$this->config['data'] = get_theme_root() . '/aspire-cpd/style.css';
+				if ( $theme->exists() ) {
+					$slug = 'aspire-cpd';
+					$this->config['slug'] = $slug;
+					$this->config['data'] = get_theme_root() . '/' . $slug . '/style.css';
 				}
 			}
+
+			// $blogs = wp_get_sites();
+			// foreach ( $blogs as $blog ) {
+			// 	switch_to_blog( $blog['blog_id'] );
+
+			// 	$stylesheet =  get_option( 'stylesheet' );
+
+			// 	if( $stylesheet == $slug ) {
+			// 		$blogs_to_update[] = $blog['blog_id'];
+			// 	}
+
+			// 	restore_current_blog();
+			// }
+
+			// $this->config['blogs_to_update'] = $blogs_to_update;
 
 			$this->set_defaults();
 		}
@@ -282,12 +299,16 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
+				$result['destination_name'] = $this->config['slug'];
+				update_option( 'stylesheet', $this->config['slug'] );
+				switch_theme( $this->config['slug'] );
 			}
 
-			if ( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], 'cpd-theme' ) ) {
+			if ( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], $this->config['slug'] ) ) {
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
+				$result['destination_name'] = $this->config['slug'];
 			}
 
 			return $result;
@@ -372,12 +393,19 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 */
 		public function get_theme_info( $false, $action, $response ) {
 
+			$slug = $this->config['slug'];
+
+			// Legacy support
+			if( $slug == 'aspire-cpd' ) {
+				$slug = 'cpd-theme';
+			}
+
 			// Check if this call API is for the right plugin
-			if ( !isset( $response->slug ) || $response->slug != 'cpd-theme' ) {
+			if ( !isset( $response->slug ) || $response->slug != $slug ) {
 				return false;
 			}
 
-			$response->slug           = 'cpd-theme';
+			$response->slug           = $this->config['slug'];
 			$response->name           = $this->config['name'];
 			$response->version        = $this->config['new_version'];
 			$response->author         = $this->config['author'];

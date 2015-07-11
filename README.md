@@ -86,18 +86,21 @@ Here are all the great features that have been implemented so far!
 
 Here are all the great features that we plan to implement. If you have a feature request you can add it by [creating a new issue](https://github.com/mkdo/cpd/issues).
 
-### 2.2.2
+### 2.3.0
 
 - New Journal Templating System
 - Retire 'Assignments' copy, use pages only
 - Create copy page for each content type
 
-### 2.3.0 
+### 2.4.0 
 
 - New membership management area
 - Email Options (Opt in/out)
-- Supervisor can add Alerts to particpant journals
 
-### 2.4.0
+### 2.5.0
 
 - Personal Data Entry (Portfolio)
+
+### 2.6.0
+
+- Supervisor can add Alerts to particpant journals
