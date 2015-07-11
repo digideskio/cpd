@@ -156,6 +156,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-widgets',                           // Register Widgets
 				'cpd-cmb-plugin-render',                 // CMB Plugin to render value
 				'cpd-login',                             // WordPress Login Overrides
+				'cpd-theme',                             // Theme advisor, installer and updator
 			);
 
 			// Prepare public dependancies
@@ -301,6 +302,8 @@ if ( !class_exists( 'CPD' ) ) {
 			$taxonomy_competency_category       = CPD_Taxonomy_Competency_Category::get_instance();
 			$widgets 			                = CPD_Widgets::get_instance();
 			$cpd_login 			                = CPD_Login::get_instance();
+			$cpd_theme 			                = CPD_Theme::get_instance();
+
 
 			/**
 			 * Set Text Domain
@@ -348,6 +351,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$taxonomy_competency_category->set_text_domain( $this->text_domain );
 			$widgets->set_text_domain( $this->text_domain );
 			$cpd_login->set_text_domain( $this->text_domain );
+			$cpd_theme->set_text_domain( $this->text_domain );
 
 			/**
 			 * Scripts
@@ -758,6 +762,16 @@ if ( !class_exists( 'CPD' ) ) {
 			
 			/*1*/ add_action( 'login_enqueue_scripts', array( $cpd_login, 'add_login_logo' ), 1 );
 
+
+			/**
+			 * Theme
+			 *
+			 * [1] Add updates to transients
+			 * [2] Move folder after update
+			 */
+			
+			/*1*/ add_filter( 'pre_set_site_transient_update_themes', array( $cpd_theme, 'pre_set_site_transient_update_themes' ) );
+			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 10, 3 );
 
 			/**
 			 * CMB Plugins

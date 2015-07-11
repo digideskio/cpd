@@ -26,6 +26,8 @@ To create metaboxes we use the excelent [Custom Meta Boxes](https://github.com/h
 
 The ability to login with email was done by following examples in the [WP Email Login](https://wordpress.org/plugins/wp-email-login/) plugin by [Beau Lebans](https://profiles.wordpress.org/beaulebens/), [r-a-y](https://profiles.wordpress.org/r-a-y/) and [andykillen](https://profiles.wordpress.org/andykillen/).
 
+To update the plugin directly from GitHub we use the awesome [WordPress GitHub Plugin Updator](https://github.com/radishconcepts/WordPress-GitHub-Plugin-Updater) by [Radish Concepts](http://www.radishconcepts.com/) - licenced under the GPLv2 licence. We also borrowed heavily from this to allow the associated CPD theme(s) to be updated directly from GitHub also.
+
 ## Version Control
 
 Here are all the great features that have been implemented so far!
@@ -34,7 +36,7 @@ Here are all the great features that have been implemented so far!
 
 - Added Aspire CPD branding to system
 - Theme installer
-- GitHub Version Vontrol
+- GitHub Version Control
 
 ### 2.2.0
 
