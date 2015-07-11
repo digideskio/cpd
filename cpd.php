@@ -769,11 +769,13 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [1] Add updates to transients
 			 * [2] Move folder after update
 			 * [3] Add missing theme notice
+			 * [4] Hook into theme installer
 			 */
 			
 			/*1*/ add_filter( 'pre_set_site_transient_update_themes', array( $cpd_theme, 'pre_set_site_transient_update_themes' ) );
 			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 10, 3 );
 			/*3*/ add_action( 'all_admin_notices', array( $cpd_theme, 'add_missing_theme_notice' ) );
+			/*4*/ add_filter( 'themes_api', array( $cpd_theme, 'get_theme_info' ), 10, 3 );
 
 			/**
 			 * CMB Plugins

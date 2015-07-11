@@ -40,13 +40,13 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 */
 		public function __construct() {
 
-			$slug  = 'cpd-theme';
-			$theme = wp_get_theme( 'cpd-theme' );
+			$slug  = 'aspire-cpd';
+			$theme = wp_get_theme( 'aspire-cpd' );
 
 			// Might be called its legacy name
 			if( !$theme->exists() ) {
-				$slug  = 'aspire-cpd';
-				$theme = wp_get_theme( 'aspire-cpd' );
+				$slug  = 'cpd-theme';
+				$theme = wp_get_theme( 'cpd-theme' );
 			}
 
 			$this->config = array(
@@ -279,9 +279,15 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
-				
-				return $result;
 			}
+
+			if( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], 'cpd-theme' ) ) {
+				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
+				rename( $result['destination'], $proper_destination );
+				$result['destination'] = $proper_destination;
+			}
+
+			return $result;
 
 		}
 
@@ -331,7 +337,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 							}
 							if( !$theme_installed ) {
 								?>
-									<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=twentyfifteen' ), 'install-theme_twentyfifteen' );?>">Aspire CPD Theme</a>.</p>
+								<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=cpd-theme' ), 'install-theme_cpd-theme' );?>">Aspire CPD Theme</a>.</p>
 								<?php
 							}
 							?>
@@ -343,6 +349,45 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 				}
 
 			}
+		}
+
+		/**
+		 * Get Plugin info
+		 *
+		 * @param bool    $false  always false
+		 * @param string  $action the API function being performed
+		 * @param object  $args   plugin arguments
+		 * @return object $response the plugin info
+		 */
+		public function get_theme_info( $false, $action, $response ) {
+
+			// Check if this call API is for the right plugin
+			if ( !isset( $response->slug ) || $response->slug != 'cpd-theme' ) {
+				return false;
+			}
+
+			$response->slug           = 'cpd-theme';
+			$response->name           = $this->config['name'];
+			$response->version        = $this->config['new_version'];
+			$response->author         = $this->config['author'];
+			$response->homepage       = $this->config['homepage'];
+			$response->requires       = $this->config['requires'];
+			$response->tested         = $this->config['tested'];
+			$response->downloaded     = 0;
+			$response->last_updated   = $this->config['last_updated'];
+			if( isset( $this->config['description'] ) ) {
+				$response->sections       = array( 'description' => $this->config['description'] );
+			}
+			$response->download_link  = $this->config['zip_url'];
+			$response->preview_url    = $this->config['theme_uri'];
+			$response->sections       = $this->config['sections'];
+			$response->description    = implode( "\n", $this->config['sections'] );
+			$response->requires       = null;
+			$response->tested         = null;
+			$response->rating         = 0;
+			$response->num_ratings    = 0;
+
+			return $response;
 		}
 
 	}
