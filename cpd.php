@@ -136,6 +136,7 @@ if ( !class_exists( 'CPD' ) ) {
 				// 'cpd-options',                           // Create options page
 				'cpd-options-copy-assignments',          // Create options page
 				'cpd-options-privacy',                   // Create options page
+				'cpd-options-theme',                     // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -283,6 +284,7 @@ if ( !class_exists( 'CPD' ) ) {
 			// $options                            = CPD_Options::get_instance();
 			$options_copy_assignments           = CPD_Options_Copy_Assignments::get_instance();
 			$options_privacy                    = CPD_Options_Privacy::get_instance();
+			$options_theme                      = CPD_Options_Theme::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -332,6 +334,7 @@ if ( !class_exists( 'CPD' ) ) {
 			// $options->set_text_domain( $this->text_domain );
 			$options_copy_assignments->set_text_domain( $this->text_domain );
 			$options_privacy->set_text_domain( $this->text_domain );
+			$options_theme->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -610,6 +613,8 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [3] Add the copy assignments options page (Page also saves data)
 			 * [4] Initialise the privacy options page
 			 * [5] Add the privacy options page (uses settings API)
+			 * [6] Initialise the theme options page
+			 * [7] Add the theme options page (uses settings API)
 			 */
 
 			// /*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
@@ -617,6 +622,8 @@ if ( !class_exists( 'CPD' ) ) {
 			/*3*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
 			/*4*/ add_action( 'admin_init', array( $options_privacy, 'init_options_page' ) );
 			/*5*/ add_action( 'admin_menu', array( $options_privacy, 'add_options_page' ) );
+			/*6*/ add_action( 'admin_init', array( $options_theme, 'init_options_page' ) );
+			/*7*/ add_action( 'network_admin_menu', array( $options_theme, 'add_options_page' ) );
 
 			/**
 			 * Blogs
@@ -770,12 +777,15 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [2] Move folder after update
 			 * [3] Add missing theme notice
 			 * [4] Hook into theme installer
+			 * [5] Hide missing theme notice
 			 */
 			
 			/*1*/ add_filter( 'pre_set_site_transient_update_themes', array( $cpd_theme, 'pre_set_site_transient_update_themes' ) );
 			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 10, 3 );
 			/*3*/ add_action( 'all_admin_notices', array( $cpd_theme, 'add_missing_theme_notice' ) );
 			/*4*/ add_filter( 'themes_api', array( $cpd_theme, 'get_theme_info' ), 10, 3 );
+			/*5*/ add_filter( 'admin_init', array( $cpd_theme, 'hide_missing_theme_notice' ) );
+			
 
 			/**
 			 * CMB Plugins

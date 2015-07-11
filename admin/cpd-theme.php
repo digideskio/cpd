@@ -40,28 +40,31 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 */
 		public function __construct() {
 
-			$slug  = 'aspire-cpd';
-			$theme = wp_get_theme( 'aspire-cpd' );
-
-			// Might be called its legacy name
-			if( !$theme->exists() ) {
-				$slug  = 'cpd-theme';
-				$theme = wp_get_theme( 'cpd-theme' );
-			}
+			$slug  = get_option( 'cpd_theme', 'cpd-theme' );
+			$theme = wp_get_theme( $slug );
 
 			$this->config = array(
-				'slug'                => $slug,                                              // this is the slug of your plugin
-				'data'                => get_theme_root() . '/' . $slug . '/style.css',      // this is the path of your plugin 
-				'proper_folder_name'  => 'cpd-theme',                                        // this is the name of the folder your plugin lives in
-				'api_url'             => 'https://api.github.com/repos/mkdo/cpd-theme',      // the GitHub API url of your GitHub repo
-				'raw_url'             => 'https://raw.github.com/mkdo/cpd-theme/master',     // the GitHub raw url of your GitHub repo
-				'github_url'          => 'https://github.com/mkdo/cpd-theme',                // the GitHub url of your GitHub repo
-				'zip_url'             => 'https://github.com/mkdo/cpd-theme/zipball/master', // the zip url of the GitHub repo
-				'sslverify'           => true,                                               // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
-				'requires'            => '4.0',                                              // which version of WordPress does your plugin require?
-				'tested'              => '4.0',                                              // which version of WordPress is your plugin tested up to?
-				'access_token'        => '',                                                 // Access private repositories by authorizing under Appearance > GitHub Updates when this example plugin is installed
+				'slug'                => $slug,                                                  // this is the slug of your plugin
+				'data'                => get_theme_root() . '/' . $slug . '/style.css',          // this is the path of your plugin
+				'proper_folder_name'  => $slug,                                                  // this is the name of the folder your plugin lives in
+				'api_url'             => 'https://api.github.com/repos/mkdo/' . $slug,           // the GitHub API url of your GitHub repo
+				'raw_url'             => 'https://raw.github.com/mkdo/' . $slug . '/master',     // the GitHub raw url of your GitHub repo
+				'github_url'          => 'https://github.com/mkdo/' . $slug,                     // the GitHub url of your GitHub repo
+				'zip_url'             => 'https://github.com/mkdo/' . $slug . '/zipball/master', // the zip url of the GitHub repo
+				'sslverify'           => true,                                                   // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
+				'requires'            => '4.0',                                                  // which version of WordPress does your plugin require?
+				'tested'              => '4.0',                                                  // which version of WordPress is your plugin tested up to?
+				'access_token'        => '',                                                     // Access private repositories by authorizing under Appearance > GitHub Updates when this example plugin is installed
 			);
+
+			// Legacy installs
+			if( $slug == 'cpd-theme' ) {
+				$theme = wp_get_theme( 'aspire-cpd' );
+				if( $theme->exists() ) {
+					$this->config['slug'] = 'aspire-cpd';
+					$this->config['data'] = get_theme_root() . '/aspire-cpd/style.css';
+				}
+			}
 
 			$this->set_defaults();
 		}
@@ -125,18 +128,18 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 * @return int $version the version number
 		 */
 		public function get_new_version() {
-			$version = get_site_transient( md5($this->config['slug']).'_new_version' );
+			$version = get_site_transient( md5( $this->config['slug'] ).'_new_version' );
 
 			if ( $this->overrule_transients() || ( !isset( $version ) || !$version || '' == $version ) ) {
 
 				$raw_response = $this->remote_get( trailingslashit( $this->config['raw_url'] ) . 'style.css' );
-				
+
 				if ( is_wp_error( $raw_response ) ) {
 					$version = false;
 				}
 
-				if (is_array($raw_response)) {
-					if (!empty($raw_response['body'])) 
+				if ( is_array( $raw_response ) ) {
+					if ( !empty( $raw_response['body'] ) )
 						preg_match( '/.*Version\:\s*(.*)$/mi', $raw_response['body'], $matches );
 				}
 
@@ -147,7 +150,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 
 				// refresh every 6 hours
 				if ( false !== $version )
-					set_site_transient( md5($this->config['slug']).'_new_version', $version, 60*60*6 );
+					set_site_transient( md5( $this->config['slug'] ).'_new_version', $version, 60*60*6 );
 			}
 
 			return $version;
@@ -156,7 +159,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		/**
 		 * Interact with GitHub
 		 *
-		 * @param string $query
+		 * @param string  $query
 		 *
 		 * @return mixed
 		 */
@@ -165,8 +168,8 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 				$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
 
 			$raw_response = wp_remote_get( $query, array(
-				'sslverify' => $this->config['sslverify']
-			) );
+					'sslverify' => $this->config['sslverify']
+				) );
 
 			return $raw_response;
 		}
@@ -198,11 +201,11 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 * @return array $github_data the data
 		 */
 		public function get_github_data() {
-			
+
 			if ( isset( $this->github_data ) && ! empty( $this->github_data ) ) {
 				$github_data = $this->github_data;
 			} else {
-				$github_data = get_site_transient( md5($this->config['slug']).'_github_data' );
+				$github_data = get_site_transient( md5( $this->config['slug'] ).'_github_data' );
 
 				if ( $this->overrule_transients() || ( ! isset( $github_data ) || ! $github_data || '' == $github_data ) ) {
 					$github_data = $this->remote_get( $this->config['api_url'] );
@@ -213,7 +216,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 					$github_data = json_decode( $github_data['body'] );
 
 					// refresh every 6 hours
-					set_site_transient( md5($this->config['slug']).'_github_data', $github_data, 60*60*6 );
+					set_site_transient( md5( $this->config['slug'] ).'_github_data', $github_data, 60*60*6 );
 				}
 
 				// Store the data in this class instance for future calls
@@ -229,7 +232,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 * @return bool overrule or not
 		 */
 		public function overrule_transients() {
-			return ( defined( 'WP_GITHUB_FORCE_UPDATE' ) && WP_GITHUB_FORCE_UPDATE );
+			return defined( 'WP_GITHUB_FORCE_UPDATE' ) && WP_GITHUB_FORCE_UPDATE;
 		}
 
 		/**
@@ -274,14 +277,14 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 
 			global $wp_filesystem;
 
-			if( isset( $hook_extra['theme'] ) && ( $hook_extra['theme'] == 'cpd-theme' || $hook_extra['theme'] == 'aspire-cpd' ) ) {
+			if ( isset( $hook_extra['theme'] ) && ( $hook_extra['theme'] == $this->config['slug'] ) ) {
 				// Move & Activate
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
 			}
 
-			if( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], 'cpd-theme' ) ) {
+			if ( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], 'cpd-theme' ) ) {
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
@@ -296,58 +299,66 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 		 */
 		public function add_missing_theme_notice() {
 
-			global $pagenow; 
+			global $pagenow;
 			global $typenow;
-			
-			if( $pagenow != 'update.php' ) {
+
+			if ( $pagenow != 'update.php' ) {
 
 				$current_user = wp_get_current_user();
 
-				if( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) ) {
-					
+				// delete_user_meta( $current_user->ID, 'cpd_notice_install_theme_hide');
+
+				if ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) ) {
+
 					$parent_installed = FALSE;
-					$theme_installed  = TRUE;
+					$theme_installed  = FALSE;
 
-					$slug             = 'cpd-theme';
-					$theme            = wp_get_theme( 'cpd-theme' );
-					$parent           = wp_get_theme( 'twentyfifteen' );
-					
-					if( !$theme->exists() ) {
-						$slug  = 'aspire-cpd';
-						$theme = wp_get_theme( 'aspire-cpd' );
-						$theme_installed  = FALSE;
-					}
+					$slug             = $this->config['slug'];
+					$parent_slug      = get_option( 'cpd_theme_parent' );
+					$theme            = wp_get_theme( $slug );
+					$parent           = wp_get_theme( $parent_slug );
 
-					if( $theme->exists() ) {
+					if ( $theme->exists() ) {
 						$theme_installed  = TRUE;
 					}
 
-					if( $parent->exists() ) {
+					if ( $parent->exists() ) {
 						$parent_installed = TRUE;
 					}
 
-					if( !$parent_installed  || !$theme_installed ) {
-					?>
-					<div class="error">
+					if ( ( !empty( $parent_slug ) && !$parent_installed ) || !$theme_installed ) {
+						if ( !get_user_meta( $current_user->ID, 'cpd_notice_install_theme_hide' ) ) {
+?>
+						<div class="error">
+							<?php
+							if ( !empty( $parent_slug ) && !$parent_installed ) {
+?>
+									<p>Aspire CPD requires a parent theme (<strong><?php echo $parent_slug;?></strong>) to be installed for your compatible theme to work correctly.</p>
+									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $parent_slug ), 'install-theme_' . $parent_slug );?>">Install Theme</a> | <a href="?cpd_notice_install_theme_hide=true">Hide this Notice</a></p>
+									<?php
+							} else if ( !$theme_installed ) {
+?>
+									<p>Aspire CPD works better with a compatible theme (<strong><?php echo $slug;?></strong>).</p>
+									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $slug ), 'install-theme_' . $slug );?>">Install Theme</a> | <a href="?cpd_notice_install_theme_hide=true">Hide this Notice</a></p>
+									<?php
+								}
+?>
+
+						</div>
 						<?php
-							if( !$parent_installed ) {
-								?>
-								<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=twentyfifteen' ), 'install-theme_twentyfifteen' );?>">Twenty Fifteen</a>.</p>
-								<?php
-							}
-							if( !$theme_installed ) {
-								?>
-								<p>Install <a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=cpd-theme' ), 'install-theme_cpd-theme' );?>">Aspire CPD Theme</a>.</p>
-								<?php
-							}
-							?>
-						
-							<p><a href="?example_nag_ignore=0">Do not show this notice again</a></p>
-					</div>
-					<?php
+						}
 					}
 				}
 
+			}
+		}
+
+		public function hide_missing_theme_notice() {
+			global $current_user;
+			$user_id = $current_user->ID;
+			/* If user clicks to ignore the notice, add that to their user meta */
+			if ( isset( $_GET['cpd_notice_install_theme_hide'] ) && 'true' == $_GET['cpd_notice_install_theme_hide'] ) {
+				add_user_meta( $user_id, 'cpd_notice_install_theme_hide', 'true', true );
 			}
 		}
 
@@ -375,7 +386,7 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 			$response->tested         = $this->config['tested'];
 			$response->downloaded     = 0;
 			$response->last_updated   = $this->config['last_updated'];
-			if( isset( $this->config['description'] ) ) {
+			if ( isset( $this->config['description'] ) ) {
 				$response->sections       = array( 'description' => $this->config['description'] );
 			}
 			$response->download_link  = $this->config['zip_url'];
