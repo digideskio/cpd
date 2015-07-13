@@ -3,7 +3,8 @@
     font-family: FontAwesome !important;
 }
 #dashboard-widgets-wrap #dashboard-widgets .postbox-container .postbox .tax-list .dashicons-before:before,
-#dashboard-widgets-wrap #dashboard-widgets .postbox-container .postbox .tax-list .dashicons-before:before {
+#dashboard-widgets-wrap #dashboard-widgets .postbox-container .postbox .tax-list .dashicons-before:before,
+.dashicons-before.muted:before {
     color: #aaa;
 }
 div.updated.taxonomies-notice,

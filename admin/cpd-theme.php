@@ -325,7 +325,8 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 
 			if ( $pagenow != 'update.php' ) {
 
-				$current_user = wp_get_current_user();
+				$current_user     = wp_get_current_user();
+				$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
 
 				// delete_user_meta( $current_user->ID, 'cpd_notice_install_theme_hide');
 

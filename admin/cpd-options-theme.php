@@ -128,8 +128,8 @@ class CPD_Options_Theme {
 	 */
 	public function render_options_page(){ 
 		?>
-		<div class="wrap cpd-settings cpd-settings-privacy">  
-			<h2>Privacy Settings</h2> 
+		<div class="wrap cpd-settings cpd-settings-theme">  
+			<h2>Theme Settings</h2> 
 			<form action="/wp-admin/options.php" method="POST">
 	            <?php settings_fields( 'cpd_settings_theme_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_theme' ); ?>

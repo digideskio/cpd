@@ -32,6 +32,12 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.3.0
+
+- New Journal Templating System
+- Retire 'Assignments' copy, use pages only
+- Create copy page for each content type
+
 ### 2.2.1
 
 - Added Aspire CPD branding to system
@@ -85,12 +91,6 @@ Here are all the great features that have been implemented so far!
 ## Feature Roadmap
 
 Here are all the great features that we plan to implement. If you have a feature request you can add it by [creating a new issue](https://github.com/mkdo/cpd/issues).
-
-### 2.3.0
-
-- New Journal Templating System
-- Retire 'Assignments' copy, use pages only
-- Create copy page for each content type
 
 ### 2.4.0 
 
