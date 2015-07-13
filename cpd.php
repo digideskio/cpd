@@ -140,6 +140,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-options-templates',                 // Create options page
 				'cpd-options-copy-pages',                // Create options page
 				'cpd-options-copy-posts',                // Create options page
+				'cpd-options-copy-ppd',                  // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -293,6 +294,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_templates                  = CPD_Options_Templates::get_instance();
 			$options_copy_pages                 = CPD_Options_Copy_Pages::get_instance();
 			$options_copy_posts                 = CPD_Options_Copy_Posts::get_instance();
+			$options_copy_ppd                   = CPD_Options_Copy_PPD::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -346,6 +348,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_templates->set_text_domain( $this->text_domain );
 			$options_copy_pages->set_text_domain( $this->text_domain );
 			$options_copy_posts->set_text_domain( $this->text_domain );
+			$options_copy_ppd->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -628,8 +631,9 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [7] Add the theme options page (uses settings API)
 			 * [8] Initialise the template options page
 			 * [9] Add the template options page (uses settings API)
-			 * [8] Add the theme copy pages option page (uses settings API)
-			 * [9] Add the theme copy posts option page (uses settings API)
+			 * [10] Add the theme copy pages option page (uses settings API)
+			 * [11] Add the theme copy posts option page (uses settings API)
+			 * [12] Add the theme copy ppd option page (uses settings API)
 			 */
 
 			// /*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
@@ -643,6 +647,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*9*/ add_action( 'admin_menu', array( $options_templates, 'add_options_page' ) );
 			/*10*/ add_action( 'admin_menu', array( $options_copy_pages, 'add_options_page' ) );
 			/*11*/ add_action( 'admin_menu', array( $options_copy_posts, 'add_options_page' ) );
+			/*12*/ add_action( 'admin_menu', array( $options_copy_ppd, 'add_options_page' ) );
 
 			/**
 			 * Blogs
