@@ -71,7 +71,7 @@ class CPD_Options_Templates {
 	public function cpd_template_managment_callback() {
 		?>
 		<p>
-			Templates define the content and settings that are added to a new Journal when it is created.
+			Templates define the content and settings that are added to a new Journal when it is created. When you create a new Journal you will be asked which Template you wish to create it from.
 		</p>
 		<?php
 	}
@@ -152,7 +152,7 @@ class CPD_Options_Templates {
 
 		$blogs = wp_get_sites();
 		?>
-		<p>Choose an existing Template to use as a base for your new Template.</p>
+		<p>Choose an existing Template to use as a base for your new Template. All the settings and content from this Template will be copied accross to your new Template.</p>
 		<br/>
 		<p>
 			<select id="cpd_template_base" name="cpd_template_base">
@@ -186,7 +186,7 @@ class CPD_Options_Templates {
 
 	public function cpd_template_name_fields_callback() { 
 		?>
-		<p>Choose a title for your Template.</p> 
+		<p>Choose a title for your new Template.</p> 
 		<p><strong>Note:</strong> All Templates are automatically prefixed with the word 'Template'.</p>
 		<br/>
 		<p>
@@ -208,7 +208,7 @@ class CPD_Options_Templates {
 		$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
 		
-		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) && SITE_ID_CURRENT_SITE != $blog_id ) {
+		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
 			add_menu_page( 'Templates', 'Templates', 'manage_options', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
 		}	
 	}
