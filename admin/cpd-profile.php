@@ -228,6 +228,36 @@ class CPD_Profile {
 							</select>
 						</td>
 					</tr>
+					<tr class="cpd_journals_base">
+						<th>Choose Journal Base</th> 
+						<td>
+							<select id="cpd_template_base" name="cpd_template_base">
+							<?php
+							foreach( $all_cpd_journals as $blog ) {
+
+								if( strrpos( $blog['path'], '/template-' ) === 0 ) {
+									switch_to_blog( $blog['blog_id'] );
+				 					$site_title = get_bloginfo( 'name' );
+				 					$selected = '';
+				 					if( !isset( $_POST['cpd_template_base'] ) ) {
+				 						if( $blog['path'] == '/template-default/' ) {
+				 							$selected = 'selected';
+				 						}
+				 					} else {
+				 						if( $_POST['cpd_template_base'] == $blog['blog_id'] ) {
+				 							$selected = 'selected';
+				 						}
+				 					}
+									?>
+									<option value="<?php echo $blog['blog_id'];?>" <?php echo $selected;?>><?php echo $site_title;?></option>
+									<?php
+									restore_current_blog();
+								}
+							}
+							?>
+							</select>
+						</td>
+					</tr>
 					<?php
 						if( count( $all_supervisors ) ) {
 							?>
@@ -337,7 +367,14 @@ class CPD_Profile {
 			if( $cpd_journal == 'new' ) {
 				
 				// Create the new journal
-				CPD_Users::create_user_journal( $user_id );
+				$blog    = get_blog_details( 'template-default' );
+				$base_id = $blog->blog_id;
+
+				if( isset( $_POST[ 'cpd_template_base' ] ) && !empty( $_POST[ 'cpd_template_base' ] ) && is_numeric( $_POST[ 'cpd_template_base' ] ) ) {
+					$base_id = $_POST[ 'cpd_template_base' ];
+				}
+
+				CPD_Users::create_user_journal( $user_id, $base_id );
 			}
 
 			// If the journal picked is not the current one for this user

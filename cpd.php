@@ -235,6 +235,8 @@ if ( !class_exists( 'CPD' ) ) {
 			if ( !wp_next_scheduled( 'cpd_unassigned_users_email' ) ) {
 				wp_schedule_event( strtotime( '02:00am' ), 'daily', 'cpd_unassigned_users_email' );
 			}
+
+			add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 		}
 
 		/**
@@ -606,7 +608,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*7*/ // CPD_Users::remove_cpd_relationship( $supervisor, $participant );
 			/*8*/ // CPD_Users::add_supervisor_to_participant_journals( $user_id );
 			/*9*/ // CPD_Users::remove_user_from_blogs( $user_id );
-			/*10*/ // CPD_Users::create_user_journal( $user_id );
+			/*10*/ // CPD_Users::create_user_journal( $user_id, $base_id );
 
 			/**
 			 * Options

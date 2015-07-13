@@ -2,7 +2,7 @@
 	'use strict';
 	
 	showRelationships($('#cpd_role').val());
-	$('#cpd_role').change(function(e) {
+	$('#cpd_role, #cpd_journal').change(function(e) {
 		showRelationships();
 	});
 	
@@ -14,14 +14,22 @@
 			cpd_journal=$('#cpd_journal').val();
 			if(cpd_role=='participant') {
 				$('.cpd_journals').show();
+				$('.cpd_journals_base').hide();
 				$('.cpd_supervisors').show();
 				$('.cpd_participants').hide();
+
+				if( $('#cpd_journal').val() == 'new' ) {
+					$('.cpd_journals_base').show();
+				}
+
 			} else if(cpd_role=='supervisor') {
 				$('.cpd_journals').hide();
+				$('.cpd_journals_base').hide();
 				$('.cpd_supervisors').hide();
 				$('.cpd_participants').show();
 			} else {
 				$('.cpd_journals').hide();
+				$('.cpd_journals_base').hide();
 				$('.cpd_supervisors').hide();
 				$('.cpd_participants').hide();
 			}

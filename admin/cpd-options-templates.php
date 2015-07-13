@@ -57,9 +57,12 @@ class CPD_Options_Templates {
 		
 		/* Add sections */
 		add_settings_section( 'cpd_template_managment', 'Manage Templates', array( $this, 'cpd_template_managment_callback' ), 'cpd_settings_templates' );
+		add_settings_section( 'cpd_template_add', 'Create a new Template', array( $this, 'cpd_template_add_callback' ), 'cpd_settings_templates' );
 	
     	/* Add fields to a section */
 		add_settings_field( 'cpd_template_managment_fields', 'Your Templates', array( $this, 'cpd_template_managment_fields_callback' ), 'cpd_settings_templates', 'cpd_template_managment' );
+		add_settings_field( 'cpd_template_base_fields', 'Template Base', array( $this, 'cpd_template_base_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
+		add_settings_field( 'cpd_template_name_fields', 'Template Name', array( $this, 'cpd_template_name_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
 	}
 
 	/**
@@ -69,6 +72,17 @@ class CPD_Options_Templates {
 		?>
 		<p>
 			Templates define the content and settings that are added to a new Journal when it is created.
+		</p>
+		<?php
+	}
+
+	/**
+	 * Show the section message
+	 */
+	public function cpd_template_add_callback() {
+		?>
+		<p id="add-template">
+			You can create a new template by completing the following section.
 		</p>
 		<?php
 	}
@@ -110,7 +124,7 @@ class CPD_Options_Templates {
 									<?php
 									if( $blog->path != '/template-default/' ) {
 										?>
-										<a href="<?php echo esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog->userblog_id . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blog->blogname ) ) ), 'confirm') );?>">Delete</a>
+										<a href="<?php echo esc_url( wp_nonce_url( admin_url( '?page=cpd_settings_templates&action=delete&amp;id=' . $blog->userblog_id  ) ) );?>">Delete</a>
 										<?php
 									} else {
 										?>
@@ -134,6 +148,56 @@ class CPD_Options_Templates {
 
 	}
 
+	public function cpd_template_base_fields_callback() {
+
+		$blogs = wp_get_sites();
+		?>
+		<p>Choose an existing Template to use as a base for your new Template.</p>
+		<br/>
+		<p>
+			<select id="cpd_template_base" name="cpd_template_base">
+			<?php
+			foreach( $blogs as $blog ) {
+
+				if( strrpos( $blog['path'], '/template-' ) === 0 ) {
+					switch_to_blog( $blog['blog_id'] );
+ 					$site_title = get_bloginfo( 'name' );
+ 					$selected = '';
+ 					if( !isset( $_POST['cpd_template_base'] ) ) {
+ 						if( $blog['path'] == '/template-default/' ) {
+ 							$selected = 'selected';
+ 						}
+ 					} else {
+ 						if( $_POST['cpd_template_base'] == $blog['blog_id'] ) {
+ 							$selected = 'selected';
+ 						}
+ 					}
+					?>
+					<option value="<?php echo $blog['blog_id'];?>" <?php echo $selected;?>><?php echo $site_title;?></option>
+					<?php
+					restore_current_blog();
+				}
+			}
+			?>
+			</select>
+		</p>
+		<?php
+	}
+
+	public function cpd_template_name_fields_callback() { 
+		?>
+		<p>Choose a title for your Template.</p> 
+		<p><strong>Note:</strong> All Templates are automatically prefixed with the word 'Template'.</p>
+		<br/>
+		<p>
+			Template
+			<input type="text" id="cpd_template_name" name="cpd_template_name" value="<?php echo isset( $_POST['cpd_template_name'] ) ? $_POST['cpd_template_name'] : '';?>"/>
+		</p>
+
+		<?php
+	}
+	
+
 	/**
 	 * Add the options page
 	 */
@@ -152,17 +216,65 @@ class CPD_Options_Templates {
 	/**
 	 * Render the options page
 	 */
-	public function render_options_page(){ 
+	public function render_options_page(){
 		?>
 		<div class="wrap cpd-settings cpd-settings-template">  
-			<h2>Template Settings</h2> 
-			<form action="/wp-admin/options.php" method="POST">
+			<h2>Templates</h2> 
+
+			<?php
+			// Create the new template
+			if( isset( $_POST[ 'cpd_template_base' ] ) && isset( $_POST[ 'cpd_template_name' ] ) && !empty( $_POST[ 'cpd_template_name' ] ) ) {
+				$name = 'Template ' . $_POST[ 'cpd_template_name' ];
+				$name = esc_attr( $name );
+				$slug = sanitize_title( $name );
+				$base = esc_attr( $_POST[ 'cpd_template_base' ] );
+
+				// Check Title is Unique
+				if( get_id_from_blogname( $slug ) ) { 
+					?>
+					<div class="alert alert-warning">
+						<p>Sorry a Template with that name already exists.</p>
+					</div>
+					<?php
+				} else {
+					$copy = CPD_Blogs::get_instance();
+					add_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ) );
+					$copy->copy_blog( $slug, $name, $base, TRUE );
+					remove_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ) );
+				}
+			}
+			// Delete template
+			if( isset( $_GET['id'] ) && isset( $_GET['action'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'] ) && $_GET['action'] == 'delete' ) {
+				$delete_id = esc_attr( $_GET['id'] );
+				if( is_numeric( $delete_id ) ) {
+					wpmu_delete_blog( $delete_id, FALSE );
+					?>
+					<div class="alert alert-warning">
+						<p>Your Template has been deleted.</p>
+					</div>
+					<?php
+				}
+			}
+			?>
+			<form action="#" method="POST">
 	            <?php settings_fields( 'cpd_settings_templates_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_templates' ); ?>
 	            <?php //submit_button(); ?>
+	           	<p><input type="submit" class="button button-primary" value="Create New Template"/>
 	        </form>
 		</div> 
 	<?php
+	}
+
+	public function copy_blog_user_id( $user_id, $from_blog_id ) {
+
+		if( isset( $_POST[ 'cpd_template_base' ] ) && isset( $_POST[ 'cpd_template_name' ] ) && !empty( $_POST[ 'cpd_template_name' ] ) ) {
+
+			$from_blog_id = esc_attr( $_POST[ 'cpd_template_base' ] );
+			$user_id = get_current_user_id();
+		}
+
+		return $user_id;
 	}
 }
 }

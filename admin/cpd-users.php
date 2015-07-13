@@ -491,7 +491,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 *
 		 * @param int     $user_id The user ID
 		 */
-		public static function create_user_journal( $user_id ) {
+		public static function create_user_journal( $user_id, $base_id ) {
 
 			$blogs           =    CPD_Blogs::get_instance();
 
@@ -501,7 +501,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$domain        	 =    parse_url( network_site_url(), PHP_URL_HOST );
 			$path            =    $user_data->user_login . '/';
 			$title 			 =	  'CPD Journal for ' . $user_data->user_nicename;
-			$blog 			 =    get_blog_details( 'template-default' );
+			
 
 			// $cpd_settings    =    get_option( 'cpd_new_blog_options' );
 			// $cpd_settings    =    preg_replace( '/[\n\r]+/', '&', $cpd_settings );
@@ -510,7 +510,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 			// $cpd_journal     =    wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
  
-			$blogs->copy_blog( $path, $title, $blog->blog_id, TRUE );
+			$blogs->copy_blog( $path, $title, $base_id, TRUE );
 		}
 
 		/**

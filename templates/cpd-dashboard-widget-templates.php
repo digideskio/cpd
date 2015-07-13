@@ -45,7 +45,7 @@ $blogs                          = get_blogs_of_user( $current_user->ID );
 				<ul class="tax-list">
 					<li>
 						<span class="dashicons-before dashicons-welcome-add-page"></span>
-						<a href="">Add New Template</a>
+						<a href="<?php echo get_admin_url( null, 'admin.php?page=cpd_settings_templates');?>#add-template">Add New Template</a>
 					</li>
 					<li>
 						<span class="dashicons-before dashicons-welcome-write-blog"></span>

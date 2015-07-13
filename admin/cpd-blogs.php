@@ -239,9 +239,9 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			$wpdb->show_errors();
 
 			if ( !is_wp_error( $to_blog_id ) ) {
-				$dashboard_blog = get_dashboard_blog();
-				if ( !is_super_admin() && get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
-					update_user_option( $user_id, 'primary_blog', $to_blog_id, true );
+				// $dashboard_blog = get_dashboard_blog();
+				// if ( !is_super_admin() && get_user_option( 'primary_blog', $user_id ) == $dashboard_blog->blog_id )
+				// 	update_user_option( $user_id, 'primary_blog', $to_blog_id, true );
 
 				// now copy
 				if ( $from_blog_id ) {
