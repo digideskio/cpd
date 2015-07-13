@@ -134,10 +134,11 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-columns',                           // Column modifications
 				'cpd-users',                             // User functions
 				// 'cpd-options',                        // Create options page
-				'cpd-options-copy-assignments',          // Create options page
+				// 'cpd-options-copy-assignments',          // Create options page
 				'cpd-options-privacy',                   // Create options page
 				'cpd-options-theme',                     // Create options page
 				'cpd-options-templates',                 // Create options page
+				'cpd-options-copy-pages',                // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -285,10 +286,11 @@ if ( !class_exists( 'CPD' ) ) {
 			$columns                            = CPD_Columns::get_instance();
 			$users                              = CPD_Users::get_instance();
 			// $options                            = CPD_Options::get_instance();
-			$options_copy_assignments           = CPD_Options_Copy_Assignments::get_instance();
+			// $options_copy_assignments           = CPD_Options_Copy_Assignments::get_instance();
 			$options_privacy                    = CPD_Options_Privacy::get_instance();
 			$options_theme                      = CPD_Options_Theme::get_instance();
 			$options_templates                  = CPD_Options_Templates::get_instance();
+			$options_copy_pages                 = CPD_Options_Copy_Pages::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -336,10 +338,11 @@ if ( !class_exists( 'CPD' ) ) {
 			$columns->set_text_domain( $this->text_domain );
 			$users->set_text_domain( $this->text_domain );
 			// $options->set_text_domain( $this->text_domain );
-			$options_copy_assignments->set_text_domain( $this->text_domain );
+			// $options_copy_assignments->set_text_domain( $this->text_domain );
 			$options_privacy->set_text_domain( $this->text_domain );
 			$options_theme->set_text_domain( $this->text_domain );
 			$options_templates->set_text_domain( $this->text_domain );
+			$options_copy_pages->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -620,19 +623,23 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [5] Add the privacy options page (uses settings API)
 			 * [6] Initialise the theme options page
 			 * [7] Add the theme options page (uses settings API)
-			 * [8] Initialise the theme options page
-			 * [9] Add the theme options page (uses settings API)
+			 * [8] Initialise the template options page
+			 * [9] Add the template options page (uses settings API)
+			 * [8] Initialise the copy pages options page
+			 * [9] Add the theme copy pages option page (uses settings API)
 			 */
 
 			// /*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
 			// /*2*/ add_action( 'network_admin_menu', array( $options, 'add_options_page' ) );
-			/*3*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
+			// /*3*/ add_action( 'network_admin_menu', array( $options_copy_assignments, 'add_options_page' ) );
 			/*4*/ add_action( 'admin_init', array( $options_privacy, 'init_options_page' ) );
 			/*5*/ add_action( 'admin_menu', array( $options_privacy, 'add_options_page' ) );
 			/*6*/ add_action( 'admin_init', array( $options_theme, 'init_options_page' ) );
 			/*7*/ add_action( 'network_admin_menu', array( $options_theme, 'add_options_page' ) );
 			/*8*/ add_action( 'admin_init', array( $options_templates, 'init_options_page' ) );
 			/*9*/ add_action( 'admin_menu', array( $options_templates, 'add_options_page' ) );
+			// /*10*/ add_action( 'admin_init', array( $options_copy_pages, 'init_options_page' ) );
+			/*11*/ add_action( 'admin_menu', array( $options_copy_pages, 'add_options_page' ) );
 
 			/**
 			 * Blogs

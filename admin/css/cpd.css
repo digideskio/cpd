@@ -164,7 +164,10 @@ div.updated.view-notice .dashicons-before:before {
 .journal-wrapper.disabled h4,
 .journal-wrapper.disabled h5,
 .journal-wrapper.disabled h6,
-.journal-wrapper.disabled p {
+.journal-wrapper.disabled p,
+.journal-wrapper.disabled th,
+.journal-wrapper.disabled li {
+
     color: #aaa
 }
 

@@ -93,17 +93,17 @@
 		}
 	});
 
-	var cpd_assignment_input			= $('.cpd_options .assignments input');
+	var cpd_pages_input			= $('.cpd_options .pages input');
 	var cpd_journal_input				= $('.cpd_options .journals input');
 
 	cpd_journal_input.prop('disabled', true);
 	cpd_journal_input.parent().addClass('disabled');
 	cpd_journal_input.closest('.journal-wrapper').addClass('disabled');
 
-	cpd_assignment_input.bind( 'click', function() {
+	cpd_pages_input.bind( 'click', function() {
 
 		var checked = false;
-		cpd_assignment_input.each(function() {
+		cpd_pages_input.each(function() {
 			if( $(this).prop('checked') )
 			{
 				checked = true;
