@@ -3,7 +3,7 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if( !class_exists( 'CPD_Options_Copy_Pages' ) ) {
+if( !class_exists( 'CPD_Options_Copy_Posts' ) ) {
 
 /**
  * Copy Pages
@@ -14,7 +14,7 @@ if( !class_exists( 'CPD_Options_Copy_Pages' ) ) {
  * @subpackage CPD/admin
  * @author     Make Do <hello@makedo.in>
  */
-class CPD_Options_Copy_Pages {
+class CPD_Options_Copy_Posts {
 
 
 	private static $instance = null;
@@ -57,7 +57,7 @@ class CPD_Options_Copy_Pages {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'cpd_settings_templates', 'Copy Pages', 'Copy Pages', 'manage_options', 'cpd_settings_copy_pages', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'cpd_settings_templates', 'Copy Journal Entries', 'Copy Journal Entries', 'manage_options', 'cpd_settings_copy_posts', array( $this, 'render_options_page' ) );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class CPD_Options_Copy_Pages {
 		$journals 				= array();
 		$post_valid				= false;
 		$sites 					= array();
-		$success_message		= '<p><strong>Success: </strong> Pages have been copied:</p>';
+		$success_message		= '<p><strong>Success: </strong> Journal Entries have been copied:</p>';
 		$current_user 			= wp_get_current_user();
 		$roles 					= $current_user->roles;
 		$is_elevated_user 		= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
@@ -168,7 +168,7 @@ class CPD_Options_Copy_Pages {
 							}
 							
 							// Check that a post with that name dosnt already exist
-							$existing_post = get_page_by_title( $post_to_copy->post_title );
+							$existing_post = get_page_by_title( $post_to_copy->post_title, OBJECT, 'post' );
 
 							if( empty( $existing_post ) )
 							{
@@ -242,7 +242,7 @@ class CPD_Options_Copy_Pages {
 			if( !$post_valid )
 			{
 
-				$error_message = '<p><strong>Error:</strong> All chosen pages already exist in all chosen Journals and/or Templates.</p>';
+				$error_message = '<p><strong>Error:</strong> All chosen Journal Entries already exist in all chosen Journals and/or Templates.</p>';
 
 				?>
 				<div class="error"><?php echo $error_message; ?></div>
@@ -259,7 +259,7 @@ class CPD_Options_Copy_Pages {
 		// Render the form to copy the pages
 		?>
 		<div class="wrap cpd_options">
-			<h2>Copy Pages</h2>
+			<h2>Copy Journal Entries</h2>
 			<form method="post">
 				<?php 
 					settings_fields( 'cpd_group' );
@@ -286,7 +286,7 @@ class CPD_Options_Copy_Pages {
 								'sort_order' => 'ASC',
 								'sort_column' => 'post_title',
 								// 'parent' => $page_id,
-								'post_type' => 'page',
+								'post_type' => 'post',
 								'post_status' => array( 'publish', 'pending', 'draft', 'private' )
 							); 
 							$pages = get_posts( $args );
@@ -299,7 +299,7 @@ class CPD_Options_Copy_Pages {
 								if( !$have_pages_message )
 								{
 									?>
-									<p>Below is a list of Template pages. Check all of the pages that you wish to copy into participant journals.</p>
+									<p>Below is a list of Template Journal Entries. Check all of the Journal Entries that you wish to copy into participant Journals.</p>
 									<?php
 
 									$have_pages_message = true;
@@ -348,8 +348,8 @@ class CPD_Options_Copy_Pages {
 						?>
 						<div class="journal-wrapper">
 							<h2>Select Journals and Templates</h2>
-							<p>Check the Journals and Templates you wish to copy the selected pages into.</p>
-							<p><strong>Please note:</strong> If a page with the same name already exists in a Journal or Template the page will not be copied into that journal.</p>
+							<p>Check the Journals and Templates you wish to copy the selected Journal Entries into.</p>
+							<p><strong>Please note:</strong> If Journal Entries with the same name already exists in a Journal or Template the page will not be copied into that journal.</p>
 							<?php
 
 							?>
