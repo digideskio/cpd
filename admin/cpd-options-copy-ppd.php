@@ -74,7 +74,7 @@ class CPD_Options_Copy_PPD {
 		$journals 				= array();
 		$post_valid				= false;
 		$sites 					= array();
-		$success_message		= '<p><strong>Success: </strong> Journal Entries have been copied:</p>';
+		$success_message		= '<p><strong>Success: </strong> Activities have been copied:</p>';
 		$current_user 			= wp_get_current_user();
 		$roles 					= $current_user->roles;
 		$is_elevated_user 		= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
@@ -242,7 +242,7 @@ class CPD_Options_Copy_PPD {
 			if( !$post_valid )
 			{
 
-				$error_message = '<p><strong>Error:</strong> All chosen Journal Entries already exist in all chosen Journals and/or Templates.</p>';
+				$error_message = '<p><strong>Error:</strong> All chosen Activities already exist in all chosen Journals and/or Templates.</p>';
 
 				?>
 				<div class="error"><?php echo $error_message; ?></div>
@@ -259,7 +259,7 @@ class CPD_Options_Copy_PPD {
 		// Render the form to copy the pages
 		?>
 		<div class="wrap cpd_options">
-			<h2>Copy Journal Entries</h2>
+			<h2>Copy Activities</h2>
 			<form method="post">
 				<?php 
 					settings_fields( 'cpd_group' );
@@ -299,7 +299,7 @@ class CPD_Options_Copy_PPD {
 								if( !$have_pages_message )
 								{
 									?>
-									<p>Below is a list of Template Journal Entries. Check all of the Journal Entries that you wish to copy into participant Journals.</p>
+									<p>Below is a list of Template Activities. Check all of the Activities that you wish to copy into participant Journals.</p>
 									<?php
 
 									$have_pages_message = true;
@@ -307,7 +307,7 @@ class CPD_Options_Copy_PPD {
 
 								?>
 								<tr>
-								<th>Pages in '<?php echo wp_title(); ?>'</th>
+								<th>Activities in '<?php echo wp_title(); ?>'</th>
 
 								<?php
 
@@ -348,8 +348,8 @@ class CPD_Options_Copy_PPD {
 						?>
 						<div class="journal-wrapper">
 							<h2>Select Journals and Templates</h2>
-							<p>Check the Journals and Templates you wish to copy the selected Journal Entries into.</p>
-							<p><strong>Please note:</strong> If Journal Entries with the same name already exists in a Journal or Template the page will not be copied into that journal.</p>
+							<p>Check the Journals and Templates you wish to copy the selected Activities into.</p>
+							<p><strong>Please note:</strong> If Activities with the same name already exists in a Journal or Template the page will not be copied into that journal.</p>
 							<?php
 
 							?>
@@ -439,8 +439,8 @@ class CPD_Options_Copy_PPD {
 					if(!$have_pages)
 					{
 						?>
-							<p><strong>No pages have been created as yet.</strong></p>
-							<p>Please create a page to continue.</p>
+							<p><strong>No activities have been created as yet.</strong></p>
+							<p>Please create an activities to continue.</p>
 						<?php
 					}
 				?>

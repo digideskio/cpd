@@ -134,13 +134,14 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-columns',                           // Column modifications
 				'cpd-users',                             // User functions
 				// 'cpd-options',                        // Create options page
-				// 'cpd-options-copy-assignments',          // Create options page
+				// 'cpd-options-copy-assignments',       // Create options page
 				'cpd-options-privacy',                   // Create options page
 				'cpd-options-theme',                     // Create options page
 				'cpd-options-templates',                 // Create options page
 				'cpd-options-copy-pages',                // Create options page
 				'cpd-options-copy-posts',                // Create options page
 				'cpd-options-copy-ppd',                  // Create options page
+				'cpd-options-copy-assessment',           // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -295,6 +296,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_copy_pages                 = CPD_Options_Copy_Pages::get_instance();
 			$options_copy_posts                 = CPD_Options_Copy_Posts::get_instance();
 			$options_copy_ppd                   = CPD_Options_Copy_PPD::get_instance();
+			$options_copy_assessment            = CPD_Options_Copy_Assessment::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -349,6 +351,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_copy_pages->set_text_domain( $this->text_domain );
 			$options_copy_posts->set_text_domain( $this->text_domain );
 			$options_copy_ppd->set_text_domain( $this->text_domain );
+			$options_copy_assessment->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -648,6 +651,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*10*/ add_action( 'admin_menu', array( $options_copy_pages, 'add_options_page' ) );
 			/*11*/ add_action( 'admin_menu', array( $options_copy_posts, 'add_options_page' ) );
 			/*12*/ add_action( 'admin_menu', array( $options_copy_ppd, 'add_options_page' ) );
+			/*13*/ add_action( 'admin_menu', array( $options_copy_assessment, 'add_options_page' ) );
 
 			/**
 			 * Blogs

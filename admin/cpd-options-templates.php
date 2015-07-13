@@ -238,9 +238,9 @@ class CPD_Options_Templates {
 					<?php
 				} else {
 					$copy = CPD_Blogs::get_instance();
-					add_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ) );
+					add_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ), 2 );
 					$copy->copy_blog( $slug, $name, $base, TRUE );
-					remove_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ) );
+					remove_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ), 2 );
 				}
 			}
 			// Delete template
@@ -266,7 +266,7 @@ class CPD_Options_Templates {
 	<?php
 	}
 
-	public function copy_blog_user_id( $user_id, $from_blog_id ) {
+	public function copy_blog_user_id( $user_id ) {
 
 		if( isset( $_POST[ 'cpd_template_base' ] ) && isset( $_POST[ 'cpd_template_name' ] ) && !empty( $_POST[ 'cpd_template_name' ] ) ) {
 

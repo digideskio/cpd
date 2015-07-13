@@ -307,7 +307,7 @@ class CPD_Options_Copy_Posts {
 
 								?>
 								<tr>
-								<th>Pages in '<?php echo wp_title(); ?>'</th>
+								<th>Journal Entries in '<?php echo wp_title(); ?>'</th>
 
 								<?php
 
@@ -439,8 +439,8 @@ class CPD_Options_Copy_Posts {
 					if(!$have_pages)
 					{
 						?>
-							<p><strong>No pages have been created as yet.</strong></p>
-							<p>Please create a page to continue.</p>
+							<p><strong>No journal entries have been created as yet.</strong></p>
+							<p>Please create a journal entries to continue.</p>
 						<?php
 					}
 				?>
