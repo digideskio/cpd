@@ -369,10 +369,28 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			// Remove for participants or supervisors
 			if ( $user_type == 'participant' || $user_type == 'supervisor' ) {
 
+				// Users
+				$sub_menus[]    =    array(
+					'parent'    =>    'users.php',
+					'menu'      =>    'users.php',
+				);
+
+				// New User
+				$sub_menus[]    =    array(
+					'parent'    =>    'users.php',
+					'menu'      =>    'user-new.php',
+				);
+
 				// My Sites
 				$sub_menus[]    =    array(
 					'parent'    =>    'index.php',
 					'menu'      =>    'my-sites.php',
+				);
+
+				// Themes
+				$sub_menus[]    =    array(
+					'parent'    =>    'themes.php',
+					'menu'      =>    'themes.php',
 				);
 			}
 

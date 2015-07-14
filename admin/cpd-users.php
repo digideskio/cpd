@@ -298,9 +298,9 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 				$blog_users    =    get_users(
 					array(
-						'blog_id'        =>    $blog['blog_id'],
+						'blog_id'         =>    $blog['blog_id'],
 						'meta_key'        =>    'cpd_role',
-						'meta_value'    =>    'participant',
+						'meta_value'      =>    'participant',
 						'meta_compare'    =>    '='
 					)
 				);
@@ -323,16 +323,16 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 */
 		public static function get_supervisors() {
 			$users                =    array();
-			$user_ids            =    array();
+			$user_ids             =    array();
 			$blogs                =    wp_get_sites();
 
 			foreach ( $blogs as $blog ) {
 
 				$blog_users    =    get_users(
 					array(
-						'blog_id'        =>    $blog['blog_id'],
+						'blog_id'         =>    $blog['blog_id'],
 						'meta_key'        =>    'cpd_role',
-						'meta_value'    =>    'supervisor',
+						'meta_value'      =>    'supervisor',
 						'meta_compare'    =>    '='
 					)
 				);

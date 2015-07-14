@@ -142,6 +142,7 @@ if ( !class_exists( 'CPD' ) ) {
 				'cpd-options-copy-posts',                // Create options page
 				'cpd-options-copy-ppd',                  // Create options page
 				'cpd-options-copy-assessment',           // Create options page
+				'cpd-options-users',                     // Create options page
 				'cpd-blogs',                             // Blog settings
 				'cpd-emails',                            // Send emails
 				'cpd-comments',                          // Manage comments
@@ -297,6 +298,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_copy_posts                 = CPD_Options_Copy_Posts::get_instance();
 			$options_copy_ppd                   = CPD_Options_Copy_PPD::get_instance();
 			$options_copy_assessment            = CPD_Options_Copy_Assessment::get_instance();
+			$options_users                      = CPD_Options_Users::get_instance();
 			$blogs                              = CPD_Blogs::get_instance();
 			$emails                             = CPD_Emails::get_instance();
 			$comments                           = CPD_Comments::get_instance();
@@ -352,6 +354,7 @@ if ( !class_exists( 'CPD' ) ) {
 			$options_copy_posts->set_text_domain( $this->text_domain );
 			$options_copy_ppd->set_text_domain( $this->text_domain );
 			$options_copy_assessment->set_text_domain( $this->text_domain );
+			$options_users->set_text_domain( $this->text_domain );
 			$blogs->set_text_domain( $this->text_domain );
 			$emails->set_text_domain( $this->text_domain );
 			$comments->set_text_domain( $this->text_domain );
@@ -637,6 +640,9 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [10] Add the theme copy pages option page (uses settings API)
 			 * [11] Add the theme copy posts option page (uses settings API)
 			 * [12] Add the theme copy ppd option page (uses settings API)
+			 * [13] Add the theme copy assessments option page (uses settings API)
+			 * [14] Initialise the users option page
+			 * [15] Add the users option page (uses settings API)
 			 */
 
 			// /*1*/ add_action( 'admin_init', array( $options, 'init_options_page' ) );
@@ -652,6 +658,8 @@ if ( !class_exists( 'CPD' ) ) {
 			/*11*/ add_action( 'admin_menu', array( $options_copy_posts, 'add_options_page' ) );
 			/*12*/ add_action( 'admin_menu', array( $options_copy_ppd, 'add_options_page' ) );
 			/*13*/ add_action( 'admin_menu', array( $options_copy_assessment, 'add_options_page' ) );
+			/*14*/ add_action( 'admin_init', array( $options_users, 'init_options_page' ) );
+			/*15*/ add_action( 'admin_menu', array( $options_users, 'add_options_page' ) );
 
 			/**
 			 * Blogs
