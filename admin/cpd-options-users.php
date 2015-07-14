@@ -100,7 +100,7 @@ class CPD_Options_Users {
 		if( is_array( $participants ) && count( $participants ) > 0 ) {
 
 			?>
-			<p>You can manage the following Participants:</p>
+			<p>You can manage the following participants:</p>
 			<br/>
 			<table>
 				<tr>
@@ -172,7 +172,7 @@ class CPD_Options_Users {
 			<?php
 		} else {
 			?>
-			<p>You do not currently manage any Particpants.</p>
+			<p>You do not currently manage any particpants.</p>
 			<?php
 		}
 
@@ -182,27 +182,39 @@ class CPD_Options_Users {
 	 * Render the field
 	 */
 	public function cpd_user_managment_all_fields_callback() {
-		
+
+		$current_user      = wp_get_current_user();
 		$participants 	   = CPD_Users::get_participants();
 
 		if( is_array( $participants ) && count( $participants ) > 0 ) {
 
 			?>
-			<p>Select Participants to manage:</p>
+			<p>Select participants to manage:</p>
 			<ul>
 				<?php 
 					foreach( $participants as $participant ) {
-						$name        = $participant->first_name . ' ' . $participant->last_name;
-						$name        = trim( $name );
-						$username    = $participant->user_login;
-
+						$name             = $participant->first_name . ' ' . $participant->last_name;
+						$name             = trim( $name );
+						$username         = $participant->user_login;
+						$user_particpants = get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
+						$checked          = '';
+						
 						if( empty( $name ) ) {
 							$name    = $username;
 						}
+
+						if( !is_array( $user_particpants ) ) {
+							$user_particpants = array();
+						}
+
+						if( in_array( $participant->ID, $user_particpants ) ) {
+							$checked = 'checked';
+						}
+
 						?>
 						<li>
 							<label>
-							<input type="checkbox" name=""/>
+							<input type="checkbox" name="cpd_participants[]" <?php echo $checked;?>/>
 								<strong><?php echo $name;?></strong> <em>(<?php echo $username;?>)</em>
 							</label>
 						</li>
@@ -213,7 +225,7 @@ class CPD_Options_Users {
 			<?php
 		} else {
 			?>
-			<p>You do not currently manage any Particpants.</p>
+			<p>There are no participants available.</p>
 			<?php
 		}
 
