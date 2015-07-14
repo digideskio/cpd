@@ -218,3 +218,7 @@ div.updated.view-notice .dashicons-before:before {
     background: #FAFAFA none repeat scroll 0% 0%;
     position: relative;
 }
+
+.postbox .inside table {
+    font-size: 13px;
+}
