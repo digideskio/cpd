@@ -1,7 +1,7 @@
 (function( $ ) {
 	'use strict';
 	
-	showRelationships($('#cpd_role').val());
+	showRelationships();
 	$('#cpd_role, #cpd_journal').change(function(e) {
 		showRelationships();
 	});

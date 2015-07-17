@@ -427,12 +427,12 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$supervisors    = get_user_meta( $participant, 'cpd_related_supervisors', true );
 			$participants    = get_user_meta( $supervisor, 'cpd_related_participants', true );
 
-			if ( in_array( $supervisor, $supervisors ) ) {
+			if ( in_array( $supervisor, (array) $supervisors ) ) {
 				$position    =    array_search( $supervisor, (array) $supervisors );
 				unset( $supervisors[$position] );
 			}
 
-			if ( in_array( $participant, $participants ) ) {
+			if ( in_array( $participant, (array) $participants ) ) {
 				$position    =    array_search( $participant, (array) $participants );
 				unset( $participants[$position] );
 			}
