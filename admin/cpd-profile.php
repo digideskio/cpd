@@ -320,7 +320,7 @@ class CPD_Profile {
 	 */
 	public function save_field_cpd_relationship_management( $user_id ) {
 			
-		if(!is_super_admin()) {
+		if( !isset( $_POST['cpd_id'] ) && !is_super_admin()) {
 			return;
 		}
 
@@ -365,6 +365,13 @@ class CPD_Profile {
 
 			// If they are creating a new journal
 			if( $cpd_journal == 'new' ) {
+
+				// Remove them from all journals
+				if( count( $current_journals ) > 0 ) {
+					foreach( $current_journals as $journal ) {
+						remove_user_from_blog( $user_id, $journal->userblog_id );
+					}
+				}
 				
 				// Create the new journal
 				$blog    = get_blog_details( 'template-default' );
@@ -375,6 +382,16 @@ class CPD_Profile {
 				}
 
 				CPD_Users::create_user_journal( $user_id, $base_id );
+
+				$new_cpd_journals 	= 	wp_get_sites();
+
+				foreach( $new_cpd_journals as $j ) {
+					if( !in_array( $j, $all_cpd_journals ) ) {
+						$added_to_blog 	= 	add_user_to_blog( $j['blog_id'], $user_id, 'participant' );
+						update_user_meta( $user_id, 'primary_blog', $j['blog_id'] );
+						break;
+					} 
+				}
 			}
 
 			// If the journal picked is not the current one for this user
@@ -385,6 +402,7 @@ class CPD_Profile {
 				
 				// Set the journal as the primary blog
 				update_user_meta( $user_id, 'primary_blog', $cpd_journal );
+
 			}
 
 			// Get the posted supervisors

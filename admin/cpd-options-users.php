@@ -75,7 +75,14 @@ class CPD_Options_Users {
 		<p>
 			<strong>Note:</strong> You can only make alterations to your participants <strong>one at a time</strong>, and you must save the information by clicking the 'Update Participant' button.
 		</p>
+
 		<?php
+
+		if( isset( $_POST['cpd_id'] ) && !empty( $_POST['cpd_id'] ) && isset( $_POST['cpd_update_participant_nonce'] ) && wp_verify_nonce( $_POST['cpd_update_participant_nonce'], 'cpd_update_participant' ) ) {
+			$user_id = $_POST['cpd_id'];
+			$profile = CPD_Profile::get_instance();
+			$profile->save_field_cpd_relationship_management( $user_id );
+		}
 
 		$current_user      = wp_get_current_user();
 		$roles             = $current_user->roles;
@@ -114,6 +121,7 @@ class CPD_Options_Users {
 							</th>
 							<td>
 							<form method="post" action="" autocomplete="off">
+
 								<p><strong>Journal</strong></p>
 								<p><label for="cpd_journal">Choose the participants Journal:</label></p>
 								<br/>
@@ -191,7 +199,7 @@ class CPD_Options_Users {
 												?>
 												<li>
 													<label>
-														<input type="checkbox" name="cpd_supervisors[]" <?php echo $checked;?>/>
+														<input type="checkbox" name="cpd_supervisors[]" <?php echo $checked;?> value="<?php echo $supervisor->ID;?>"/>
 														<strong><?php echo $name;?></strong> <em>(<?php echo $username;?>)</em>
 													</label>
 												</li>
@@ -208,6 +216,10 @@ class CPD_Options_Users {
 									}
 								?>
 								<br/>
+								<input type="hidden" name="cpd_supervisors[]" value="<?php echo $current_user->ID;?>"/>
+								<?php wp_nonce_field( 'cpd_update_participant', 'cpd_update_participant_nonce' ) ?>
+								<input type="hidden" id="cpd_id" name="cpd_id" value="<?php echo $participant;?>"/>
+								<input type="hidden" id="cpd_role" name="cpd_role" value="participant"/>
 								<p><input type="submit" class="button button-primary" value="Update Participant"/>
 							</form>
 							</td>
