@@ -18,9 +18,17 @@
 				$('.cpd_supervisors').show();
 				$('.cpd_participants').hide();
 
-				if( $('#cpd_journal').val() == 'new' ) {
-					$('.cpd_journals_base').show();
-				}
+				// if( $('#cpd_journal').val() == 'new' ) {
+				// 	$('.cpd_journals_base').show();
+				// }
+
+				$('select[name=cpd_journal]').each( function() {
+
+					if( $(this).val() == 'new' ) {
+
+						$(this).closest('#cpd_profile').find('.cpd_journals_base').show();
+					}
+				});
 
 			} else if(cpd_role=='supervisor') {
 				$('.cpd_journals').hide();

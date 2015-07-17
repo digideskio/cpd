@@ -123,7 +123,7 @@ class CPD_Options_Users {
 								<strong><?php echo $name;?></strong> <em>(<?php echo $username;?>)</em>
 								</th>
 								<td>
-								<form method="post" action="" autocomplete="off">
+								<form method="post" action="" autocomplete="off" id="cpd_profile">
 
 									<p><strong>Journal</strong></p>
 									<p><label for="cpd_journal">Choose the participants Journal:</label></p>
