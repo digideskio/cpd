@@ -142,7 +142,7 @@ class CPD_Options_Users {
 										}
 									?>
 								</select>
-								<div class="cpd_journal_base">
+								<div class="cpd_journals_base">
 									<br/>
 									<p><label for="cpd_template_base">Choose template:</label></p>
 									<br/>
@@ -266,11 +266,13 @@ class CPD_Options_Users {
 
 		$current_user      = wp_get_current_user();
 		$participants 	   = CPD_Users::get_participants();
+		$disabled_participant = null;
 
 		if( is_array( $participants ) && count( $participants ) > 0 ) {
 
 			?>
 			<p>Select participants to manage:</p>
+			<form method="post" action="">
 			<ul>
 				<?php 
 					foreach( $participants as $participant ) {
@@ -279,6 +281,9 @@ class CPD_Options_Users {
 						$username         = $participant->user_login;
 						$user_particpants = get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
 						$checked          = '';
+						$journal          =	get_active_blog_for_user( $participant->ID );
+						$disabled         = '';
+						
 						
 						if( empty( $name ) ) {
 							$name    = $username;
@@ -292,10 +297,15 @@ class CPD_Options_Users {
 							$checked = 'checked';
 						}
 
+						if( get_current_blog_id() == $journal->blog_id ) {
+							$disabled             = 'disabled';
+							$disabled_participant = $participant->ID;
+						}
+
 						?>
 						<li>
 							<label>
-							<input type="checkbox" name="cpd_participants[]" <?php echo $checked;?>/>
+							<input type="checkbox" name="cpd_participants[]" <?php echo $checked;?> value="<?php echo $participant->ID;?>" <?php echo $disabled;?>/>
 								<strong><?php echo $name;?></strong> <em>(<?php echo $username;?>)</em>
 							</label>
 						</li>
@@ -303,6 +313,17 @@ class CPD_Options_Users {
 					}
 				?>
 			</ul>
+			<?php
+
+				if( !empty( $disabled_participant ) ) {
+					?>
+					<input type="hidden" name="cpd_participants[]" value="<?php echo $disabled_participant;?>"/>
+					<?php
+				}
+			?>
+			<?php wp_nonce_field( 'cpd_update_participant_management', 'cpd_update_participant_management_nonce' ) ?>
+			<p><input type="submit" class="button button-primary" value="Update Participants you Manage"/>
+			</form>
 			<?php
 		} else {
 			?>
@@ -333,6 +354,35 @@ class CPD_Options_Users {
 	 * Render the options page
 	 */
 	public function render_options_page(){
+
+		$current_user      = wp_get_current_user();
+		$user_participants = get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
+		$supervisor        = $current_user->ID;
+		$all_participants  = CPD_Users::get_participants();
+
+		if( isset( $_POST['cpd_participants'] ) && !empty( $_POST['cpd_participants'] ) && isset( $_POST['cpd_update_participant_management_nonce'] ) && wp_verify_nonce( $_POST['cpd_update_participant_management_nonce'], 'cpd_update_participant_management' ) ) {
+
+			$post_participants = $_POST['cpd_participants'];
+
+			if( is_array( $post_participants ) ) {
+
+				foreach( $all_participants as $participant ) {
+
+					$participant = $participant->ID;
+
+					if( in_array( $participant, $post_participants ) && !in_array( $participant, $user_participants ) ) {
+						CPD_Users::add_cpd_relationship( $supervisor, $participant );
+						$journal =	get_active_blog_for_user( $participant );
+						add_user_to_blog( $journal->blog_id, $supervisor, 'supervisor' );	
+
+					} else if( !in_array( $participant, $post_participants ) && in_array( $participant, $user_participants ) ) {
+						CPD_Users::remove_cpd_relationship( $supervisor, $participant );
+						$journal =	get_active_blog_for_user( $participant );
+						remove_user_from_blog( $supervisor, $journal->blog_id );					
+					}
+				}
+			}
+		}
 		?>
 		<div class="wrap cpd-settings cpd-settings-users">  
 			<h2>Manage Participants</h2> 

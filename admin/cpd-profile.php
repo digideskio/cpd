@@ -387,8 +387,7 @@ class CPD_Profile {
 
 				foreach( $new_cpd_journals as $j ) {
 					if( !in_array( $j, $all_cpd_journals ) ) {
-						$added_to_blog 	= 	add_user_to_blog( $j['blog_id'], $user_id, 'participant' );
-						update_user_meta( $user_id, 'primary_blog', $j['blog_id'] );
+						$cpd_journal = $j['blog_id'];
 						break;
 					} 
 				}
