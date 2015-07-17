@@ -259,7 +259,7 @@ class CPD_Options_Users {
 	public function cpd_user_managment_new_callback() {
 		?>
 		<p>
-			You can add a new participant by completing the details below:
+			You can add a new participant to your workload by completing the details below:
 		</p>
 		<p><strong>Note:</strong> The new user will <strong>Not</strong> automatically be added to your workload, but you can assign them using this page after they have been created.</p>
 		<?php
