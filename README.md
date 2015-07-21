@@ -35,7 +35,6 @@ Here are all the great features that have been implemented so far!
 ### 2.4.0 
 
 - New membership management area
-- Email Options (Opt in/out)
 
 ### 2.3.0
 
@@ -100,6 +99,7 @@ Here are all the great features that we plan to implement. If you have a feature
 ### 2.5.0
 
 - Personal Data Entry (Portfolio)
+- Email Options (Opt in/out)
 
 ### 2.6.0
 
