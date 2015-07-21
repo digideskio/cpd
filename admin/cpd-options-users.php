@@ -248,7 +248,7 @@ class CPD_Options_Users {
 	public function cpd_user_managment_all_callback() {
 		?>
 		<p>
-			Listed are all the participants. You can add or remove participants to and from your workload by check the boxes next to their name.
+			Listed are all the participants. You can add or remove participants to and from your workload by checking the boxes next to their name.
 		</p>
 		<?php
 	}
@@ -362,7 +362,7 @@ class CPD_Options_Users {
 			<p>Username and password will be mailed to the above email address.</p>
 			<?php wp_nonce_field( 'cpd_add_participant', 'cpd_add_participant_nonce' ) ?>
 			<br/>
-			<p><input type="submit" class="button button-primary" value="Add Participants"/>
+			<p><input type="submit" class="button button-primary" value="Add Participant"/>
 
 		</form>
 		<?php

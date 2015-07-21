@@ -275,7 +275,7 @@ class CPD_Options_Users_Participants {
 			<p>Username and password will be mailed to the above email address.</p>
 			<?php wp_nonce_field( 'cpd_add_participant', 'cpd_add_participant_nonce' ) ?>
 			<br/>
-			<p><input type="submit" class="button button-primary" value="Add Participants"/>
+			<p><input type="submit" class="button button-primary" value="Add Participant"/>
 
 		</form>
 		<?php
@@ -292,7 +292,7 @@ class CPD_Options_Users_Participants {
 		$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
 		
-		if( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) && current_user_can( 'manage_options' ) ) {
+		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) ) && current_user_can( 'manage_options' ) ) {
 			add_submenu_page( 'users.php', 'Manage Participants', 'Manage Participants', 'manage_options', 'cpd_settings_users_participants', array( $this, 'render_options_page' ) );
 		}	
 	}
