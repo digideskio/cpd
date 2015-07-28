@@ -404,7 +404,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*1*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'remove_admin_bar_menus' ) );
 			/*2*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'add_admin_bar_menu_switcher' ) );
 			/*3*/ add_action( 'wp_before_admin_bar_render', array( $admin, 'add_admin_bar_about_link' ), 0  );
-			/*4*/ add_action( 'init', array( $admin, 'add_admin_bar_logo' ) );
+			/*4*/ add_action( 'admin_bar_menu', array( $admin, 'add_admin_bar_logo' ) );
 
 			/**
 			 * Admin Footer

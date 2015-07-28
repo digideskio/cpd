@@ -222,14 +222,11 @@ class CPD_Admin {
 	 * Add custom logo to the admin bar
 	 */
 	public function add_admin_bar_logo() {
-		
-		if( is_admin_bar_showing() ) {
-			$template_name 						= 	'cpd-admin-bar-logo';
-			$template_path 						= 	CPD_Templates::get_template_path( $template_name );
+		$template_name = 	'cpd-admin-bar-logo';
+		$template_path = 	CPD_Templates::get_template_path( $template_name );
 
-			if( $template_path !== FALSE ) {
-				include $template_path;
-			}
+		if( $template_path !== FALSE ) {
+			include $template_path;
 		}
 	}
 }
