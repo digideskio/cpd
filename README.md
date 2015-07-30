@@ -12,7 +12,7 @@ A planned feature of this plugin is to enable the installation of this theme whe
 
 ## Documentation
 
-Documentation is still work in progress, but is shaping [in our Wiki](https://github.com/mkdo/cpd/wiki).
+Documentation is still work in progress, but is shaping up [in our Wiki](https://github.com/mkdo/cpd/wiki).
 
 ## Credits
 
