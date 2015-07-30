@@ -34,6 +34,11 @@ Here are all the great features that have been implemented so far!
 
 ### 2.4.0 
 
+- Re-enabled WordPress comments dashboard widget
+- Replaced 'howdy' text with user name and role notification
+
+### 2.4.0 
+
 - New membership management area
 
 ### 2.3.0

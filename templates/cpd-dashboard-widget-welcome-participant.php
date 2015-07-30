@@ -64,19 +64,21 @@ if( empty( $name ) ) {
 				<?php
 					foreach( $supervisors as $supervisor_id ) {
 						$supervisor = get_user_by( 'id', $supervisor_id );
-						$name 		= $supervisor->user_firstname . ' ' . $supervisor->user_lastname;
-						$name 		= trim( $name );
-						if( empty( $name ) ) {
-							$name = $supervisor->display_name;
+							if( is_object( $supervisor ) ) {
+							$name 		= $supervisor->user_firstname . ' ' . $supervisor->user_lastname;
+							$name 		= trim( $name );
+							if( empty( $name ) ) {
+								$name = $supervisor->display_name;
+							}
+							?>
+								<li>
+									<span class="dashicons-before dashicons-businessman"></span> 
+									<a href="mailto:<?php echo $supervisor->user_email;?>">
+										<?php echo $name;?>
+									</a>
+								</li>
+							<?php
 						}
-						?>
-							<li>
-								<span class="dashicons-before dashicons-businessman"></span> 
-								<a href="mailto:<?php echo $supervisor->user_email;?>">
-									<?php echo $name;?>
-								</a>
-							</li>
-						<?php
 					} 
 				?>
 			</ul>

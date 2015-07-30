@@ -97,21 +97,21 @@ class CPD_Dashboards {
 						'page' 			=> 	'dashboard',
 						'context' 		=> 	'side'
 					),
-					array (
-						'id' 			=> 	'dashboard_recent_comments',
-						'page' 			=> 	'dashboard',
-						'context' 		=> 	'normal'
-					),
+					// array (
+					// 	'id' 			=> 	'dashboard_recent_comments',
+					// 	'page' 			=> 	'dashboard',
+					// 	'context' 		=> 	'normal'
+					// ),
 					array (
 						'id' 			=> 	'dashboard_right_now',
 						'page' 			=> 	'dashboard',
 						'context' 		=> 	'normal'
 					),
-					array (
-						'id' 			=> 	'dashboard_activity',
-						'page' 			=> 	'dashboard',
-						'context' 		=> 	'normal'
-					),
+					// array (
+					// 	'id' 			=> 	'dashboard_activity',
+					// 	'page' 			=> 	'dashboard',
+					// 	'context' 		=> 	'normal'
+					// ),
 					array (
 						'id' 			=> 	'network_dashboard_right_now',
 						'page' 			=> 	'dashboard-network',

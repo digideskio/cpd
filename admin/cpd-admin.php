@@ -58,6 +58,9 @@ class CPD_Admin {
 
 		global $wp_admin_bar;
 
+		$user_id = get_current_user_id();
+		$user    = get_userdata($user_id);
+
 		$admin_bar_menus 	=	array(
 									'wp-logo',
 									'my-sites',
@@ -79,8 +82,34 @@ class CPD_Admin {
     	}
 
     	// Remove 'Howdy'
-    	$profile 			=	$wp_admin_bar->get_node('my-account');
-		$title				= 	str_replace( 'Howdy,', '', $profile->title );
+    	$avatar             = get_avatar( $user_id );
+		$name        		= $user->first_name . ' ' . $user->last_name;
+		$name               = trim( $name );
+		$username           = $user->user_login;
+		$level              = '';
+    	$profile 			= $wp_admin_bar->get_node('my-account');
+    	$roles 				= $user->roles;
+		$is_elevated_user 	= get_user_meta( $user->ID, 'elevated_user', TRUE ) == '1';
+
+		if( empty( $name ) ) {
+			$name    = $username;
+		} else {
+			$name    = $name . ' (' . $username . ') ';
+		}
+
+		if( is_network_admin() || is_super_admin() ) {
+			$level = __( '- Network Administrator', $this->text_domain );
+		} else if( $is_elevated_user || user_can( $user, 'administrator' ) || user_can( $user, 'editor' )  ) {
+			$level = __( '- Administrator', $this->text_domain );
+		} else if( in_array( 'supervisor', $roles ) ) {
+			$level = __( '- Supervisor', $this->text_domain );
+		} else if( in_array( 'participant', $roles ) ) {
+			$level = __( '- Participant', $this->text_domain );
+		} else if ( user_can( $user, 'subscriber' ) ) {
+			$level = __( '- Subscriber',$this->text_domain );
+		}
+
+		$title				= $name . ' ' . $level . ' ' . $avatar;
 
 		$wp_admin_bar->add_node( 
 			array(
