@@ -174,6 +174,10 @@ class CPD_Profile {
 			return;
 		}
 
+		if( is_super_admin( $user->ID ) ) {
+			return;
+		}
+
 		$cpd_role 			= 	get_user_meta( $user->ID, 'cpd_role', TRUE );
 		$user_supervisors	=	get_user_meta( $user->ID, 'cpd_related_supervisors', TRUE );
 		$all_supervisors 	=	CPD_Users::get_supervisors();

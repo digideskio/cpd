@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.4.1
+ * Version:           2.4.2
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -590,6 +590,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [10] Remove the built in WP authentication filter
 			 * [11] Add Filter to authenticate with email address
 			 * [12] Prevent CPD roles on root
+			 * [13] Prevent admins from being supervisors
 			 */
 
 			/*1*/ add_action( 'user_has_cap', array( $users, 'set_admin_capabilities' ) );
@@ -604,6 +605,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*10*/ remove_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
 			/*11*/ add_filter( 'authenticate', array( $users, 'authenticate_email_username_password' ), 20, 3 );
 			/*12*/ add_action( 'init', array( $users, 'prevent_cpd_roles_on_root' ) );
+			/*13*/ add_action( 'init', array( $users, 'prevent_admin_being_supervisor' ) );
 
 			/**
 			 * Users Static Methods
@@ -705,6 +707,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [7] Set comment options (prevent options from being unticked)
 			 * [8] Enable TinyMCE for comments
 			 * [9] Enable HTML Tags in comments
+			 * [10] Enable comments on journal entries
 			 */
 
 			/*1*/ add_action( 'current_screen', array( $comments, 'prevent_participants_editing_supervisor_comments' ), 10, 1 );
@@ -716,6 +719,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*7*/ add_action( 'init', array( $comments, 'set_comment_options' ), 10, 1 );
 			/*8*/ add_filter( 'comment_form_defaults', array( $comments, 'enable_comment_tinymce' ) );
 			/*9*/ add_filter( 'preprocess_comment', array( $comments, 'enable_comment_tags' ) );
+			/*10*/ add_filter( 'wp_insert_post_data', array( $comments, 'comments_on_journal_entries' ) );
 
 			/**
 			 * PPD

@@ -255,5 +255,22 @@ class CPD_Comments {
 		return $data;
 	}
 
+	/**
+	 * Enable comments on journal entries
+	 * 
+	 * @param  ojbect $data Post Data
+	 */
+	public function comments_on_journal_entries( $data ) {
+    	
+    	$blog_id = get_current_blog_id();
+
+		if ( SITE_ID_CURRENT_SITE != $blog_id ) {
+			if( $data['post_type'] == 'post' ) {
+				$data['comment_status'] = 'open';
+			}
+		}
+
+		return $data;
+	}
 }
 }

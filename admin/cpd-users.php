@@ -131,7 +131,8 @@ if ( !class_exists( 'CPD_Users' ) ) {
 					// 'edit_others_posts',
 					'edit_others_pages',
 					'delete_others_posts',
-					'delete_others_pages'
+					'delete_others_pages',
+					'manage_privacy'
 				)
 			);
 
@@ -144,10 +145,12 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$role->add_cap( 'copy_assignments' );
 			$role->add_cap( 'edit_theme_options' );
 			$role->add_cap( 'supervise_users' );
+			$role->add_cap( 'manage_privacy' );
 
 			// Make sure admins have the supervisor privilege
 			$role = get_role( 'administrator' );
 			$role->add_cap( 'supervise_users' );
+			$role->add_cap( 'manage_privacy' );
 		}
 
 		/**
@@ -593,6 +596,27 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		}
 
 		/**
+		 * Is the user a participant of any Journal
+		 */
+		public static function user_is_site_participant( $user ) {
+			$participants   = CPD_Users::get_participants();
+			$is_participant = false;
+
+			if( !is_array( $participants ) ) {
+				$participants = array();
+			}
+
+			foreach( $participants as $participant ) {
+				if( $participant->ID == $user->ID ) {
+					$is_participant = true;
+					break;
+				}
+			}
+
+			return $is_participant;
+		}
+
+		/**
 		 * If an email address is entered in the username box, then look up the matching username and authenticate as per normal, using that.
 		 *
 		 * @param string $user
@@ -630,6 +654,49 @@ if ( !class_exists( 'CPD_Users' ) ) {
 					$roles    = $user->roles;
 					if( in_array( 'participant', $roles ) || in_array( 'supervisor', $roles ) ) {
 						$user->set_role('subscriber');
+					}
+				}
+				
+			}
+		}
+
+		public function prevent_admin_being_supervisor() {
+
+			$blog_id = get_current_blog_id();
+			
+			if( SITE_ID_CURRENT_SITE == $blog_id ) {
+
+				$current_user 					= wp_get_current_user();
+				$user_id                        = $current_user->ID;
+				$roles 							= $current_user->roles;
+				$is_elevated_user 				= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
+				$all_supervisors 	            = CPD_Users::get_supervisors();
+				$all_participants 	            = CPD_Users::get_participants();
+
+				if( is_super_admin() ) {
+
+					if( in_array( 'supervisor', $roles ) || in_array( 'participant', $roles ) || self::user_is_site_supervisor( $current_user ) || self::user_is_site_participant( $current_user ) ) {
+
+						// Remove the CPD Role
+						update_user_meta( $user_id, 'cpd_role', 'none' );
+
+						// Remove the user from all blogs
+						CPD_Users::remove_user_from_blogs( $user_id );
+						
+						// Remove related participants
+						delete_user_meta( $user_id, 'cpd_related_participants' );
+
+						// Remove related supervisors
+						delete_user_meta( $user_id, 'cpd_related_supervisors' );
+
+						// Remove from all participants
+						CPD_Users::remove_user_from_related_supervisors( $user_id, $all_participants );
+
+						// Remove from all supervisors
+						CPD_Users::remove_user_from_related_participants( $user_id, $all_supervisors );
+
+						// Add them to the default blog as an admin
+						add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'administrator' );
 					}
 				}
 				

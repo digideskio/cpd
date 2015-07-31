@@ -299,7 +299,7 @@ class CPD_Options_Privacy {
 	 */
 	public function add_options_page() {
 		$blog_id = get_current_blog_id();
-		if( current_user_can( 'manage_options' ) && SITE_ID_CURRENT_SITE != $blog_id && !CPD_Blogs::blog_is_template() ) {
+		if( current_user_can( 'manage_privacy' ) && SITE_ID_CURRENT_SITE != $blog_id && !CPD_Blogs::blog_is_template() ) {
 			add_menu_page( 'Privacy', 'Privacy', 'manage_options', 'cpd_settings_privacy', array( $this, 'render_options_page' ), 'dashicons-shield' );
 		}
 	}

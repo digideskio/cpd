@@ -32,10 +32,17 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
-### 2.4.0 
+### 2.4.2
+
+- Forced journal entries to have comments enabled
+- Super Admins can no longer be supervisors
+- Stopped participants from managing privacy options by default, a cap of `manage_privacy` has been added to the filter `filter_cpd_remove_participant_capabilities` in admin/cpd-users.php
+
+### 2.4.1
 
 - Re-enabled WordPress comments dashboard widget
 - Replaced 'howdy' text with user name and role notification
+- Fixed issue with plugin updator
 
 ### 2.4.0 
 

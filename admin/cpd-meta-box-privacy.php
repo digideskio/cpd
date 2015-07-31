@@ -133,7 +133,9 @@ class CPD_Meta_Box_Privacy {
 
 		$this->args['metabox_args']['pages']    =   $post_types;
 
-		$meta_boxes[] 							= 	$this->args['metabox_args'];
+		if( current_user_can( 'manage_privacy' ) ) {
+			$meta_boxes[] 							= 	$this->args['metabox_args'];
+		}
 		
 		return $meta_boxes;
 	}
