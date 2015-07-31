@@ -297,7 +297,6 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 			if ( isset( $hook_extra['theme'] ) && ( $hook_extra['theme'] == $this->config['slug'] ) ) {
 				// Move & Activate
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
-				chmod( $result['destination'], 0755);
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
 				$result['destination_name'] = $this->config['slug'];
@@ -307,7 +306,6 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 
 			if ( isset( $hook_extra['type'] ) &&  $hook_extra['type'] == 'theme' && strrpos( $result['destination'], $this->config['slug'] ) ) {
 				$proper_destination = trailingslashit( get_theme_root() ) . $this->config['slug'];
-				chmod( $result['destination'], 0755);
 				rename( $result['destination'], $proper_destination );
 				$result['destination'] = $proper_destination;
 				$result['destination_name'] = $this->config['slug'];
