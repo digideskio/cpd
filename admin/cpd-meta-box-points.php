@@ -49,7 +49,7 @@ class CPD_Meta_Box_Points {
 		$this->args 							= 	array(
 														'id' 					=> 'points',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Points',
+														'name' 					=> __('Points', $this->text_domain),
 														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Points {
 													array( 
 														'id'			=> 	$this->key_prefix . 'points', 
 														'name' 			=> 	__( 'Points Awarded', $this->text_domain ),
-														'desc'			=>	'Enter the points that this achivement should be awarded',
+														'desc'			=>	__('Enter the points that this achivement should be awarded', $this->text_domain),
 														'type'			=> 	'text_small',
 														'cols'			=> 	12,
 														'readonly'		=>	FALSE
@@ -133,7 +133,7 @@ class CPD_Meta_Box_Points {
 														array( 
 															'id'			=> 	$this->key_prefix . 'points', 
 															'name' 			=> 	__( 'Points Awarded', $this->text_domain ),
-															'desc'			=>	'Only a supervisor can award points',
+															'desc'			=>	__('Only a supervisor can award points', $this->text_domain),
 															'type'			=> 	'text_small',
 															'cols'			=> 	12,
 															'readonly'		=>	TRUE

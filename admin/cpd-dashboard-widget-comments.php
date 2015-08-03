@@ -60,7 +60,7 @@ class CPD_Dashboard_Widget_Comments {
 		if ( current_user_can('moderate_comments') && get_option( 'default_comment_status' ) != 'closed' && !CPD_Blogs::blog_is_template() ) {
 			wp_add_dashboard_widget(
 				'cpd_dashboard_widget_comments',
-				'<span class="cpd-dashboard-widget-title dashicons-before dashicons-admin-comments"></span> Comments',
+				'<span class="cpd-dashboard-widget-title dashicons-before dashicons-admin-comments"></span> ' . __('Comments', $this->text_domain ),
 				array( $this, 'render_dashboard_widget' )
 			);
 		}

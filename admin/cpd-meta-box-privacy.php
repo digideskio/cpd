@@ -49,7 +49,7 @@ class CPD_Meta_Box_Privacy {
 		$this->args 							= 	array(
 														'id' 					=> 'privacy',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> Privacy',
+														'name' 					=> '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> '. __('Privacy', $this->text_domain),
 														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Privacy {
 													array( 
 														'id'			=> 	$this->key_prefix . 'private_content', 
 														'name' 			=> 	__( 'Private Content', $this->text_domain ),
-														'desc'			=>	'Check the box below to mark this content as private. <a href="admin.php?page=cpd_settings_privacy#private-content-who">Who can view private content?</a>',
+														'desc'			=>	__('Check the box below to mark this content as private.', $this->text_domain) .' <a href="admin.php?page=cpd_settings_privacy#private-content-who">'.__('Who can view private content?', $this->text_domain) .'</a>',
 														'type'			=> 	'checkbox',
 														'cols'			=> 	12,
 														'readonly'		=>	FALSE

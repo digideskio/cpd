@@ -57,7 +57,7 @@ class CPD_Dashboard_Widget_Unassigned_Users {
 	 * Add the dashboard widget
 	 */
 	public function add_dashboard_widget() {
-		add_meta_box( 'add_dashboard_widget_unassigned_users', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-groups"></span> CPD Relationships', array( $this, 'render_dashboard_widget' ), 'dashboard-network', 'side' );	
+		add_meta_box( 'add_dashboard_widget_unassigned_users', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-groups"></span> ' . __('CPD Relationships', $this->text_domain ), array( $this, 'render_dashboard_widget' ), 'dashboard-network', 'side' );	
 	}
 
 	/**

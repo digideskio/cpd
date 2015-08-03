@@ -59,7 +59,7 @@ class CPD_Comments_UI {
 	function add_comment_field_score( $commenter, $user_identity )
 	{	
 		$comment_fields = array(
-			'score' 	=> 	'<div class="span4"><p class="cpd-comment-score"><label for="score">Score <span class="required">*</span></label><input class="span4" id="score" name="score" type="text" value="" size="30" aria-required="true"/></p></div><div class="clearfix"></div>'
+			'score' 	=> 	'<div class="span4"><p class="cpd-comment-score"><label for="score">'.__('Score', $this->text_domain).' <span class="required">*</span></label><input class="span4" id="score" name="score" type="text" value="" size="30" aria-required="true"/></p></div><div class="clearfix"></div>'
 		);
 
 		// Get the current user
@@ -131,7 +131,7 @@ class CPD_Comments_UI {
 
 			if( !empty( $score ) )
 			{
-				$comment->comment_content .= "\r\n" . '<p><strong>Score: ';
+				$comment->comment_content .= "\r\n" . '<p><strong>'.__('Score', $this->text_domain).': ';
 				$comment->comment_content .=  get_comment_meta( $comment->comment_ID, 'score', true );
 				$comment->comment_content .= '</strong></p>';
 			}

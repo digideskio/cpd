@@ -59,7 +59,7 @@ class CPD_Dashboard_Widget_Welcome {
 	public function add_dashboard_widget() {
 		
 		$welcome_widget_function 		= 'render_welcome_subscriber';
-		$welcome_title 					= 'Welcome to Aspire CPD ';
+		$welcome_title 					= __('Welcome to Aspire CPD ', $this->text_domain );
 		$dashboard 						= 'dashboard';
 
 		$current_user 					= wp_get_current_user();
@@ -75,7 +75,7 @@ class CPD_Dashboard_Widget_Welcome {
 		else if( is_network_admin() ) {
 			$dashboard 					= 'dashboard-network';
 			$welcome_widget_function 	= 'render_welcome_network';
-			$welcome_title 				= 'Welcome to the CPD Network Settings ';
+			$welcome_title 				= __('Welcome to the CPD Network Settings ', $this->text_domain );
 		}
 		else if( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || user_can( $current_user, 'editor' )  ) {
 			$welcome_widget_function 	= 'render_welcome_admin';

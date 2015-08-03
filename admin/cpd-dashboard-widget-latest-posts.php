@@ -58,16 +58,16 @@ class CPD_Dashboard_Widget_Latest_Posts {
 	 */
 	public function add_dashboard_widget() {
 		
-		$latest_posts_title  			= 'All journal entries by week';
+		$latest_posts_title  			= __('All journal entries by week', $this->text_domain );
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
-			$latest_posts_title  			= 'Your participants journal entries by week';
+			$latest_posts_title  			= __('Your participants journal entries by week', $this->text_domain );
 		}
 		else if( in_array( 'participant', $roles ) ) {
-			$latest_posts_title  			= 'Your journal entries by week';
+			$latest_posts_title  			= __('Your journal entries by week', $this->text_domain );
 		}
 
 		wp_add_dashboard_widget(
@@ -105,12 +105,12 @@ class CPD_Dashboard_Widget_Latest_Posts {
 		if( !isset( $_POST['latest_posts_histogram_widget_config'] ) ) {
 			?>
 			<input type="hidden" name="latest_posts_histogram_widget_config" value="1">
-			<label for="weeks">Ammount of weeks shown</label>
+			<label for="weeks"><?php __e('Ammount of weeks shown', $this->text_domain );?></label>
 			<select name="weeks" id="weeks">
-				<option <?php echo $weeks == 4 	? 'selected' : '';?> value="4">4</option>
-				<option <?php echo $weeks == 8 	? 'selected' : '';?> value="8">8</option>
-				<option <?php echo $weeks == 12 ? 'selected' : '';?> value="12">12</option>
-				<option <?php echo $weeks == 24 ? 'selected' : '';?> value="24">24</option>
+				<option <?php echo $weeks == 4 	? 'selected' : '';?> value="4"><?php __e('4', $this->text_domain );?></option>
+				<option <?php echo $weeks == 8 	? 'selected' : '';?> value="8"><?php __e('8', $this->text_domain );?></option>
+				<option <?php echo $weeks == 12 ? 'selected' : '';?> value="12"><?php __e('12', $this->text_domain );?></option>
+				<option <?php echo $weeks == 24 ? 'selected' : '';?> value="24"><?php __e('24', $this->text_domain );?></option>
 			</select>
 			<?php
 		} 

@@ -49,7 +49,7 @@ class CPD_Meta_Box_Criteria {
 		$this->args 							= 	array(
 														'id' 					=> 'criteria',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Criteria',
+														'name' 					=> __('Criteria', $this->text_domain),
 														'context' 				=> 'normal',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -111,42 +111,42 @@ class CPD_Meta_Box_Criteria {
 													array( 
 														'id'			=> 	$this->key_prefix . 'criteria_group', 
 														// 'name' 			=> 	__( 'Evidence', $this->text_domain ),
-														'desc'			=>	'The criteria for this assessment. Criteria can only be added by a supervisor.',
+														'desc'			=>	__('The criteria for this assessment. Criteria can only be added by a supervisor.', $this->text_domain),
 														'type'			=> 	'group',
 														'cols'			=> 	12,
 														'fields'		=> 	array(
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_title', 
 																					'name' 			=> 	__( 'Criteria', $this->text_domain ),
-																					// 'desc'			=>	'The fields below define an item in a set of criteria. Please fill out all parts relating to participant.',
+																					// 'desc'			=>	'',
 																					'type'			=> 	'title',
 																					'cols'			=> 	12
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_max_score', 
 																					'name' 			=> 	__( 'Maximum score', $this->text_domain ),
-																					'desc'			=>	'The maximum score available',
+																					'desc'			=>	__('The maximum score available', $this->text_domain),
 																					'type'			=> 	'text',
 																					'cols'			=> 	4
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_participants_score', 
 																					'name' 			=> 	__( 'Participants score', $this->text_domain ),
-																					'desc'			=>	'Self assessement score',
+																					'desc'			=>	__('Self assessement score', $this->text_domain),
 																					'type'			=> 	'text',
 																					'cols'			=> 	4
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_supervisors_score', 
 																					'name' 			=> 	__( 'Supervisors score', $this->text_domain ),
-																					'desc'			=>	'Actual score',
+																					'desc'			=>	__('Actual score', $this->text_domain),
 																					'type'			=> 	'text',
 																					'cols'			=> 	4
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_guidance', 
 																					'name' 			=> 	__( 'Guidance', $this->text_domain ),
-																					'desc'			=>	'Guidance for this criteria (editable by the supervisor).',
+																					'desc'			=>	__('Guidance for this criteria (editable by the supervisor).', $this->text_domain),
 																					'type'			=> 	'wysiwyg',
 																					'options'       =>  array(
 																											'textarea_rows' => 5,
@@ -159,7 +159,7 @@ class CPD_Meta_Box_Criteria {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_response', 
 																					'name' 			=> 	__( 'Response', $this->text_domain ),
-																					'desc'			=>	'Response to the critera (editable by the participant)',
+																					'desc'			=>	__('Response to the critera (editable by the participant)', $this->text_domain),
 																					'type'			=> 	'wysiwyg',
 																					'options'       =>  array(
 																											'textarea_rows' => 5,
@@ -168,65 +168,10 @@ class CPD_Meta_Box_Criteria {
 																										),
 																					'cols'			=> 	12
 																				),
-																				// array( 
-																				// 	'id'			=> 	$this->key_prefix . 'criteria_evidence', 
-																				// 	'name' 			=> 	__( 'Evidence', $this->text_domain ),
-																				// 	'desc'			=>	'Eg. certificate of achivement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need by adding more groups.',
-																				// 	'type'			=> 	'group',
-																				// 	'cols'			=> 	12,
-																				// 	'fields'		=> 	array(
-																											
-																				// 							array( 
-																				// 								'id'			=> 	$this->key_prefix . 'evidence_type', 
-																				// 								'name' 			=> 	__( 'Evidence Type', $this->text_domain ),
-																				// 								'desc'			=>	'Choose the type of evidence you wish to add.',
-																				// 								'type'			=> 	'radio',
-																				// 								'cols'			=> 	12,
-																				// 								'options'		=> 	array(
-																				// 														'upload' 	=>	'File Upload',
-																				// 														'journal' 	=>	'Journal Item',
-																				// 														'url' 		=>	'URL',
-																				// 													)
-																				// 							),
-																				// 							array( 
-																				// 								'id'			=> 	$this->key_prefix . 'evidence_title', 
-																				// 								'name' 			=> 	__( 'Title', $this->text_domain ),
-																				// 								'desc'			=>	'Title or short description of the evidence:',
-																				// 								'type'			=> 	'text',
-																				// 								'cols'			=> 	12
-																				// 							),
-																				// 							array( 
-																				// 								'id'			=> 	$this->key_prefix . 'evidence_file', 
-																				// 								'name' 			=> 	__( 'File Upload', $this->text_domain ),
-																				// 								'desc'			=>	'Upload your evidence:',
-																				// 								'type'			=> 	'file',
-																				// 								'cols'			=> 	12
-																				// 							),
-																				// 							array( 
-																				// 								'id'			=> 	$this->key_prefix . 'evidence_journal', 
-																				// 								'name' 			=> 	__( 'Journal Item', $this->text_domain ),
-																				// 								'desc'			=>	'Please select the Journal Item:',
-																				// 								'type'			=> 	'select',
-																				// 								'cols'			=> 	12,
-																				// 								'options'		=>  $journal_entries,
-																				// 								'allow_none'	=>	TRUE
-																				// 							),
-																				// 							array( 
-																				// 								'id'			=> 	$this->key_prefix . 'evidence_url', 
-																				// 								'name' 			=> 	__( 'URL', $this->text_domain ),
-																				// 								'desc'			=>	'Cut and paste the URL of your evidence into the field provided:',
-																				// 								'type'			=> 	'text_url',
-																				// 								'cols'			=> 	12
-																				// 							),
-																				// 						),
-																				// 	'repeatable'	=> true,
-																				// 	'string-repeat-field' => 'Add Evidence',
-																				// 	'string-delete-field' => 'Remove Evidence',
-																				// ),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'criteria_feedback', 
 																					'name' 			=> 	__( 'Feedback', $this->text_domain ),
-																					'desc'			=>	'Feedback about this criteria (editable by the supervisor).',
+																					'desc'			=>	__('Feedback about this criteria (editable by the supervisor).', $this->text_domain),
 																					'type'			=> 	'wysiwyg',
 																					'options'       =>  array(
 																											'textarea_rows' => 5,
@@ -238,8 +183,8 @@ class CPD_Meta_Box_Criteria {
 																				
 																			),
 														'repeatable'	=> true,
-														'string-repeat-field' => 'Add Criteria',
-														'string-delete-field' => 'Remove Criteria',
+														'string-repeat-field' => __('Add Criteria', $this->text_domain),
+														'string-delete-field' => __('Remove Criteria', $this->text_domain),
 													),
 													
 												)

@@ -57,7 +57,7 @@ class CPD_Options_Copy_Posts {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'cpd_settings_templates', 'Copy Journal Entries', 'Copy Journal Entries', 'manage_options', 'cpd_settings_copy_posts', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'cpd_settings_templates', __('Copy Journal Entries', $this->text_domain), __('Copy Journal Entries', $this->text_domain), 'manage_options', 'cpd_settings_copy_posts', array( $this, 'render_options_page' ) );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class CPD_Options_Copy_Posts {
 		$journals 				= array();
 		$post_valid				= false;
 		$sites 					= array();
-		$success_message		= '<p><strong>Success: </strong> Journal Entries have been copied:</p>';
+		$success_message		= '<p><strong>'.__('Success', $this->text_domain).': </strong> '.__('Journal Entries have been copied', $this->text_domain).':</p>';
 		$current_user 			= wp_get_current_user();
 		$roles 					= $current_user->roles;
 		$is_elevated_user 		= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
@@ -102,7 +102,7 @@ class CPD_Options_Copy_Posts {
 			// We didnt find any journals, thats an error
 			if( !$post_valid )
 			{
-				$error_message = '<p><strong>Error:</strong> No journals were selected.</p>';
+				$error_message = '<p><strong>'.__('Error', $this->text_domain).':</strong> '.__('No journals were selected.', $this->text_domain).'</p>';
 			}
 			else
 			{
@@ -126,7 +126,7 @@ class CPD_Options_Copy_Posts {
 				// We didnt find any pages, thats an error
 				if( !$post_valid )
 				{
-					$error_message = '<p><strong>Error:</strong> No pages were selected.</p>';
+					$error_message = '<p><strong>'.__('Error', $this->text_domain) .':</strong> '.__('No pages were selected.', $this->text_domain).'</p>';
 				}
 				else
 				{
@@ -214,19 +214,19 @@ class CPD_Options_Copy_Posts {
 									} 
 									
 									// Update status list message
-									$success_message .= 'Successfully copied \'<strong>' . $post_to_copy->post_title .'</strong>\' into journal \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
+									$success_message .= __('Successfully copied', $this->text_domain).' \'<strong>' . $post_to_copy->post_title .'</strong>\' '.__('into journal', $this->text_domain) .' \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
 									$post_valid = true;
 								}
 								else
 								{
 									// Update status list message with reason for non copy
-									$success_message .= 'Could <strong>not</strong> copy \'<strong>' . $post_to_copy->post_title .'</strong>\' into journal \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
+									$success_message .= __('Could', $this->text_domain) .' <strong>'.__('not', $this->text_domain).'</strong> '.__('copy', $this->text_domain).' \'<strong>' . $post_to_copy->post_title .'</strong>\' '.__('into journal', $this->text_domain).' \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
 								}
 							}
 							else
 							{
 								// Update status list message with reason for non copy
-								$success_message .= 'Did <strong>not</strong> copy \'<strong>' . $post_to_copy->post_title .'</strong>\' into journal \'<strong>'. wp_title( '', false ) .'</strong>\' as there is already a page with that name in the journal.' ;
+								$success_message .= __('Did', $this->text_domain) .' <strong>'.__('not', $this->text_domain).'</strong> '.__('copy', $this->text_domain).' \'<strong>' . $post_to_copy->post_title .'</strong>\' '.__('into journal', $this->text_domain) .' \'<strong>'. wp_title( '', false ) .'</strong>\' '.__('as there is already a post with that name in the journal.', $this->text_domain) ;
 							}
 
 							// Swith back to current blog
@@ -242,7 +242,7 @@ class CPD_Options_Copy_Posts {
 			if( !$post_valid )
 			{
 
-				$error_message = '<p><strong>Error:</strong> All chosen Journal Entries already exist in all chosen Journals and/or Templates.</p>';
+				$error_message = '<p><strong>'.__('Error', $this->text_domain).':</strong> '.__('All chosen Journal Entries already exist in all chosen Journals and/or Templates.', $this->text_domain).'</p>';
 
 				?>
 				<div class="error"><?php echo $error_message; ?></div>
@@ -259,7 +259,7 @@ class CPD_Options_Copy_Posts {
 		// Render the form to copy the pages
 		?>
 		<div class="wrap cpd_options">
-			<h2>Copy Journal Entries</h2>
+			<h2><?php _e('Copy Journal Entries', $this->text_domain);?></h2>
 			<form method="post">
 				<?php 
 					settings_fields( 'cpd_group' );
@@ -299,7 +299,7 @@ class CPD_Options_Copy_Posts {
 								if( !$have_pages_message )
 								{
 									?>
-									<p>Below is a list of Template Journal Entries. Check all of the Journal Entries that you wish to copy into participant Journals.</p>
+									<p><?php _e('Below is a list of Template Journal Entries. Check all of the Journal Entries that you wish to copy into participant Journals.', $this->text_domain);?></p>
 									<?php
 
 									$have_pages_message = true;
@@ -307,7 +307,7 @@ class CPD_Options_Copy_Posts {
 
 								?>
 								<tr>
-								<th>Journal Entries in '<?php echo wp_title(); ?>'</th>
+								<th><?php _e('Journal Entries in', $this->text_domain);?> '<?php echo wp_title(); ?>'</th>
 
 								<?php
 
@@ -347,15 +347,15 @@ class CPD_Options_Copy_Posts {
 					{
 						?>
 						<div class="journal-wrapper">
-							<h2>Select Journals and Templates</h2>
-							<p>Check the Journals and Templates you wish to copy the selected Journal Entries into.</p>
-							<p><strong>Please note:</strong> If Journal Entries with the same name already exists in a Journal or Template the page will not be copied into that journal.</p>
+							<h2><?php _e('Select Journals and Templates', $this->text_domain);?></h2>
+							<p><?php _e('Check the Journals and Templates you wish to copy the selected Journal Entries into.', $this->text_domain);?></p>
+							<p><strong><?ph p_e('Please note', $this->text_domain);?>:</strong> <?php _e('If Journal Entries with the same name already exists in a Journal or Template the page will not be copied into that journal.', $this->text_domain);?></p>
 							<?php
 
 							?>
 							<table class="form-table">
 							<tr>
-							<th>Your Journals</th>
+							<th><?php _('Your Journals', $this->text_domain);?></th>
 							<td>
 							<ul class="journals">
 							<?php
@@ -385,7 +385,7 @@ class CPD_Options_Copy_Posts {
 							}
 							if( $count == 0 ) {
 								?>
-									<li>You have no Journals</li>
+									<li><?php _e('You have no Journals', $this->text_domain);?></li>
 								<?php
 							}
 							?>
@@ -394,7 +394,7 @@ class CPD_Options_Copy_Posts {
 							</td>
 							</tr>
 							<tr>
-							<th>Your Templates</th>
+							<th><?php _e('Your Templates', $this->text_domain);?></th>
 							<td>
 							<ul class="journals">
 							<?php
@@ -424,7 +424,7 @@ class CPD_Options_Copy_Posts {
 							}
 							if( $count == 0 ) {
 								?>
-									<li>You have no Templates</li>
+									<li><?php _e('You have no Templates', $this->text_domain);?></li>
 								<?php
 							}
 							?>
@@ -439,8 +439,8 @@ class CPD_Options_Copy_Posts {
 					if(!$have_pages)
 					{
 						?>
-							<p><strong>No journal entries have been created as yet.</strong></p>
-							<p>Please create a journal entries to continue.</p>
+							<p><strong><?php _e('No journal entries have been created as yet.', $this->text_domain);?></strong></p>
+							<p><?php _e('Please create a journal entries to continue.', $this->text_domain);?></p>
 						<?php
 					}
 				?>
@@ -448,7 +448,7 @@ class CPD_Options_Copy_Posts {
 				<?php 
 				if( $have_pages )
 				{
-					submit_button('Copy Pages');
+					submit_button(__('Copy Pages', $this->text_domain));
 				}
 				?>
 			</form>

@@ -48,26 +48,26 @@ class CPD_CPT_Assessment {
 	 */
 	public function __construct() {
 
-		$this->args        =  array(
-			'cpt_name'     => 'assessment',
-			'dash_icon'    => 'dashicons-yes',
-			'name_singular'   => 'Assesment',
-			'name_plural'    => 'Assessments',
-			'slug'      => 'assessments',
+		$this->args =  array(
+			'cpt_name'            => 'assessment',
+			'dash_icon'           => 'dashicons-yes',
+			'name_singular'       => __( 'Assesment', $this->text_domain ),
+			'name_plural'         => __( 'Assesments', $this->text_domain ),
+			'slug'                => 'assessments',
 			'image_metabox_title' => '',
-			'menu_postition'  => 20,
-			'post_type_args'  => array(),
-			'show_in_menu'   => TRUE,
+			'menu_postition'      => 20,
+			'post_type_args'      => array(),
+			'show_in_menu'        => TRUE,
 		);
 
-		$this->cpt_name       =  $this->args[ 'cpt_name'    ];
-		$this->dash_icon       =  $this->args[ 'dash_icon'   ];
-		$this->name_singular      =  $this->args[ 'name_singular'  ];
-		$this->name_plural       =  $this->args[ 'name_plural'   ];
-		$this->slug        =  $this->args[ 'slug'     ];
-		$this->image_metabox_title     =  $this->args[ 'image_metabox_title' ];
-		$this->menu_postition      =  $this->args[ 'menu_postition'  ];
-		$this->show_in_menu      =  $this->args[ 'show_in_menu'   ];
+		$this->cpt_name            =  $this->args[ 'cpt_name' ];
+		$this->dash_icon           =  $this->args[ 'dash_icon' ];
+		$this->name_singular       =  $this->args[ 'name_singular' ];
+		$this->name_plural         =  $this->args[ 'name_plural' ];
+		$this->slug                =  $this->args[ 'slug' ];
+		$this->image_metabox_title =  $this->args[ 'image_metabox_title' ];
+		$this->menu_postition      =  $this->args[ 'menu_postition' ];
+		$this->show_in_menu        =  $this->args[ 'show_in_menu' ];
 
 		// Lets check whether our custom content menu has been created
 		if ( $this->show_in_menu && class_exists( 'MKDO_Admin' ) && $this->use_mkdo_menu ) {
@@ -75,28 +75,28 @@ class CPD_CPT_Assessment {
 			$this->show_in_menu      = 'mkdo_content_menu';
 		}
 
-		$post_type_args       = array(
-			'description'   =>  '',
-			'public'    =>  TRUE,
-			'publicly_queryable' =>  TRUE,
-			'show_in_nav_menus'  =>  TRUE,
-			'show_in_admin_bar'  =>  TRUE,
+		$post_type_args = array(
+			'description'         =>  '',
+			'public'              =>  TRUE,
+			'publicly_queryable'  =>  TRUE,
+			'show_in_nav_menus'   =>  TRUE,
+			'show_in_admin_bar'   =>  TRUE,
 			'exclude_from_search' =>  FALSE,
-			'show_ui'    =>  TRUE,
-			'show_in_menu'   =>  'cpd_content_menu',
-			'can_export'   =>  TRUE,
-			'delete_with_user'  =>  TRUE,
-			'hierarchical'   =>  FALSE,
-			'has_archive'   =>  TRUE,
-			'menu_icon'    =>  $this->dash_icon,
-			'query_var'    =>  $this->cpt_name,
-			'menu_position'   =>  $this->menu_postition,
+			'show_ui'             =>  TRUE,
+			'show_in_menu'        =>  'cpd_content_menu',
+			'can_export'          =>  TRUE,
+			'delete_with_user'    =>  TRUE,
+			'hierarchical'        =>  FALSE,
+			'has_archive'         =>  TRUE,
+			'menu_icon'           =>  $this->dash_icon,
+			'query_var'           =>  $this->cpt_name,
+			'menu_position'       =>  $this->menu_postition,
 
-			'rewrite'     =>  array(
+			'rewrite' =>  array(
 				'slug' => $this->slug
 			),
 
-			'supports'     =>  array(
+			'supports' =>  array(
 				'title',
 				'editor',
 				// 'author',
@@ -110,20 +110,20 @@ class CPD_CPT_Assessment {
 				// 'post-formats'
 			),
 
-			'label'     => __( $this->name_plural, $this->text_domain  ),
-			'labels'     => array(
-				'name'     => __( $this->name_plural,               $this->text_domain  ),
-				'singular_name'   => __( $this->name_singular,              $this->text_domain  ),
-				'menu_name'    => __( $this->name_plural,               $this->text_domain  ),
-				'name_admin_bar'  => __( $this->name_plural,               $this->text_domain  ),
-				'add_new'    => __( 'Add New',                 $this->text_domain  ),
-				'add_new_item'   => __( 'Add New '     . $this->name_singular,       $this->text_domain  ),
-				'edit_item'    => __( 'Edit '      . $this->name_singular,       $this->text_domain  ),
-				'new_item'    => __( 'New '      . $this->name_singular,       $this->text_domain  ),
-				'view_item'    => __( 'View '      . $this->name_singular,       $this->text_domain  ),
-				'search_items'   => __( 'Search '    . $this->name_plural,        $this->text_domain  ),
-				'not_found'    => __( 'No '      . $this->name_plural  .  ' found',    $this->text_domain  ),
-				'not_found_in_trash' => __( 'No '      . $this->name_plural  .  ' found in trash',  $this->text_domain  ),
+			'label'                  => __( 'Assesments',                   $this->text_domain ),
+			'labels' => array(
+				'name'               => __( 'Assesments',                   $this->text_domain ),
+				'singular_name'      => __( 'Assesment',                    $this->text_domain ),
+				'menu_name'          => __( 'Assesments',                   $this->text_domain ),
+				'name_admin_bar'     => __( 'Assesments',                   $this->text_domain ),
+				'add_new'            => __( 'Add New',                      $this->text_domain ),
+				'add_new_item'       => __( 'Add New Assesment',            $this->text_domain ),
+				'edit_item'          => __( 'Edit Assesment',               $this->text_domain ),
+				'new_item'           => __( 'New Assesment',                $this->text_domain ),
+				'view_item'          => __( 'View Assesment',               $this->text_domain ),
+				'search_items'       => __( 'Search Assesments',            $this->text_domain ),
+				'not_found'          => __( 'No Assesments found',          $this->text_domain ),
+				'not_found_in_trash' => __( 'No Assesments found in trash', $this->text_domain ),
 			)
 		);
 
@@ -175,7 +175,7 @@ class CPD_CPT_Assessment {
 		remove_meta_box( 'postimagediv', $this->cpt_name, 'side' );
 
 		if ( empty( $this->image_metabox_title ) ) {
-			add_meta_box( 'postimagediv', __( $this->name_singular . ' Image' ), 'post_thumbnail_meta_box', $this->cpt_name, 'side', 'default' );
+			add_meta_box( 'postimagediv', __( 'Assesment' . ' Image' ), 'post_thumbnail_meta_box', $this->cpt_name, 'side', 'default' );
 		}
 		else {
 			add_meta_box( 'postimagediv', __( $this->image_metabox_title ), 'post_thumbnail_meta_box', $this->cpt_name, 'side', 'default' );
@@ -189,8 +189,8 @@ class CPD_CPT_Assessment {
 
 		global $post, $wp_meta_boxes;
 
-		$html = '<h3>Assessment Title</h3>';
-		$html .= '<p class="cmb_metabox_description">The title should be the name of the assessment.</p>';
+		$html = '<h3>' . __( 'Assessment Title', $this->text_domain ) . '</h3>';
+		$html .= '<p class="cmb_metabox_description">' . __( 'The title should be the name of the assessment.', $this->text_domain ) . '</p>';
 
 		if ( !empty( $html ) ) {
 			$screen = get_current_screen();
@@ -209,16 +209,16 @@ class CPD_CPT_Assessment {
 		global $post, $wp_meta_boxes;
 
 
-		$html = '<h2>Response</h2>';
+		$html = '<h2>' . __( 'Response', $this->text_domain ) . '</h2>';
 		$html .= '<div class="cmb_metabox_description">';
-		$html .= '<p>General response to the assessment. When responding remember to detail the following:</p>';
+		$html .= '<p>' . __( 'General response to the assessment. When responding remember to detail the following:', $this->text_domain ) . '</p>';
 		$html .= '<ul>';
-		$html .= '<li> - In the area that you work, <strong>why</strong> do you need to apply this knowlege and understanding?</li>';
-		$html .= '<li> - <strong>What</strong> is it that you need to understand?</li>';
-		$html .= '<li> - <strong>How</strong> did you apply this knowlege?</li>';
+		$html .= '<li>' . __( ' - In the area that you work, <strong>why</strong> do you need to apply this knowlege and understanding?', $this->text_domain ) . '</li>';
+		$html .= '<li>' . __( ' - <strong>What</strong> is it that you need to understand?', $this->text_domain ) . '</li>';
+		$html .= '<li>' . __( ' - <strong>How</strong> did you apply this knowlege?', $this->text_domain ) . '</li>';
 		$html .= '</ul>';
-		$html .= '<p>More information can be provided against each critera in the \'Critera\' section (if they have been provided).</p>';
-		$html .= '<p>You can provide evidence in the \'Evidence / Verification\' section.</p>';
+		$html .= '<p>' . __( 'More information can be provided against each critera in the \'Critera\' section (if they have been provided).', $this->text_domain ) . '</p>';
+		$html .= '<p>' . __( 'You can provide evidence in the \'Evidence / Verification\' section.', $this->text_domain ) . '</p>';
 		$html .= '</div>';
 
 		if ( !empty( $html ) ) {
@@ -279,7 +279,7 @@ class CPD_CPT_Assessment {
 
 		// Halt if the post has been submitted
 		if ( $user_type == 'participant' && $submitted ) {
-			wp_die( __( "This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your <strong>supervisor</strong>." ) );
+			wp_die( __( 'This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your', $this->text_domain ) .  ' <strong>' . __('supervisor', $this->text_domain ) . '</strong>.' );
 		}
 
 	}
@@ -311,7 +311,7 @@ class CPD_CPT_Assessment {
 	}
 
 	public function prevent_assessment_publish_box() {
-		_e( "This assessment has been submitted, and is no longer editable.<br/><br/>If you need to edit the assessment please contact your <strong>supervisor</strong>." );
+		_e( "This assessment has been submitted, and is no longer editable.<br/><br/>If you need to edit the assessment please contact your <strong>supervisor</strong>.", $this->text_domain );
 	}
 }
 }

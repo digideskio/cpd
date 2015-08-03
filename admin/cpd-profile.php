@@ -64,19 +64,19 @@ class CPD_Profile {
 
 			<table class="form-table">
 				<tr>
-					<th scope="row">Elevated Admin Privileges</th>
+					<th scope="row"><?php _e('Elevated Admin Privileges', $this->text_domain);?></th>
 
 					<td>
 						
 						<fieldset>
 						
 							<legend class="screen-reader-text">
-								<span>Elevated Admin Privileges</span>
+								<span><?php _e('Elevated Admin Privileges', $this->text_domain);?></span>
 							</legend>
 							
 							<label>
 								<input name="elevated_user" type="checkbox" id="elevated_user" value="1"<?php checked( get_user_meta( $user->ID, 'elevated_user', true ) ) ?> />
-								Grant this user elevated admin privileges.
+								<?php _e('Grant this user elevated admin privileges.', $this->text_domain);?>
 							</label>
 						
 						</fieldset>
@@ -194,27 +194,27 @@ class CPD_Profile {
 		<a name="cpd_profile"></a>
 		<div id="cpd_profile">
 
-			<h3>Journal Relationship Management</h3>
+			<h3><?php _e('Journal Relationship Management', $this->text_domain);?></h3>
 
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th>Set Role</th>
+						<th><?php _e('Set Role', $this->text_domain);?></th>
 						<td> <?php
 							
 							?>
 							<select id="cpd_role" name="cpd_role">
-								<option value="" 			<?php echo empty( $cpd_role ) 			? 'selected' : '';?>>No Role</option>
-								<option value="participant" <?php echo $cpd_role == 'participant' 	? 'selected' : '';?>>Participant</option>
-								<option value="supervisor" 	<?php echo $cpd_role == 'supervisor' 	? 'selected' : '';?>>Supervisor</option>
+								<option value="" 			<?php echo empty( $cpd_role ) 			? 'selected' : '';?>><?php _e('No Role', $this->text_domain);?></option>
+								<option value="participant" <?php echo $cpd_role == 'participant' 	? 'selected' : '';?>><?php _e('Participant', $this->text_domain);?></option>
+								<option value="supervisor" 	<?php echo $cpd_role == 'supervisor' 	? 'selected' : '';?>><?php _e('Supervisor', $this->text_domain);?></option>
 							</select>
 						</td>
 					</tr>
 					<tr class="cpd_journals">
-						<th>Choose Journal</th> 
+						<th><?php _e('Choose Journal', $this->text_domain);?></th> 
 						<td>
 							<select id="cpd_journal" name="cpd_journal">
-								<option value="new">Create a new journal</option>
+								<option value="new"><?php _e('Create a new journal', $this->text_domain);?></option>
 								<?php
 									if( count( $all_cpd_journals ) ) {
 										foreach( $all_cpd_journals as $journal ) {
@@ -233,7 +233,7 @@ class CPD_Profile {
 						</td>
 					</tr>
 					<tr class="cpd_journals_base">
-						<th>Choose Journal Base</th> 
+						<th><?php _e('Choose Journal Base', $this->text_domain);?></th> 
 						<td>
 							<select id="cpd_template_base" name="cpd_template_base">
 							<?php
@@ -266,7 +266,7 @@ class CPD_Profile {
 						if( count( $all_supervisors ) ) {
 							?>
 							<tr class="cpd_supervisors">
-								<th>Allocated supervisors</th> 
+								<th><?php _e('Allocated supervisors', $this->text_domain);?></th> 
 								<td>
 									<?php
 									
@@ -291,7 +291,7 @@ class CPD_Profile {
 						if( count( $all_participants ) ) {
 							?>
 							<tr class="cpd_participants">
-								<th>Allocated participants</th>
+								<th><?php _e('Allocated participants', $this->text_domain);?></th>
 								<td>
 									<?php
 									if( count( $all_participants ) ) {

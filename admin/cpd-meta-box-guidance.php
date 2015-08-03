@@ -49,7 +49,7 @@ class CPD_Meta_Box_Guidance {
 		$this->args 							= 	array(
 														'id' 					=> 'guidance',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Guidance',
+														'name' 					=> __('Guidance', $this->text_domain),
 														'context' 				=> 'advanced',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Guidance {
 													array( 
 														'id'			=> 	$this->key_prefix . 'guidance', 
 														// 'name' 			=> 	__( 'Brief', $this->text_domain ),
-														'desc'			=>	'The guidance or brief for this assessment (can only be edited by a Supervisor). <strong>NOTE:</strong> Criteria for this assessment should be added in the \'Criteria\' section.',														'type'			=> 	'wysiwyg',
+														'desc'			=>	__('The guidance or brief for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE', $this->text_domain) .':</strong> '.__('Criteria for this assessment should be added in the \'Criteria\' section.', $this->text_domain),														'type'			=> 	'wysiwyg',
 														'cols'			=> 	12,
 													),
 												)
@@ -131,7 +131,7 @@ class CPD_Meta_Box_Guidance {
 														array( 
 															'id'			=> 	$this->key_prefix . 'guidance', 
 															// 'name' 			=> 	__( 'Brief', $this->text_domain ),
-															'desc'			=>	'The guidance or brief for this assessment (can only be edited by a Supervisor). <strong>NOTE:</strong> Criteria for this assessment can ve viewed in the \'Criteria\' section.',
+															'desc'			=>	__e('The guidance or brief for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE', $this->text_domain) .':</strong> .'.__('Criteria for this assessment can ve viewed in the \'Criteria\' section.', $this->text_domain),
 															'type'			=> 	'render',
 															'cols'			=> 	12,
 														),

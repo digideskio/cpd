@@ -51,8 +51,8 @@ class CPD_CPT_PPD {
 		$this->args 							= 	array(
 														'cpt_name' 				=> 'ppd',
 														'dash_icon' 			=> 'dashicons-index-card',
-														'name_singular' 		=> 'Activity',
-														'name_plural' 			=> 'Activities',
+														'name_singular' 		=> __( 'Activity', $this->text_domain ),
+														'name_plural' 			=> __( 'Activities', $this->text_domain ),
 														'slug' 					=> 'ppd',
 														'image_metabox_title'	=> '',
 														'menu_postition'		=> 20,
@@ -112,18 +112,18 @@ class CPD_CPT_PPD {
 													
 														'label'					=> __( $this->name_plural, $this->text_domain  ),
 														'labels' 				=> array(
-																						'name'					=> __( $this->name_plural, 														$this->text_domain  ),
-																						'singular_name'			=> __( $this->name_singular, 													$this->text_domain  ),
-																						'menu_name'				=> __( $this->name_plural, 														$this->text_domain  ),
-																						'name_admin_bar'		=> __( $this->name_plural, 														$this->text_domain  ),
-																						'add_new'				=> __( 'Add New', 																$this->text_domain  ),
-																						'add_new_item'			=> __( 'Add New ' 				. $this->name_singular, 						$this->text_domain  ),
-																						'edit_item'				=> __( 'Edit ' 					. $this->name_singular, 						$this->text_domain  ),
-																						'new_item'				=> __( 'New ' 					. $this->name_singular, 						$this->text_domain  ),
-																						'view_item'				=> __( 'View ' 					. $this->name_singular, 						$this->text_domain  ),
-																						'search_items'			=> __( 'Search '				. $this->name_plural, 							$this->text_domain  ),
-																						'not_found'				=> __( 'No ' 					. $this->name_plural 	. 	' found', 			$this->text_domain  ),
-																						'not_found_in_trash'	=> __( 'No ' 					. $this->name_plural 	. 	' found in trash', 	$this->text_domain  ),
+																						'name'					=> __( 'Activities', 					$this->text_domain ),
+																						'singular_name'			=> __( 'Activity', 						$this->text_domain ),
+																						'menu_name'				=> __( 'Activities', 					$this->text_domain ),
+																						'name_admin_bar'		=> __( 'Activities', 					$this->text_domain ),
+																						'add_new'				=> __( 'Add New', 						$this->text_domain ),
+																						'add_new_item'			=> __( 'Add New Activity', 				$this->text_domain ),
+																						'edit_item'				=> __( 'Edit Activity', 				$this->text_domain ),
+																						'new_item'				=> __( 'New Activity', 					$this->text_domain ),
+																						'view_item'				=> __( 'View Activity', 				$this->text_domain ),
+																						'search_items'			=> __( 'Search Activities', 			$this->text_domain ),
+																						'not_found'				=> __( 'No Activities found', 			$this->text_domain ),
+																						'not_found_in_trash'	=> __( 'No Activities found in trash', 	$this->text_domain ),
 																					)
 													);
 		
@@ -193,7 +193,7 @@ class CPD_CPT_PPD {
 		global $post, $wp_meta_boxes;
 
 		$html = '<h3>Activity Name</h3>';
-		$html .= '<p class="cmb_metabox_description">The title should be the name of the activity.</p>';
+		$html .= '<p class="cmb_metabox_description">'. __( 'The title should be the name of the activity.', $this->text_domain ) .'</p>';
 
 		if( !empty( $html ) )
 		{
@@ -214,7 +214,7 @@ class CPD_CPT_PPD {
 
 		
 		$html = '<h2>Value obtained</h2>';
-		$html .= '<p class="cmb_metabox_description"><em>Eg. Value obtained, skills acquired, learning outcomes, how PPD (Personal and Professional Development) has benefited the quality of my practice and users of my work.</em></p>';
+		$html .= '<p class="cmb_metabox_description"><em>'. __( 'Eg. Value obtained, skills acquired, learning outcomes, how PPD (Personal and Professional Development) has benefited the quality of my practice and users of my work.', $this->text_domain ) .'</em></p>';
 
 
 		if( !empty( $html ) )

@@ -75,7 +75,7 @@ class CPD_Emails {
 			$post_url 		= get_permalink( $post_id );
 			$post_author_id	= $saved_post->post_author; 
 			$post_author 	= get_userdata( $post_author_id );
-			$subject 		= $post_author->display_name . ' has updated their journal \'' . wp_title( '', false ) . '\'';
+			$subject 		= $post_author->display_name . __(' has updated their journal', $this->text_domain ) . ' \'' . wp_title( '', false ) . '\'';
 			$message 		= '';
 			$name 		= $post_author->user_firstname . ' ' . $post_author->user_lastname;
 			$name 		= trim( $name );
@@ -84,11 +84,11 @@ class CPD_Emails {
 			}
 
 			//Create the message
-			$message		.= '<p>The participant <strong>' . $name. '</strong> had updated their journal \'<strong>' . wp_title( '', false ) . '</strong>\' with the entry: <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
-			$message		.= '<p>Options:</p>';
+			$message		.= '<p>' . __('The participant', $this->text_domain ) . ' <strong>' . $name. '</strong> ' . __('had updated their journal', $this->text_domain ) .' \'<strong>' . wp_title( '', false ) . '</strong>\' ' . __('with the entry:', $this->text_domain ) .' <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
+			$message		.= '<p>' . __('Options:', $this->text_domain ) . '</p>';
 			$message		.= '<ul>';
-			$message		.= '<li><a href="'. $post_url .'">View the journal entry: <strong>'. $post_title .'</strong></a></li>';
-			$message		.= '<li><a href="'. $post_url .'#reply-title">Leave a comment on: <strong>'. $post_title .'</strong></a></li>';
+			$message		.= '<li><a href="'. $post_url .'">' . __('View the journal entry', $this->text_domain ) . ':<strong>'. $post_title .'</strong></a></li>';
+			$message		.= '<li><a href="'. $post_url .'#reply-title">' . __('Leave a comment on', $this->text_domain ) .': <strong>'. $post_title .'</strong></a></li>';
 			$message		.= '</ul>';
 
 			// Get the supervisors of the author
@@ -103,7 +103,7 @@ class CPD_Emails {
 			{
 				$supervisor = get_userdata( $supervisor );
 
-				$message = '<p>Dear <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
+				$message = '<p>' . __('Dear', $this->text_domain ) .' <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
 				add_filter( 'wp_mail_from_name', array( $this, 'set_html_email_from_name' ) );
 				add_filter( 'wp_mail_content_type',array($this,'set_html_content_type') );
 				wp_mail( $supervisor->user_email, $subject, $message );
@@ -146,11 +146,11 @@ class CPD_Emails {
 			}
 
 			//Create the message
-			$message		.= '<p>The participant <strong>' . $name . '</strong> has submitted an assessment in the journal \'<strong>' . wp_title( '', false ) . '</strong>\' named: <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
-			$message		.= '<p>Options:</p>';
+			$message		.= '<p>' . __('The participant', $this->text_domain ) .' <strong>' . $name . '</strong> ' . __('has submitted an assessment in the journal', $this->text_domain ) . ' \'<strong>' . wp_title( '', false ) . '</strong>\' ' . __('named', $this->text_domain ) .': <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
+			$message		.= '<p>'.__('Options', $this->text_domain ) .':</p>';
 			$message		.= '<ul>';
-			$message		.= '<li><a href="'. $post_url .'">View the assessment: <strong>'. $post_title .'</strong></a></li>';
-			$message		.= '<li><a href="'. $edit_url .'#reply-title">Provide feedback for the assessment: <strong>'. $post_title .'</strong></a></li>';
+			$message		.= '<li><a href="'. $post_url .'">' . __('View the assessment', $this->text_domain ).': <strong>'. $post_title . '</strong></a></li>';
+			$message		.= '<li><a href="'. $edit_url .'#reply-title">' . __('Provide feedback for the assessment', $this->text_domain ) . ': <strong>'. $post_title .'</strong></a></li>';
 			$message		.= '</ul>';
 
 			// Get the supervisors of the author
@@ -165,7 +165,7 @@ class CPD_Emails {
 			{
 				$supervisor = get_userdata( $supervisor );
 
-				$message = '<p>Dear <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
+				$message = '<p>' . __('Dear', $this->text_domain ) .' <strong>'. $supervisor->display_name .'</strong>,</p>' . $message;
 				add_filter( 'wp_mail_from_name', array( $this, 'set_html_email_from_name' ) );
 				add_filter( 'wp_mail_content_type',array($this,'set_html_content_type') );
 				wp_mail( $supervisor->user_email, $subject, $message );
@@ -197,7 +197,7 @@ class CPD_Emails {
 			$edit_url 		= get_edit_post_link( $post_id  );
 			$supervisor_id	= get_current_user_id();
 			$supervisor 	= get_userdata( $supervisor_id );
-			$subject 		= $supervisor->display_name . ' has marked your assessment as complete';
+			$subject 		= $supervisor->display_name . __(' has marked your assessment as complete', $this->text_domain );
 			$message 		= '';
 
 			$name 		= $supervisor->user_firstname . ' ' . $supervisor->user_lastname;
@@ -207,16 +207,16 @@ class CPD_Emails {
 			}
 
 			//Create the message
-			$message		.= '<p>The supervisor <strong>' . $name . '</strong> has marked an assessment as complete in the journal \'<strong>' . wp_title( '', false ) . '</strong>\' named: <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
-			$message		.= '<p>Options:</p>';
+			$message		.= '<p>'.__('The supervisor', $this->text_domain ) .' <strong>' . $name . '</strong> ' .__('has marked an assessment as complete in the journal', $this->text_domain ) .' \'<strong>' . wp_title( '', false ) . '</strong>\' '.__('named', $this->text_domain ) .': <strong><a href="'. $post_url .'">'. $post_title .'</a></strong></p>';
+			$message		.= '<p>'.__('Options', $this->text_domain ) .':</p>';
 			$message		.= '<ul>';
-			$message		.= '<li><a href="'. $post_url .'">View the assessment: <strong>'. $post_title .'</strong></a></li>';
+			$message		.= '<li><a href="'. $post_url .'">'.__('View the assessment', $this->text_domain ) .': <strong>'. $post_title .'</strong></a></li>';
 			$message		.= '</ul>';
 
 			$post_author_id	= $saved_post->post_author; 
 			$post_author 	= get_userdata( $post_author_id );
 		
-			$message = '<p>Dear <strong>'. $post_author->display_name .'</strong>,</p>' . $message;
+			$message = '<p>'.__('Dear', $this->text_domain ) .' <strong>'. $post_author->display_name .'</strong>,</p>' . $message;
 			add_filter( 'wp_mail_from_name', array( $this, 'set_html_email_from_name' ) );
 			add_filter( 'wp_mail_content_type',array($this,'set_html_content_type') );
 			wp_mail( $post_author->user_email, $subject, $message );
@@ -263,12 +263,12 @@ class CPD_Emails {
 		<?php
 		if( count( $orphaned_participants ) ) { 
 			?>
-			<p>The following participants have no supervisor assigned to them:</p>
+			<p><?php _e('The following participants have no supervisor assigned to them', $this->text_domain );?>:</p>
 			<table>
 				<tr>
-					<th>Name</th>
-					<th>Journal</th>
-					<th>Dashboard</th>
+					<th><?php _e('Name', $this->text_domain );?></th>
+					<th><?php _e('Journal', $this->text_domain );?></th>
+					<th><?php _e('Dashboard', $this->text_domain );?></th>
 				</tr> 
 				<?php 
 					foreach( $orphaned_participants as $participant ) {
@@ -298,7 +298,7 @@ class CPD_Emails {
 							</td>
 							<td>
 								<a href="<?php echo $site_admin_url?>">
-									Dashboard
+									<?php _e('Dashboard', $this->text_domain );?>
 								</a>
 							</td>
 						</tr>
@@ -311,19 +311,19 @@ class CPD_Emails {
 		else {
 
 			?>
-			<p>All participants have supervisors assigned to them.</p>
+			<p><?php _e('All participants have supervisors assigned to them.', $this->text_domain );?></p>
 			<?php
 		}
 		?>
 
-		<p><strong>Supervisors</strong></p>
+		<p><strong><?php _e('Supervisors', $this->text_domain );?></strong></p>
 		<?php
 		if( count( $redundant_supervisors ) ) { 
 			?>
-			<p>The following supervisors have no participants assigned to them:</p>
+			<p><?php _e('The following supervisors have no participants assigned to them', $this->text_domain );?>:</p>
 			<table>
 				<tr>
-					<th>Name</th>
+					<th><?php _e('Name', $this->text_domain );?></th>
 				</tr>
 				<?php 
 					foreach( $redundant_supervisors as $supervisor ) {
@@ -350,7 +350,7 @@ class CPD_Emails {
 		} 
 		else {
 			?>
-			<p>All supervisors have pariticpants assigned to them.</p>
+			<p><?php _e('All supervisors have pariticpants assigned to them.', $this->text_domain );?></p>
 			<?php
 		}
 		$report = ob_get_clean();
@@ -359,7 +359,7 @@ class CPD_Emails {
 			$admin_email 	= 	get_option('admin_email');
 			add_filter( 'wp_mail_from_name', array( $this, 'set_html_email_from_name' ) );
 			add_filter( 'wp_mail_content_type', array($this,'set_html_content_type') );
-			wp_mail( $admin_email, 'CPD Unassigned Users Report', $report );
+			wp_mail( $admin_email, __('CPD Unassigned Users Report', $this->text_domain ), $report );
 			remove_filter( 'wp_mail_content_type', array( $this,'set_html_content_type' ) );
 			remove_filter( 'wp_mail_from_name', array( $this, 'set_html_email_from_name' ) );
 		}
@@ -377,7 +377,7 @@ class CPD_Emails {
 	 * Set the email from name
 	 */
 	public function set_html_email_from_name( $email_from ){
-		return 'Aspire CPD';
+		return __('Aspire CPD', $this->text_domain );
 	}
 }
 }

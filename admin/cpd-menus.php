@@ -56,8 +56,8 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 */
 		public function add_content_menu() {
 			add_object_page(
-				'Content',
-				'Content',
+				__( 'Content', $this->text_domain ),
+				__( 'Content', $this->text_domain ),
 				'edit_posts',
 				'cpd_content_menu',
 				array( $this, 'render_content_menu' ),
@@ -84,7 +84,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 		 */
 		public function add_content_menu_items() {
 
-			$posts_name = 'Journal Entries';		
+			$posts_name = __('Journal Entries', $this->text_domain );		
 
 			$blog_id = get_current_blog_id();
 			
@@ -105,7 +105,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			// Pages
 			$cpd_content_menu_items[]    =    array(
 				'post_name' 		=>    'page',
-				'menu_name'			=>    'Pages',
+				'menu_name'			=>    __('Pages', $this->text_domain ),
 				'capability'		=>    'edit_posts',
 				'function'			=>    defined( 'CMS_TPV_URL' ) ? 'edit.php?post_type=page&page=cms-tpv-page-page' : 'edit.php?post_type=page'
 			);
@@ -137,19 +137,19 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			$template_name                     =    'cpd-content-menu-dashboard-widget';
 			$template_path                     =    CPD_Templates::get_template_path( $template_name );
 
-			$posts_name = 'Journal Entries';		
+			$posts_name = __('Journal Entries', $this->text_domain );		
 
 			$blog_id = get_current_blog_id();
 			
 			if( SITE_ID_CURRENT_SITE == $blog_id ) {
-				$posts_name = 'Posts';
+				$posts_name = __('Posts', $this->text_domain );
 			}
 
 			// Posts
 			$content_menu_dashboard_widgets[]    =    array(
 				'title'                   => __( $posts_name, $this->text_domain ),
 				'dashicon'                => 'dashicons-admin-post',
-				'desc'                    => '<p>' . __( 'This content type is for managing '.$posts_name.'.</p>', $this->text_domain ),
+				'desc'                    => '<p>' . __( 'This content type is for managing', $this->text_domain ) . ' ' . $posts_name.'.</p>',
 				'post_type'               => 'post',
 				'button_label'            => __( 'Edit / Manage ' . $posts_name, $this->text_domain ),
 				'css_class'               => 'post',
@@ -163,7 +163,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			$content_menu_dashboard_widgets[]    =    array(
 				'title'                   => __( 'Pages', $this->text_domain ),
 				'dashicon'                => 'dashicons-admin-page',
-				'desc'                    => '<p>' . __( 'This content type is for managing Pages.</p>', $this->text_domain ),
+				'desc'                    => '<p>' . __( 'This content type is for managing Pages.', $this->text_domain ) . '</p>',
 				'post_type'               => 'page',
 				'button_label'            => __( 'Edit / Manage Pages', $this->text_domain ),
 				'css_class'               => 'page',
@@ -180,7 +180,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				$content_menu_dashboard_widgets[]    =    array(
 					'title'                   => __( 'Activity Logs', $this->text_domain ),
 					'dashicon'                => 'dashicons-index-card',
-					'desc'                    => '<p>' . __( 'This content type is for managing your Activity Log.</p>', $this->text_domain ),
+					'desc'                    => '<p>' . __( 'This content type is for managing your Activity Log.', $this->text_domain ) . '</p>',
 					'post_type'               => 'ppd',
 					'button_label'            => __( 'Edit / Manage Activity Log', $this->text_domain ),
 					'css_class'               => 'ppd',
@@ -194,7 +194,7 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				$content_menu_dashboard_widgets[]    =    array(
 					'title'                   => __( 'Assessments', $this->text_domain ),
 					'dashicon'                => 'dashicons-yes',
-					'desc'                    => '<p>' . __( 'This content type is for managing your Assessments.</p>', $this->text_domain ),
+					'desc'                    => '<p>' . __( 'This content type is for managing your Assessments.', $this->text_domain ) . '</p>',
 					'post_type'               => 'assessment',
 					'button_label'            => __( 'Edit / Manage Assessments', $this->text_domain ),
 					'css_class'               => 'assessment',
@@ -554,8 +554,8 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 				// Network Admin Menus
 				$sub_menus[] = array(
 					'parent'        =>    'index.php',
-					'page_title'    =>    'Network Settings',
-					'menu_title'    =>    'Network Settings',
+					'page_title'    =>    __('Network Settings', $this->text_domain),
+					'menu_title'    =>    __('Network Settings', $this->text_domain),
 					'capability'    =>    'manage_network',
 					'menu_slug'     =>    'network/index.php',
 					'function'      =>    ''
@@ -594,8 +594,8 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 			if ( is_super_admin() ) {
 
 				$network_menus[]    =    array(
-					'page_title'    =>    'Dashboard',
-					'menu_title'    =>    'Dashboard',
+					'page_title'    =>    __('Dashboard', $this->text_domain),
+					'menu_title'    =>    __('Dashboard', $this->text_domain),
 					'capability'    =>    'manage_network',
 					'menu_slug'     =>    '../',
 					'function'      =>    '',
@@ -632,9 +632,9 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 
 				// Rename menu items
 				foreach ( $menu as $key=>&$menu_item ) {
-					if ( $menu_item[0] == 'Dashboard' || $menu_item[0] == 'Network Settings' ) {
+					if ( $menu_item[0] == __('Dashboard', $this->text_domain) || $menu_item[0] == __('Network Settings', $this->text_domain) ) {
 
-						$menu_item[0]    = 'Network Settings';
+						$menu_item[0]    = __('Network Settings', $this->text_domain);
 						$menu_item[6]    = 'dashicons-admin-site';
 						$network         = $menu[$key];
 						unset( $menu[$key] );

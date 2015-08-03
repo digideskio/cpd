@@ -74,14 +74,14 @@ class CPD_Options_Privacy {
 		}
 		
 		/* Add sections */
-		add_settings_section( 'cpd_section_login_to_view', 'Login to view journal', array( $this, 'cpd_section_login_to_view_callback' ), 'cpd_settings_privacy' );
-		add_settings_section( 'cpd_section_private_content', 'Private content access', array( $this, 'cpd_section_private_content_callback' ), 'cpd_settings_privacy' );
-		add_settings_section( 'cpd_section_private_content_overview', 'Private content overview', array( $this, 'cpd_section_private_content_overview_callback' ), 'cpd_settings_privacy' );
+		add_settings_section( 'cpd_section_login_to_view', __('Login to view journal', $this->text_domain), array( $this, 'cpd_section_login_to_view_callback' ), 'cpd_settings_privacy' );
+		add_settings_section( 'cpd_section_private_content', __('Private content access', $this->text_domain), array( $this, 'cpd_section_private_content_callback' ), 'cpd_settings_privacy' );
+		add_settings_section( 'cpd_section_private_content_overview', __('Private content overview', $this->text_domain), array( $this, 'cpd_section_private_content_overview_callback' ), 'cpd_settings_privacy' );
 	
     	/* Add fields to a section */
-		add_settings_field( 'cpd_login_to_view', 'Jounal can be viewed by:', array( $this, 'cpd_login_to_view_callback' ), 'cpd_settings_privacy', 'cpd_section_login_to_view' );
-		add_settings_field( 'cpd_private_content', 'Private content can be viewed by:', array( $this, 'cpd_private_content_callback' ), 'cpd_settings_privacy', 'cpd_section_private_content' );
-		add_settings_field( 'cpd_private_content_overview', 'Private content:', array( $this, 'cpd_private_content_overview_callback' ), 'cpd_settings_privacy', 'cpd_section_private_content_overview' );
+		add_settings_field( 'cpd_login_to_view', __('Jounal can be viewed by:', $this->text_domain), array( $this, 'cpd_login_to_view_callback' ), 'cpd_settings_privacy', 'cpd_section_login_to_view' );
+		add_settings_field( 'cpd_private_content', __('Private content can be viewed by:', $this->text_domain), array( $this, 'cpd_private_content_callback' ), 'cpd_settings_privacy', 'cpd_section_private_content' );
+		add_settings_field( 'cpd_private_content_overview', __('Private content:', $this->text_domain), array( $this, 'cpd_private_content_overview_callback' ), 'cpd_settings_privacy', 'cpd_section_private_content_overview' );
 
 	}
 
@@ -91,7 +91,7 @@ class CPD_Options_Privacy {
 	public function cpd_section_login_to_view_callback() {
 		?>
 		<p>
-			You can make this journal visible only to people that log in. 
+			<?php _e('You can make this journal visible only to people that log in.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -102,10 +102,10 @@ class CPD_Options_Privacy {
 	public function cpd_section_private_content_callback() {
 		?>
 		<p id="private-content-who">
-			Private content can only be viewed by certain people, even if your journal is open to members of the public.
-			The following people can view content that is marked as private in your Journal.
+			<?php _e('Private content can only be viewed by certain people, even if your journal is open to members of the public.', $this->text_domain);?>
+			<?php _e('The following people can view content that is marked as private in your Journal.', $this->text_domain);?>
 		</p>
-		<p>To view private content, visitors must be logged into the Journal with a username and password.</p>
+		<p><?php _e('To view private content, visitors must be logged into the Journal with a username and password.', $this->text_domain);?></p>
 		<?php
 	}
 
@@ -115,7 +115,7 @@ class CPD_Options_Privacy {
 	public function cpd_section_private_content_overview_callback() {
 		?>
 		<p id="private-content-overview">
-			The following peices of content are set to private in your journal.
+			<?php _e('The following peices of content are set to private in your journal.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -128,16 +128,16 @@ class CPD_Options_Privacy {
 		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 
 		?>
-		<label><input type="radio" name="cpd_login_to_view" value="true" <?php checked( 'true', $cpd_login_to_view );?>> People with a username and password only</label><br/>
-		<label><input type="radio" name="cpd_login_to_view" value="false" <?php checked( 'false', $cpd_login_to_view );?>> Anybody (available to the public)</label><br/>
+		<label><input type="radio" name="cpd_login_to_view" value="true" <?php checked( 'true', $cpd_login_to_view );?>> <?php _e('People with a username and password only', $this->text_domain);?></label><br/>
+		<label><input type="radio" name="cpd_login_to_view" value="false" <?php checked( 'false', $cpd_login_to_view );?>> <?php _e('Anybody (available to the public)', $this->text_domain);?></label><br/>
 		
 		<br/>
-		<p>People who have access to this journal via a username and password are as follows:</p>
+		<p><?php _e('People who have access to this journal via a username and password are as follows', $this->text_domain);?>:</p>
 		<br/>
 		<table>
 		<tr>
-			<th>Name</th>
-			<th>Role</th>
+			<th><?php _e('Name', $this->text_domain);?></th>
+			<th><?php _e('Role', $this->text_domain);?></th>
 		</tr>
 		<?php
 
@@ -188,7 +188,7 @@ class CPD_Options_Privacy {
 		?>
 		</table>
 		<br/>
-		<p><strong>Please note:</strong> system administrators can also view your journal.</p>
+		<p><strong><?php _e('Please note', $this->text_domain);?>:</strong> <?php _e('system administrators can also view your journal.', $this->text_domain);?></p>
 		<?php
 	}
 
@@ -199,12 +199,12 @@ class CPD_Options_Privacy {
 
 		?>
 
-		<p>People who have access to view private content on this journal are as follows:</p>
+		<p><?php _e('People who have access to view private content on this journal are as follows', $this->text_domain);?>:</p>
 		<br/>
 		<table>
 		<tr>
-			<th>Name</th>
-			<th>Role</th>
+			<th><?php _e('Name', $this->text_domain);?></th>
+			<th><?php _e('Role', $this->text_domain);?></th>
 		</tr>
 		<?php
 
@@ -237,7 +237,7 @@ class CPD_Options_Privacy {
 		?>
 		</table>
 		<br/>
-		<p><strong>Please note:</strong> system administrators can also view private posts.</p>
+		<p><strong><?php _e('Please note', $this->text_domain);?>:</strong> <?php _e('system administrators can also view private posts.', $this->text_domain);?></p>
 		<?php
 	}
 
@@ -247,7 +247,7 @@ class CPD_Options_Privacy {
 	public function cpd_private_content_overview_callback() {
 
 		?>
-		<p>You can mark individual peices of content as private by editing that peice of content.</p>
+		<p><?php _e('You can mark individual peices of content as private by editing that peice of content.', $this->text_domain);?></p>
 		<?php
 		$private_posts = get_posts(
 			array(
@@ -266,10 +266,10 @@ class CPD_Options_Privacy {
 				<br/>
 				<table>
 					<tr>
-						<th>Name</th>
-						<th>Content Type</th>
-						<th>View</th>
-						<th>Edit</th>
+						<th><?php _e('Name', $this->text_domain);?></th>
+						<th><?php _e('Content Type', $this->text_domain);?></th>
+						<th><?php _e('View', $this->text_domain);?></th>
+						<th><?php _e('Edit', $this->text_domain);?></th>
 					</tr>
 				<?php
 				foreach ( $private_posts as $key => $private_post ) {
@@ -289,7 +289,7 @@ class CPD_Options_Privacy {
 		}
 		else {
 			?>
-				<p><strong>0</strong> peices of content have been set to private in your Journal.</p>
+				<p><strong>0</strong> <?php _e('peices of content have been set to private in your Journal.', $this->text_domain);?></p>
 			<?php 
 		}
 	}
@@ -300,7 +300,7 @@ class CPD_Options_Privacy {
 	public function add_options_page() {
 		$blog_id = get_current_blog_id();
 		if( current_user_can( 'manage_privacy' ) && SITE_ID_CURRENT_SITE != $blog_id && !CPD_Blogs::blog_is_template() ) {
-			add_menu_page( 'Privacy', 'Privacy', 'manage_options', 'cpd_settings_privacy', array( $this, 'render_options_page' ), 'dashicons-shield' );
+			add_menu_page( __('Privacy', $this->text_domain), __('Privacy', $this->text_domain), 'manage_options', 'cpd_settings_privacy', array( $this, 'render_options_page' ), 'dashicons-shield' );
 		}
 	}
 
@@ -310,7 +310,7 @@ class CPD_Options_Privacy {
 	public function render_options_page(){ 
 		?>
 		<div class="wrap cpd-settings cpd-settings-privacy">  
-			<h2>Privacy Settings</h2> 
+			<h2><?php _e('Privacy Settings', $this->text_domain);?></h2> 
 			<form action="options.php" method="POST">
 	            <?php settings_fields( 'cpd_settings_privacy_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_privacy' ); ?>

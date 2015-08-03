@@ -64,7 +64,7 @@ class CPD_Dashboard_Widget_Templates {
 		$has_templates 					= CPD_Blogs::user_has_templates( $current_user );
 		
 		if( in_array( 'supervisor', $roles ) || $has_templates || $is_supervisor ) {
-			add_meta_box('cpd_dashboard_widget_templates', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-welcome-write-blog"></span> ' . 'Templates', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+			add_meta_box('cpd_dashboard_widget_templates', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-welcome-write-blog"></span> ' . __('Templates', $this->text_domain ), array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
 		}
 	}
 

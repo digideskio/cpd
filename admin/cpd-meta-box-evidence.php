@@ -49,7 +49,7 @@ class CPD_Meta_Box_Evidence {
 		$this->args 							= 	array(
 														'id' 					=> 'evidence',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Evidence / Verification',
+														'name' 					=> __('Evidence / Verification', $this->text_domain),
 														'context' 				=> 'normal',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -112,7 +112,7 @@ class CPD_Meta_Box_Evidence {
 													array( 
 														'id'			=> 	$this->key_prefix . 'group', 
 														// 'name' 			=> 	__( 'Evidence', $this->text_domain ),
-														'desc'			=>	'Eg. certificate of achivement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need.',
+														'desc'			=>	__('Eg. certificate of achivement, certificate of attendance, line manager or self certification.', $this->text_domain) . '<br/><br/>' .__('Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need.', $this->text_domain),
 														'type'			=> 	'group',
 														'cols'			=> 	12,
 														'fields'		=> 	array(
@@ -120,7 +120,7 @@ class CPD_Meta_Box_Evidence {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_type', 
 																					'name' 			=> 	__( 'Evidence Type', $this->text_domain ),
-																					'desc'			=>	'Choose the type of evidence you wish to add.',
+																					'desc'			=>	__('Choose the type of evidence you wish to add.', $this->text_domain),
 																					'type'			=> 	'radio',
 																					'cols'			=> 	12,
 																					'options'		=> 	array(
@@ -132,21 +132,21 @@ class CPD_Meta_Box_Evidence {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_title', 
 																					'name' 			=> 	__( 'Title', $this->text_domain ),
-																					'desc'			=>	'Title or short description of the evidence:',
+																					'desc'			=>	__('Title or short description of the evidence:', $this->text_domain),
 																					'type'			=> 	'text',
 																					'cols'			=> 	12
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_file', 
 																					'name' 			=> 	__( 'File Upload', $this->text_domain ),
-																					'desc'			=>	'Upload your evidence:',
+																					'desc'			=>	__('Upload your evidence:', $this->text_domain),
 																					'type'			=> 	'file',
 																					'cols'			=> 	12
 																				),
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_journal', 
 																					'name' 			=> 	__( 'Journal Item', $this->text_domain ),
-																					'desc'			=>	'Please select the Journal Item:',
+																					'desc'			=>	__('Please select the Journal Item:', $this->text_domain),
 																					'type'			=> 	'select',
 																					'cols'			=> 	12,
 																					'options'		=>  $journal_entries,
@@ -155,14 +155,14 @@ class CPD_Meta_Box_Evidence {
 																				array( 
 																					'id'			=> 	$this->key_prefix . 'evidence_url', 
 																					'name' 			=> 	__( 'URL', $this->text_domain ),
-																					'desc'			=>	'Cut and paste the URL of your evidence into the field provided:',
+																					'desc'			=>	__('Cut and paste the URL of your evidence into the field provided:', $this->text_domain),
 																					'type'			=> 	'text_url',
 																					'cols'			=> 	12
 																				),
 																			),
 														'repeatable'	=> true,
-														'string-repeat-field' => 'Add Evidence',
-														'string-delete-field' => 'Remove Evidence',
+														'string-repeat-field' => __('Add Evidence', $this->text_domain),
+														'string-delete-field' => __('Remove Evidence', $this->text_domain),
 													),
 													
 												)

@@ -49,7 +49,7 @@ class CPD_Meta_Box_Date_Completed {
 		$this->args 							= 	array(
 														'id' 					=> 'date_completed',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Date Completed',
+														'name' 					=> __('Date Completed', $this->text_domain),
 														'context' 				=> 'advanced',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Date_Completed {
 													array( 
 														'id'			=> 	$this->key_prefix . 'date_completed', 
 														'name' 			=> 	__( 'Date completed (unless ongoing)', $this->text_domain ),
-														'desc'			=>	'<strong>Note:</strong> The date is in US format MM/DD/YYYY',
+														'desc'			=>	'<strong>' . __('Note', $this->text_domain) . ':</strong>' . __('The date is in US format MM/DD/YYYY', $this->text_domain),
 														'type'			=> 	'date_unix',
 														'cols'			=> 	12,
 													),

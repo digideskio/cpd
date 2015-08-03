@@ -59,7 +59,7 @@ class CPD_Dashboard_Widget_Privacy {
 	public function add_dashboard_widget() {
 		$blog_id = get_current_blog_id();
 		if( current_user_can( 'manage_options' ) && SITE_ID_CURRENT_SITE != $blog_id && !CPD_Blogs::blog_is_template() ) {
-			add_meta_box('cpd_dashboard_widget_privacy', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> ' . 'Privacy', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+			add_meta_box('cpd_dashboard_widget_privacy', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-shield"></span> ' . __('Privacy', $this->text_domain ), array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
 		}
 	}
 

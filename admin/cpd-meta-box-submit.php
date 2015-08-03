@@ -49,7 +49,7 @@ class CPD_Meta_Box_Submit {
 		$this->args 							= 	array(
 														'id' 					=> 'submit',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Submit',
+														'name' 					=> __('Submit', $this->text_domain),
 														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Submit {
 													array( 
 														'id'			=> 	$this->key_prefix . 'submit', 
 														'name' 			=> 	__( 'Submit to Supervisor', $this->text_domain ),
-														'desc'			=>	'Submit this assessment to a supervisor for review. <br/><br/><strong>Once submitted you will not be able to make edits to this assessment, unless a supervisor marks it as editable</strong>.</a>',
+														'desc'			=>	__('Submit this assessment to a supervisor for review.', $this->text_domain) . ' <br/><br/><strong>'.__('Once submitted you will not be able to make edits to this assessment, unless a supervisor marks it as editable', $this->text_domain) .'</strong>.</a>',
 														'type'			=> 	'checkbox',
 														'cols'			=> 	12,
 														'readonly'		=>	FALSE
@@ -144,25 +144,25 @@ class CPD_Meta_Box_Submit {
 		else if( $user_type != 'participant' ) {
 
 			if( !$submitted && !$complete ) {
-				$this->args['metabox_args']['title']     =   'Status';
+				$this->args['metabox_args']['title']     =   __('Status', $this->text_domain);
 			} else if( $submitted && !$complete ) {
-				$this->args['metabox_args']['title']     =   'Submited';
+				$this->args['metabox_args']['title']     =   __('Submited', $this->text_domain);
 			} else if( $complete ) {
-				$this->args['metabox_args']['title']     =   'Completed';
+				$this->args['metabox_args']['title']     =   __('Completed', $this->text_domain);
 			}
 			
 			$this->args['metabox_args']['fields'] 	= 	array(
 															array( 
 																'id'			=> 	$this->key_prefix . 'submit', 
 																'name' 			=> 	$submitted ? __( 'Assessment submitted', $this->text_domain ) : __( 'Assessment not submitted', $this->text_domain ),
-																'desc'			=>	$submitted ? 'Uncheck the \'Assessment submitted\' box to take this assessment out of \'submitted\' status.<br/><br/>Only do this if the participant has made an error and needs to ammend the submission.' : 'This assessment has not be submitted by the participant.',
+																'desc'			=>	$submitted ? __('Uncheck the \'Assessment submitted\' box to take this assessment out of \'submitted\' status.', $this->text_domain) .'<br/><br/>'.__('Only do this if the participant has made an error and needs to ammend the submission.', $this->text_domain) : __('This assessment has not be submitted by the participant.', $this->text_domain),
 																'type'			=> 	$submitted ? 'checkbox' : 'render',
 																'cols'			=> 	12,
 															),
 															array( 
 																'id'			=> 	$this->key_prefix . 'complete', 
 																'name' 			=> 	$submitted ? __( 'Mark as complete', $this->text_domain ) : __( 'Not complete', $this->text_domain ),
-																'desc'			=>	$submitted ? 'The supervisor should check this box to mark the assessment as complete.<br/><br/>The participant will be notified.' : 'You cannot mark this assessment as complete until the participant has submitted it.',
+																'desc'			=>	$submitted ? __('The supervisor should check this box to mark the assessment as complete.', $this->text_domain) .'<br/><br/>'.__('The participant will be notified.', $this->text_domain) : __('You cannot mark this assessment as complete until the participant has submitted it.', $this->text_domain),
 																'type'			=> 	$submitted ? 'checkbox' : 'render',
 																'cols'			=> 	12,
 																'readonly'		=>	FALSE

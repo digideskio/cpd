@@ -1,0 +1,2213 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CPD\n"
+"POT-Creation-Date: 2015-08-03 16:28+0100\n"
+"PO-Revision-Date: 2015-08-03 16:48+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: cpd.php\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/cpd-admin.php:101
+msgid "- Network Administrator"
+msgstr "網路系統管理員"
+
+#: admin/cpd-admin.php:103
+msgid "- Administrator"
+msgstr "反馈信息已发送给管理员"
+
+#: admin/cpd-admin.php:105
+msgid "- Supervisor"
+msgstr "负责人"
+
+#: admin/cpd-admin.php:107
+msgid "- Participant"
+msgstr "会员"
+
+#: admin/cpd-admin.php:109
+msgid "- Subscriber"
+msgstr "订阅者"
+
+#: admin/cpd-admin.php:132
+msgid "View Site"
+msgstr "查看网站"
+
+#: admin/cpd-admin.php:137
+msgid "Site Admin"
+msgstr "网站管理员"
+
+#: admin/cpd-blogs.php:257
+#, php-format
+msgid "Copied: %s in %s seconds"
+msgstr "在 %s 秒复制: %s"
+
+#: admin/cpd-blogs.php:258
+msgid "Copy Complete!"
+msgstr "复制完整!"
+
+#: admin/cpd-columns.php:125
+msgid "CPD Role"
+msgstr "CPD 的作用"
+
+#: admin/cpd-columns.php:212
+#, php-format
+msgid "Supervisors <span class=\"count\">(%s)</span>"
+msgid_plural "Supervisors <span class=\"count\">(%s)</span>"
+msgstr[0] "主管<span class=\"count\">(%s)</span>"
+
+#: admin/cpd-columns.php:218
+#, php-format
+msgid "Participants <span class=\"count\">(%s)</span>"
+msgid_plural "Participants <span class=\"count\">(%s)</span>"
+msgstr[0] "参与者<span class=\"count\">(%s)</span>"
+
+#: admin/cpd-columns.php:251 admin/cpd-meta-box-submit.php:147
+msgid "Status"
+msgstr "状态"
+
+#: admin/cpd-comments.php:82
+msgid ""
+"You do not have permission to edit this post. To make changes please contact "
+"your supervisor."
+msgstr "您没有权限编辑这篇文章。要更改请联系你的上司。"
+
+#: admin/cpd-comments.php:82
+msgid "Insufficient permissions"
+msgstr "没有足够的权限"
+
+#: admin/cpd-comments.php:194 admin/cpd-meta-box-score.php:52
+#: public/cpd-comments-ui.php:62 public/cpd-comments-ui.php:134
+msgid "Score"
+msgstr "评分"
+
+#: admin/cpd-cpt-assessment.php:54 admin/cpd-cpt-assessment.php:116
+msgid "Assesment"
+msgstr "评价"
+
+#: admin/cpd-cpt-assessment.php:55 admin/cpd-cpt-assessment.php:113
+#: admin/cpd-cpt-assessment.php:115 admin/cpd-cpt-assessment.php:117
+#: admin/cpd-cpt-assessment.php:118
+msgid "Assesments"
+msgstr "Assesments"
+
+#: admin/cpd-cpt-assessment.php:119 admin/cpd-cpt-ppd.php:119
+#: admin/cpd-menus.php:158
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:68
+msgid "Add New"
+msgstr "发布活动"
+
+#: admin/cpd-cpt-assessment.php:120
+msgid "Add New Assesment"
+msgstr "添加新的评估"
+
+#: admin/cpd-cpt-assessment.php:121
+msgid "Edit Assesment"
+msgstr "编辑评价"
+
+#: admin/cpd-cpt-assessment.php:122
+msgid "New Assesment"
+msgstr "新的评估"
+
+#: admin/cpd-cpt-assessment.php:123
+msgid "View Assesment"
+msgstr "查看评价"
+
+#: admin/cpd-cpt-assessment.php:124
+msgid "Search Assesments"
+msgstr "搜索 Assesments"
+
+#: admin/cpd-cpt-assessment.php:125
+msgid "No Assesments found"
+msgstr "发现没有 Assesments"
+
+#: admin/cpd-cpt-assessment.php:126
+#, fuzzy
+msgid "No Assesments found in trash"
+msgstr "没有发现在垃圾中"
+
+#: admin/cpd-cpt-assessment.php:178
+#, fuzzy
+msgid "Assesment Image"
+msgstr "评价图像"
+
+#: admin/cpd-cpt-assessment.php:192
+#, fuzzy
+msgid "Assessment Title"
+msgstr "评职称"
+
+#: admin/cpd-cpt-assessment.php:193
+#, fuzzy
+msgid "The title should be the name of the assessment."
+msgstr "标题应评估的名称。"
+
+#: admin/cpd-cpt-assessment.php:212 admin/cpd-meta-box-criteria.php:161
+msgid "Response"
+msgstr "响应"
+
+#: admin/cpd-cpt-assessment.php:214
+#, fuzzy
+msgid ""
+"General response to the assessment. When responding remember to detail the "
+"following:"
+msgstr "对评估的一般反应。当响应记得细节如下:"
+
+#: admin/cpd-cpt-assessment.php:216
+#, fuzzy
+msgid ""
+" - In the area that you work, <strong>why</strong> do you need to apply this "
+"knowlege and understanding?"
+msgstr "-<strong>在你工作的领域，你为什么</strong>需要应用这种知识和理解?"
+
+#: admin/cpd-cpt-assessment.php:217
+#, fuzzy
+msgid " - <strong>What</strong> is it that you need to understand?"
+msgstr "-<strong>什么</strong>是你需要了解吗?"
+
+#: admin/cpd-cpt-assessment.php:218
+#, fuzzy
+msgid " - <strong>How</strong> did you apply this knowlege?"
+msgstr "-<strong>你是怎么</strong>申请这方面的知识吗?"
+
+#: admin/cpd-cpt-assessment.php:220
+#, fuzzy
+msgid ""
+"More information can be provided against each critera in the 'Critera' "
+"section (if they have been provided)."
+msgstr "(如果已经向他们提供)，可以针对每个标准 '标准' 一节中提供更多信息。"
+
+#: admin/cpd-cpt-assessment.php:221
+#, fuzzy
+msgid "You can provide evidence in the 'Evidence / Verification' section."
+msgstr "你可以提供证据 ' 证据 / 验证一节。"
+
+#: admin/cpd-cpt-assessment.php:282 admin/cpd-notices.php:164
+#, fuzzy
+msgid ""
+"This assessment has been submitted, and is no longer editable. If you need "
+"to edit the assessment please contact your"
+msgstr "此评估已提交，并不再是可编辑。如果你需要编辑评估请联系你"
+
+#: admin/cpd-cpt-assessment.php:282 admin/cpd-notices.php:164
+#, fuzzy
+msgid "supervisor"
+msgstr "负责人"
+
+#: admin/cpd-cpt-assessment.php:304
+msgid "Publish"
+msgstr "发布"
+
+#: admin/cpd-cpt-assessment.php:314
+#, fuzzy
+msgid ""
+"This assessment has been submitted, and is no longer editable.<br/><br/>If "
+"you need to edit the assessment please contact your <strong>supervisor</"
+"strong>."
+msgstr ""
+"此评估已提交，并不再是可编辑。<br><br>如果你需要编辑评估请联系你的<strong>主"
+"管</strong>。"
+
+#: admin/cpd-cpt-ppd.php:54 admin/cpd-cpt-ppd.php:116
+msgid "Activity"
+msgstr "活动"
+
+#: admin/cpd-cpt-ppd.php:55 admin/cpd-cpt-ppd.php:115 admin/cpd-cpt-ppd.php:117
+#: admin/cpd-cpt-ppd.php:118
+msgid "Activities"
+msgstr "活动"
+
+#: admin/cpd-cpt-ppd.php:120
+#, fuzzy
+msgid "Add New Activity"
+msgstr "添加新活动"
+
+#: admin/cpd-cpt-ppd.php:121
+#, fuzzy
+msgid "Edit Activity"
+msgstr "编辑活动"
+
+#: admin/cpd-cpt-ppd.php:122
+#, fuzzy
+msgid "New Activity"
+msgstr "新活动"
+
+#: admin/cpd-cpt-ppd.php:123
+msgid "View Activity"
+msgstr "查看活动"
+
+#: admin/cpd-cpt-ppd.php:124
+#, fuzzy
+msgid "Search Activities"
+msgstr "搜索活动"
+
+#: admin/cpd-cpt-ppd.php:125
+#, fuzzy
+msgid "No Activities found"
+msgstr "未发现"
+
+#: admin/cpd-cpt-ppd.php:126
+#, fuzzy
+msgid "No Activities found in trash"
+msgstr "没有发现在垃圾中"
+
+#: admin/cpd-cpt-ppd.php:180
+msgid " Image"
+msgstr "图像"
+
+#: admin/cpd-cpt-ppd.php:196
+#, fuzzy
+msgid "The title should be the name of the activity."
+msgstr "标题应该是活动的名称。"
+
+#: admin/cpd-cpt-ppd.php:217
+#, fuzzy
+msgid ""
+"Eg. Value obtained, skills acquired, learning outcomes, how PPD (Personal "
+"and Professional Development) has benefited the quality of my practice and "
+"users of my work."
+msgstr ""
+"如。获取值，技能，学习成果，如何能 PPD (个人和职业发展) 中受益的实践和用户的"
+"我的工作质量。"
+
+#: admin/cpd-dashboard-widget-comments-supervisor.php:70
+#, fuzzy
+msgid "Scoring Journal Entries (with Comments)"
+msgstr "(具有注释) 的得分日记条目。"
+
+#: admin/cpd-dashboard-widget-comments.php:63
+msgid "Comments"
+msgstr "评论"
+
+#: admin/cpd-dashboard-widget-latest-posts.php:61
+#, fuzzy
+msgid "All journal entries by week"
+msgstr "通过一周的所有日记条目。"
+
+#: admin/cpd-dashboard-widget-latest-posts.php:67
+#, fuzzy
+msgid "Your participants journal entries by week"
+msgstr "按周的参加者日记条目"
+
+#: admin/cpd-dashboard-widget-latest-posts.php:70
+#, fuzzy
+msgid "Your journal entries by week"
+msgstr "通过一周的日记条目"
+
+#: admin/cpd-dashboard-widget-privacy.php:62 admin/cpd-meta-box-privacy.php:52
+#: admin/cpd-options-privacy.php:303
+msgid "Privacy"
+msgstr "隐私"
+
+#: admin/cpd-dashboard-widget-templates.php:67
+#: admin/cpd-options-templates.php:212 admin/cpd-options-templates.php:222
+msgid "Templates"
+msgstr "仅在首页模板"
+
+#: admin/cpd-dashboard-widget-unassigned-users.php:60
+#, fuzzy
+msgid "CPD Relationships"
+msgstr "CPD 的关系"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:61
+#, fuzzy
+msgid "All competency categories by user"
+msgstr "通过用户的所有能力类别。"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:67
+#, fuzzy
+msgid "All your participants competency categories"
+msgstr "所有参与者能力类别"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:108
+#: admin/cpd-dashboard-widget-user-development-categories.php:108
+#, fuzzy
+msgid "Ammount of categories to show"
+msgstr "这么多的类别来显示"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:110
+#: admin/cpd-dashboard-widget-user-development-categories.php:110
+#: admin/cpd-dashboard-widget-user-posts.php:110
+msgid "All"
+msgstr "All"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:111
+#: admin/cpd-dashboard-widget-user-development-categories.php:111
+#: admin/cpd-dashboard-widget-user-posts.php:111
+msgid "10"
+msgstr "10"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:112
+#: admin/cpd-dashboard-widget-user-development-categories.php:112
+#: admin/cpd-dashboard-widget-user-posts.php:112
+msgid "20"
+msgstr "20"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:113
+#: admin/cpd-dashboard-widget-user-development-categories.php:113
+#: admin/cpd-dashboard-widget-user-posts.php:113
+msgid "30"
+msgstr "30"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:116
+#: admin/cpd-dashboard-widget-user-development-categories.php:116
+#: admin/cpd-dashboard-widget-user-posts.php:116
+msgid "Order by"
+msgstr "排序方式为："
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:118
+#: admin/cpd-dashboard-widget-user-development-categories.php:118
+#, fuzzy
+msgid "Most categories"
+msgstr "使用最多的类别"
+
+#: admin/cpd-dashboard-widget-user-competency-categories.php:119
+#: admin/cpd-dashboard-widget-user-development-categories.php:119
+#, fuzzy
+msgid "Least categories"
+msgstr "最小类别"
+
+#: admin/cpd-dashboard-widget-user-development-categories.php:61
+#, fuzzy
+msgid "All development categories by user"
+msgstr "通过用户的所有发展类别。"
+
+#: admin/cpd-dashboard-widget-user-development-categories.php:67
+#, fuzzy
+msgid "All your participants development categories"
+msgstr "所有参加者发展类别"
+
+#: admin/cpd-dashboard-widget-user-guide.php:62
+msgid "User Guide "
+msgstr "用户指南"
+
+#: admin/cpd-dashboard-widget-user-posts.php:61
+#, fuzzy
+msgid "All journal entries by user"
+msgstr "通过用户的所有日记条目。"
+
+#: admin/cpd-dashboard-widget-user-posts.php:67
+#, fuzzy
+msgid "All your participants journal entries"
+msgstr "所有参与者的日记条目"
+
+#: admin/cpd-dashboard-widget-user-posts.php:108
+#, fuzzy
+msgid "Ammount of participants to show"
+msgstr "这么多的与会者显示"
+
+#: admin/cpd-dashboard-widget-user-posts.php:118
+#, fuzzy
+msgid "Most posts"
+msgstr "最多帖子"
+
+#: admin/cpd-dashboard-widget-user-posts.php:119
+#, fuzzy
+msgid "Least posts"
+msgstr "最少的职位"
+
+#: admin/cpd-dashboard-widget-welcome.php:62
+#, fuzzy
+msgid "Welcome to Aspire CPD "
+msgstr "欢迎渴望 CPD"
+
+#: admin/cpd-dashboard-widget-welcome.php:78
+#, fuzzy
+msgid "Welcome to the CPD Network Settings "
+msgstr "欢迎来到 CPD 网络设置"
+
+#: admin/cpd-emails.php:78
+#, fuzzy
+msgid " has updated their journal"
+msgstr "已更新他们的杂志"
+
+#: admin/cpd-emails.php:87 admin/cpd-emails.php:149
+#, fuzzy
+msgid "The participant"
+msgstr "参与者"
+
+#: admin/cpd-emails.php:87
+#, fuzzy
+msgid "had updated their journal"
+msgstr "已更新他们的杂志"
+
+#: admin/cpd-emails.php:87
+#, fuzzy
+msgid "with the entry:"
+msgstr "与下面的条目:"
+
+#: admin/cpd-emails.php:88
+msgid "Options:"
+msgstr "选项："
+
+#: admin/cpd-emails.php:90
+#, fuzzy
+msgid "View the journal entry"
+msgstr "查看日志条目"
+
+#: admin/cpd-emails.php:91
+msgid "Leave a comment on"
+msgstr "发表一个评论"
+
+#: admin/cpd-emails.php:106 admin/cpd-emails.php:168 admin/cpd-emails.php:219
+msgid "Dear"
+msgstr "亲爱的"
+
+#: admin/cpd-emails.php:149
+#, fuzzy
+msgid "has submitted an assessment in the journal"
+msgstr "已在该杂志提交了一份评估"
+
+#: admin/cpd-emails.php:149 admin/cpd-emails.php:210
+#, fuzzy
+msgid "named"
+msgstr "名称"
+
+#: admin/cpd-emails.php:150 admin/cpd-emails.php:211
+msgid "Options"
+msgstr "选项"
+
+#: admin/cpd-emails.php:152 admin/cpd-emails.php:213
+#, fuzzy
+msgid "View the assessment"
+msgstr "查看评估"
+
+#: admin/cpd-emails.php:153
+#, fuzzy
+msgid "Provide feedback for the assessment"
+msgstr "为评估提供反馈"
+
+#: admin/cpd-emails.php:200
+#, fuzzy
+msgid " has marked your assessment as complete"
+msgstr "已标记为完成您评估"
+
+#: admin/cpd-emails.php:210
+#, fuzzy
+msgid "The supervisor"
+msgstr "主管"
+
+#: admin/cpd-emails.php:210
+#, fuzzy
+msgid "has marked an assessment as complete in the journal"
+msgstr "已标记评估作为完整在杂志上"
+
+#: admin/cpd-emails.php:266
+#, fuzzy
+msgid "The following participants have no supervisor assigned to them"
+msgstr "以下的参加者有没有分配给他们的主管"
+
+#: admin/cpd-emails.php:269 admin/cpd-emails.php:326
+#: admin/cpd-options-privacy.php:139 admin/cpd-options-privacy.php:206
+#: admin/cpd-options-privacy.php:269 admin/cpd-options-templates.php:108
+msgid "Name"
+msgstr "名称"
+
+#: admin/cpd-emails.php:270 admin/cpd-options-users-participants.php:127
+#: admin/cpd-options-users.php:128
+msgid "Journal"
+msgstr "分类账"
+
+#: admin/cpd-emails.php:271 admin/cpd-emails.php:301 admin/cpd-menus.php:597
+#: admin/cpd-menus.php:598 admin/cpd-menus.php:635
+msgid "Dashboard"
+msgstr "仪表盘"
+
+#: admin/cpd-emails.php:314
+#, fuzzy
+msgid "All participants have supervisors assigned to them."
+msgstr "所有参与者都有分配给他们的主管。"
+
+#: admin/cpd-emails.php:319 admin/cpd-options-users-participants.php:179
+#: admin/cpd-options-users.php:180
+msgid "Supervisors"
+msgstr "主管"
+
+#: admin/cpd-emails.php:323
+#, fuzzy
+msgid "The following supervisors have no participants assigned to them"
+msgstr "以下主管有没有分配给他们的参与者"
+
+#: admin/cpd-emails.php:353
+#, fuzzy
+msgid "All supervisors have pariticpants assigned to them."
+msgstr "所有的主管有 pariticpants 分配给他们。"
+
+#: admin/cpd-emails.php:362
+#, fuzzy
+msgid "CPD Unassigned Users Report"
+msgstr "CPD 未分配用户报告"
+
+#: admin/cpd-emails.php:380
+#, fuzzy
+msgid "Aspire CPD"
+msgstr "向往的国家方案文件"
+
+#: admin/cpd-menus.php:59 admin/cpd-menus.php:60
+#: templates/cpd-content-menu.php:38
+msgid "Content"
+msgstr "内容"
+
+#: admin/cpd-menus.php:87 admin/cpd-menus.php:140
+msgid "Journal Entries"
+msgstr "会计分录"
+
+#: admin/cpd-menus.php:108 admin/cpd-menus.php:164
+msgid "Pages"
+msgstr "页面"
+
+#: admin/cpd-menus.php:145
+msgid "Posts"
+msgstr "文章"
+
+#: admin/cpd-menus.php:152
+#, fuzzy
+msgid "This content type is for managing"
+msgstr "这个内容类型是用于管理"
+
+#: admin/cpd-menus.php:154
+#, fuzzy
+msgid "Edit / Manage "
+msgstr "编辑/管理"
+
+#: admin/cpd-menus.php:166
+#, fuzzy
+msgid "This content type is for managing Pages."
+msgstr "这个内容类型是用于管理页面。"
+
+#: admin/cpd-menus.php:168
+#, fuzzy
+msgid "Edit / Manage Pages"
+msgstr "管理页面"
+
+#: admin/cpd-menus.php:181
+#, fuzzy
+msgid "Activity Logs"
+msgstr "活动日志"
+
+#: admin/cpd-menus.php:183
+#, fuzzy
+msgid "This content type is for managing your Activity Log."
+msgstr "这个内容类型是用于管理您的活动日志。"
+
+#: admin/cpd-menus.php:185
+#, fuzzy
+msgid "Edit / Manage Activity Log"
+msgstr "编辑/管理活动日志"
+
+#: admin/cpd-menus.php:195
+#, fuzzy
+msgid "Assessments"
+msgstr "评估"
+
+#: admin/cpd-menus.php:197
+#, fuzzy
+msgid "This content type is for managing your Assessments."
+msgstr "这个内容类型是用于管理您的评估。"
+
+#: admin/cpd-menus.php:199
+#, fuzzy
+msgid "Edit / Manage Assessments"
+msgstr "编辑/管理评估"
+
+#: admin/cpd-menus.php:557 admin/cpd-menus.php:558 admin/cpd-menus.php:635
+#: admin/cpd-menus.php:637
+msgid "Network Settings"
+msgstr "网络设置"
+
+#: admin/cpd-meta-box-criteria.php:52 admin/cpd-meta-box-criteria.php:120
+msgid "Criteria"
+msgstr "标准"
+
+#: admin/cpd-meta-box-criteria.php:114
+#, fuzzy
+msgid ""
+"The criteria for this assessment. Criteria can only be added by a supervisor."
+msgstr "用于这一评估的标准。只能由主管添加标准。"
+
+#: admin/cpd-meta-box-criteria.php:127
+#, fuzzy
+msgid "Maximum score"
+msgstr "最高分"
+
+#: admin/cpd-meta-box-criteria.php:128
+#, fuzzy
+msgid "The maximum score available"
+msgstr "可用的最高得分"
+
+#: admin/cpd-meta-box-criteria.php:134
+#, fuzzy
+msgid "Participants score"
+msgstr "与会者得分"
+
+#: admin/cpd-meta-box-criteria.php:135
+#, fuzzy
+msgid "Self assessement score"
+msgstr "自我评估分数"
+
+#: admin/cpd-meta-box-criteria.php:141
+#, fuzzy
+msgid "Supervisors score"
+msgstr "督导员得分"
+
+#: admin/cpd-meta-box-criteria.php:142
+#, fuzzy
+msgid "Actual score"
+msgstr "实际得分"
+
+#: admin/cpd-meta-box-criteria.php:148 admin/cpd-meta-box-guidance.php:52
+#, fuzzy
+msgid "Guidance"
+msgstr "指导"
+
+#: admin/cpd-meta-box-criteria.php:149
+#, fuzzy
+msgid "Guidance for this criteria (editable by the supervisor)."
+msgstr "这一标准 (由主管编辑) 的指导。"
+
+#: admin/cpd-meta-box-criteria.php:162
+#, fuzzy
+msgid "Response to the critera (editable by the participant)"
+msgstr "响应的判断标准 (由参与者编辑)"
+
+#: admin/cpd-meta-box-criteria.php:173 admin/cpd-meta-box-feedback.php:52
+msgid "Feedback"
+msgstr "反馈"
+
+#: admin/cpd-meta-box-criteria.php:174
+#, fuzzy
+msgid "Feedback about this criteria (editable by the supervisor)."
+msgstr "有关这一标准 (由主管编辑) 的反馈。"
+
+#: admin/cpd-meta-box-criteria.php:186
+#, fuzzy
+msgid "Add Criteria"
+msgstr "添加更多标准"
+
+#: admin/cpd-meta-box-criteria.php:187
+#, fuzzy
+msgid "Remove Criteria"
+msgstr "删除条件"
+
+#: admin/cpd-meta-box-date-completed.php:52
+#, fuzzy
+msgid "Date Completed"
+msgstr "完成日期"
+
+#: admin/cpd-meta-box-date-completed.php:97
+#, fuzzy
+msgid "Date completed (unless ongoing)"
+msgstr "完成日期 (除非正在进行)"
+
+#: admin/cpd-meta-box-date-completed.php:98 admin/cpd-options-templates.php:190
+#: admin/cpd-options-users-participants.php:76
+#: admin/cpd-options-users-participants.php:252
+#: admin/cpd-options-users-supervisors.php:180 admin/cpd-options-users.php:78
+#: admin/cpd-options-users.php:264
+msgid "Note"
+msgstr "注意"
+
+#: admin/cpd-meta-box-date-completed.php:98
+#, fuzzy
+msgid "The date is in US format MM/DD/YYYY"
+msgstr "日期是在我们 MM，DD，YYYY 格式"
+
+#: admin/cpd-meta-box-description.php:52
+msgid "Description"
+msgstr "描述"
+
+#: admin/cpd-meta-box-description.php:97
+#, fuzzy
+msgid "Brief Description"
+msgstr "简述"
+
+#: admin/cpd-meta-box-description.php:98
+#, fuzzy
+msgid ""
+"Brief Description of activity or course, including provider, if applicable."
+msgstr "如果适用，请简要描述的活动或课程，包括供应商。"
+
+#: admin/cpd-meta-box-evidence.php:52
+#, fuzzy
+msgid "Evidence / Verification"
+msgstr "证据 / 验证"
+
+#: admin/cpd-meta-box-evidence.php:115
+#, fuzzy
+msgid ""
+"Eg. certificate of achivement, certificate of attendance, line manager or "
+"self certification."
+msgstr "如。成就、 出勤、 直线经理或自我认证证书的证书。"
+
+#: admin/cpd-meta-box-evidence.php:115
+#, fuzzy
+msgid ""
+"Select 'Add Evidence' to start adding supporting evidence. You can add as "
+"much evidence as you need."
+msgstr "选择添加证据来开始添加支持的证据。您可以添加您需要的证据。"
+
+#: admin/cpd-meta-box-evidence.php:122
+#, fuzzy
+msgid "Evidence Type"
+msgstr "证据类型"
+
+#: admin/cpd-meta-box-evidence.php:123
+#, fuzzy
+msgid "Choose the type of evidence you wish to add."
+msgstr "选择您希望添加的证据的类型。"
+
+#: admin/cpd-meta-box-evidence.php:134
+msgid "Title"
+msgstr "标题"
+
+#: admin/cpd-meta-box-evidence.php:135
+#, fuzzy
+msgid "Title or short description of the evidence:"
+msgstr "标题或简短说明的证据:"
+
+#: admin/cpd-meta-box-evidence.php:141
+msgid "File Upload"
+msgstr "文件上传"
+
+#: admin/cpd-meta-box-evidence.php:142
+#, fuzzy
+msgid "Upload your evidence:"
+msgstr "上传您的证据:"
+
+#: admin/cpd-meta-box-evidence.php:148
+msgid "Journal Item"
+msgstr "会计凭证明细"
+
+#: admin/cpd-meta-box-evidence.php:149
+#, fuzzy
+msgid "Please select the Journal Item:"
+msgstr "请选择日记项目:"
+
+#: admin/cpd-meta-box-evidence.php:157
+msgid "URL"
+msgstr "链接"
+
+#: admin/cpd-meta-box-evidence.php:158
+#, fuzzy
+msgid "Cut and paste the URL of your evidence into the field provided:"
+msgstr "剪切并粘贴您的证据的 URL 到所提供的字段:"
+
+#: admin/cpd-meta-box-evidence.php:164
+#, fuzzy
+msgid "Add Evidence"
+msgstr "添加证据"
+
+#: admin/cpd-meta-box-evidence.php:165
+#, fuzzy
+msgid "Remove Evidence"
+msgstr "删除证据"
+
+#: admin/cpd-meta-box-feedback.php:134
+#, fuzzy
+msgid "The feedback for this assessment (can only be edited by a Supervisor)."
+msgstr "这次评估 (只可以由主管编辑) 反馈。"
+
+#: admin/cpd-meta-box-feedback.php:134
+msgid "NOTE:"
+msgstr "注："
+
+#: admin/cpd-meta-box-feedback.php:134 admin/cpd-meta-box-guidance.php:134
+#, fuzzy
+msgid "Criteria for this assessment can ve viewed in the 'Criteria' section."
+msgstr "这一评估标准可以 ve 在标准部分中查看。"
+
+#: admin/cpd-meta-box-guidance.php:98
+#, fuzzy
+msgid ""
+"The guidance or brief for this assessment (can only be edited by a "
+"Supervisor)."
+msgstr "指导或简短的这项评估 (只可以由主管编辑)。"
+
+#: admin/cpd-meta-box-guidance.php:98 admin/cpd-meta-box-guidance.php:134
+#: admin/cpd-users.php:569
+msgid "NOTE"
+msgstr "注"
+
+#: admin/cpd-meta-box-guidance.php:98
+#, fuzzy
+msgid "Criteria for this assessment should be added in the 'Criteria' section."
+msgstr "这种评价的标准应添加在标准部分。"
+
+#: admin/cpd-meta-box-points.php:52
+msgid "Points"
+msgstr "点"
+
+#: admin/cpd-meta-box-points.php:97 admin/cpd-meta-box-points.php:135
+msgid "Points Awarded"
+msgstr "奖励得分"
+
+#: admin/cpd-meta-box-points.php:98
+#, fuzzy
+msgid "Enter the points that this achivement should be awarded"
+msgstr "进入点，应授予此成就"
+
+#: admin/cpd-meta-box-points.php:136
+#, fuzzy
+msgid "Only a supervisor can award points"
+msgstr "只有主管可以奖励点"
+
+#: admin/cpd-meta-box-privacy.php:97
+msgid "Private Content"
+msgstr "保护内容"
+
+#: admin/cpd-meta-box-privacy.php:98
+#, fuzzy
+msgid "Check the box below to mark this content as private."
+msgstr "请检查下面的框以标记这内容为私有。"
+
+#: admin/cpd-meta-box-privacy.php:98
+#, fuzzy
+msgid "Who can view private content?"
+msgstr "谁可以查看私人内容?"
+
+#: admin/cpd-meta-box-score.php:97 admin/cpd-meta-box-score.php:135
+#, fuzzy
+msgid "Overall Score"
+msgstr "总体评分"
+
+#: admin/cpd-meta-box-score.php:98
+#, fuzzy
+msgid "Enter overall score for this assessment"
+msgstr "输入此评估总分"
+
+#: admin/cpd-meta-box-score.php:136
+#, fuzzy
+msgid "Only a supervisor can set the score."
+msgstr "只有主管可以设置分数。"
+
+#: admin/cpd-meta-box-submit.php:52
+msgid "Submit"
+msgstr "提交"
+
+#: admin/cpd-meta-box-submit.php:97
+#, fuzzy
+msgid "Submit to Supervisor"
+msgstr "向主管提交"
+
+#: admin/cpd-meta-box-submit.php:98
+#, fuzzy
+msgid "Submit this assessment to a supervisor for review."
+msgstr "提交此项评估审查主管。"
+
+#: admin/cpd-meta-box-submit.php:98
+#, fuzzy
+msgid ""
+"Once submitted you will not be able to make edits to this assessment, unless "
+"a supervisor marks it as editable"
+msgstr "一旦提交你将不能够对这一评估，进行编辑，除非主管将其标记为可编辑"
+
+#: admin/cpd-meta-box-submit.php:149
+#, fuzzy
+msgid "Submited"
+msgstr "提交："
+
+#: admin/cpd-meta-box-submit.php:151
+msgid "Completed"
+msgstr "所有的安装都已经完成。"
+
+#: admin/cpd-meta-box-submit.php:157
+#, fuzzy
+msgid "Assessment submitted"
+msgstr "提交的评估报告"
+
+#: admin/cpd-meta-box-submit.php:157
+#, fuzzy
+msgid "Assessment not submitted"
+msgstr "不提交的评估报告"
+
+#: admin/cpd-meta-box-submit.php:158
+#, fuzzy
+msgid ""
+"Uncheck the 'Assessment submitted' box to take this assessment out of "
+"'submitted' status."
+msgstr "勾选评估提交' 采取这一评估的 '提交' 的地位。"
+
+#: admin/cpd-meta-box-submit.php:158
+#, fuzzy
+msgid ""
+"Only do this if the participant has made an error and needs to ammend the "
+"submission."
+msgstr "如果参与者犯了错误，需要到下行提交，只有和这样做。"
+
+#: admin/cpd-meta-box-submit.php:158
+#, fuzzy
+msgid "This assessment has not be submitted by the participant."
+msgstr "这一评估未有提交的参与者。"
+
+#: admin/cpd-meta-box-submit.php:164
+#, fuzzy
+msgid "Mark as complete"
+msgstr "标记为已完成"
+
+#: admin/cpd-meta-box-submit.php:164
+#, fuzzy
+msgid "Not complete"
+msgstr "不完整"
+
+#: admin/cpd-meta-box-submit.php:165
+#, fuzzy
+msgid ""
+"The supervisor should check this box to mark the assessment as complete."
+msgstr "主管应选中此框，标记为已完成评估。"
+
+#: admin/cpd-meta-box-submit.php:165
+#, fuzzy
+msgid "The participant will be notified."
+msgstr "将通知参与者。"
+
+#: admin/cpd-meta-box-submit.php:165
+#, fuzzy
+msgid ""
+"You cannot mark this assessment as complete until the participant has "
+"submitted it."
+msgstr "直至参与者提交它，不能将标记为已完成这项评估。"
+
+#: admin/cpd-notices.php:78
+msgid "Taxonomies"
+msgstr "分类法"
+
+#: admin/cpd-notices.php:111 admin/cpd-options-privacy.php:271
+msgid "View"
+msgstr "浏览"
+
+#: admin/cpd-notices.php:119
+#, fuzzy
+msgid "Standard View"
+msgstr "标准视图"
+
+#: admin/cpd-notices.php:127
+#, fuzzy
+msgid "Tree View"
+msgstr "树视图"
+
+#: admin/cpd-options-copy-assessment.php:60
+#: admin/cpd-options-copy-assessment.php:262
+#, fuzzy
+msgid "Copy Assessments"
+msgstr "复制的评估"
+
+#: admin/cpd-options-copy-assessment.php:77
+#, fuzzy
+msgid "Succes"
+msgstr "成功"
+
+#: admin/cpd-options-copy-assessment.php:77
+#, fuzzy
+msgid "Assessments have been copied"
+msgstr "已复制的评估"
+
+#: admin/cpd-options-copy-assessment.php:105
+#: admin/cpd-options-copy-assessment.php:129
+#: admin/cpd-options-copy-assessment.php:245
+#: admin/cpd-options-copy-pages.php:105 admin/cpd-options-copy-pages.php:129
+#: admin/cpd-options-copy-pages.php:245 admin/cpd-options-copy-posts.php:105
+#: admin/cpd-options-copy-posts.php:129 admin/cpd-options-copy-posts.php:245
+#: admin/cpd-options-copy-ppd.php:105 admin/cpd-options-copy-ppd.php:129
+#: admin/cpd-options-copy-ppd.php:245
+msgid "Error"
+msgstr "Error"
+
+#: admin/cpd-options-copy-assessment.php:105
+#: admin/cpd-options-copy-pages.php:105 admin/cpd-options-copy-posts.php:105
+#: admin/cpd-options-copy-ppd.php:105
+#, fuzzy
+msgid "No journals were selected."
+msgstr "没有期刊入选。"
+
+#: admin/cpd-options-copy-assessment.php:129
+#: admin/cpd-options-copy-pages.php:129 admin/cpd-options-copy-posts.php:129
+#: admin/cpd-options-copy-ppd.php:129
+#, fuzzy
+msgid "No pages were selected."
+msgstr "没有页面被选定。"
+
+#: admin/cpd-options-copy-assessment.php:217
+#: admin/cpd-options-copy-pages.php:217 admin/cpd-options-copy-posts.php:217
+#: admin/cpd-options-copy-ppd.php:217
+msgid "Successfully copied"
+msgstr "复制成功"
+
+#: admin/cpd-options-copy-assessment.php:217
+#: admin/cpd-options-copy-assessment.php:223
+#: admin/cpd-options-copy-assessment.php:229
+#: admin/cpd-options-copy-pages.php:217 admin/cpd-options-copy-pages.php:223
+#: admin/cpd-options-copy-pages.php:229 admin/cpd-options-copy-posts.php:217
+#: admin/cpd-options-copy-posts.php:223 admin/cpd-options-copy-posts.php:229
+#: admin/cpd-options-copy-ppd.php:217 admin/cpd-options-copy-ppd.php:223
+#: admin/cpd-options-copy-ppd.php:229
+#, fuzzy
+msgid "into journal"
+msgstr "到日记本"
+
+#: admin/cpd-options-copy-assessment.php:223
+#: admin/cpd-options-copy-pages.php:223 admin/cpd-options-copy-posts.php:223
+#: admin/cpd-options-copy-ppd.php:223
+#, fuzzy
+msgid "Could"
+msgstr "可以"
+
+#: admin/cpd-options-copy-assessment.php:223
+#: admin/cpd-options-copy-assessment.php:229
+#: admin/cpd-options-copy-pages.php:223 admin/cpd-options-copy-posts.php:223
+#: admin/cpd-options-copy-posts.php:229 admin/cpd-options-copy-ppd.php:223
+#: admin/cpd-options-copy-ppd.php:229
+msgid "not"
+msgstr "不"
+
+#: admin/cpd-options-copy-assessment.php:223
+#: admin/cpd-options-copy-assessment.php:229
+#: admin/cpd-options-copy-pages.php:223 admin/cpd-options-copy-pages.php:229
+#: admin/cpd-options-copy-posts.php:223 admin/cpd-options-copy-posts.php:229
+#: admin/cpd-options-copy-ppd.php:223 admin/cpd-options-copy-ppd.php:229
+msgid "copy"
+msgstr "复制"
+
+#: admin/cpd-options-copy-assessment.php:229
+#: admin/cpd-options-copy-pages.php:229 admin/cpd-options-copy-posts.php:229
+#: admin/cpd-options-copy-ppd.php:229
+msgid "Did"
+msgstr "難道"
+
+#: admin/cpd-options-copy-assessment.php:229
+#: admin/cpd-options-copy-pages.php:229 admin/cpd-options-copy-ppd.php:229
+#, fuzzy
+msgid "as there is already a page with that name in the journal."
+msgstr "因为已存在具有该名称在杂志上的网页。"
+
+#: admin/cpd-options-copy-assessment.php:245
+#, fuzzy
+msgid ""
+"All chosen Assessments already exist in all chosen Journals and/or Templates."
+msgstr "所有选择评估已经存在于所有空房期刊和/或模板。"
+
+#: admin/cpd-options-copy-assessment.php:302
+#, fuzzy
+msgid ""
+"Below is a list of Template Assessments. Check all of the Assessments that "
+"you wish to copy into participant Journals."
+msgstr "下面是一个列表模板评估。检查所有你想要复制到参与者期刊的评估。"
+
+#: admin/cpd-options-copy-assessment.php:310
+#, fuzzy
+msgid "Assessments in"
+msgstr "在评估"
+
+#: admin/cpd-options-copy-assessment.php:350
+#: admin/cpd-options-copy-pages.php:350 admin/cpd-options-copy-posts.php:350
+#: admin/cpd-options-copy-ppd.php:350
+#, fuzzy
+msgid "Select Journals and Templates"
+msgstr "选择期刊和模板"
+
+#: admin/cpd-options-copy-assessment.php:351
+#, fuzzy
+msgid ""
+"Check the Journals and Templates you wish to copy the selected Assessments "
+"into."
+msgstr "检查的期刊和模板您希望复制到选定的评估。"
+
+#: admin/cpd-options-copy-assessment.php:352
+#: admin/cpd-options-copy-pages.php:352 admin/cpd-options-copy-ppd.php:352
+#: admin/cpd-options-privacy.php:191 admin/cpd-options-privacy.php:240
+msgid "Please note"
+msgstr "请注意"
+
+#: admin/cpd-options-copy-assessment.php:352
+#, fuzzy
+msgid ""
+"If Assessments with the same name already exists in a Journal or Template "
+"the page will not be copied into that journal."
+msgstr "如果具有相同名称的评估已经存在在日记或模板页面将不会复制到该日志。"
+
+#: admin/cpd-options-copy-assessment.php:358
+#: admin/cpd-options-copy-pages.php:358 admin/cpd-options-copy-posts.php:358
+#: admin/cpd-options-copy-ppd.php:358
+#, fuzzy
+msgid "Your Journals"
+msgstr "你的期刊"
+
+#: admin/cpd-options-copy-assessment.php:388
+#: admin/cpd-options-copy-pages.php:388 admin/cpd-options-copy-posts.php:388
+#: admin/cpd-options-copy-ppd.php:388
+#, fuzzy
+msgid "You have no Journals"
+msgstr "你有没有期刊"
+
+#: admin/cpd-options-copy-assessment.php:397
+#: admin/cpd-options-copy-pages.php:397 admin/cpd-options-copy-posts.php:397
+#: admin/cpd-options-copy-ppd.php:397 admin/cpd-options-templates.php:63
+#, fuzzy
+msgid "Your Templates"
+msgstr "您的模板"
+
+#: admin/cpd-options-copy-assessment.php:427
+#: admin/cpd-options-copy-pages.php:427 admin/cpd-options-copy-posts.php:427
+#, fuzzy
+msgid "You have no Templates"
+msgstr "你有没有模板"
+
+#: admin/cpd-options-copy-assessment.php:442
+#, fuzzy
+msgid "No assessments have been created as yet."
+msgstr "没有评估都尚未创建一样。"
+
+#: admin/cpd-options-copy-assessment.php:443
+#, fuzzy
+msgid "Please create an assessments to continue."
+msgstr "请创建一个评估以继续。"
+
+#: admin/cpd-options-copy-assessment.php:451
+#: admin/cpd-options-copy-pages.php:60 admin/cpd-options-copy-pages.php:262
+#: admin/cpd-options-copy-pages.php:451 admin/cpd-options-copy-posts.php:451
+#: admin/cpd-options-copy-ppd.php:451
+#, fuzzy
+msgid "Copy Pages"
+msgstr "复制页面"
+
+#: admin/cpd-options-copy-pages.php:77 admin/cpd-options-copy-posts.php:77
+#: admin/cpd-options-copy-ppd.php:77
+msgid "Success"
+msgstr "成功！"
+
+#: admin/cpd-options-copy-pages.php:77
+#, fuzzy
+msgid "Pages have been copied"
+msgstr "已复制页"
+
+#: admin/cpd-options-copy-pages.php:245
+msgid "All chosen pages already exist in all chosen Journals and/or Templates."
+msgstr ""
+
+#: admin/cpd-options-copy-pages.php:302
+#, fuzzy
+msgid ""
+"Below is a list of Template pages. Check all of the pages that you wish to "
+"copy into participant journals."
+msgstr "下面是一个列表模板页。检查所有你想要复制到参与者期刊的页面。"
+
+#: admin/cpd-options-copy-pages.php:310
+#, fuzzy
+msgid "Pages in"
+msgstr "中的页面"
+
+#: admin/cpd-options-copy-pages.php:351
+#, fuzzy
+msgid ""
+"Check the Journals and Templates you wish to copy the selected pages into."
+msgstr "检查的期刊和您希望复制到所选的页面的模板。"
+
+#: admin/cpd-options-copy-pages.php:352
+#, fuzzy
+msgid ""
+"If a page with the same name already exists in a Journal or Template the "
+"page will not be copied into that journal."
+msgstr "如果在日志中已存在具有相同名称页面或模板页面将不会复制到该日志。"
+
+#: admin/cpd-options-copy-pages.php:442
+#, fuzzy
+msgid "No pages have been created as yet."
+msgstr "没有页面都尚未创建一样。"
+
+#: admin/cpd-options-copy-pages.php:443
+#, fuzzy
+msgid "Please create a page to continue."
+msgstr "请创建一个页面来继续。"
+
+#: admin/cpd-options-copy-posts.php:60 admin/cpd-options-copy-posts.php:262
+#, fuzzy
+msgid "Copy Journal Entries"
+msgstr "会计分录"
+
+#: admin/cpd-options-copy-posts.php:77
+#, fuzzy
+msgid "Journal Entries have been copied"
+msgstr "日记条目已被复制"
+
+#: admin/cpd-options-copy-posts.php:229
+#, fuzzy
+msgid "as there is already a post with that name in the journal."
+msgstr "因为已存在具有该名称在杂志上的一篇文章。"
+
+#: admin/cpd-options-copy-posts.php:245
+#, fuzzy
+msgid ""
+"All chosen Journal Entries already exist in all chosen Journals and/or "
+"Templates."
+msgstr "所有选择日记条目已经存在于所有空房期刊和/或模板。"
+
+#: admin/cpd-options-copy-posts.php:302
+#, fuzzy
+msgid ""
+"Below is a list of Template Journal Entries. Check all of the Journal "
+"Entries that you wish to copy into participant Journals."
+msgstr "下面是一个列表模板日记条目。检查所有你想要复制到参与者期刊的日记条目。"
+
+#: admin/cpd-options-copy-posts.php:310
+#, fuzzy
+msgid "Journal Entries in"
+msgstr "会计分录"
+
+#: admin/cpd-options-copy-posts.php:351
+#, fuzzy
+msgid ""
+"Check the Journals and Templates you wish to copy the selected Journal "
+"Entries into."
+msgstr "检查的期刊和模板要复制选定的日记账分录。"
+
+#: admin/cpd-options-copy-posts.php:352
+#, fuzzy
+msgid ""
+"If Journal Entries with the same name already exists in a Journal or "
+"Template the page will not be copied into that journal."
+msgstr "如果具有相同名称的日记条目已经存在在日记或模板页面将不会复制到该日志。"
+
+#: admin/cpd-options-copy-posts.php:442
+#, fuzzy
+msgid "No journal entries have been created as yet."
+msgstr "任何日志条目都尚未创建一样。"
+
+#: admin/cpd-options-copy-posts.php:443
+#, fuzzy
+msgid "Please create a journal entries to continue."
+msgstr "请创建一个日志条目以继续。"
+
+#: admin/cpd-options-copy-ppd.php:60
+#, fuzzy
+msgid "Copy Activites"
+msgstr "复制活动有关的现金"
+
+#: admin/cpd-options-copy-ppd.php:77
+#, fuzzy
+msgid "Activities have been copied"
+msgstr "已复制活动"
+
+#: admin/cpd-options-copy-ppd.php:245
+#, fuzzy
+msgid ""
+"All chosen Activities already exist in all chosen Journals and/or Templates."
+msgstr "所有选择活动已经存在于所有空房期刊和/或模板。"
+
+#: admin/cpd-options-copy-ppd.php:262
+#, fuzzy
+msgid "Copy Activities"
+msgstr "复制活动"
+
+#: admin/cpd-options-copy-ppd.php:302
+#, fuzzy
+msgid ""
+"Below is a list of Template Activities. Check all of the Activities that you "
+"wish to copy into participant Journals."
+msgstr "下面是一个列表模板活动。检查所有你想要复制到参与者期刊的活动。"
+
+#: admin/cpd-options-copy-ppd.php:310
+#, fuzzy
+msgid "Activities in"
+msgstr "活动"
+
+#: admin/cpd-options-copy-ppd.php:351
+#, fuzzy
+msgid ""
+"Check the Journals and Templates you wish to copy the selected Activities "
+"into."
+msgstr "检查的期刊和您希望复制到所选的活动的模板。"
+
+#: admin/cpd-options-copy-ppd.php:352
+#, fuzzy
+msgid ""
+"If Activities with the same name already exists in a Journal or Template the "
+"page will not be copied into that journal."
+msgstr "如果具有相同名称的活动已经存在在日记或模板页面将不会复制到该日志。"
+
+#: admin/cpd-options-copy-ppd.php:442
+#, fuzzy
+msgid "No activities have been created as yet."
+msgstr "没有活动都尚未创建一样。"
+
+#: admin/cpd-options-copy-ppd.php:443
+#, fuzzy
+msgid "Please create an activities to continue."
+msgstr "请创建活动，以继续。"
+
+#: admin/cpd-options-privacy.php:77
+#, fuzzy
+msgid "Login to view journal"
+msgstr "登录以查看日记帐"
+
+#: admin/cpd-options-privacy.php:78
+#, fuzzy
+msgid "Private content access"
+msgstr "私人内容访问"
+
+#: admin/cpd-options-privacy.php:79
+#, fuzzy
+msgid "Private content overview"
+msgstr "私人的内容概述"
+
+#: admin/cpd-options-privacy.php:82
+#, fuzzy
+msgid "Jounal can be viewed by:"
+msgstr "杂志可以查看:"
+
+#: admin/cpd-options-privacy.php:83
+#, fuzzy
+msgid "Private content can be viewed by:"
+msgstr "可以通过查看私人的内容:"
+
+#: admin/cpd-options-privacy.php:84
+#, fuzzy
+msgid "Private content:"
+msgstr "保护内容"
+
+#: admin/cpd-options-privacy.php:94
+#, fuzzy
+msgid "You can make this journal visible only to people that log in."
+msgstr "你可以使此日志只对登录的人可见。"
+
+#: admin/cpd-options-privacy.php:105
+#, fuzzy
+msgid ""
+"Private content can only be viewed by certain people, even if your journal "
+"is open to members of the public."
+msgstr "私人内容只可以被某些人，即使你的日记是向市民开放。"
+
+#: admin/cpd-options-privacy.php:106
+#, fuzzy
+msgid ""
+"The following people can view content that is marked as private in your "
+"Journal."
+msgstr "下列的人可以查看标记为私有在日记中的内容。"
+
+#: admin/cpd-options-privacy.php:108
+#, fuzzy
+msgid ""
+"To view private content, visitors must be logged into the Journal with a "
+"username and password."
+msgstr "要查看私人内容，游客必须登录到该杂志的用户名和密码。"
+
+#: admin/cpd-options-privacy.php:118
+#, fuzzy
+msgid "The following peices of content are set to private in your journal."
+msgstr "以下几块内容都设为隐藏在你的日记。"
+
+#: admin/cpd-options-privacy.php:131
+#, fuzzy
+msgid "People with a username and password only"
+msgstr "人们使用的用户名和密码只"
+
+#: admin/cpd-options-privacy.php:132
+#, fuzzy
+msgid "Anybody (available to the public)"
+msgstr "任何人 (向公众提供)"
+
+#: admin/cpd-options-privacy.php:135
+#, fuzzy
+msgid ""
+"People who have access to this journal via a username and password are as "
+"follows"
+msgstr "有权访问此日志通过用户名和密码的人如下"
+
+#: admin/cpd-options-privacy.php:140 admin/cpd-options-privacy.php:207
+msgid "Role"
+msgstr "角色"
+
+#: admin/cpd-options-privacy.php:191
+#, fuzzy
+msgid "system administrators can also view your journal."
+msgstr "系统管理员还可以查看你的日记。"
+
+#: admin/cpd-options-privacy.php:202
+#, fuzzy
+msgid ""
+"People who have access to view private content on this journal are as follows"
+msgstr "人有权对此日志查看私人内容如下"
+
+#: admin/cpd-options-privacy.php:240
+#, fuzzy
+msgid "system administrators can also view private posts."
+msgstr "系统管理员还可以查看私营部门职务。"
+
+#: admin/cpd-options-privacy.php:250
+#, fuzzy
+msgid ""
+"You can mark individual peices of content as private by editing that peice "
+"of content."
+msgstr "您可以通过编辑内容那块标记作为私人内容的各个部分。"
+
+#: admin/cpd-options-privacy.php:270
+msgid "Content Type"
+msgstr "内容类型"
+
+#: admin/cpd-options-privacy.php:272 admin/cpd-options-templates.php:109
+#: admin/cpd-options-templates.php:121 templates/single-assessment.php:285
+#: templates/single-ppd.php:150
+msgid "Edit"
+msgstr "Edit"
+
+#: admin/cpd-options-privacy.php:292
+#, fuzzy
+msgid "peices of content have been set to private in your Journal."
+msgstr "已设置内容片断到私人在你的日记。"
+
+#: admin/cpd-options-privacy.php:313
+#, fuzzy
+msgid "Privacy Settings"
+msgstr "隐私设置"
+
+#: admin/cpd-options-templates.php:59
+#, fuzzy
+msgid "Manage Templates"
+msgstr "管理範本"
+
+#: admin/cpd-options-templates.php:60
+#, fuzzy
+msgid "Create a new Template"
+msgstr "创建一个新的模板"
+
+#: admin/cpd-options-templates.php:64
+#, fuzzy
+msgid "Template Base"
+msgstr "模板基地"
+
+#: admin/cpd-options-templates.php:65
+msgid "Template Name"
+msgstr "模板名称"
+
+#: admin/cpd-options-templates.php:74
+#, fuzzy
+msgid ""
+"Templates define the content and settings that are added to a new Journal "
+"when it is created. When you create a new Journal you will be asked which "
+"Template you wish to create it from."
+msgstr ""
+"模板定义的内容和它创建时添加到新的日志设置。当您创建新的日志将会要求您您想要"
+"创建它从哪个模板。"
+
+#: admin/cpd-options-templates.php:85
+#, fuzzy
+msgid "You can create a new template by completing the following section."
+msgstr "您可以通过完成下面的部分创建新模板。"
+
+#: admin/cpd-options-templates.php:104
+#, fuzzy
+msgid "You can manage the following Templates:"
+msgstr "您可以管理以下模板:"
+
+#: admin/cpd-options-templates.php:110 admin/cpd-options-templates.php:127
+msgid "Delete"
+msgstr "Delete"
+
+#: admin/cpd-options-templates.php:145
+#, fuzzy
+msgid "You do not currently have access to any Templates."
+msgstr "您当前没有访问任何模板。"
+
+#: admin/cpd-options-templates.php:155
+#, fuzzy
+msgid ""
+"Choose an existing Template to use as a base for your new Template. All the "
+"settings and content from this Template will be copied accross to your new "
+"Template."
+msgstr ""
+"选择要用作您的新模板的基础的现有模板。所有的设置和内容从该模板将整个复制到您"
+"的新模板。"
+
+#: admin/cpd-options-templates.php:189
+#, fuzzy
+msgid "Choose a title for your new Template."
+msgstr "为您的新模板选择一个标题。"
+
+#: admin/cpd-options-templates.php:190
+#, fuzzy
+msgid "All Templates are automatically prefixed with the word 'Template'."
+msgstr "所有模板均自动以模板一词作为都前缀。"
+
+#: admin/cpd-options-templates.php:193
+msgid "Template"
+msgstr "模板"
+
+#: admin/cpd-options-templates.php:236
+#, fuzzy
+msgid "Sorry a Template with that name already exists."
+msgstr "抱歉具有该名称的模板已经存在。"
+
+#: admin/cpd-options-templates.php:253
+#, fuzzy
+msgid "Your Template has been deleted."
+msgstr "您的模板已被删除。"
+
+#: admin/cpd-options-templates.php:263
+#, fuzzy
+msgid "Create New Template"
+msgstr "创建一个新的模板"
+
+#: admin/cpd-options-theme.php:81
+msgid "Theme defaults"
+msgstr "主题的默认值"
+
+#: admin/cpd-options-theme.php:84
+#, fuzzy
+msgid "Parent Theme"
+msgstr "父主题名称"
+
+#: admin/cpd-options-theme.php:85
+msgid "Theme"
+msgstr "主题"
+
+#: admin/cpd-options-theme.php:94
+#, fuzzy
+msgid "Add the default theme settings for the CPD system."
+msgstr "添加了 CPD 系统的默认主题设置。"
+
+#: admin/cpd-options-theme.php:123
+#, fuzzy
+msgid "CPD Theme Settings"
+msgstr "主题设置"
+
+#: admin/cpd-options-theme.php:132
+msgid "Theme Settings"
+msgstr "主题设置"
+
+#: admin/cpd-options-users-participants.php:59
+#: admin/cpd-options-users-participants.php:296
+#: admin/cpd-options-users-participants.php:307 admin/cpd-options-users.php:384
+#: admin/cpd-options-users.php:395
+#, fuzzy
+msgid "Manage Participants"
+msgstr "管理参与者"
+
+#: admin/cpd-options-users-participants.php:60 admin/cpd-options-users.php:61
+#, fuzzy
+msgid "Add New Participant"
+msgstr "添加参与者"
+
+#: admin/cpd-options-users-participants.php:63
+#: admin/cpd-options-users-participants.php:278 admin/cpd-options-users.php:65
+#: admin/cpd-options-users.php:365
+#, fuzzy
+msgid "Add Participant"
+msgstr "添加参与者"
+
+#: admin/cpd-options-users-participants.php:73
+#, fuzzy
+msgid ""
+"Listed are all the participants. You can update them individually below."
+msgstr "列出所有的参与者。您可以更新他们单独下面。"
+
+#: admin/cpd-options-users-participants.php:76
+#, fuzzy
+msgid "You can only make alterations to participants"
+msgstr "你只能对参与者进行改建"
+
+#: admin/cpd-options-users-participants.php:76 admin/cpd-options-users.php:78
+#, fuzzy
+msgid "one at a time"
+msgstr "一次一个"
+
+#: admin/cpd-options-users-participants.php:76 admin/cpd-options-users.php:78
+#, fuzzy
+msgid ""
+", and you must save the information by clicking the 'Update Participant' "
+"button."
+msgstr "您必须通过单击 '更新参与方' 按钮保存信息。"
+
+#: admin/cpd-options-users-participants.php:128 admin/cpd-options-users.php:129
+#, fuzzy
+msgid "Choose the participants Journal"
+msgstr "选择参与者杂志"
+
+#: admin/cpd-options-users-participants.php:131 admin/cpd-options-users.php:132
+#: admin/cpd-profile.php:217
+#, fuzzy
+msgid "Create a new journal"
+msgstr "创建新的日志"
+
+#: admin/cpd-options-users-participants.php:149 admin/cpd-options-users.php:150
+#, fuzzy
+msgid "Choose template"
+msgstr "选择模板..."
+
+#: admin/cpd-options-users-participants.php:180 admin/cpd-options-users.php:181
+#, fuzzy
+msgid "Choose assign other supervisors of the participant"
+msgstr "选择分配其他监事参与者"
+
+#: admin/cpd-options-users-participants.php:216 admin/cpd-options-users.php:217
+#, fuzzy
+msgid "No supervisors available"
+msgstr "没有可用的主管"
+
+#: admin/cpd-options-users-participants.php:225 admin/cpd-options-users.php:226
+#, fuzzy
+msgid "Update Participant"
+msgstr "更新参与者"
+
+#: admin/cpd-options-users-participants.php:239 admin/cpd-options-users.php:240
+#, fuzzy
+msgid "You do not currently manage any particpants."
+msgstr "你目前不管理任何参与者。"
+
+#: admin/cpd-options-users-participants.php:250 admin/cpd-options-users.php:262
+#, fuzzy
+msgid "You can add a new participant by completing the details below"
+msgstr "您可以添加一个新的参与者通过完成下面的详细信息"
+
+#: admin/cpd-options-users-participants.php:252
+#: admin/cpd-options-users-supervisors.php:180 admin/cpd-options-users.php:264
+#, fuzzy
+msgid "The new user will"
+msgstr "新用户将"
+
+#: admin/cpd-options-users-participants.php:252
+#: admin/cpd-options-users-supervisors.php:180 admin/cpd-options-users.php:264
+msgid "Not"
+msgstr "非"
+
+#: admin/cpd-options-users-participants.php:252
+#, fuzzy
+msgid ""
+"automatically be added to a supervisors workload, but you can assign them "
+"using this page after they have been created."
+msgstr "自动添加到监督员的工作量，但你可以将它们使用此页后他们已创建分配。"
+
+#: admin/cpd-options-users-participants.php:261 admin/cpd-options-users.php:348
+#, fuzzy
+msgid "Add the username and email address of the participant."
+msgstr "添加参与者的用户名和电子邮件地址。"
+
+#: admin/cpd-options-users-participants.php:266
+#: admin/cpd-options-users-supervisors.php:194 admin/cpd-options-users.php:353
+msgid "Username"
+msgstr "用户名"
+
+#: admin/cpd-options-users-participants.php:271
+#: admin/cpd-options-users-supervisors.php:199 admin/cpd-options-users.php:358
+msgid "Email"
+msgstr "Email"
+
+#: admin/cpd-options-users-participants.php:275
+#: admin/cpd-options-users-supervisors.php:203 admin/cpd-options-users.php:362
+#, fuzzy
+msgid "Username and password will be mailed to the above email address."
+msgstr "用户名和密码将寄给上述的电子邮件地址。"
+
+#: admin/cpd-options-users-participants.php:334
+#: admin/cpd-options-users-supervisors.php:263 admin/cpd-options-users.php:422
+#, fuzzy
+msgid "A user with this username already exists."
+msgstr "具有此用户名的用户已存在。"
+
+#: admin/cpd-options-users-participants.php:340
+#: admin/cpd-options-users-supervisors.php:269 admin/cpd-options-users.php:428
+msgid "Please enter a valid email address."
+msgstr "请输入正确的电子邮件地址。"
+
+#: admin/cpd-options-users-participants.php:346
+#: admin/cpd-options-users-supervisors.php:275 admin/cpd-options-users.php:434
+#, fuzzy
+msgid "A user with this email address already exists."
+msgstr "与此电子邮件地址的用户已存在。"
+
+#: admin/cpd-options-users-supervisors.php:60
+#: admin/cpd-options-users-supervisors.php:225
+#: admin/cpd-options-users-supervisors.php:236
+#, fuzzy
+msgid "Manage Supervisors"
+msgstr "管理主管"
+
+#: admin/cpd-options-users-supervisors.php:61
+#, fuzzy
+msgid "Add New Supervisor"
+msgstr "添加新主管"
+
+#: admin/cpd-options-users-supervisors.php:64
+#: admin/cpd-options-users-supervisors.php:206
+#, fuzzy
+msgid "Add Supervisor"
+msgstr "添加主管"
+
+#: admin/cpd-options-users-supervisors.php:76
+#, fuzzy
+msgid ""
+"Listed are all the superviors and their participants. You can add or remove "
+"participants to and from a supervisors workload by checking the boxes next "
+"to their name."
+msgstr ""
+"列出所有把关和市场参与者。您可以添加或删除参与者，从主管工作量通过选中其名称"
+"旁边的框。"
+
+#: admin/cpd-options-users-supervisors.php:108 admin/cpd-options-users.php:281
+#, fuzzy
+msgid "Select participants to manage"
+msgstr "选择要管理的参与者"
+
+#: admin/cpd-options-users-supervisors.php:146
+#, fuzzy
+msgid "Update Participants"
+msgstr "更新参与者"
+
+#: admin/cpd-options-users-supervisors.php:151 admin/cpd-options-users.php:337
+#, fuzzy
+msgid "There are no participants available."
+msgstr "没有参与者可用。"
+
+#: admin/cpd-options-users-supervisors.php:167
+#, fuzzy
+msgid "There are no supervisors available."
+msgstr "没有主管可用。"
+
+#: admin/cpd-options-users-supervisors.php:178
+#, fuzzy
+msgid "You can add a new supervisor by completing the details below"
+msgstr "通过完成下面的详细信息，可以添加新的主管"
+
+#: admin/cpd-options-users-supervisors.php:180
+#, fuzzy
+msgid ""
+"automatically be added to a workload, but you can assign participants to "
+"them using this page after they have been created."
+msgstr ""
+"自动添加到一个工作负载，但你可以将参与者分配到他们后他们已创建使用此页。"
+
+#: admin/cpd-options-users-supervisors.php:189
+#, fuzzy
+msgid "Add the username and email address of the supervisor."
+msgstr "添加主管的用户名和电子邮件地址。"
+
+#: admin/cpd-options-users.php:59
+#, fuzzy
+msgid "Manage Your Participants"
+msgstr "管理你的参与者"
+
+#: admin/cpd-options-users.php:60
+#, fuzzy
+msgid "Manage All Participants"
+msgstr "管理所有参与者"
+
+#: admin/cpd-options-users.php:64
+#, fuzzy
+msgid "All Participants"
+msgstr "所有的参与者"
+
+#: admin/cpd-options-users.php:75
+#, fuzzy
+msgid ""
+"Listed are all the participants that you currently manage. You can update "
+"them individually below."
+msgstr "列出您当前管理的所有参与者。您可以更新他们单独下面。"
+
+#: admin/cpd-options-users.php:78
+#, fuzzy
+msgid "You can only make alterations to your participants"
+msgstr "给你的参与者，只可以做改动"
+
+#: admin/cpd-options-users.php:251
+#, fuzzy
+msgid ""
+"Listed are all the participants. You can add or remove participants to and "
+"from your workload by checking the boxes next to their name."
+msgstr ""
+"列出所有的参与者。您可以添加或删除参与者，从你的工作量，通过选中其名称旁边的"
+"框。"
+
+#: admin/cpd-options-users.php:264
+#, fuzzy
+msgid ""
+"automatically be added to your workload, but you can assign them using this "
+"page after they have been created."
+msgstr "自动添加到您的工作量，但你可以将它们使用此页后他们已创建分配。"
+
+#: admin/cpd-profile.php:67 admin/cpd-profile.php:74
+#, fuzzy
+msgid "Elevated Admin Privileges"
+msgstr "提升的管理员权限"
+
+#: admin/cpd-profile.php:79
+#, fuzzy
+msgid "Grant this user elevated admin privileges."
+msgstr "授予此用户提升的管理员权限。"
+
+#: admin/cpd-profile.php:197
+#, fuzzy
+msgid "Journal Relationship Management"
+msgstr "关系管理杂志"
+
+#: admin/cpd-profile.php:202
+#, fuzzy
+msgid "Set Role"
+msgstr "设置角色"
+
+#: admin/cpd-profile.php:207
+msgid "No Role"
+msgstr "无角色"
+
+#: admin/cpd-profile.php:208 admin/cpd-users.php:119
+msgid "Participant"
+msgstr "会员"
+
+#: admin/cpd-profile.php:209 admin/cpd-users.php:118
+msgid "Supervisor"
+msgstr "负责人"
+
+#: admin/cpd-profile.php:214
+#, fuzzy
+msgid "Choose Journal"
+msgstr "选择日志"
+
+#: admin/cpd-profile.php:236
+#, fuzzy
+msgid "Choose Journal Base"
+msgstr "选择日志基础"
+
+#: admin/cpd-profile.php:269
+#, fuzzy
+msgid "Allocated supervisors"
+msgstr "已分配的主管"
+
+#: admin/cpd-profile.php:294
+#, fuzzy
+msgid "Allocated participants"
+msgstr "已分配的参与者"
+
+#: admin/cpd-taxonomy-competency-category.php:55
+#: admin/cpd-taxonomy-competency-category.php:74
+#: admin/cpd-taxonomy-competency-category.php:75
+#, fuzzy
+msgid "Competency Category"
+msgstr "能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:56
+#: admin/cpd-taxonomy-competency-category.php:84
+#, fuzzy
+msgid "Competency Categories"
+msgstr "能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:76
+#, fuzzy
+msgid "Search Competency Categories"
+msgstr "搜索能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:77
+#, fuzzy
+msgid "All Competency Categories"
+msgstr "所有能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:78
+#, fuzzy
+msgid "Parent Competency Categories"
+msgstr "胜任特征的父类别"
+
+#: admin/cpd-taxonomy-competency-category.php:79
+#, fuzzy
+msgid "Parent Competency Categories:"
+msgstr "胜任特征的父类别:"
+
+#: admin/cpd-taxonomy-competency-category.php:80
+#, fuzzy
+msgid "Edit Competency Categories"
+msgstr "编辑能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:81
+#, fuzzy
+msgid "Update Competency Categories"
+msgstr "更新能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:82
+#, fuzzy
+msgid "Add New Competency Category"
+msgstr "添加新的能力类别"
+
+#: admin/cpd-taxonomy-competency-category.php:83
+#, fuzzy
+msgid "New Competency Category Name"
+msgstr "新能力类别名称"
+
+#: admin/cpd-taxonomy-development-category.php:55
+#: admin/cpd-taxonomy-development-category.php:74
+#: admin/cpd-taxonomy-development-category.php:75
+#, fuzzy
+msgid "Development Category"
+msgstr "发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:56
+#: admin/cpd-taxonomy-development-category.php:84
+#, fuzzy
+msgid "Development Categories"
+msgstr "发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:76
+#, fuzzy
+msgid "Search Development Categories"
+msgstr "搜索发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:77
+#, fuzzy
+msgid "All Development Categories"
+msgstr "所有发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:78
+#, fuzzy
+msgid "Parent Development Categories"
+msgstr "发展的父类别"
+
+#: admin/cpd-taxonomy-development-category.php:79
+#, fuzzy
+msgid "Parent Development Categories:"
+msgstr "发展的父类别:"
+
+#: admin/cpd-taxonomy-development-category.php:80
+#, fuzzy
+msgid "Edit Development Categories"
+msgstr "编辑发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:81
+#, fuzzy
+msgid "Update Development Categories"
+msgstr "更新发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:82
+#, fuzzy
+msgid "Add New Development Category"
+msgstr "添加新发展类别"
+
+#: admin/cpd-taxonomy-development-category.php:83
+#, fuzzy
+msgid "New Development Category Name"
+msgstr "新发展类别名称"
+
+#: admin/cpd-theme.php:358
+#, fuzzy
+msgid "Aspire CPD requires a parent theme"
+msgstr "向往 CPD 要求父主题"
+
+#: admin/cpd-theme.php:358
+#, fuzzy
+msgid "to be installed for your compatible theme to work correctly."
+msgstr "要安装为您兼容的主题才能正常工作。"
+
+#: admin/cpd-theme.php:359 admin/cpd-theme.php:364
+#, fuzzy
+msgid "Install Theme"
+msgstr "安装主题"
+
+#: admin/cpd-theme.php:359 admin/cpd-theme.php:364
+#, fuzzy
+msgid "Hide this Notice"
+msgstr "隐藏此通知"
+
+#: admin/cpd-theme.php:363
+#, fuzzy
+msgid "Aspire CPD works better with a compatible theme"
+msgstr "渴望 CPD 作品更好地兼容的主题"
+
+#: admin/cpd-users.php:506
+#, fuzzy
+msgid "CPD Journal for"
+msgstr "CPD 杂志"
+
+#: admin/cpd-users.php:569
+#, fuzzy
+msgid "You must be logged in to view this journal."
+msgstr "您必须登录才能查看此日志。"
+
+#: includes/cpd-widget-latest-activities.php:22
+#, fuzzy
+msgid "Your site&#8217;s most recent Activities."
+msgstr "您的网站 &#8217; s 最近的活动。"
+
+#: includes/cpd-widget-latest-activities.php:23
+#: includes/cpd-widget-latest-activities.php:52
+#, fuzzy
+msgid "Recent Activities"
+msgstr "QA最近动态"
+
+#: includes/cpd-widget-latest-activities.php:133
+#: includes/cpd-widget-latest-assessments.php:133
+msgid "Title:"
+msgstr "标题："
+
+#: includes/cpd-widget-latest-activities.php:136
+#, fuzzy
+msgid "Number of activities to show:"
+msgstr "多项活动，显示:"
+
+#: includes/cpd-widget-latest-activities.php:140
+#: includes/cpd-widget-latest-assessments.php:140
+#, fuzzy
+msgid "Display activity date?"
+msgstr "显示活动日期吗?"
+
+#: includes/cpd-widget-latest-assessments.php:22
+#, fuzzy
+msgid "Your site&#8217;s most recent Assessments."
+msgstr "您的网站 &#8217; s 最新评估。"
+
+#: includes/cpd-widget-latest-assessments.php:23
+#: includes/cpd-widget-latest-assessments.php:52
+#, fuzzy
+msgid "Recent Assessments"
+msgstr "最近的评估"
+
+#: includes/cpd-widget-latest-assessments.php:136
+#, fuzzy
+msgid "Number of assessments to show:"
+msgstr "评估显示的数量:"
+
+#: public/cpd-comments-ui.php:102
+#, fuzzy
+msgid "Error: please fill out the required field (Score)."
+msgstr "错误: 请填写必填字段 (得分)。"
+
+#: templates/archive-assessment.php:176 templates/archive-ppd.php:162
+msgid "Previous page"
+msgstr "上一页"
+
+#: templates/archive-assessment.php:177 templates/archive-ppd.php:163
+msgid "Next page"
+msgstr "下一页"
+
+#: templates/archive-assessment.php:178 templates/archive-ppd.php:164
+#: templates/single-assessment.php:279 templates/single-ppd.php:144
+msgid "Page"
+msgstr "Page"
+
+#: templates/cpd-content-menu.php:12
+#, fuzzy
+msgid "Journal Content"
+msgstr "杂志内容"
+
+#: templates/cpd-content-menu.php:13
+#, fuzzy
+msgid ""
+"Below are your journals content types. They are grouped here for ease of "
+"access to allow you to quickly add or edit content."
+msgstr ""
+"下面是您期刊内容类型。它们在这里组合轻松访问，以便可以快速添加或编辑内容。"
+
+#: templates/single-assessment.php:275 templates/single-ppd.php:140
+msgid "Pages:"
+msgstr "页面："
+
+#: vendor/humanmade/Custom-Meta-Boxes/class.cmb-meta-box.php:89
+#, fuzzy
+msgid "Are you sure you want to delete this field?"
+msgstr "确定要删除这条?"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:69
+#, fuzzy
+msgid "Remove Field"
+msgstr "删除字段"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:461
+msgid "Add File"
+msgstr "添加文件"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:479
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:553
+msgid "Remove"
+msgstr "移除"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:541
+msgid "Add Image"
+msgstr "添加图像"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:1090
+msgid "None"
+msgstr "无"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:1120
+msgid "Type to search"
+msgstr "输入关键字搜索"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:1447
+msgid "Add New Group"
+msgstr "新建群组"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:1448
+msgid "Remove Group"
+msgstr "移除组"
+
+#: vendor/humanmade/Custom-Meta-Boxes/classes.fields.php:1647
+#, fuzzy
+msgid "Drag to set the exact location"
+msgstr "拖动以设置的确切位置"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:119
+#, fuzzy
+msgid "GitHub Updates"
+msgstr "GitHub 更新"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:160
+#, fuzzy
+msgid "Authorize with GitHub"
+msgstr "授权与 GitHub"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:222
+#, fuzzy
+msgid "Please input a Client ID before authorizing."
+msgstr "请在授权之前输入客户端 ID。"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:225
+#, fuzzy
+msgid "Please input a Client Secret before authorizing."
+msgstr "请在授权之前输入客户端的秘密。"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:238
+msgid "Setup"
+msgstr "设置"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/plugin.php:255
+#, fuzzy
+msgid "Setup GitHub Updates"
+msgstr "GitHub 的安装程序更新"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/updater.php:435
+#, fuzzy
+msgid ""
+"The plugin has been updated, but could not be reactivated. Please reactivate "
+"it manually."
+msgstr "插件已经更新，但不能被重新激活。请手动重新激活它。"
+
+#: vendor/radishconcepts/WordPress-GitHub-Plugin-Updater/updater.php:436
+#, fuzzy
+msgid "Plugin reactivated successfully."
+msgstr "启用插件成功。"
+
+#. Plugin Name of the plugin/theme
+#, fuzzy
+msgid "CPD"
+msgstr "CPD"
+
+#. Plugin URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/mkdo/cpd"
+msgstr "https://github.com/mkdo/cpd"
+
+#. Description of the plugin/theme
+#, fuzzy
+msgid "Turns WordPress into a CPD Journal management system."
+msgstr "WordPress 变成 CPD 期刊管理系统。"
+
+#. Author of the plugin/theme
+#, fuzzy
+msgid "MKDO Ltd. (Make Do)"
+msgstr "MKDO 有限公司 (做做)"
+
+#. Author URI of the plugin/theme
+#, fuzzy
+msgid "http://makedo.in"
+msgstr "http://makedo.in"

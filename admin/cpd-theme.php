@@ -355,13 +355,13 @@ if ( !class_exists( 'CPD_Theme' ) ) {
 							<?php
 							if ( !empty( $parent_slug ) && !$parent_installed ) {
 ?>
-									<p>Aspire CPD requires a parent theme (<strong><?php echo $parent_slug;?></strong>) to be installed for your compatible theme to work correctly.</p>
-									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $parent_slug ), 'install-theme_' . $parent_slug );?>">Install Theme</a> | <a href="?cpd_notice_install_theme_hide=true">Hide this Notice</a></p>
+									<p><?php _e('Aspire CPD requires a parent theme', $this->text_domain);?> (<strong><?php echo $parent_slug;?></strong>) <?php _e('to be installed for your compatible theme to work correctly.', $this->text_domain);?></p>
+									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $parent_slug ), 'install-theme_' . $parent_slug );?>"><?php _e('Install Theme', $this->text_domain);?></a> | <a href="?cpd_notice_install_theme_hide=true"><?php _e('Hide this Notice', $this->text_domain);?></a></p>
 									<?php
 							} else if ( !$theme_installed ) {
 ?>
-									<p>Aspire CPD works better with a compatible theme (<strong><?php echo $slug;?></strong>).</p>
-									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $slug ), 'install-theme_' . $slug );?>">Install Theme</a> | <a href="?cpd_notice_install_theme_hide=true">Hide this Notice</a></p>
+									<p><?php _e('Aspire CPD works better with a compatible theme', $this->text_domain);?> (<strong><?php echo $slug;?></strong>).</p>
+									<p><a href="<?php echo wp_nonce_url( network_admin_url( 'update.php?action=install-theme&theme=' . $slug ), 'install-theme_' . $slug );?>"><?php _e('Install Theme', $this->text_domain);?></a> | <a href="?cpd_notice_install_theme_hide=true"><?php _e('Hide this Notice', $this->text_domain);?></a></p>
 									<?php
 								}
 ?>

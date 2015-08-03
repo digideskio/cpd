@@ -79,7 +79,7 @@ class CPD_Comments {
 				{
 					if( $supervisor == $comment_author->ID )
 					{
-						wp_die( 'You do not have permission to edit this post. To make changes please contact your supervisor.', 'Insufficient permissions' );
+						wp_die( __('You do not have permission to edit this post. To make changes please contact your supervisor.' , $this->text_domain ), __( 'Insufficient permissions', $this->text_domain ) );
 					}
 				}
 			}
@@ -191,7 +191,7 @@ class CPD_Comments {
 		wp_nonce_field( 'cpdcs_score_nonce', 'cpdcs_score_nonce', false );
 		?>
 		<p>
-			<label for="score">Score</label>;
+			<label for="score"><?php _e('Score');?></label>;
 			<input type="text" id="score" name="score" value="<?php echo esc_attr( $score ); ?>" class="widefat"/>
 		</p>
 		<?php

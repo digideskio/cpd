@@ -49,7 +49,7 @@ class CPD_Meta_Box_Description {
 		$this->args 							= 	array(
 														'id' 					=> 'description',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Description',
+														'name' 					=> __('Description', $this->text_domain),
 														'context' 				=> 'advanced',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Description {
 													array( 
 														'id'			=> 	$this->key_prefix . 'description', 
 														'name' 			=> 	__( 'Brief Description', $this->text_domain ),
-														'desc'			=>	'Brief Description of activity or course, including provider, if applicable.',
+														'desc'			=>	__('Brief Description of activity or course, including provider, if applicable.', $this->text_domain),
 														'type'			=> 	'textarea',
 														'cols'			=> 	12,
 													),

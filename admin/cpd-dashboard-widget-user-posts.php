@@ -58,13 +58,13 @@ class CPD_Dashboard_Widget_User_Posts {
 	 */
 	public function add_dashboard_widget() {
 		
-		$posts_by_participant_title  	= 'All journal entries by user';
+		$posts_by_participant_title  	= __('All journal entries by user', $this->text_domain );
 
 		$current_user 					= wp_get_current_user();
 		$roles 							= $current_user->roles;
 
 		if( in_array( 'supervisor', $roles ) ) {
-			$posts_by_participant_title  	= 'All your participants journal entries';
+			$posts_by_participant_title  	= __('All your participants journal entries', $this->text_domain );
 		}
 
 		if( in_array( 'supervisor', $roles ) || is_super_admin( $current_user->ID ) ) {
@@ -105,18 +105,18 @@ class CPD_Dashboard_Widget_User_Posts {
 		if( !isset( $_POST['posts_by_participants_barchart_widget_count'] ) ) {
 			?>
 			<input type="hidden" name="posts_by_participants_barchart_widget_count" value="1">
-			<label for="count">Ammount of participants to show</label>
+			<label for="count"><?php _e('Ammount of participants to show', $this->text_domain );?></label>
 			<select name="count" id="count">
-				<option <?php echo $count == 0 		? 'selected' : '';?> value="0">All</option>
-				<option <?php echo $count == 10 	? 'selected' : '';?> value="10">10</option>
-				<option <?php echo $count == 20 	? 'selected' : '';?> value="20">20</option>
-				<option <?php echo $count == 30 	? 'selected' : '';?> value="30">30</option>
+				<option <?php echo $count == 0 		? 'selected' : '';?> value="0"><?php _e('All', $this->text_domain );?></option>
+				<option <?php echo $count == 10 	? 'selected' : '';?> value="10"><?php _e('10', $this->text_domain );?></option>
+				<option <?php echo $count == 20 	? 'selected' : '';?> value="20"><?php _e('20', $this->text_domain );?></option>
+				<option <?php echo $count == 30 	? 'selected' : '';?> value="30"><?php _e('30', $this->text_domain );?></option>
 			</select>
 
-			<label for="order">Order by</label>
+			<label for="order"><?php _e('Order by', $this->text_domain );?></label>
 			<select name="order" id="order">
-				<option <?php echo $order == 'desc' 	? 'selected' : '';?> value="desc">Most posts</option>
-				<option <?php echo $order == 'asc' 		? 'selected' : '';?> value="asc">Least posts</option>
+				<option <?php echo $order == 'desc' 	? 'selected' : '';?> value="desc"><?php _e('Most posts', $this->text_domain );?></option>
+				<option <?php echo $order == 'asc' 		? 'selected' : '';?> value="asc"><?php _e('Least posts', $this->text_domain );?></option>
 			</select>
 			<?php
 		} 

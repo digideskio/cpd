@@ -75,7 +75,7 @@ class CPD_Notices {
 			if( ! empty( $taxonomies ) ) {
 			?>
 			<div class="updated taxonomies-notice">
-				<h3 class="tax-title">Taxonomies:</h3>
+				<h3 class="tax-title"><?php _e('Taxonomies', $this->text_domain);?>:</h3>
 				
 				<ul class="tax-list">
 				<?php
@@ -108,7 +108,7 @@ class CPD_Notices {
 		if ( defined('CMS_TPV_URL') && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'page' ) {
 			?>
 			<div class="updated view-notice">
-				<h3 class="view-title">View:</h3>
+				<h3 class="view-title"><?php _e('View', $this->text_domain);?>:</h3>
 				
 				<ul class="view-list">
 				<?php
@@ -116,7 +116,7 @@ class CPD_Notices {
 						?>
 							<li class="">
 								<span class="dashicons-before dashicons-editor-justify"></span>
-								<a href="<?php echo admin_url( 'edit.php?post_type=page' ); ?>">Standard View</a>
+								<a href="<?php echo admin_url( 'edit.php?post_type=page' ); ?>"><?php _e('Standard View', $this->text_domain);?></a>
 							</li>
 						<?php
 					}
@@ -124,7 +124,7 @@ class CPD_Notices {
 						?>
 							<li class="">
 								<span class="dashicons-before dashicons-networking"></span>
-								<a href="<?php echo admin_url( 'edit.php?post_type=page&page=cms-tpv-page-page' ); ?>">Tree View</a>
+								<a href="<?php echo admin_url( 'edit.php?post_type=page&page=cms-tpv-page-page' ); ?>"><?php _e('Tree View', $this->text_domain);?></a>
 							</li>
 						<?php
 					}
@@ -161,7 +161,7 @@ class CPD_Notices {
 			?>
 			<div class="error">
 			<p>
-			This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your <strong>supervisor</strong>.
+			<?php _e('This assessment has been submitted, and is no longer editable. If you need to edit the assessment please contact your', $this->text_domain) .' <strong>'.__('supervisor', $this->text_domain) .'</strong>.';?>
 			</p>
 			</div>
 			<?php

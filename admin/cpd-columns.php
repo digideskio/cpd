@@ -122,7 +122,7 @@ class CPD_Columns {
 	 * @return array $columns      	Any array of columns
 	 */
 	public function add_column_cpd_role( $columns ) {
-		$columns['cpd_role'] = 'CPD Role';
+		$columns['cpd_role'] = __('CPD Role', $this->text_domain);
 		return $columns;
 	}
 
@@ -248,7 +248,7 @@ class CPD_Columns {
 	 * @return array $columns      	Any array of columns
 	 */
 	public function add_column_assessment_status( $columns ) {
-		$columns['assessment_status'] = 'Status';
+		$columns['assessment_status'] = __( 'Status', $this->text_domain );
 		return $columns;
 	}
 

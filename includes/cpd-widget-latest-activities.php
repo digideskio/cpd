@@ -17,8 +17,10 @@ if ( !class_exists( 'WP_Widget_Recent_Activities' ) ) {
 class WP_Widget_Recent_Activities extends WP_Widget {
 
 	public function __construct() {
-		$widget_ops = array( 'classname' => 'widget_recent_entries', 'description' => __( "Your site&#8217;s most recent Activities." ) );
-		parent::__construct( 'recent-activities', __( 'Recent Activities' ), $widget_ops );
+		$this->text_domain = 'cpd';
+
+		$widget_ops = array( 'classname' => 'widget_recent_entries', 'description' => __( 'Your site&#8217;s most recent Activities.', $this->text_domain )  );
+		parent::__construct( 'recent-activities', __( 'Recent Activities', $this->text_domain), $widget_ops );
 		$this->alt_option_name = 'widget_recent_activity_entries';
 
 		add_action( 'save_post', array( $this, 'flush_widget_cache' ) );
@@ -128,14 +130,14 @@ class WP_Widget_Recent_Activities extends WP_Widget {
 		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
 		$show_date = isset( $instance['show_date'] ) ? (bool) $instance['show_date'] : false;
 		?>
-			<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+			<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', $this->text_domain); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
-			<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of activities to show:' ); ?></label>
+			<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of activities to show:', $this->text_domain); ?></label>
 			<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 
 			<p><input class="checkbox" type="checkbox" <?php checked( $show_date ); ?> id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" />
-			<label for="<?php echo $this->get_field_id( 'show_date' ); ?>"><?php _e( 'Display activity date?' ); ?></label></p>
+			<label for="<?php echo $this->get_field_id( 'show_date' ); ?>"><?php _e( 'Display activity date?', $this->text_domain); ?></label></p>
 		<?php
 	}
 }

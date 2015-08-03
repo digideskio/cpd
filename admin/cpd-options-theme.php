@@ -78,11 +78,11 @@ class CPD_Options_Theme {
 		}
 		
 		/* Add sections */
-		add_settings_section( 'cpd_theme_defaults', 'Theme defaults', array( $this, 'cpd_theme_defaults_callback' ), 'cpd_settings_theme' );
+		add_settings_section( 'cpd_theme_defaults', __('Theme defaults', $this->text_domain), array( $this, 'cpd_theme_defaults_callback' ), 'cpd_settings_theme' );
 	
     	/* Add fields to a section */
-		add_settings_field( 'cpd_theme_parent', 'Parent Theme', array( $this, 'cpd_theme_parent_callback' ), 'cpd_settings_theme', 'cpd_theme_defaults' );
-		add_settings_field( 'cpd_theme', 'Theme', array( $this, 'cpd_theme_callback' ), 'cpd_settings_theme', 'cpd_theme_defaults' );
+		add_settings_field( 'cpd_theme_parent', __('Parent Theme', $this->text_domain), array( $this, 'cpd_theme_parent_callback' ), 'cpd_settings_theme', 'cpd_theme_defaults' );
+		add_settings_field( 'cpd_theme', __('Theme', $this->text_domain), array( $this, 'cpd_theme_callback' ), 'cpd_settings_theme', 'cpd_theme_defaults' );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class CPD_Options_Theme {
 	public function cpd_theme_defaults_callback() {
 		?>
 		<p>
-			Add the default theme settings for the CPD system.
+			<?php _e('Add the default theme settings for the CPD system.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -120,7 +120,7 @@ class CPD_Options_Theme {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'settings.php', 'CPD Theme Settings', 'CPD Theme Settings', 'manage_options', 'cpd_settings_theme', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'settings.php', __('CPD Theme Settings', $this->text_domain), __('CPD Theme Settings', $this->text_domain), 'manage_options', 'cpd_settings_theme', array( $this, 'render_options_page' ) );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class CPD_Options_Theme {
 	public function render_options_page(){ 
 		?>
 		<div class="wrap cpd-settings cpd-settings-theme">  
-			<h2>Theme Settings</h2> 
+			<h2><?php _e('Theme Settings', $this->text_domain);?></h2> 
 			<form action="/wp-admin/options.php" method="POST">
 	            <?php settings_fields( 'cpd_settings_theme_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_theme' ); ?>

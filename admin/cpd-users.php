@@ -115,8 +115,8 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 */
 		public function create_roles() {
 			// Create roles with same capabilities as administrators
-			add_role( 'supervisor',    'Supervisor',    get_role( 'editor' )->capabilities );
-			add_role( 'participant',    'Participant',    get_role( 'editor' )->capabilities );
+			add_role( 'supervisor',    __('Supervisor', $this->text_domain),    get_role( 'editor' )->capabilities );
+			add_role( 'participant',    __('Participant', $this->text_domain),    get_role( 'editor' )->capabilities );
 
 			$role    = get_role( 'participant' );
 			$role->add_cap( 'edit_theme_options' );
@@ -503,7 +503,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$current_site    =    network_site_url();
 			$domain        	 =    parse_url( network_site_url(), PHP_URL_HOST );
 			$path            =    $user_data->user_login . '/';
-			$title 			 =	  'CPD Journal for ' . $user_data->user_nicename;
+			$title 			 =	  __('CPD Journal for', $this->text_domain) .' ' . $user_data->user_nicename;
 
 			// $cpd_settings    =    get_option( 'cpd_new_blog_options' );
 			// $cpd_settings    =    preg_replace( '/[\n\r]+/', '&', $cpd_settings );
@@ -566,7 +566,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 				$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 				if( $cpd_login_to_view == 'true' && !is_user_logged_in() ) {
 					if( empty( $message ) ) {
-						return '<div id="login_error"><p><strong>NOTE: </strong> You must be logged in to view this journal.</p></div>';
+						return '<div id="login_error"><p><strong>'.__('NOTE', $this->text_domain).': </strong> '.__('You must be logged in to view this journal.', $this->text_domain).'</p></div>';
 					}
 				}
 			}

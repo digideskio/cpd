@@ -56,13 +56,13 @@ class CPD_Options_Users {
 	public function init_options_page() {
 		
 		/* Add sections */
-		add_settings_section( 'cpd_user_managment', 'Manage Your Participants', array( $this, 'cpd_user_managment_callback' ), 'cpd_settings_users' );
-		add_settings_section( 'cpd_user_managment_all', 'Manage All Participants', array( $this, 'cpd_user_managment_all_callback' ), 'cpd_settings_users' );
-		add_settings_section( 'cpd_user_managment_new', 'Add New Participant', array( $this, 'cpd_user_managment_new_callback' ), 'cpd_settings_users' );
+		add_settings_section( 'cpd_user_managment', __('Manage Your Participants', $this->text_domain), array( $this, 'cpd_user_managment_callback' ), 'cpd_settings_users' );
+		add_settings_section( 'cpd_user_managment_all', __('Manage All Participants', $this->text_domain), array( $this, 'cpd_user_managment_all_callback' ), 'cpd_settings_users' );
+		add_settings_section( 'cpd_user_managment_new', __('Add New Participant', $this->text_domain), array( $this, 'cpd_user_managment_new_callback' ), 'cpd_settings_users' );
 
     	/* Add fields to a section */
-		add_settings_field( 'cpd_user_managment_all_fields', 'All Participants', array( $this, 'cpd_user_managment_all_fields_callback' ), 'cpd_settings_users', 'cpd_user_managment_all' );
-		add_settings_field( 'cpd_user_managment_add_fields', 'Add Participant', array( $this, 'cpd_user_managment_add_fields_callback' ), 'cpd_settings_users', 'cpd_user_managment_new' );
+		add_settings_field( 'cpd_user_managment_all_fields', __('All Participants', $this->text_domain), array( $this, 'cpd_user_managment_all_fields_callback' ), 'cpd_settings_users', 'cpd_user_managment_all' );
+		add_settings_field( 'cpd_user_managment_add_fields', __('Add Participant', $this->text_domain), array( $this, 'cpd_user_managment_add_fields_callback' ), 'cpd_settings_users', 'cpd_user_managment_new' );
 
 	}
 
@@ -72,10 +72,10 @@ class CPD_Options_Users {
 	public function cpd_user_managment_callback() {
 		?>
 		<p>
-			Listed are all the participants that you currently manage. You can update them individually below.
+			<?php _e('Listed are all the participants that you currently manage. You can update them individually below.', $this->text_domain);?>
 		</p>
 		<p>
-			<strong>Note:</strong> You can only make alterations to your participants <strong>one at a time</strong>, and you must save the information by clicking the 'Update Participant' button.
+			<strong><?php _e('Note', $this->text_domain);?>:</strong> <?php _e('You can only make alterations to your participants', $this->text_domain);?> <strong><?php _e('one at a time', $this->text_domain);?></strong><?php _e(', and you must save the information by clicking the \'Update Participant\' button.', $this->text_domain);?>
 		</p>
 
 		<?php
@@ -125,11 +125,11 @@ class CPD_Options_Users {
 								<td>
 								<form method="post" action="" autocomplete="off" id="cpd_profile">
 
-									<p><strong>Journal</strong></p>
-									<p><label for="cpd_journal">Choose the participants Journal:</label></p>
+									<p><strong><?php _e('Journal', $this->text_domain);?></strong></p>
+									<p><label for="cpd_journal"><?php _e('Choose the participants Journal', $this->text_domain);?>:</label></p>
 									<br/>
 									<select id="cpd_journal" name="cpd_journal">
-										<option value="new">Create a new journal</option>
+										<option value="new"><?php _e('Create a new journal', $this->text_domain);?></option>
 										<?php
 											if( count( $all_cpd_journals ) ) {
 												foreach( $all_cpd_journals as $journal ) {
@@ -147,7 +147,7 @@ class CPD_Options_Users {
 									</select>
 									<div class="cpd_journals_base">
 										<br/>
-										<p><label for="cpd_template_base">Choose template:</label></p>
+										<p><label for="cpd_template_base"><?php _e('Choose template', $this->text_domain);?>:</label></p>
 										<br/>
 										<select id="cpd_template_base" name="cpd_template_base">
 										<?php
@@ -177,8 +177,8 @@ class CPD_Options_Users {
 									</div>
 									<br/>
 									<br/>
-									<p><strong>Supervisors</strong></p>
-									<p>Choose assign other supervisors of the participant:</p>
+									<p><strong><?php _e('Supervisors', $this->text_domain);?></strong></p>
+									<p><?php _e('Choose assign other supervisors of the participant', $this->text_domain);?>:</p>
 									<?php 
 										if( is_array( $all_supervisors  ) && count( $all_supervisors  ) > 0 ) {
 											?>
@@ -214,7 +214,7 @@ class CPD_Options_Users {
 											<?php
 										} else {
 											?>
-											<p>No supervisors available</p>
+											<p><?php _e('No supervisors available', $this->text_domain);?></p>
 											<?php
 										}
 									?>
@@ -223,7 +223,7 @@ class CPD_Options_Users {
 									<?php wp_nonce_field( 'cpd_update_participant', 'cpd_update_participant_nonce' ) ?>
 									<input type="hidden" id="cpd_id" name="cpd_id" value="<?php echo $participant;?>"/>
 									<input type="hidden" id="cpd_role" name="cpd_role" value="participant"/>
-									<p><input type="submit" class="button button-primary" value="Update Participant"/>
+									<p><input type="submit" class="button button-primary" value="<?php _e('Update Participant', $this->text_domain);?>"/>
 								</form>
 								</td>
 							</tr>
@@ -237,7 +237,7 @@ class CPD_Options_Users {
 			<?php
 		} else {
 			?>
-			<p>You do not currently manage any particpants.</p>
+			<p><?php _e('You do not currently manage any particpants.', $this->text_domain);?></p>
 			<?php
 		}
 	}
@@ -248,7 +248,7 @@ class CPD_Options_Users {
 	public function cpd_user_managment_all_callback() {
 		?>
 		<p>
-			Listed are all the participants. You can add or remove participants to and from your workload by checking the boxes next to their name.
+			<?php _e('Listed are all the participants. You can add or remove participants to and from your workload by checking the boxes next to their name.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -259,9 +259,9 @@ class CPD_Options_Users {
 	public function cpd_user_managment_new_callback() {
 		?>
 		<p>
-			You can add a new participant by completing the details below:
+			<?php _e('You can add a new participant by completing the details below', $this->text_domain);?>:
 		</p>
-		<p><strong>Note:</strong> The new user will <strong>Not</strong> automatically be added to your workload, but you can assign them using this page after they have been created.</p>
+		<p><strong><?php _e('Note', $this->text_domain);?>:</strong> <?php _e('The new user will', $this->text_domain);?> <strong><?php _e('Not', $this->text_domain);?></strong> <?php _e('automatically be added to your workload, but you can assign them using this page after they have been created.', $this->text_domain);?></p>
 		<?php
 	}
 
@@ -278,7 +278,7 @@ class CPD_Options_Users {
 		if( is_array( $participants ) && count( $participants ) > 0 ) {
 
 			?>
-			<p>Select participants to manage:</p>
+			<p><?php _e('Select participants to manage', $this->text_domain);?>:</p>
 			<form method="post" action="">
 			<ul>
 				<?php 
@@ -334,7 +334,7 @@ class CPD_Options_Users {
 			<?php
 		} else {
 			?>
-			<p>There are no participants available.</p>
+			<p><?php _e('There are no participants available.', $this->text_domain);?></p>
 			<?php
 		}
 
@@ -345,24 +345,24 @@ class CPD_Options_Users {
 	 */
 	public function cpd_user_managment_add_fields_callback() {
 		?>
-		<p>Add the username and email address of the participant.</p> 
+		<p><?php _e('Add the username and email address of the participant.', $this->text_domain);?></p> 
 		<br/>
 		<form method="post" action="">
 
 			<p>
-				<label for="cpd_new_username"><strong>Username</strong></label><br/>
+				<label for="cpd_new_username"><strong><?php _e('Username', $this->text_domain);?></strong></label><br/>
 				<input type="text" id="cpd_new_username" name="cpd_new_username" />
 			</p>
 			<br/>
 			<p>
-				<label for="cpd_new_email"><strong>Email</strong></label><br/>
+				<label for="cpd_new_email"><strong><?php _e('Email', $this->text_domain);?></strong></label><br/>
 				<input type="text" id="cpd_new_email" name="cpd_new_email" />
 			</p>
 			<br/>
-			<p>Username and password will be mailed to the above email address.</p>
+			<p><?php _e('Username and password will be mailed to the above email address.', $this->text_domain);?></p>
 			<?php wp_nonce_field( 'cpd_add_participant', 'cpd_add_participant_nonce' ) ?>
 			<br/>
-			<p><input type="submit" class="button button-primary" value="Add Participant"/>
+			<p><input type="submit" class="button button-primary" value="<?php _e('Add Participant', $this->text_domain);?>"/>
 
 		</form>
 		<?php
@@ -381,7 +381,7 @@ class CPD_Options_Users {
 		
 		// if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
 		if( $is_supervisor && current_user_can( 'manage_options' ) ) {
-			add_submenu_page( 'users.php', 'Manage Participants', 'Manage Participants', 'manage_options', 'cpd_settings_users', array( $this, 'render_options_page' ) );
+			add_submenu_page( 'users.php', __('Manage Participants', $this->text_domain), __('Manage Participants', $this->text_domain), 'manage_options', 'cpd_settings_users', array( $this, 'render_options_page' ) );
 		}	
 	}
 
@@ -392,7 +392,7 @@ class CPD_Options_Users {
 
 		?>
 		<div class="wrap cpd-settings cpd-settings-users">  
-			<h2>Manage Participants</h2> 
+			<h2><?php _e('Manage Participants', $this->text_domain);?></h2> 
 			<?php
 				$current_user      = wp_get_current_user();
 				$user_participants = get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
@@ -419,19 +419,19 @@ class CPD_Options_Users {
 						if( $user_id ) {
 							?>
 							<div class="alert alert-warning">
-								<p>A user with this username already exists.</p>
+								<p><?php _e('A user with this username already exists.', $this->text_domain);?></p>
 							</div>
 							<?php
 						} else if( !is_email( $user_email ) ) {
 							?>
 							<div class="alert alert-warning">
-								<p>Please enter a valid email address.</p>
+								<p><?php _e('Please enter a valid email address.', $this->text_domain);?></p>
 							</div>
 							<?php
 						} else if( email_exists( $user_email ) ) {
 							?>
 							<div class="alert alert-warning">
-								<p>A user with this email address already exists.</p>
+								<p><?php _e('A user with this email address already exists.', $this->text_domain);?></p>
 							</div>
 							<?php
 						}

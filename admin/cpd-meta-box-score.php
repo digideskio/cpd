@@ -49,7 +49,7 @@ class CPD_Meta_Box_Score {
 		$this->args 							= 	array(
 														'id' 					=> 'score',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Score',
+														'name' 					=> __('Score', $this->text_domain),
 														'context' 				=> 'side',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -95,7 +95,7 @@ class CPD_Meta_Box_Score {
 													array( 
 														'id'			=> 	$this->key_prefix . 'score', 
 														'name' 			=> 	__( 'Overall Score', $this->text_domain ),
-														'desc'			=>	'Enter overall score for this assessment',
+														'desc'			=>	__('Enter overall score for this assessment', $this->text_domain),
 														'type'			=> 	'text_small',
 														'cols'			=> 	12,
 														'readonly'		=>	FALSE
@@ -133,7 +133,7 @@ class CPD_Meta_Box_Score {
 														array( 
 															'id'			=> 	$this->key_prefix . 'score', 
 															'name' 			=> 	__( 'Overall Score', $this->text_domain ),
-															'desc'			=>	'Only a supervisor can set the score.',
+															'desc'			=>	__('Only a supervisor can set the score.', $this->text_domain),
 															'type'			=> 	'text_small',
 															'cols'			=> 	12,
 															'readonly'		=>	TRUE

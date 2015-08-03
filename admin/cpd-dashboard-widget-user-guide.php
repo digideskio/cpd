@@ -59,7 +59,7 @@ class CPD_Dashboard_Widget_User_Guide {
 	public function add_dashboard_widget() {
 		
 		$user_guide_widget_function 		= 'render_user_guide';
-		$user_guide_title 					= 'User Guide ';
+		$user_guide_title 					= __('User Guide ', $this->text_domain );
 		$dashboard 						    = 'dashboard';
 
 		add_meta_box('cpd_dashboard_widget_user_guide', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-editor-help"></span> ' . $user_guide_title, array( $this, $user_guide_widget_function ), $dashboard, 'normal', 'high' );

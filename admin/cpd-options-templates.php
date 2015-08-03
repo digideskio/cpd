@@ -56,13 +56,13 @@ class CPD_Options_Templates {
 	public function init_options_page() {
 		
 		/* Add sections */
-		add_settings_section( 'cpd_template_managment', 'Manage Templates', array( $this, 'cpd_template_managment_callback' ), 'cpd_settings_templates' );
-		add_settings_section( 'cpd_template_add', 'Create a new Template', array( $this, 'cpd_template_add_callback' ), 'cpd_settings_templates' );
+		add_settings_section( 'cpd_template_managment', __('Manage Templates', $this->text_domain), array( $this, 'cpd_template_managment_callback' ), 'cpd_settings_templates' );
+		add_settings_section( 'cpd_template_add', __('Create a new Template', $this->text_domain), array( $this, 'cpd_template_add_callback' ), 'cpd_settings_templates' );
 	
     	/* Add fields to a section */
-		add_settings_field( 'cpd_template_managment_fields', 'Your Templates', array( $this, 'cpd_template_managment_fields_callback' ), 'cpd_settings_templates', 'cpd_template_managment' );
-		add_settings_field( 'cpd_template_base_fields', 'Template Base', array( $this, 'cpd_template_base_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
-		add_settings_field( 'cpd_template_name_fields', 'Template Name', array( $this, 'cpd_template_name_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
+		add_settings_field( 'cpd_template_managment_fields', __('Your Templates', $this->text_domain), array( $this, 'cpd_template_managment_fields_callback' ), 'cpd_settings_templates', 'cpd_template_managment' );
+		add_settings_field( 'cpd_template_base_fields', __('Template Base', $this->text_domain), array( $this, 'cpd_template_base_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
+		add_settings_field( 'cpd_template_name_fields', __('Template Name', $this->text_domain), array( $this, 'cpd_template_name_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class CPD_Options_Templates {
 	public function cpd_template_managment_callback() {
 		?>
 		<p>
-			Templates define the content and settings that are added to a new Journal when it is created. When you create a new Journal you will be asked which Template you wish to create it from.
+			<?php _e('Templates define the content and settings that are added to a new Journal when it is created. When you create a new Journal you will be asked which Template you wish to create it from.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -82,7 +82,7 @@ class CPD_Options_Templates {
 	public function cpd_template_add_callback() {
 		?>
 		<p id="add-template">
-			You can create a new template by completing the following section.
+			<?php _e('You can create a new template by completing the following section.', $this->text_domain);?>
 		</p>
 		<?php
 	}
@@ -101,13 +101,13 @@ class CPD_Options_Templates {
 
 		if( $has_templates ) {
 				?>
-				<p>You can manage the following Templates:</p>
+				<p><?php _e('You can manage the following Templates:', $this->text_domain);?></p>
 				<br/>
 				<table>
 					<tr>
-						<th>Name</th>
-						<th>Edit</th>
-						<th>Delete</th>
+						<th><?php _e('Name', $this->text_domain);?></th>
+						<th><?php _e('Edit', $this->text_domain);?></th>
+						<th><?php _e('Delete', $this->text_domain);?></th>
 					</tr>
 					<?php 
 					foreach( $blogs as $blog ) {
@@ -118,13 +118,13 @@ class CPD_Options_Templates {
 									<a href="<?php echo $blog->siteurl . '/wp-admin/';?>"><?php echo $blog->blogname;?></a>
 								</td>
 								<td>
-									<a href="<?php echo $blog->siteurl . '/wp-admin/';?>">Edit</a>
+									<a href="<?php echo $blog->siteurl . '/wp-admin/';?>"><?php _e('Edit', $this->text_domain);?></a>
 								</td>
 								<td>
 									<?php
 									if( $blog->path != '/template-default/' ) {
 										?>
-										<a href="<?php echo esc_url( wp_nonce_url( admin_url( '?page=cpd_settings_templates&action=delete&amp;id=' . $blog->userblog_id  ) ) );?>">Delete</a>
+										<a href="<?php echo esc_url( wp_nonce_url( admin_url( '?page=cpd_settings_templates&action=delete&amp;id=' . $blog->userblog_id  ) ) );?>"><?php _('Delete', $this->text_domain)?></a>
 										<?php
 									} else {
 										?>
@@ -142,7 +142,7 @@ class CPD_Options_Templates {
 				<?php
 			} else {
 				?>
-				<p>You do not currently have access to any Templates.</p>
+				<p><?php _e('You do not currently have access to any Templates.', $this->text_domain);?></p>
 				<?php
 			}
 
@@ -152,7 +152,7 @@ class CPD_Options_Templates {
 
 		$blogs = wp_get_sites();
 		?>
-		<p>Choose an existing Template to use as a base for your new Template. All the settings and content from this Template will be copied accross to your new Template.</p>
+		<p><?php _e('Choose an existing Template to use as a base for your new Template. All the settings and content from this Template will be copied accross to your new Template.', $this->text_domain);?></p>
 		<br/>
 		<p>
 			<select id="cpd_template_base" name="cpd_template_base">
@@ -186,11 +186,11 @@ class CPD_Options_Templates {
 
 	public function cpd_template_name_fields_callback() { 
 		?>
-		<p>Choose a title for your new Template.</p> 
-		<p><strong>Note:</strong> All Templates are automatically prefixed with the word 'Template'.</p>
+		<p><?php _e('Choose a title for your new Template.', $this->text_domain);?></p> 
+		<p><strong><?php _e('Note', $this->text_domain);?>:</strong> <?php _e('All Templates are automatically prefixed with the word \'Template\'.', $this->text_domain);?></p>
 		<br/>
 		<p>
-			Template
+			<?php _e('Template', $this->text_domain);?>
 			<input type="text" id="cpd_template_name" name="cpd_template_name" value="<?php echo isset( $_POST['cpd_template_name'] ) ? $_POST['cpd_template_name'] : '';?>"/>
 		</p>
 
@@ -209,7 +209,7 @@ class CPD_Options_Templates {
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
 		
 		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
-			add_menu_page( 'Templates', 'Templates', 'manage_options', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
+			add_menu_page( __('Templates', $this->text_domain), __('Templates', $this->text_domain), 'manage_options', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
 		}	
 	}
 
@@ -219,7 +219,7 @@ class CPD_Options_Templates {
 	public function render_options_page(){
 		?>
 		<div class="wrap cpd-settings cpd-settings-template">  
-			<h2>Templates</h2> 
+			<h2><?php _e('Templates', $this->text_domain);?></h2> 
 
 			<?php
 			// Create the new template
@@ -233,7 +233,7 @@ class CPD_Options_Templates {
 				if( get_id_from_blogname( $slug ) ) { 
 					?>
 					<div class="alert alert-warning">
-						<p>Sorry a Template with that name already exists.</p>
+						<p><?php _e('Sorry a Template with that name already exists.', $this->text_domain);?></p>
 					</div>
 					<?php
 				} else {
@@ -250,7 +250,7 @@ class CPD_Options_Templates {
 					wpmu_delete_blog( $delete_id, FALSE );
 					?>
 					<div class="alert alert-warning">
-						<p>Your Template has been deleted.</p>
+						<p><?php _e('Your Template has been deleted.', $this->text_domain);?></p>
 					</div>
 					<?php
 				}
@@ -260,7 +260,7 @@ class CPD_Options_Templates {
 	            <?php settings_fields( 'cpd_settings_templates_group' ); ?>
 	            <?php do_settings_sections( 'cpd_settings_templates' ); ?>
 	            <?php //submit_button(); ?>
-	           	<p><input type="submit" class="button button-primary" value="Create New Template"/>
+	           	<p><input type="submit" class="button button-primary" value="<?php _e('Create New Template', $this->text_domain);?>"/>
 	        </form>
 		</div> 
 	<?php

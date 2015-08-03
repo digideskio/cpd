@@ -67,7 +67,7 @@ class CPD_Dashboard_Widget_Comments_Supervisor {
 			// 	array( $this, 'render_dashboard_widget' )
 
 			// );
-			add_meta_box('cpd_dashboard_widget_comments_supervisor', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-admin-comments"></span> ' . 'Scoring Journal Entries (with Comments)', array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
+			add_meta_box('cpd_dashboard_widget_comments_supervisor', '<span class="cpd-dashboard-widget-title dashicons-before dashicons-admin-comments"></span> ' . __('Scoring Journal Entries (with Comments)', $this->text_domain ), array( $this, 'render_dashboard_widget' ), 'dashboard', 'side', 'high' );
 		}
 	}
 

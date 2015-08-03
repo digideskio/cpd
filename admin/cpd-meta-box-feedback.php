@@ -49,7 +49,7 @@ class CPD_Meta_Box_Feedback {
 		$this->args 							= 	array(
 														'id' 					=> 'feedback',
 														'id_prefix' 			=> 'cpd_',
-														'name' 					=> 'Feedback',
+														'name' 					=> __('Feedback', $this->text_domain),
 														'context' 				=> 'normal',
 														'priority'				=> 'high',
 														'metabox_id' 			=> '',
@@ -131,7 +131,7 @@ class CPD_Meta_Box_Feedback {
 														array( 
 															'id'			=> 	$this->key_prefix . 'feedback', 
 															// 'name' 			=> 	__( 'Brief', $this->text_domain ),
-															'desc'			=>	'The feedback for this assessment (can only be edited by a Supervisor). <strong>NOTE:</strong> Criteria for this assessment can ve viewed in the \'Criteria\' section.',
+															'desc'			=>	__('The feedback for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE:', $this->text_domain) .'</strong> '.__('Criteria for this assessment can ve viewed in the \'Criteria\' section.', $this->text_domain),
 															'type'			=> 	'render',
 															'cols'			=> 	12,
 														),
