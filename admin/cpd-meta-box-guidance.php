@@ -32,7 +32,7 @@ class CPD_Meta_Box_Guidance {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -45,7 +45,7 @@ class CPD_Meta_Box_Guidance {
 	 * Initialize the class and set its properties.
 	 */
 	public function __construct() {
-		
+
 		$this->args 							= 	array(
 														'id' 					=> 'guidance',
 														'id_prefix' 			=> 'cpd_',
@@ -75,7 +75,7 @@ class CPD_Meta_Box_Guidance {
 
 		$this->metabox_id						=	$this->args['metabox_id'];
 		$this->key_prefix						=	$this->args['key_prefix'];
-		
+
 		$metabox_args							=	array(
 														'id' 				=> 	$this->metabox_id,
 														'title' 			=> 	$this->name,
@@ -92,15 +92,15 @@ class CPD_Meta_Box_Guidance {
 
 		$metabox_args	= 	array(
 								'fields' 	=> 	array(
-													array( 
-														'id'			=> 	$this->key_prefix . 'guidance', 
+													array(
+														'id'			=> 	$this->key_prefix . 'guidance',
 														// 'name' 			=> 	__( 'Brief', $this->text_domain ),
 														'desc'			=>	__('The guidance or brief for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE', $this->text_domain) .':</strong> '.__('Criteria for this assessment should be added in the \'Criteria\' section.', $this->text_domain),														'type'			=> 	'wysiwyg',
 														'cols'			=> 	12,
 													),
 												)
 							);
-		
+
 		$this->args['metabox_args'] 			= 	array_merge( $this->args[ 'metabox_args'], $metabox_args );
 	}
 
@@ -109,7 +109,7 @@ class CPD_Meta_Box_Guidance {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
@@ -120,18 +120,18 @@ class CPD_Meta_Box_Guidance {
 	 * @return	array 	$meta_boxes 	The modified metaboxes array
 	 */
 	function register_metabox( $meta_boxes ) {
-		
+
 		$user_id 			= 	get_current_user_id();
 		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', TRUE );
-		
+
 		if( $user_type == 'participant' )
 		{
 			$metabox_args	= 	array(
 									'fields' 	=> 	array(
-														array( 
-															'id'			=> 	$this->key_prefix . 'guidance', 
+														array(
+															'id'			=> 	$this->key_prefix . 'guidance',
 															// 'name' 			=> 	__( 'Brief', $this->text_domain ),
-															'desc'			=>	__e('The guidance or brief for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE', $this->text_domain) .':</strong> .'.__('Criteria for this assessment can ve viewed in the \'Criteria\' section.', $this->text_domain),
+															'desc'			=>	__('The guidance or brief for this assessment (can only be edited by a Supervisor).', $this->text_domain) .' <strong>'.__('NOTE', $this->text_domain) .':</strong> .'.__('Criteria for this assessment can ve viewed in the \'Criteria\' section.', $this->text_domain),
 															'type'			=> 	'render',
 															'cols'			=> 	12,
 														),
@@ -142,7 +142,7 @@ class CPD_Meta_Box_Guidance {
 		}
 
 		$meta_boxes[] 							= 	$this->args['metabox_args'];
-		
+
 		return $meta_boxes;
 	}
 
