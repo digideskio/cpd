@@ -32,6 +32,9 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.4.2.1
+- Altered code to make the plugin compatible with older versions of PHP
+
 ### 2.4.2
 
 - Forced journal entries to have comments enabled
@@ -44,7 +47,7 @@ Here are all the great features that have been implemented so far!
 - Replaced 'howdy' text with user name and role notification
 - Fixed issue with plugin updator
 
-### 2.4.0 
+### 2.4.0
 
 - New membership management area
 
@@ -66,7 +69,7 @@ Here are all the great features that have been implemented so far!
 - New dashboard widgets to ease custom journey
 - Bug Fix: Journal Entries by... widgets were not linking to correct Journal Entries
 
-### 2.1.1 
+### 2.1.1
 
 - Improved Privacy Options
 - Dashboard Widget(s) for Template Authors

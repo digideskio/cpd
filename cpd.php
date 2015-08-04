@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.4.2
+ * Version:           2.4.2.1
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -203,9 +203,9 @@ if ( !class_exists( 'CPD' ) ) {
 			/**
 			 * User permissions
 			 *
-			 * [1] Make current user an elivated user  
+			 * [1] Make current user an elivated user
 			 */
-			
+
 			/*1*/ update_user_meta( $user_id, 'elevated_user', 1 );
 
 
@@ -214,7 +214,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Upgrade the legacy CPD plugin
 			 */
-			
+
 			/*1*/ $cpd_upgrade_legacy->upgrade_relationships();
 
 			/**
@@ -222,7 +222,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] If the Template Default dosnt exist, create it
 			 */
-			
+
 			// /*1*/ Create Template Default
 			$blog = get_blog_details( 'template-default' );
 			if( !is_object( $blog ) ) {
@@ -237,7 +237,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Setup the regular email
 			 */
-			
+
 			// /*1*/ Setup the regular email
 			if ( !wp_next_scheduled( 'cpd_unassigned_users_email' ) ) {
 				wp_schedule_event( strtotime( '02:00am' ), 'daily', 'cpd_unassigned_users_email' );
@@ -574,7 +574,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*7*/ add_action( 'pre_user_query', array( $columns, 'filter_column_cpd_role' ) );
 			/*3*/ add_filter( 'manage_edit-assessment_columns', array( $columns, 'add_column_assessment_status' ), 15, 1 );
 			/*4*/ add_action( 'manage_assessment_posts_custom_column', array( $columns, 'manage_column_assessment_status' ), 15, 3 );
-			
+
 			/**
 			 * Users
 			 *
@@ -621,7 +621,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [9] Remove a user from all blogs
 			 * [10] Create a user journal based on a user
 			 */
-			
+
 			/*1*/ // CPD_Users::get_multisite_users();
 			/*2*/ // CPD_Users::get_participants();
 			/*3*/ // CPD_Users::get_supervisors();
@@ -762,7 +762,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*16*/ add_filter( 'template_include', array( $cpd_assessment, 'fallback_template_archive' ) , 99 );
 			/*17*/ add_action( 'pre_post_update', array( $cpd_assessment, 'prevent_assessment_publish' ), 10, 2 );
 			/*18*/ add_action( 'load-post.php', array( $cpd_assessment, 'prevent_assessment_publish_button' ), 10, 2 );
-		
+
 
 			/**
 			 * Meta Boxes
@@ -795,7 +795,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*11*/ add_action( 'save_post', array( $meta_box_submit, 'notify_supervisor' ), 99, 2 );
 			/*12*/ add_action( 'save_post', array( $meta_box_submit, 'notify_participant' ), 99, 2 );
 			/*13*/ add_action( 'cmb_meta_boxes', array( $meta_box_feedback, 'register_metabox' ), 99 );
-			
+
 
 			/**
 			 * Taxonomies
@@ -812,15 +812,15 @@ if ( !class_exists( 'CPD' ) ) {
 			 *
 			 * [1] Register Latest Activites Widget
 			 */
-			
+
 			/*1*/ add_action( 'init', array( $widgets, 'register_widgets' ), 1 );
 
-			/** 
+			/**
 			 * Login
 			 *
 			 * [1] Change Login Logo
 			 */
-			
+
 			/*1*/ add_action( 'login_enqueue_scripts', array( $cpd_login, 'add_login_logo' ), 1 );
 
 
@@ -833,13 +833,13 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [4] Hook into theme installer
 			 * [5] Hide missing theme notice
 			 */
-			
+
 			/*1*/ add_filter( 'pre_set_site_transient_update_themes', array( $cpd_theme, 'pre_set_site_transient_update_themes' ) );
 			/*2*/ add_filter( 'upgrader_post_install', array( $cpd_theme, 'upgrader_post_install' ), 999, 3 );
 			/*3*/ add_action( 'all_admin_notices', array( $cpd_theme, 'add_missing_theme_notice' ) );
 			/*4*/ add_filter( 'themes_api', array( $cpd_theme, 'get_theme_info' ), 10, 3 );
 			/*5*/ add_filter( 'admin_init', array( $cpd_theme, 'hide_missing_theme_notice' ) );
-			
+
 
 			/**
 			 * CMB Plugins
@@ -847,10 +847,11 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [1] Add the 'render' plugin
 			 */
 
-			/*1*/ add_filter( 'cmb_field_types', function( $classes ){
-				return array_merge( $classes, array( 'render' => 'CPD_CMB_Plugin_Render' ) );	
-			} );
-			
+       /*1*/ add_filter( 'cmb_field_types', 'cmb_field_types' );
+       function cmb_field_types( $classes ) {
+           return array_merge( $classes, array( 'render' => 'CPD_CMB_Plugin_Render' ) );
+       }
+
 		}
 
 		/**
