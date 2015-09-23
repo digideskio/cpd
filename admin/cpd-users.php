@@ -458,7 +458,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 				$participants = array();
 			}
 
-			f( ! is_array( $all_cpd_journals ) ) {
+			if( ! is_array( $all_cpd_journals ) ) {
 				$all_cpd_journals = array();
 			}
 
