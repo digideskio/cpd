@@ -8,11 +8,9 @@ A single plugin to transform a WordPress Multisite install into a CPD (Continuou
 
 To get the most out of this plugin you will need to install the companion [Aspire CPD Theme](https://github.com/mkdo/aspire-cpd).
 
-A planned feature of this plugin is to enable the installation of this theme when the plugin is activated.
-
 ## Documentation
 
-Documentation is still work in progress, but is shaping up [in our Wiki](https://github.com/mkdo/cpd/wiki).
+[Documentation is available in the Wiki](https://github.com/mkdo/cpd/wiki).
 
 ## Credits
 
