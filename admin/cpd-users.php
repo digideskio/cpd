@@ -454,6 +454,14 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$should_have_journals    =    array();
 			$participants            =    get_user_meta( $user_id, 'cpd_related_participants', true );
 
+			if( ! is_array( $participants ) ) {
+				$participants = array();
+			}
+
+			f( ! is_array( $all_cpd_journals ) ) {
+				$all_cpd_journals = array();
+			}
+
 			foreach ( $participants as $participant ) {
 				$blogs = get_blogs_of_user( $participant );
 				if ( is_array( $blogs ) && count( $blogs ) > 0 ) {
@@ -511,7 +519,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			// parse_str( $cpd_settings, $options );
 
 			// $cpd_journal     =    wpmu_create_blog( $domain, $path, 'CPD Journal for ' . $user_data->user_nicename, $user_id, $options, 1 );
- 
+
 			$blog = get_blog_details( $path );
 
 			if( empty($blog) ) {
@@ -561,7 +569,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 * Add a custom message to the login page
 		 */
 		public function force_login_message( $message ) {
-			
+
 			if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
 				$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 				if( $cpd_login_to_view == 'true' && !is_user_logged_in() ) {
@@ -625,7 +633,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 * @return Results of autheticating via wp_authenticate_username_password(), using the username found when looking up via email.
 		 */
 		public function authenticate_email_username_password( $user, $username, $password ) {
-			
+
 			if ( is_a( $user, 'WP_User' ) )
 				return $user;
 
@@ -642,13 +650,13 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		public function prevent_cpd_roles_on_root() {
 
 			$blog_id = get_current_blog_id();
-			
+
 			if( SITE_ID_CURRENT_SITE == $blog_id ) {
 
-				$users = get_users( 
+				$users = get_users(
 					array(
 						'blog_id' => $blog_id
-					) 
+					)
 				);
 				foreach( $users as &$user ) {
 					$roles    = $user->roles;
@@ -656,14 +664,14 @@ if ( !class_exists( 'CPD_Users' ) ) {
 						$user->set_role('subscriber');
 					}
 				}
-				
+
 			}
 		}
 
 		public function prevent_admin_being_supervisor() {
 
 			$blog_id = get_current_blog_id();
-			
+
 			if( SITE_ID_CURRENT_SITE == $blog_id ) {
 
 				$current_user 					= wp_get_current_user();
@@ -682,7 +690,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 						// Remove the user from all blogs
 						CPD_Users::remove_user_from_blogs( $user_id );
-						
+
 						// Remove related participants
 						delete_user_meta( $user_id, 'cpd_related_participants' );
 
@@ -699,7 +707,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 						add_user_to_blog( BLOG_ID_CURRENT_SITE, $user_id, 'administrator' );
 					}
 				}
-				
+
 			}
 		}
 	}

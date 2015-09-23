@@ -32,6 +32,9 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.4.3
+- Fixed an error that was causing WordPress to declare an array invalid
+
 ### 2.4.2.1
 - Altered code to make the plugin compatible with older versions of PHP
 
