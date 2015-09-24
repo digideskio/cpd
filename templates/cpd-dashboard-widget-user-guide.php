@@ -4,8 +4,8 @@
  */
 ?>
 <?php
-		
-		
+
+
 		$link                               = 'https://github.com/mkdo/cpd/wiki';
 		$text                               = '<p>You can view guidance on how to use this system by visiting the <a href="'. $link .'" target="_blank">Wiki</a>.</p>';
 		$button_text                        = 'View Wiki';
@@ -15,12 +15,12 @@
 		$is_elevated_user 				    = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
 
 		if( is_network_admin() || $is_elevated_user ) {
-			$link                               = 'https://github.com/mkdo/cpd/wiki/System-Administrator-User-Guide';
+			$link                               = 'https://github.com/mkdo/cpd/wiki/User-Guide';
 			$text                               = '<p>You can view guidance on how to setup and manage this system by viewing the <a href="'. $link .'" target="_blank">System Administrator User Guide</a>.</p>';
 			$button_text                        = 'View User Guide';
 		}
 		else if( in_array( 'supervisor', $roles ) ) {
-			$link                               = 'https://github.com/mkdo/cpd/wiki/Supervisor-User-Guide';
+			$link                               = 'https://github.com/mkdo/cpd/wiki/User-Guide';
 			$text                               = '<p>You can view guidance on how to use this system by viewing the <a href="'. $link .'" target="_blank">Supervisor User Guide</a>.</p>';
 			$button_text                        = 'View User Guide';
 		}
@@ -31,13 +31,13 @@
 		}
 ?>
 <div>
-			
+
 	<div class="content-description">
 
 		<?php echo $text;?>
 
 	</div>
-	
+
 	<p class="footer-button"><a class="button" href="<?php echo $link;?>"><?php echo $button_text;?></a></p>
-	
+
 </div>
