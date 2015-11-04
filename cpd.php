@@ -12,7 +12,7 @@
  * Plugin Name:       CPD
  * Plugin URI:        https://github.com/mkdo/cpd
  * Description:       Turns WordPress into a CPD Journal management system.
- * Version:           2.4.4
+ * Version:           2.4.5
  * Author:            MKDO Ltd. (Make Do)
  * Author URI:        http://makedo.in
  * License:           GPL-2.0+
@@ -541,7 +541,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*6*/ add_action( 'edit_user_profile', array( $profile, 'add_field_cpd_relationship_management' ) );
 			/*7*/ add_action( 'show_user_profile', array( $profile, 'add_field_cpd_relationship_management' ) );
 			/*8*/ add_action( 'edit_user_profile_update', array( $profile, 'save_field_cpd_relationship_management' ) );
-			/*9*/ add_action( 'personal_options_update', array( $profile, 'save_cpd_relationship_management' ) );
+			/*9*/ add_action( 'personal_options_update', array( $profile, 'save_field_cpd_relationship_management' ) );
 
 			/**
 			 * Metaboxes

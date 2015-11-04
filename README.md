@@ -30,6 +30,9 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.4.5
+- Profile update bug fix
+
 ### 2.4.4
 - Updated User Guide links
 
