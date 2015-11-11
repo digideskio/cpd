@@ -6,7 +6,7 @@ A single plugin to transform a WordPress Multisite install into a CPD (Continuou
 
 ## Theme
 
-To get the most out of this plugin you will need to install the companion [Aspire CPD Theme](https://github.com/mkdo/aspire-cpd).
+To get the most out of this plugin you will need to install the companion [Aspire CPD Theme](https://github.com/mkdo/aspire-cpd). You will be prompted to do this automatically when you install the plugin.
 
 ## Documentation
 
@@ -14,21 +14,24 @@ To get the most out of this plugin you will need to install the companion [Aspir
 
 ## Credits
 
-We belive in giving credit where credit is due. The following plugins and people helped us get a kick start in delivering this project. Thank you to them!
+We believe in giving credit where credit is due. The following plugins and people helped us get a kick start in delivering this project. Thank you to them!
 
-The foundations of this project are based on the [CPD Journals](http://wordpress.org/plugins/cpd-journals/) WordPress plugin originally by [Saul Cozens](http://saulcozens.co.uk) - licenced under the GPLv2 licence.
+The foundations of this project are based on the [CPD Journals](http://wordpress.org/plugins/cpd-journals/) WordPress plugin originally by [Saul Cozens](http://saulcozens.co.uk) - licensed under the GPLv2 license.
 
-The way that new Journals are created with base 'Journal Templates' could not be done without code taken from the [Blog Copier](https://wordpress.org/plugins/blog-copier) WordPress plugin by [MODERN TRIBE](https://tri.be/) - licenced under the GPLv2 licence.
+The way that new Journals are created with base 'Journal Templates' could not be done without code taken from the [Blog Copier](https://wordpress.org/plugins/blog-copier) WordPress plugin by [MODERN TRIBE](https://tri.be/) - licensed under the GPLv2 license.
 
-To create metaboxes we use the excelent [Custom Meta Boxes](https://github.com/humanmade/Custom-Meta-Boxes) plugin by [Human Made](https://hmn.md/) - licenced under the GPLv2 licence.
+To create meta boxes we use the excellent [Custom Meta Boxes](https://github.com/humanmade/Custom-Meta-Boxes) plugin by [Human Made](https://hmn.md/) - licensed under the GPLv2 license.
 
 The ability to login with email was done by following examples in the [WP Email Login](https://wordpress.org/plugins/wp-email-login/) plugin by [Beau Lebans](https://profiles.wordpress.org/beaulebens/), [r-a-y](https://profiles.wordpress.org/r-a-y/) and [andykillen](https://profiles.wordpress.org/andykillen/).
 
-To update the plugin directly from GitHub we use the awesome [WordPress GitHub Plugin Updator](https://github.com/radishconcepts/WordPress-GitHub-Plugin-Updater) by [Radish Concepts](http://www.radishconcepts.com/) - licenced under the GPLv2 licence. We also borrowed heavily from this to allow the associated CPD theme(s) to be updated directly from GitHub also.
+To update the plugin directly from GitHub we use the awesome [WordPress GitHub Plugin Updator](https://github.com/radishconcepts/WordPress-GitHub-Plugin-Updater) by [Radish Concepts](http://www.radishconcepts.com/) - licensed under the GPLv2 license. We also borrowed heavily from this to allow the associated CPD theme(s) to be updated directly from GitHub also.
 
 ## Version Control
 
 Here are all the great features that have been implemented so far!
+
+### 2.4.6
+- Issues with wp_new_user_notification fixed
 
 ### 2.4.5
 - Profile update bug fix
@@ -52,7 +55,7 @@ Here are all the great features that have been implemented so far!
 
 - Re-enabled WordPress comments dashboard widget
 - Replaced 'howdy' text with user name and role notification
-- Fixed issue with plugin updator
+- Fixed issue with plugin updater
 
 ### 2.4.0
 
@@ -87,9 +90,9 @@ Here are all the great features that have been implemented so far!
 ### 2.1.0
 
 - PPD Custom Post Type (Activity Log)
-- Activites Widget
+- Activities Widget
 - Development Category Taxonomy
-- Customiser Integration
+- Customizer Integration
 - Categories Dashboard Widget
 - Master Template on activation
 - New Journals use a Master Template
@@ -125,4 +128,4 @@ Here are all the great features that we plan to implement. If you have a feature
 
 ### 2.6.0
 
-- Supervisor can add Alerts to particpant journals
+- Supervisor can add Alerts to participant journals

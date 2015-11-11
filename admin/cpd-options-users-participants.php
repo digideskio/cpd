@@ -25,7 +25,7 @@ class CPD_Options_Users_Participants {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -41,7 +41,7 @@ class CPD_Options_Users_Participants {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -49,12 +49,12 @@ class CPD_Options_Users_Participants {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
 	public function init_options_page() {
-		
+
 		/* Add sections */
 		add_settings_section( 'cpd_user_managment', 'Manage Participants', array( $this, 'cpd_user_managment_callback' ), 'cpd_settings_users_participants' );
 		add_settings_section( 'cpd_user_managment_new', 'Add New Participant', array( $this, 'cpd_user_managment_new_callback' ), 'cpd_settings_users_participants' );
@@ -97,7 +97,7 @@ class CPD_Options_Users_Participants {
 			?>
 
 			<table class="form-table">
-				<?php 
+				<?php
 					foreach( $participants as $participant ) {
 						$participant = $participant->ID;
 						$user        = get_userdata( $participant );
@@ -107,7 +107,7 @@ class CPD_Options_Users_Participants {
 							$username    = $user->user_login;
 							$blog        = get_active_blog_for_user( $participant );
 							$supervisors = get_user_meta( $participant, 'cpd_related_supervisors', TRUE );
-							
+
 							if( empty( $name ) ) {
 								$name    = $username;
 							}
@@ -178,7 +178,7 @@ class CPD_Options_Users_Participants {
 									<br/>
 									<p><strong>Supervisors</strong></p>
 									<p>Choose assign other supervisors of the participant:</p>
-									<?php 
+									<?php
 										if( is_array( $all_supervisors  ) && count( $all_supervisors  ) > 0 ) {
 											?>
 											<ul>
@@ -189,7 +189,7 @@ class CPD_Options_Users_Participants {
 														$name        = $supervisor->first_name . ' ' . $supervisor->last_name;
 														$name        = trim( $name );
 														$username    = $supervisor->user_login;
-														
+
 														if( empty( $name ) ) {
 															$name    = $username;
 														}
@@ -258,7 +258,7 @@ class CPD_Options_Users_Participants {
 	 */
 	public function cpd_user_managment_add_fields_callback() {
 		?>
-		<p>Add the username and email address of the participant.</p> 
+		<p>Add the username and email address of the participant.</p>
 		<br/>
 		<form method="post" action="">
 
@@ -291,10 +291,10 @@ class CPD_Options_Users_Participants {
 		$current_user     = wp_get_current_user();
 		$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
-		
+
 		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) ) && current_user_can( 'manage_options' ) ) {
 			add_submenu_page( 'users.php', 'Manage Participants', 'Manage Participants', 'manage_options', 'cpd_settings_users_participants', array( $this, 'render_options_page' ) );
-		}	
+		}
 	}
 
 	/**
@@ -303,8 +303,8 @@ class CPD_Options_Users_Participants {
 	public function render_options_page(){
 
 		?>
-		<div class="wrap cpd-settings cpd-settings-users">  
-			<h2>Manage Participants</h2> 
+		<div class="wrap cpd-settings cpd-settings-users">
+			<h2>Manage Participants</h2>
 			<?php
 				$current_user      = wp_get_current_user();
 				$user_participants = get_user_meta( $current_user->ID, 'cpd_related_participants', TRUE );
@@ -314,9 +314,9 @@ class CPD_Options_Users_Participants {
 
 				// Add new Participant
 				if( isset( $_POST['cpd_new_username'] ) && !empty( $_POST['cpd_new_username'] ) && isset( $_POST['cpd_new_email'] ) && !empty( $_POST['cpd_new_email'] ) && isset( $_POST['cpd_add_participant_nonce'] ) && wp_verify_nonce( $_POST['cpd_add_participant_nonce'], 'cpd_add_participant' ) ) {
-					
+
 					switch_to_blog( SITE_ID_CURRENT_SITE );
-					
+
 					$user_name  = esc_attr( $_POST['cpd_new_username'] );
 					$user_email = esc_attr( $_POST['cpd_new_email'] );
 
@@ -326,7 +326,7 @@ class CPD_Options_Users_Participants {
 						$random_password = wp_generate_password( $length = 12, $include_standard_special_chars = FALSE );
 						$user_id = wp_create_user( $user_name, $random_password, $user_email );
 						$user->set_user_role( $user_id, 'participant' );
-						wp_new_user_notification( $user_id, $random_password );
+						wp_new_user_notification( $user_id, null, 'both' );
 					} else {
 						if( $user_id ) {
 							?>
@@ -366,12 +366,12 @@ class CPD_Options_Users_Participants {
 							if( in_array( $participant, $post_participants ) && !in_array( $participant, $user_participants ) ) {
 								CPD_Users::add_cpd_relationship( $supervisor, $participant );
 								$journal =	get_active_blog_for_user( $participant );
-								add_user_to_blog( $journal->blog_id, $supervisor, 'supervisor' );	
+								add_user_to_blog( $journal->blog_id, $supervisor, 'supervisor' );
 
 							} else if( !in_array( $participant, $post_participants ) && in_array( $participant, $user_participants ) ) {
 								CPD_Users::remove_cpd_relationship( $supervisor, $participant );
 								$journal =	get_active_blog_for_user( $participant );
-								remove_user_from_blog( $supervisor, $journal->blog_id );					
+								remove_user_from_blog( $supervisor, $journal->blog_id );
 							}
 						}
 					}
@@ -379,9 +379,9 @@ class CPD_Options_Users_Participants {
 				?>
 
 	            <?php settings_fields( 'cpd_settings_users_participants_group' ); ?>
-	            <?php do_settings_sections( 'cpd_settings_users_participants' ); ?>	           
+	            <?php do_settings_sections( 'cpd_settings_users_participants' ); ?>
 
-		</div> 
+		</div>
 	<?php
 	}
 

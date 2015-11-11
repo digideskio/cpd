@@ -255,7 +255,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 
 				wp_set_password( $password, $user_id );
 
-				wp_new_user_notification( $user_id, $password );
+				wp_new_user_notification( $user_id, null, 'both' );
 
 				wp_redirect( add_query_arg( array( 'user_id' => $user_id ), network_admin_url( 'user-edit.php#cpd_profile' ) ) );
 
