@@ -23,7 +23,7 @@ class CPD_Profile {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -36,7 +36,7 @@ class CPD_Profile {
 	 * Initialize the class and set its properties.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -44,19 +44,25 @@ class CPD_Profile {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Add elevated user field to the profile page
-	 * 
+	 *
 	 * @param object 	$user 	Current user object
 	 */
 	public function add_field_elevated_user( $user ) {
 
-		// If user is not an elevated user exit
-		if( get_user_meta( $user->ID, 'elevated_user', TRUE ) != '1' ) {
+		// If current user is not an elevated user exit
+		$current_user = wp_get_current_user();
+		if( get_user_meta( $current_user->ID, 'elevated_user', TRUE ) != '1' ) {
+			return false;
+		}
+
+		// A user cannot de-elevate themselfs
+		if( $current_user->ID == $user->ID ) {
 			return false;
 		}
 
@@ -67,47 +73,42 @@ class CPD_Profile {
 					<th scope="row">Elevated Admin Privileges</th>
 
 					<td>
-						
+
 						<fieldset>
-						
+
 							<legend class="screen-reader-text">
 								<span>Elevated Admin Privileges</span>
 							</legend>
-							
+
 							<label>
 								<input name="elevated_user" type="checkbox" id="elevated_user" value="1"<?php checked( get_user_meta( $user->ID, 'elevated_user', true ) ) ?> />
 								Grant this user elevated admin privileges.
 							</label>
-						
+
 						</fieldset>
-						
+
 					</td>
 				</tr>
-			
+
 			</table>
-		
-		<?php	
+
+		<?php
 	}
 
 	/**
 	 * Save elevated user field data
-	 * 
+	 *
 	 * @param int 	$user_id 	Current user ID
 	 */
 	public function save_field_elevated_user( $user_id ) {
-		
+
 		// Check the current user is a super admin
 		if ( ! current_user_can( 'manage_options', $user_id ) ) {
 			return false;
 		}
 
-		// If the field has not been set
-		if ( ! isset( $_POST[ 'elevated_user' ] ) ) {
-			return false;
-		}
-		
 		// Update the user meta with the additional fields on the profile page
-		update_usermeta( $user_id, 'elevated_user', $_POST[ 'elevated_user' ] );	
+		update_usermeta( $user_id, 'elevated_user', $_POST[ 'elevated_user' ] );
 	}
 
 	/**
@@ -123,7 +124,7 @@ class CPD_Profile {
 	 * @param string 	$color_scheme 	Current Colour Scheme
 	 */
 	public function set_color_scheme( $color_scheme ) {
-		
+
 		$screen 		= get_current_screen();
 		$user 			= wp_get_current_user();
 		$roles 			= $user->roles;
@@ -132,7 +133,7 @@ class CPD_Profile {
 
 		if ( get_user_meta( $user->ID, 'elevated_user', TRUE ) == '1' ) {
 			$color_scheme 	= 'midnight';
-		} 
+		}
 		else if( in_array( 'administrator', $roles) ) {
 			$color_scheme 	= 'ectoplasm';
 		}
@@ -165,7 +166,7 @@ class CPD_Profile {
 
 	/**
 	 * Add relationship management field to the profile page
-	 * 
+	 *
 	 * @param object 	$user 	Current user object
 	 */
 	public function add_field_cpd_relationship_management( $user ) {
@@ -201,7 +202,7 @@ class CPD_Profile {
 					<tr>
 						<th>Set Role</th>
 						<td> <?php
-							
+
 							?>
 							<select id="cpd_role" name="cpd_role">
 								<option value="" 			<?php echo empty( $cpd_role ) 			? 'selected' : '';?>>No Role</option>
@@ -211,7 +212,7 @@ class CPD_Profile {
 						</td>
 					</tr>
 					<tr class="cpd_journals">
-						<th>Choose Journal</th> 
+						<th>Choose Journal</th>
 						<td>
 							<select id="cpd_journal" name="cpd_journal">
 								<option value="new">Create a new journal</option>
@@ -233,7 +234,7 @@ class CPD_Profile {
 						</td>
 					</tr>
 					<tr class="cpd_journals_base">
-						<th>Choose Journal Base</th> 
+						<th>Choose Journal Base</th>
 						<td>
 							<select id="cpd_template_base" name="cpd_template_base">
 							<?php
@@ -266,12 +267,12 @@ class CPD_Profile {
 						if( count( $all_supervisors ) ) {
 							?>
 							<tr class="cpd_supervisors">
-								<th>Allocated supervisors</th> 
+								<th>Allocated supervisors</th>
 								<td>
 									<?php
-									
+
 									if( count( $all_supervisors ) ) {
-										foreach( $all_supervisors as $supervisor ) { 
+										foreach( $all_supervisors as $supervisor ) {
 											if( $user->ID != $supervisor->ID ) {
 											?>
 											<span>
@@ -295,7 +296,7 @@ class CPD_Profile {
 								<td>
 									<?php
 									if( count( $all_participants ) ) {
-										foreach( $all_participants as $participant ) { 
+										foreach( $all_participants as $participant ) {
 											if( $user->ID != $participant->ID ) {
 											?>
 											<span>
@@ -319,11 +320,11 @@ class CPD_Profile {
 
 	/**
 	 * Save relationship management field
-	 * 
+	 *
 	 * @param int 	$user_id 	Current user ID
 	 */
 	public function save_field_cpd_relationship_management( $user_id ) {
-			
+
 		if( !isset( $_POST['cpd_id'] ) && !is_super_admin()) {
 			return;
 		}
@@ -352,7 +353,7 @@ class CPD_Profile {
 
 			// If they are currently a supervisor
 			if( $current_cpd_role == 'supervisor' ) {
-				
+
 				// Remove them from all journals
 				if( count( $current_journals ) > 0 ) {
 					foreach( $current_journals as $journal ) {
@@ -376,7 +377,7 @@ class CPD_Profile {
 						remove_user_from_blog( $user_id, $journal->userblog_id );
 					}
 				}
-				
+
 				// Create the new journal
 				$blog    = get_blog_details( 'template-default' );
 				$base_id = $blog->blog_id;
@@ -393,16 +394,16 @@ class CPD_Profile {
 					if( !in_array( $j, $all_cpd_journals ) ) {
 						$cpd_journal = $j['blog_id'];
 						break;
-					} 
+					}
 				}
 			}
 
 			// If the journal picked is not the current one for this user
-			if ( $cpd_journal != get_active_blog_for_user( $user_id ) ) { 
-				
+			if ( $cpd_journal != get_active_blog_for_user( $user_id ) ) {
+
 				// Add user to blog
 				$added_to_blog 	= 	add_user_to_blog( $cpd_journal, $user_id, 'participant' );
-				
+
 				// Set the journal as the primary blog
 				update_user_meta( $user_id, 'primary_blog', $cpd_journal );
 
@@ -414,7 +415,7 @@ class CPD_Profile {
 			$user_supervisors 		= is_array( $user_supervisors ) ? $user_supervisors : array();
 
 			if( count( $all_supervisors ) > 0 ) {
-				
+
 				// Loop through all the supervisors
 				foreach( $all_supervisors as $supervisor ) {
 
@@ -424,11 +425,11 @@ class CPD_Profile {
 					if( in_array( $supervisor, $post_supervisors ) && !in_array( $supervisor, $user_supervisors ) ) {
 
 						CPD_Users::add_cpd_relationship( $supervisor, $user_id /* $participant */ );
-					} 
+					}
 					// If the supervisor is not in the list of posted supervisors, but are in the list of user supervisors
 					else if( !in_array( $supervisor, $post_supervisors ) && in_array( $supervisor, $user_supervisors ) ) {
 
-						CPD_Users::remove_cpd_relationship( $supervisor, $user_id /* $participant */ );						
+						CPD_Users::remove_cpd_relationship( $supervisor, $user_id /* $participant */ );
 					}
 				}
 
@@ -452,7 +453,7 @@ class CPD_Profile {
 
 			// If they are currently a participant
 			if( $current_cpd_role == 'participant' ) {
-				
+
 				// Remove them from all journals
 				if( count( $current_journals ) > 0 ) {
 					foreach( $current_journals as $journal ) {
@@ -473,17 +474,17 @@ class CPD_Profile {
 			$user_participants                      =   is_array($user_participants) ? $user_participants : array();
 
 			if( count( $all_participants ) > 0 ) {
-				
+
 				foreach( $all_participants as $participant ) {
 
 					$participant = $participant->ID;
 
 					if( in_array($participant, $post_participants) && !in_array( $participant, $user_participants ) ) {
-						
+
 						CPD_Users::add_cpd_relationship( /* $supervisor */ $user_id, $participant );
-					} 
+					}
 					else if( !in_array($participant, $post_participants ) && in_array( $participant, $user_participants ) ) {
-						
+
 						CPD_Users::remove_cpd_relationship( /* $supervisor */ $user_id, $participant );
 					}
 				}
@@ -496,10 +497,10 @@ class CPD_Profile {
 
 			// Set the role to none
 			$_POST['cpd_role'] = 'none';
-				
+
 			// Remove the user from all blogs
 			CPD_Users::remove_user_from_blogs( $user_id );
-			
+
 			// Remove related participants
 			delete_user_meta( $user_id, 'cpd_related_participants' );
 

@@ -30,6 +30,9 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.4.7
+- Issues fixed where an elevated admin can not manage other elevated admins
+
 ### 2.4.6
 - Issues with wp_new_user_notification fixed
 
