@@ -95,7 +95,7 @@ class CPD_Meta_Box_Points {
 													array( 
 														'id'			=> 	$this->key_prefix . 'points', 
 														'name' 			=> 	__( 'Points Awarded', $this->text_domain ),
-														'desc'			=>	'Enter the points that this achivement should be awarded',
+														'desc'			=>	'Enter the points that this achievement should be awarded',
 														'type'			=> 	'text_small',
 														'cols'			=> 	12,
 														'readonly'		=>	FALSE

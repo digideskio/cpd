@@ -439,6 +439,7 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [8] Add admin sub menus
 			 * [9] Add network admin mneus
 			 * [10] Rename network admin menus
+			 * [11] Rename admin menus
 			 */
 
 			/*1*/ add_action( 'admin_menu', array( $menus, 'add_content_menu' ), 5 );
@@ -451,6 +452,7 @@ if ( !class_exists( 'CPD' ) ) {
 			/*8*/ add_action( 'admin_menu', array( $menus, 'add_admin_sub_menus' ), 99 );
 			/*9*/ add_action( 'network_admin_menu', array( $menus, 'add_network_admin_menus' ), 100 );
 			/*10*/ add_action( 'network_admin_menu', array( $menus, 'rename_network_admin_menus' ), 99 );
+			/*11*/ add_action( 'admin_menu', array( $menus, 'rename_admin_menus' ), 99 );
 
 			/**
 			 * Content Menu Dashboard Widgets
@@ -851,6 +853,22 @@ if ( !class_exists( 'CPD' ) ) {
 	        function cmb_field_types( $classes ) {
 	        	return array_merge( $classes, array( 'render' => 'CPD_CMB_Plugin_Render' ) );
 	        }
+
+			/**
+			 * @todo Refactor
+			 */
+			function remove_page_attribute_meta_box()
+			{
+			    if( is_admin() ) {
+			        if( current_user_can('editor') ) {
+						remove_meta_box('pageparentdiv', 'post', 'normal');
+			            remove_meta_box('pageparentdiv', 'page', 'normal');
+						remove_meta_box('pageparentdiv', 'ppd', 'normal');
+						remove_meta_box('pageparentdiv', 'assessment', 'normal');
+			        }
+			    }
+			}
+			add_action( 'admin_menu', 'remove_page_attribute_meta_box' );
 
 		}
 

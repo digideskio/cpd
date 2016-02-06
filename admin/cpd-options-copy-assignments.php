@@ -25,7 +25,7 @@ class CPD_Options_Copy_Assignments {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -41,7 +41,7 @@ class CPD_Options_Copy_Assignments {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -49,7 +49,7 @@ class CPD_Options_Copy_Assignments {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
@@ -57,13 +57,13 @@ class CPD_Options_Copy_Assignments {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'settings.php', 'CPD Copy Assignments', 'CPD Copy Assignments', 'copy_assignments', 'cpd_settings_copy_assignments', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'settings.php', 'CPD Copy Assignments', 'CPD Copy Assignments', 'supervise_users', 'cpd_settings_copy_assignments', array( $this, 'render_options_page' ) );
 	}
 
 	/**
 	 * Render the options page
 	 */
-	public function render_options_page(){ 
+	public function render_options_page(){
 		global $wpdb;
 
 		$assignments 				= array();
@@ -77,20 +77,20 @@ class CPD_Options_Copy_Assignments {
 		$success_message			= '<p><strong>Success: </strong> Assignments have been copied:</p>';
 
 		// Get all of the sites and journals
-		$sites = wp_get_sites( 
-			array( 
-				'network_id' => $wpdb->siteid, 
-				'limit' => 0 
-			) 
+		$sites = wp_get_sites(
+			array(
+				'network_id' => $wpdb->siteid,
+				'limit' => 0
+			)
 		);
 
 		// Hangle post data
 		if( isset( $_POST['submit'] ) )
 		{
 			// Find the journals we are adding assignments to
-			foreach( $_POST as $key => $value ) 
+			foreach( $_POST as $key => $value )
 			{
-				if( strpos( $key, 'journal_' ) === 0 ) 
+				if( strpos( $key, 'journal_' ) === 0 )
 				{
 					$post_valid = true;
 					array_push( $journals, str_replace( 'journal_', '', $key ) );
@@ -106,9 +106,9 @@ class CPD_Options_Copy_Assignments {
 				$post_valid = false;
 
 				// Find all the assignments that we are going to copy
-				foreach( $_POST as $key => $value ) 
+				foreach( $_POST as $key => $value )
 				{
-					if( strpos( $key, 'blog_' ) === 0 ) 
+					if( strpos( $key, 'blog_' ) === 0 )
 					{
 						$post_valid = true;
 
@@ -136,7 +136,7 @@ class CPD_Options_Copy_Assignments {
 							$success_message .= '<li>';
 							// Switch to blog we are copying from
 							switch_to_blog( $copy_item['blog_id'] );
-							
+
 							// Get the post
 							$post_to_copy 	= get_post( $copy_item['post_id'] );
 							$taxonomies 	= get_object_taxonomies( $post_to_copy->post_type );
@@ -144,7 +144,7 @@ class CPD_Options_Copy_Assignments {
 
 							// Switch back to current blog
 							restore_current_blog();
-							
+
 							// Switch to blog we are copying to (journal)
 							switch_to_blog( $journal );
 
@@ -152,18 +152,18 @@ class CPD_Options_Copy_Assignments {
 							$participant_id 	= 0;
 							$user_args 			= array(
 													'blog_id'		=> $journal,
-													'meta_key' 		=> 'cpd_role', 
+													'meta_key' 		=> 'cpd_role',
 													'meta_value' 	=> 'participant',
 													'meta_compare' 	=> '='
 
 							);
 							$users 				= get_users( $user_args );
-							
+
 							if( !empty($users) )
 							{
 								$participant_id = $users[0]->ID;
 							}
-							
+
 							// Check that a post with that name dosnt already exist
 							$existing_post = get_page_by_title( $post_to_copy->post_title );
 
@@ -182,7 +182,7 @@ class CPD_Options_Copy_Assignments {
 									'post_password'		=> $post_to_copy->post_password,
 									'to_ping'			=> $post_to_copy->to_ping,
 									'post_author' 		=> $participant_id
-								); 
+								);
 
 								// Insert the post
 								$insert_id = wp_insert_post( $post_args );
@@ -197,10 +197,10 @@ class CPD_Options_Copy_Assignments {
 									}
 
 									// Copy all the post meta accross
-									if (count( $post_meta )!=0) 
+									if (count( $post_meta )!=0)
 									{
 										$sql_query = "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ";
-										foreach ( $post_meta as $meta ) 
+										foreach ( $post_meta as $meta )
 										{
 											$meta_key = $meta->meta_key;
 											$meta_value = addslashes( $meta->meta_value );
@@ -208,8 +208,8 @@ class CPD_Options_Copy_Assignments {
 										}
 										$sql_query.= implode( " UNION ALL ", $sql_query_sel );
 										$wpdb->query( $sql_query );
-									} 
-									
+									}
+
 									// Update status list message
 									$success_message .= 'Successfully copied \'<strong>' . $post_to_copy->post_title .'</strong>\' into journal \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
 									$post_valid = true;
@@ -228,7 +228,7 @@ class CPD_Options_Copy_Assignments {
 
 							// Swith back to current blog
 							restore_current_blog();
-							
+
 							$success_message .= '<li>';
 						}
 					}
@@ -258,7 +258,7 @@ class CPD_Options_Copy_Assignments {
 		<div class="wrap cpd_options">
 			<h2>CPD Copy Assignments</h2>
 			<form method="post">
-				<?php 
+				<?php
 					settings_fields( 'cpd_group' );
 					do_settings_sections( 'cpd_group' );
 
@@ -266,7 +266,7 @@ class CPD_Options_Copy_Assignments {
 					foreach( $sites as $site)
 					{
 						switch_to_blog( $site['blog_id'] );
-
+						$current_blog_details = get_blog_details( array( 'blog_id' => $site['blog_id'] ) );
 						$assignment = get_page_by_path( 'assignment-templates' );
 						$assignment_id = is_object( $assignment ) ? $assignment->ID : NULL;
 
@@ -279,7 +279,7 @@ class CPD_Options_Copy_Assignments {
 								'parent' => $assignment_id,
 								'post_type' => 'page',
 								'post_status' => array( 'publish', 'pending', 'draft', 'private' )
-							); 
+							);
 							$assignments = get_pages( $args );
 
 							// If there are some assignments
@@ -297,7 +297,7 @@ class CPD_Options_Copy_Assignments {
 								}
 
 								?>
-								<h3>Assignments in '<?php echo wp_title(); ?>'</h3>
+								<h3>Assignments in '<?php echo $current_blog_details->blogname; ?>'</h3>
 								<?php
 
 								?>
@@ -364,13 +364,13 @@ class CPD_Options_Copy_Assignments {
 							<ol>
 								<li>In one of the journals, or the master website, create a <strong>page</strong> titled 'Assigment Templates' (make sure it has the slug <em>'assignment-templates'</em>).</li>
 								<li>Create your assignments (using the pages menu option) and ensure that their parent page is set as the 'Assignment Templates' page</li>
-								<li>You do not have to publish these pages, this system will find them and list them here</li> 
+								<li>You do not have to publish these pages, this system will find them and list them here</li>
 							</ol>
 						<?php
 					}
 				?>
-				
-				<?php 
+
+				<?php
 				if( $have_assigments )
 				{
 					submit_button('Copy Assignments');

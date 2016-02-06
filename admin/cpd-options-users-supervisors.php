@@ -143,7 +143,7 @@ class CPD_Options_Users_Supervisors {
 					</ul>
 					<?php wp_nonce_field( 'cpd_update_participant_management', 'cpd_update_participant_management_nonce' ) ?>
 					<input type="hidden" value="<?php echo $supervisor->ID;?>" name="cpd_supervisor";?>
-					<p><input type="submit" class="button button-primary" value="Update Participants"/></p>
+					<p><input type="submit" class="button button-primary" value="Update Supervisor"/></p>
 					</form>
 					<?php
 				} else {

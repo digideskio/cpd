@@ -32,7 +32,7 @@ class CPD_Meta_Box_Privacy {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -45,7 +45,7 @@ class CPD_Meta_Box_Privacy {
 	 * Initialize the class and set its properties.
 	 */
 	public function __construct() {
-		
+
 		$this->args 							= 	array(
 														'id' 					=> 'privacy',
 														'id_prefix' 			=> 'cpd_',
@@ -92,8 +92,8 @@ class CPD_Meta_Box_Privacy {
 
 		$metabox_args	= 	array(
 								'fields' 	=> 	array(
-													array( 
-														'id'			=> 	$this->key_prefix . 'private_content', 
+													array(
+														'id'			=> 	$this->key_prefix . 'private_content',
 														'name' 			=> 	__( 'Private Content', $this->text_domain ),
 														'desc'			=>	'Check the box below to mark this content as private. <a href="admin.php?page=cpd_settings_privacy#private-content-who">Who can view private content?</a>',
 														'type'			=> 	'checkbox',
@@ -102,7 +102,7 @@ class CPD_Meta_Box_Privacy {
 													),
 												)
 							);
-		
+
 		$this->args['metabox_args'] 			= 	array_merge( $this->args[ 'metabox_args'], $metabox_args );
 	}
 
@@ -111,7 +111,7 @@ class CPD_Meta_Box_Privacy {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
@@ -122,32 +122,33 @@ class CPD_Meta_Box_Privacy {
 	 * @return	array 	$meta_boxes 	The modified metaboxes array
 	 */
 	function register_metabox( $meta_boxes ) {
-		
+
+		$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
 		$post_types = get_post_types(
 			array(
-				'public'   => true
+                'public' => true
 			)
 		);
 
 		unset( $post_types['attachment'] );
 
-		$this->args['metabox_args']['pages']    =   $post_types;
+        $this->args['metabox_args']['pages'] = $post_types;
 
-		if( current_user_can( 'manage_privacy' ) ) {
-			$meta_boxes[] 							= 	$this->args['metabox_args'];
+		if( current_user_can( 'manage_privacy' ) && $cpd_login_to_view == 'false' ) {
+            $meta_boxes[] = $this->args['metabox_args'];
 		}
-		
+
 		return $meta_boxes;
 	}
 
 	/**
 	 * Change post status
-	 * 
+	 *
 	 * @param  int $post_id the post id
 	 * @param  object $post the post
 	 */
 	public function change_post_status( $post_id, $post ) {
-		
+
 		if( $post == NULL ) {
 			return;
 		}
@@ -170,22 +171,22 @@ class CPD_Meta_Box_Privacy {
 		remove_action( 'save_post',  array( $this, 'change_post_status' ), 99, 2 );
 
 		$private_content = get_post_meta( $post_id, '_cpd_private_content', TRUE );
-		
+
 		if( $private_content ) {
 			if( $post->post_status == 'publish' ) {
 				wp_update_post(
-					array( 
-						'ID'          => $post_id, 
-						'post_status' => 'private' 
+					array(
+						'ID'          => $post_id,
+						'post_status' => 'private'
 					)
 				);
 			}
 		} else {
 			if( $post->post_status == 'private' ) {
 				wp_update_post(
-					array( 
-						'ID'          => $post_id, 
-						'post_status' => 'publish' 
+					array(
+						'ID'          => $post_id,
+						'post_status' => 'publish'
 					)
 				);
 			}

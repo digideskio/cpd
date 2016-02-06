@@ -171,7 +171,7 @@ class CPD_Meta_Box_Criteria {
 																				// array( 
 																				// 	'id'			=> 	$this->key_prefix . 'criteria_evidence', 
 																				// 	'name' 			=> 	__( 'Evidence', $this->text_domain ),
-																				// 	'desc'			=>	'Eg. certificate of achivement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need by adding more groups.',
+																				// 	'desc'			=>	'Eg. certificate of achievement, certificate of attendance, line manager or self certification.<br/><br/>Select \'Add Evidence\' to start adding supporting evidence. You can add as much evidence as you need by adding more groups.',
 																				// 	'type'			=> 	'group',
 																				// 	'cols'			=> 	12,
 																				// 	'fields'		=> 	array(

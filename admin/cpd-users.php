@@ -544,8 +544,20 @@ if ( !class_exists( 'CPD_Users' ) ) {
 				$user_type                =    get_user_meta( $user->ID, 'cpd_role', true );
 
 				if ( $user_type == 'participant' ) {
-					$primary_blog    =    get_active_blog_for_user( $user->ID );
-					$redirect_to    =    get_admin_url( $primary_blog->blog_id );
+                    $primary_blog = get_active_blog_for_user( $user->ID );
+                    $redirect_to  = get_admin_url( $primary_blog->blog_id );
+				} else if( $user_type == 'supervisor' ) {
+
+                    $user_blogs = get_blogs_of_user( $user->ID );
+
+					if( is_array( $user_blogs ) ) {
+						if( count( $user_blogs ) == 2 ) {
+							$last       = end( $user_blogs );
+							$redirect_to  = get_admin_url( $last->userblog_id );
+						} else if( count( $user_blogs ) > 2 ) {
+							$redirect_to  = admin_url( 'index.php' );
+						}
+					}
 				}
 			}
 

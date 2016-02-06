@@ -223,3 +223,8 @@ div.updated.view-notice .dashicons-before:before {
 .postbox .inside table {
     font-size: 13px;
 }
+
+.my-sites-php #myblogs .form-table {
+    display: none;
+    visibility: hidden;
+}

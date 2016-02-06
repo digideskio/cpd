@@ -25,7 +25,7 @@ class CPD_Options_Copy_Posts {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -41,7 +41,7 @@ class CPD_Options_Copy_Posts {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -49,7 +49,7 @@ class CPD_Options_Copy_Posts {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
@@ -57,13 +57,13 @@ class CPD_Options_Copy_Posts {
 	 * Add the options page
 	 */
 	public function add_options_page() {
-		add_submenu_page( 'cpd_settings_templates', 'Copy Journal Entries', 'Copy Journal Entries', 'manage_options', 'cpd_settings_copy_posts', array( $this, 'render_options_page' ) );
+		add_submenu_page( 'cpd_settings_templates', 'Copy Journal Entries', 'Copy Journal Entries', 'supervise_users', 'cpd_settings_copy_posts', array( $this, 'render_options_page' ) );
 	}
 
 	/**
 	 * Render the options page
 	 */
-	public function render_options_page(){ 
+	public function render_options_page(){
 		global $wpdb;
 
 		$pages 				    = array();
@@ -78,22 +78,22 @@ class CPD_Options_Copy_Posts {
 		$current_user 			= wp_get_current_user();
 		$roles 					= $current_user->roles;
 		$is_elevated_user 		= get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
-		
+
 		// Get all of the sites and journals
-		$sites = wp_get_sites( 
-			array( 
-				'network_id' => $wpdb->siteid, 
-				'limit' => 0 
-			) 
+		$sites = wp_get_sites(
+			array(
+				'network_id' => $wpdb->siteid,
+				'limit' => 0
+			)
 		);
 
 		// Hangle post data
 		if( isset( $_POST['submit'] ) )
 		{
 			// Find the journals we are adding pages to
-			foreach( $_POST as $key => $value ) 
+			foreach( $_POST as $key => $value )
 			{
-				if( strpos( $key, 'journal_' ) === 0 ) 
+				if( strpos( $key, 'journal_' ) === 0 )
 				{
 					$post_valid = true;
 					array_push( $journals, str_replace( 'journal_', '', $key ) );
@@ -109,9 +109,9 @@ class CPD_Options_Copy_Posts {
 				$post_valid = false;
 
 				// Find all the pages that we are going to copy
-				foreach( $_POST as $key => $value ) 
+				foreach( $_POST as $key => $value )
 				{
-					if( strpos( $key, 'blog_' ) === 0 ) 
+					if( strpos( $key, 'blog_' ) === 0 )
 					{
 						$post_valid = true;
 
@@ -139,7 +139,7 @@ class CPD_Options_Copy_Posts {
 							$success_message .= '<li>';
 							// Switch to blog we are copying from
 							switch_to_blog( $copy_item['blog_id'] );
-							
+
 							// Get the post
 							$post_to_copy 	= get_post( $copy_item['post_id'] );
 							$taxonomies 	= get_object_taxonomies( $post_to_copy->post_type );
@@ -147,7 +147,7 @@ class CPD_Options_Copy_Posts {
 
 							// Switch back to current blog
 							restore_current_blog();
-							
+
 							// Switch to blog we are copying to (journal)
 							switch_to_blog( $journal );
 
@@ -155,18 +155,18 @@ class CPD_Options_Copy_Posts {
 							$participant_id 	= 0;
 							$user_args 			= array(
 													'blog_id'		=> $journal,
-													'meta_key' 		=> 'cpd_role', 
+													'meta_key' 		=> 'cpd_role',
 													'meta_value' 	=> 'participant',
 													'meta_compare' 	=> '='
 
 							);
 							$users 				= get_users( $user_args );
-							
+
 							if( !empty($users) )
 							{
 								$participant_id = $users[0]->ID;
 							}
-							
+
 							// Check that a post with that name dosnt already exist
 							$existing_post = get_page_by_title( $post_to_copy->post_title, OBJECT, 'post' );
 
@@ -185,7 +185,7 @@ class CPD_Options_Copy_Posts {
 									'post_password'		=> $post_to_copy->post_password,
 									'to_ping'			=> $post_to_copy->to_ping,
 									'post_author' 		=> $participant_id
-								); 
+								);
 
 								// Insert the post
 								$insert_id = wp_insert_post( $post_args );
@@ -200,10 +200,10 @@ class CPD_Options_Copy_Posts {
 									}
 
 									// Copy all the post meta accross
-									if (count( $post_meta )!=0) 
+									if (count( $post_meta )!=0)
 									{
 										$sql_query = "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ";
-										foreach ( $post_meta as $meta ) 
+										foreach ( $post_meta as $meta )
 										{
 											$meta_key = $meta->meta_key;
 											$meta_value = addslashes( $meta->meta_value );
@@ -211,8 +211,8 @@ class CPD_Options_Copy_Posts {
 										}
 										$sql_query.= implode( " UNION ALL ", $sql_query_sel );
 										$wpdb->query( $sql_query );
-									} 
-									
+									}
+
 									// Update status list message
 									$success_message .= 'Successfully copied \'<strong>' . $post_to_copy->post_title .'</strong>\' into journal \'<strong>'. wp_title( '', false ) .'</strong>\'.' ;
 									$post_valid = true;
@@ -231,7 +231,7 @@ class CPD_Options_Copy_Posts {
 
 							// Swith back to current blog
 							restore_current_blog();
-							
+
 							$success_message .= '<li>';
 						}
 					}
@@ -261,7 +261,7 @@ class CPD_Options_Copy_Posts {
 		<div class="wrap cpd_options">
 			<h2>Copy Journal Entries</h2>
 			<form method="post">
-				<?php 
+				<?php
 					settings_fields( 'cpd_group' );
 					do_settings_sections( 'cpd_group' );
 
@@ -275,7 +275,7 @@ class CPD_Options_Copy_Posts {
 						if( strrpos( $site['path'], '/template-' ) === 0 ) {
 
 							switch_to_blog( $site['blog_id'] );
-
+							$current_blog_details = get_blog_details( array( 'blog_id' => $site['blog_id'] ) );
 							// $page = get_page_by_path( 'page-templates' );
 							// $page_id = is_object( $page ) ? $page->ID : NULL;
 
@@ -288,7 +288,7 @@ class CPD_Options_Copy_Posts {
 								// 'parent' => $page_id,
 								'post_type' => 'post',
 								'post_status' => array( 'publish', 'pending', 'draft', 'private' )
-							); 
+							);
 							$pages = get_posts( $args );
 
 							// If there are some pages
@@ -307,7 +307,7 @@ class CPD_Options_Copy_Posts {
 
 								?>
 								<tr>
-								<th>Journal Entries in '<?php echo wp_title(); ?>'</th>
+								<th>Journal Entries in '<?php echo $current_blog_details->blogname; ?>'</th>
 
 								<?php
 
@@ -361,9 +361,9 @@ class CPD_Options_Copy_Posts {
 							<?php
 							$count = 0;
 							foreach( $sites as $site )
-							{	
+							{
 								if( strrpos( $site['path'], '/template-' ) !== 0 ) {
-								
+
 								switch_to_blog( $site['blog_id'] );
 								$current_user = wp_get_current_user();
 								$roles = $current_user->roles;
@@ -400,9 +400,9 @@ class CPD_Options_Copy_Posts {
 							<?php
 							$count = 0;
 							foreach( $sites as $site )
-							{	
+							{
 								if( strrpos( $site['path'], '/template-' ) === 0 ) {
-								
+
 								switch_to_blog( $site['blog_id'] );
 								$current_user = wp_get_current_user();
 								$roles = $current_user->roles;
@@ -444,11 +444,11 @@ class CPD_Options_Copy_Posts {
 						<?php
 					}
 				?>
-				
-				<?php 
+
+				<?php
 				if( $have_pages )
 				{
-					submit_button('Copy Pages');
+					submit_button('Copy Journal Entries');
 				}
 				?>
 			</form>

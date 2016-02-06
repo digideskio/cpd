@@ -208,8 +208,8 @@ class CPD_Options_Templates {
 		$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
 
-		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
-			add_menu_page( 'Templates', 'Templates', 'manage_options', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
+		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'supervise_users' ) ) {
+			add_menu_page( 'Templates', 'Templates', 'supervise_users', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
 		}
 	}
 

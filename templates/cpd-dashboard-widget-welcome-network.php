@@ -15,38 +15,44 @@
 		if( is_super_admin() ) {
 			?>
 				<li>
-					<span class="dashicons-before dashicons-groups"></span> 
-					<a href="<?php echo network_admin_url( 'users.php' );?>">
-						Manage Supervisors and Participants
+					<span class="dashicons-before dashicons-groups"></span>
+					<a href="<?php echo admin_url( 'users.php?page=cpd_settings_users_participants' );?>">
+						Manage Participants
 					</a>
 				</li>
 				<li>
-					<span class="dashicons-before dashicons-book"></span> 
+					<span class="dashicons-before dashicons-groups"></span>
+					<a href="<?php echo admin_url( 'users.php?page=cpd_settings_users_supervisors' );?>">
+						Manage Supervisors
+					</a>
+				</li>
+				<li>
+					<span class="dashicons-before dashicons-book"></span>
 					<a href="<?php echo network_admin_url( 'sites.php' );?>">
 						Manage all Journals
 					</a>
 				</li>
 <!-- 				<li>
-					<span class="dashicons-before dashicons-admin-site"></span> 
+					<span class="dashicons-before dashicons-admin-site"></span>
 					<a href="<?php echo network_admin_url( 'settings.php?page=cpd_settings' );?>">
 						Manage Journal Defaults
 					</a>
 				</li> -->
 				<li>
-					<span class="dashicons-before dashicons-admin-plugins"></span> 
+					<span class="dashicons-before dashicons-admin-plugins"></span>
 					<a href="<?php echo network_admin_url( 'plugins.php' );?>">
 						Manage plugins
 					</a>
 				</li>
 				<li>
 					<br/>
-					<span class="dashicons-before dashicons-undo"></span> 
+					<span class="dashicons-before dashicons-undo"></span>
 					<a href="<?php echo home_url() . '/wp-admin/';?>">
 						Manage main site
 					</a>
 				</li>
 
-				
+
 			<?php
 		}
 	?>
