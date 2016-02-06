@@ -510,7 +510,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$user_data       =    $user->data;
 			$current_site    =    network_site_url();
 			$domain        	 =    parse_url( network_site_url(), PHP_URL_HOST );
-			$path            =    $user_data->user_login . '/';
+			$path            =    sanitize_title( $user_data->user_login ) . '/';
 			$title 			 =	  'CPD Journal for ' . $user_data->user_nicename;
 
 			// $cpd_settings    =    get_option( 'cpd_new_blog_options' );
@@ -523,10 +523,10 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$blog = get_blog_details( $path );
 
 			if( empty($blog) ) {
-				$blogs->copy_blog( $path, $title, $base_id, TRUE );
+				$blogs->copy_blog( $path, $title, $base_id, false );
 			} else {
 				$path = uniqid() . '/';
-				$blogs->copy_blog( $path, $title, $base_id, TRUE );
+				$blogs->copy_blog( $path, $title, $base_id, false );
 			}
 		}
 

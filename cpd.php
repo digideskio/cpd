@@ -847,10 +847,10 @@ if ( !class_exists( 'CPD' ) ) {
 			 * [1] Add the 'render' plugin
 			 */
 
-       /*1*/ add_filter( 'cmb_field_types', 'cmb_field_types' );
-       function cmb_field_types( $classes ) {
-           return array_merge( $classes, array( 'render' => 'CPD_CMB_Plugin_Render' ) );
-       }
+	        /*1*/ add_filter( 'cmb_field_types', 'cmb_field_types' );
+	        function cmb_field_types( $classes ) {
+	        	return array_merge( $classes, array( 'render' => 'CPD_CMB_Plugin_Render' ) );
+	        }
 
 		}
 
@@ -903,6 +903,30 @@ if ( !class_exists( 'CPD' ) ) {
 			 */
 
 			/*1*/ add_filter( 'get_the_archive_title', array( $archive_titles, 'change_archive_titles' ), 99 );
+
+			/**
+			 * Check user permissions, and redirect if you have to login to view
+			 * @todo Needs refactoring!
+			 */
+			function cpd_check_user_permissions() {
+				global $pagenow;
+				$cpd_login_to_view = get_option( 'cpd_login_to_view', NULL );
+				if( $cpd_login_to_view == 'true' && ! is_admin() && $pagenow != 'wp-login.php' ) {
+                    $current_user = wp_get_current_user();
+                    $users        = get_users();
+                    $redirect     = true;
+					foreach( $users as $user ) {
+						if( $user->ID == $current_user->ID ) {
+							$redirect = false;
+						}
+					}
+
+					if( $redirect ) {
+						wp_redirect( get_admin_url(), $status = 302 );
+					}
+				}
+			}
+			add_action( 'init', 'cpd_check_user_permissions' );
 		}
 
 	}

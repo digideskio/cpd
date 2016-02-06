@@ -301,6 +301,7 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 				$old_tables = $wpdb->get_col( $query );
 
 				foreach ( $old_tables as $k => $table ) {
+
 					$raw_table_name = substr( $table, $from_blog_prefix_length );
 					$newtable = $to_blog_prefix . $raw_table_name;
 
@@ -346,6 +347,37 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 				// Fix GUIDs on copied posts
 				$this->replace_guid_urls( $from_blog_id, $to_blog_id );
 
+				$attachments = get_posts(
+					array(
+                        'posts_per_page' => -1,
+                        'post_type'      => 'attachment'
+					)
+				);
+
+				foreach( $attachments as $attachment ) {
+					wp_delete_post( $attachment->ID );
+				}
+
+				$nav_menus = get_posts(
+					array(
+                        'posts_per_page' => -1,
+                        'post_type'      => 'nav_menu_item'
+					)
+				);
+
+                $old_blog_details = get_blog_details( $from_blog_id );
+                $old_slug         = stripslashes( $old_blog_details->path );
+
+				$new_blog_details = get_blog_details( $to_blog_id );
+                $new_slug         = stripslashes( $new_blog_details->path );
+
+
+				foreach( $nav_menus as $menu ) {
+					$url = get_post_meta( $menu->ID, '_menu_item_url', true );
+					$url = str_replace( $old_slug, $new_slug, $url );
+					update_post_meta( $menu->ID, '_menu_item_url', $url );
+				}
+
 				restore_current_blog();
 			}
 		}
@@ -356,28 +388,28 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 		 * @param int     $from_blog_id ID of the blog being copied from.
 		 * @param int     $to_blog_id   ID of the blog being copied to.
 		 */
-		private function copy_blog_files( $from_blog_id, $to_blog_id ) {
-			set_time_limit( 2400 ); // 60 seconds x 10 minutes
-			@ini_set( 'memory_limit', '2048M' );
-
-			// Path to source blog files.
-			switch_to_blog( $from_blog_id );
-			$dir_info = wp_upload_dir();
-			$from = str_replace( ' ', "\\ ", trailingslashit( $dir_info['basedir'] ).'*' ); // * necessary with GNU cp, doesn't hurt anything with BSD cp
-			restore_current_blog();
-			$from = apply_filters( 'copy_blog_files_from', $from, $from_blog_id );
-
-			// Path to destination blog files.
-			switch_to_blog( $to_blog_id );
-			$dir_info = wp_upload_dir();
-			$to = str_replace( ' ', "\\ ", trailingslashit( $dir_info['basedir'] ) );
-			restore_current_blog();
-			$to = apply_filters( 'copy_blog_files_to', $to, $to_blog_id );
-
-			// Shell command used to copy files.
-			$command = apply_filters( 'copy_blog_files_command', sprintf( "cp -Rfp %s %s", $from, $to ), $from, $to );
-			exec( $command );
-		}
+		// private function copy_blog_files( $from_blog_id, $to_blog_id ) {
+		// 	set_time_limit( 2400 ); // 60 seconds x 10 minutes
+		// 	@ini_set( 'memory_limit', '2048M' );
+		//
+		// 	// Path to source blog files.
+		// 	switch_to_blog( $from_blog_id );
+		// 	$dir_info = wp_upload_dir();
+		// 	$from = str_replace( ' ', "\\ ", trailingslashit( $dir_info['basedir'] ).'*' ); // * necessary with GNU cp, doesn't hurt anything with BSD cp
+		// 	restore_current_blog();
+		// 	$from = apply_filters( 'copy_blog_files_from', $from, $from_blog_id );
+		//
+		// 	// Path to destination blog files.
+		// 	switch_to_blog( $to_blog_id );
+		// 	$dir_info = wp_upload_dir();
+		// 	$to = str_replace( ' ', "\\ ", trailingslashit( $dir_info['basedir'] ) );
+		// 	restore_current_blog();
+		// 	$to = apply_filters( 'copy_blog_files_to', $to, $to_blog_id );
+		//
+		// 	// Shell command used to copy files.
+		// 	$command = apply_filters( 'copy_blog_files_command', sprintf( "cp -Rfp %s %s", $from, $to ), $from, $to );
+		// 	exec( $command );
+		// }
 
 		/**
 		 * Replace URLs in post content
@@ -479,7 +511,7 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 		 * @return true if has template
 		 */
 		public static function user_has_templates( $user ) {
-			
+
 			$blogs         = get_blogs_of_user( $user->ID );
 			$has_templates = false;
 

@@ -25,7 +25,7 @@ class CPD_Options_Templates {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -41,7 +41,7 @@ class CPD_Options_Templates {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -49,16 +49,16 @@ class CPD_Options_Templates {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
 	public function init_options_page() {
-		
+
 		/* Add sections */
 		add_settings_section( 'cpd_template_managment', 'Manage Templates', array( $this, 'cpd_template_managment_callback' ), 'cpd_settings_templates' );
 		add_settings_section( 'cpd_template_add', 'Create a new Template', array( $this, 'cpd_template_add_callback' ), 'cpd_settings_templates' );
-	
+
     	/* Add fields to a section */
 		add_settings_field( 'cpd_template_managment_fields', 'Your Templates', array( $this, 'cpd_template_managment_fields_callback' ), 'cpd_settings_templates', 'cpd_template_managment' );
 		add_settings_field( 'cpd_template_base_fields', 'Template Base', array( $this, 'cpd_template_base_fields_callback' ), 'cpd_settings_templates', 'cpd_template_add' );
@@ -91,7 +91,7 @@ class CPD_Options_Templates {
 	 * Render the field
 	 */
 	public function cpd_template_managment_fields_callback() {
-		
+
 		$current_user                   = wp_get_current_user();
 		$roles                          = $current_user->roles;
 		$is_supervisor                  = CPD_Users::user_is_site_supervisor( $current_user );
@@ -109,7 +109,7 @@ class CPD_Options_Templates {
 						<th>Edit</th>
 						<th>Delete</th>
 					</tr>
-					<?php 
+					<?php
 					foreach( $blogs as $blog ) {
 						if( strrpos( $blog->path, '/template-' ) === 0 ) {
 						?>
@@ -129,7 +129,7 @@ class CPD_Options_Templates {
 									} else {
 										?>
 										-
-										<?php 
+										<?php
 									}
 									?>
 								</td>
@@ -184,9 +184,9 @@ class CPD_Options_Templates {
 		<?php
 	}
 
-	public function cpd_template_name_fields_callback() { 
+	public function cpd_template_name_fields_callback() {
 		?>
-		<p>Choose a title for your new Template.</p> 
+		<p>Choose a title for your new Template.</p>
 		<p><strong>Note:</strong> All Templates are automatically prefixed with the word 'Template'.</p>
 		<br/>
 		<p>
@@ -196,7 +196,7 @@ class CPD_Options_Templates {
 
 		<?php
 	}
-	
+
 
 	/**
 	 * Add the options page
@@ -207,10 +207,10 @@ class CPD_Options_Templates {
 		$current_user     = wp_get_current_user();
 		$is_elevated_user = get_user_meta( $current_user->ID, 'elevated_user', TRUE ) == '1';
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
-		
+
 		if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
 			add_menu_page( 'Templates', 'Templates', 'manage_options', 'cpd_settings_templates', array( $this, 'render_options_page' ), 'dashicons-welcome-write-blog' );
-		}	
+		}
 	}
 
 	/**
@@ -218,8 +218,8 @@ class CPD_Options_Templates {
 	 */
 	public function render_options_page(){
 		?>
-		<div class="wrap cpd-settings cpd-settings-template">  
-			<h2>Templates</h2> 
+		<div class="wrap cpd-settings cpd-settings-template">
+			<h2>Templates</h2>
 
 			<?php
 			// Create the new template
@@ -230,7 +230,7 @@ class CPD_Options_Templates {
 				$base = esc_attr( $_POST[ 'cpd_template_base' ] );
 
 				// Check Title is Unique
-				if( get_id_from_blogname( $slug ) ) { 
+				if( get_id_from_blogname( $slug ) ) {
 					?>
 					<div class="alert alert-warning">
 						<p>Sorry a Template with that name already exists.</p>
@@ -239,7 +239,7 @@ class CPD_Options_Templates {
 				} else {
 					$copy = CPD_Blogs::get_instance();
 					add_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ), 2 );
-					$copy->copy_blog( $slug, $name, $base, TRUE );
+					$copy->copy_blog( $slug, $name, $base, false );
 					remove_filter( 'copy_blog_user_id', array( $this, 'copy_blog_user_id' ), 2 );
 				}
 			}
@@ -262,7 +262,7 @@ class CPD_Options_Templates {
 	            <?php //submit_button(); ?>
 	           	<p><input type="submit" class="button button-primary" value="Create New Template"/>
 	        </form>
-		</div> 
+		</div>
 	<?php
 	}
 
