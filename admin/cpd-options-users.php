@@ -380,8 +380,8 @@ class CPD_Options_Users {
         $is_supervisor    = CPD_Users::user_is_site_supervisor( $current_user );
 
 		// if( ( is_super_admin() || $is_elevated_user || user_can( $current_user, 'administrator' ) || $is_supervisor ) && current_user_can( 'manage_options' ) ) {
-		if( $is_supervisor && current_user_can( 'manage_options' ) ) {
-			add_submenu_page( 'users.php', 'Manage Participants', 'Manage Participants', 'manage_options', 'cpd_settings_users', array( $this, 'render_options_page' ) );
+		if( $is_supervisor && current_user_can( 'supervise_users' ) ) {
+			add_submenu_page( 'users.php', 'Manage Participants', 'Manage Participants', 'supervise_users', 'cpd_settings_users', array( $this, 'render_options_page' ) );
 		}
 	}
 

@@ -30,6 +30,12 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.5.1
+- Restored supervisors ability to manage participants
+
+### 2.5.0
+- Various amendments to help provide a clearer UI
+
 ### 2.4.7
 - Issues fixed where an elevated admin can not manage other elevated admins
 

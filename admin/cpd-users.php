@@ -147,6 +147,14 @@ if ( !class_exists( 'CPD_Users' ) ) {
 			$role->add_cap( 'supervise_users' );
 			$role->add_cap( 'manage_privacy' );
 
+			// Let supervisors manage users
+			$role->add_cap('edit_users');
+	        $role->add_cap('list_users');
+	        $role->add_cap('promote_users');
+	        $role->add_cap('create_users');
+	        $role->add_cap('add_users');
+	        $role->add_cap('delete_users');
+
 			// Make sure admins have the supervisor privilege
 			$role = get_role( 'administrator' );
 			$role->add_cap( 'supervise_users' );

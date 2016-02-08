@@ -330,10 +330,14 @@ if ( !class_exists( 'CPD_Menus' ) ) {
 					'menu'      =>    'user-new.php',
 				);
 
-				$sub_menus[]    =    array(
-					'parent'    =>    'users.php',
-					'menu'      =>    'cpd_settings_users_participants',
-				);
+				if( $user_type != 'supervisor' ) {
+
+					$sub_menus[]    =    array(
+						'parent'    =>    'users.php',
+						'menu'      =>    'cpd_settings_users_participants',
+					);
+					
+				}
 
 				$sub_menus[]    =    array(
 					'parent'    =>    'users.php',
