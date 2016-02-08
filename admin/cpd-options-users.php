@@ -178,7 +178,7 @@ class CPD_Options_Users {
 									<br/>
 									<br/>
 									<p><strong>Supervisors</strong></p>
-									<p>Choose assign other supervisors of the participant:</p>
+									<p>Assign other supervisors of the participant:</p>
 									<?php
 										if( is_array( $all_supervisors  ) && count( $all_supervisors  ) > 0 ) {
 											?>
