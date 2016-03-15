@@ -24,7 +24,7 @@ class CPD_Metaboxes {
 	 */
 	public static function get_instance() {
 		/**
-		 * If an instance hasn't been created and set to $instance create an instance 
+		 * If an instance hasn't been created and set to $instance create an instance
 		 * and set it to $instance.
 		 */
 		if ( null == self::$instance ) {
@@ -41,7 +41,7 @@ class CPD_Metaboxes {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct() {
-		
+
 	}
 
 	/**
@@ -49,13 +49,13 @@ class CPD_Metaboxes {
 	 *
 	 * @param      string    $text_domain       The text domain of the plugin.
 	 */
-	public function set_text_domain( $text_domain ) { 
+	public function set_text_domain( $text_domain ) {
 		$this->text_domain = $text_domain;
 	}
 
 	/**
 	 * Hide Metaboxes
-	 * 
+	 *
 	 * @param  array 	$hidden 	array of metaboxes to hide
 	 * @param  object 	$screen 	the screen object
 	 *
@@ -72,7 +72,7 @@ class CPD_Metaboxes {
 								'slugdiv',
 								'trackbacksdiv',
 								'revisionsdiv',
-								'tagsdiv-post_tag',
+								// 'tagsdiv-post_tag',
 								'authordiv',
 								'wpseo_meta',
 								'relevanssi_hidebox',
@@ -89,14 +89,14 @@ class CPD_Metaboxes {
 	 * @hook 	filter_cpd_remove_metaboxes 	Filter the metaboxes we wish to remove
 	 */
 	public function remove_metaboxes() {
-	
+
 		$user_id 			= 	get_current_user_id();
 		$is_admin 			=	current_user_can( 'manage_options' );
 		$is_elevated_user	=	get_user_meta( $user_id, 'elevated_user', TRUE ) == '1';
 		$user_type 			= 	get_user_meta( $user_id, 'cpd_role', true );
 		$remove_metaboxes 	=	array();
 		$all_post_types 	=	get_post_types();
-		
+
 		// Remove for everyone
 
 		// Remove if is template

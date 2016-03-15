@@ -15,6 +15,7 @@ if ( !class_exists( 'CPD_Users' ) ) {
 	 * @author     Make Do <hello@makedo.in>
 	 */
 	class CPD_Users {
+
 		private static $instance = null;
 		private $text_domain;
 
@@ -276,9 +277,9 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 * Get all multisite users
 		 */
 		public static function get_multisite_users() {
-			$users                =    array();
-			$user_ids            =    array();
-			$blogs                =    wp_get_sites();
+            $users    = array();
+            $user_ids = array();
+            $blogs    = wp_get_sites();
 
 			foreach ( $blogs as $blog ) {
 
@@ -301,9 +302,9 @@ if ( !class_exists( 'CPD_Users' ) ) {
 		 * Get all participants
 		 */
 		public static function get_participants() {
-			$users                =    array();
-			$user_ids            =    array();
-			$blogs                =    wp_get_sites();
+            $users    = array();
+            $user_ids = array();
+            $blogs    = wp_get_sites();
 
 			foreach ( $blogs as $blog ) {
 

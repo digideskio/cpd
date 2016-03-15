@@ -30,6 +30,9 @@ To update the plugin directly from GitHub we use the awesome [WordPress GitHub P
 
 Here are all the great features that have been implemented so far!
 
+### 2.5.2
+- Fixed issue where author not changing on template copy
+
 ### 2.5.1
 - Restored supervisors ability to manage participants
 

@@ -114,11 +114,10 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 					switch_to_blog( $blog_id );
 
 					// Get the id of the participant that owns the journal (we have to do this with the title because the user hasnt been assigned to the journal at this point)
-					$participant_id  = 0;
-					$user_name    = str_replace( 'CPD Journal for ', '', wp_title( '', false ) );
-					$user     = get_user_by( 'login', $user_name );
-
-					$participant_id  = $user->ID;
+                    $participant_id = 0;
+                    $user_name      = str_replace( 'CPD Journal for ', '', wp_title( '', false ) );
+                    $user           = get_user_by( 'login', $user_name );
+                    $participant_id = $user->ID;
 
 					// Check that a post with that name dosnt already exist
 					$existing_post = get_page_by_title( $post_to_copy->post_title );
@@ -126,17 +125,17 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 					if ( empty( $existing_post ) ) {
 						// Insert the post and copy all the data
 						$post_args = array(
-							'post_title'  => $post_to_copy->post_title,
-							'post_type'   => $copy_item['type'],
-							'post_status'  => 'draft',
-							'comment_status' => $post_to_copy->comment_status,
-							'ping_status'  => $post_to_copy->ping_status,
-							'post_content'  => $post_to_copy->post_content,
-							'post_excerpt'  => $post_to_copy->post_excerpt,
-							'post_name'   => $post_to_copy->post_name,
-							'post_password'  => $post_to_copy->post_password,
-							'to_ping'   => $post_to_copy->to_ping,
-							'post_author'   => $participant_id
+                            'post_title'     => $post_to_copy->post_title,
+                            'post_type'      => $copy_item['type'],
+                            'post_status'    => 'draft',
+                            'comment_status' => $post_to_copy->comment_status,
+                            'ping_status'    => $post_to_copy->ping_status,
+                            'post_content'   => $post_to_copy->post_content,
+                            'post_excerpt'   => $post_to_copy->post_excerpt,
+                            'post_name'      => $post_to_copy->post_name,
+                            'post_password'  => $post_to_copy->post_password,
+                            'to_ping'        => $post_to_copy->to_ping,
+                            'post_author'    => $participant_id
 						);
 
 						// Insert the post
@@ -211,8 +210,8 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 		public function copy_blog( $domain, $title, $from_blog_id = 0, $copy_files = true ) {
 			global $wpdb, $current_site, $base;
 
-			$email = get_blog_option( $from_blog_id, 'admin_email' );
-			$user_id = email_exists( sanitize_email( $email ) );
+            $email   = get_blog_option( $from_blog_id, 'admin_email' );
+            $user_id = email_exists( sanitize_email( $email ) );
 			if ( !$user_id ) {
 				// Use current user instead
 				$user_id = get_current_user_id();
@@ -235,7 +234,7 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 			$path = apply_filters( 'copy_blog_path', $path, $domain );
 
 			$wpdb->hide_errors();
-			$to_blog_id = wpmu_create_blog( $newdomain, $path, $title, $user_id , array( "public" => 1 ), $current_site->id );
+            $to_blog_id = wpmu_create_blog( $newdomain, $path, $title, $user_id , array( "public" => 1 ), $current_site->id );
 			$wpdb->show_errors();
 
 			if ( !is_wp_error( $to_blog_id ) ) {
@@ -254,7 +253,7 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 						$this->replace_content_urls( $from_blog_id, $to_blog_id );
 
 					}
-					$msg = sprintf( __( 'Copied: %s in %s seconds', $this->text_domain ), '<a href="http://'.$newdomain.'" target="_blank">'.$title.'</a>', number_format_i18n( timer_stop() ) );
+                    $msg = sprintf( __( 'Copied: %s in %s seconds', $this->text_domain ), '<a href="http://'.$newdomain.'" target="_blank">'.$title.'</a>', number_format_i18n( timer_stop() ) );
 					do_action( 'log', __( 'Copy Complete!', $this->text_domain ), $this->text_domain, $msg );
 					do_action( 'copy_blog_complete', $from_blog_id, $to_blog_id );
 				}
@@ -273,21 +272,21 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 		private function copy_blog_data( $from_blog_id, $to_blog_id ) {
 			global $wpdb, $wp_version;
 			if ( $from_blog_id ) {
-				$from_blog_prefix = $this->get_blog_prefix( $from_blog_id );
-				$to_blog_prefix = $this->get_blog_prefix( $to_blog_id );
-				$from_blog_prefix_length = strlen( $from_blog_prefix );
-				$to_blog_prefix_length = strlen( $to_blog_prefix );
-				$from_blog_escaped_prefix = str_replace( '_', '\_', $from_blog_prefix );
+                $from_blog_prefix         = $this->get_blog_prefix( $from_blog_id );
+                $to_blog_prefix           = $this->get_blog_prefix( $to_blog_id );
+                $from_blog_prefix_length  = strlen( $from_blog_prefix );
+                $to_blog_prefix_length    = strlen( $to_blog_prefix );
+                $from_blog_escaped_prefix = str_replace( '_', '\_', $from_blog_prefix );
 
 				// Grab key options from new blog.
 				$saved_options = array(
-					'siteurl'=>'',
-					'home'=>'',
-					'upload_path'=>'',
-					'fileupload_url'=>'',
-					'upload_url_path'=>'',
-					'admin_email'=>'',
-					'blogname'=>''
+                    'siteurl'         => '',
+                    'home'            => '',
+                    'upload_path'     => '',
+                    'fileupload_url'  => '',
+                    'upload_url_path' => '',
+                    'admin_email'     => '',
+                    'blogname'        => ''
 				);
 				// Options that should be preserved in the new blog.
 				$saved_options = apply_filters( 'copy_blog_data_saved_options', $saved_options );
@@ -330,8 +329,8 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 				}
 
 				/// fix all options with the wrong prefix...
-				$query = $wpdb->prepare( "SELECT * FROM {$wpdb->options} WHERE option_name LIKE %s", $from_blog_escaped_prefix.'%' );
-				$options = $wpdb->get_results( $query );
+                $query   = $wpdb->prepare( "SELECT * FROM {$wpdb->options} WHERE option_name LIKE %s", $from_blog_escaped_prefix.'%' );
+                $options = $wpdb->get_results( $query );
 				do_action( 'log', $query, $this->text_domain, count( $options ).' results found.' );
 				if ( $options ) {
 					foreach ( $options as $option ) {
@@ -376,6 +375,33 @@ if ( !class_exists( 'CPD_Blogs' ) ) {
 					$url = get_post_meta( $menu->ID, '_menu_item_url', true );
 					$url = str_replace( $old_slug, $new_slug, $url );
 					update_post_meta( $menu->ID, '_menu_item_url', $url );
+				}
+
+				// Get the id of the participant that owns the journal (we have to do this with the title because the user hasnt been assigned to the journal at this point)
+				switch_to_blog( $to_blog_id );
+
+				$participant_id = 0;
+				$user_name      = str_replace( 'CPD Journal for ', '', $new_blog_details->blogname );
+				$user           = get_user_by( 'login', $user_name );
+				$participant_id = $user->ID;
+
+				$post_types = get_post_types();
+                $ps         = get_posts(
+					array(
+                        'posts_per_page' => -1,
+                        'post_type'      => $post_types,
+						'post_status'    => 'any'
+					)
+				);
+
+				foreach( $ps as $p ) {
+					$my_post = array(
+						'ID'           => $p->ID,
+						'post_author'  => $participant_id
+					);
+
+					// Update the post into the database
+ 					wp_update_post( $my_post );
 				}
 
 				restore_current_blog();
